@@ -1,18 +1,18 @@
 export function getFontType(fontWeight: any) {
   if (fontWeight == 600) {
-    return 'Inter-SemiBold';
+    return 'OpenSans-SemiBold';
   } else if (fontWeight == 400) {
-    return 'Inter-Regular';
+    return 'OpenSans-Regular';
   } else if (fontWeight == 700) {
-    return 'Inter-Bold';
+    return 'OpenSans-Bold';
   } else if (fontWeight == 800) {
-    return 'Inter-Black';
+    return 'OpenSans-ExtraBold';
   } else if (fontWeight == 500) {
-    return 'Inter-Medium';
+    return 'OpenSans-Medium';
   } else if (fontWeight == 300) {
-    return 'Inter-Light';
+    return 'OpenSans-Light';
   } else {
-    return 'Inter-Regular';
+    return 'OpenSans-Regular';
   }
 }
 

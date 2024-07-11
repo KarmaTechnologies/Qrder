@@ -6,6 +6,7 @@ import { AppStyles } from '../../theme/appStyles';
 import { commonFontStyle, hp, SCREEN_HEIGHT, SCREEN_WIDTH, wp } from '../../theme/fonts';
 import { Icons } from '../../utils/images';
 import PrimaryButton from '../../compoment/PrimaryButton';
+import { screenName } from '../../navigation/screenNames';
 
 type Props = {};
 
@@ -24,7 +25,7 @@ const OnboardingScreen = (props: Props) => {
                     <SwiperFlatList
                         index={index}
                         ref={flatlistRef}
-                        data={[Icons.onboardingW1, Icons.onboardingW1, Icons.onboardingW1, Icons.onboardingW1]}
+                        data={[Icons.onboardingW1, Icons.onboardingW1, Icons.onboardingW1]}
                         onChangeIndex={({ index }) => {
                             setIndex(index);
                         }}
@@ -43,20 +44,20 @@ const OnboardingScreen = (props: Props) => {
                 </View>
                 <Text style={styles.title}>{
                 index === 0 ? "All your favorites" : 
-                index === 1 ? "All your favorites" :
-                index === 2 ? 'Order from choosen chef' :
+                index === 1 ? "Order from choosen chef" :
+                index === 2 ? 'Free delivery offers' :
                  "Free delivery offers"
                  }</Text>
                 <Text style={styles.des}>{"Get all your loved foods in one once place,\nyou just place the orer we do the rest"}</Text>
                 <PrimaryButton
                     onPress={() => {
-                        if (index < 3) {
+                        if (index < 2) {
                             flatlistRef?.current?.scrollToIndex({
                                 index: index + 1,
                                 animated: true,
                             });
                         } else {
-                            //   navigation.navigate(screenName.SignUpScreen);
+                              navigation.navigate(screenName.SignInScreen);
                         }
                     }}
                     extraStyle={styles.nextBtn}

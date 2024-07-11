@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { TransitionPresets, createStackNavigator } from '@react-navigation/stack';
-import { useAppDispatch } from '../redux/hooks';
+import {FC} from 'react';
+import {TransitionPresets, createStackNavigator} from '@react-navigation/stack';
+import {useAppDispatch} from '../redux/hooks';
 import {
   Image,
   StyleSheet,
@@ -13,15 +13,15 @@ import {
   Clipboard,
 } from 'react-native';
 import SplashScreen from '../screens/auth/SplashScreen';
-import { screenName } from './screenNames';
-import { light_theme } from '../theme/colors';
-import { SCREEN_WIDTH, commonFontStyle, h } from '../theme/fonts';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {screenName} from './screenNames';
+import {light_theme} from '../theme/colors';
+import {SCREEN_WIDTH, commonFontStyle, h} from '../theme/fonts';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import OnboardingScreen from '../screens/auth/Onboarding';
-
+import SignInScreen from '../screens/auth/SignInScreen';
 
 const Drawer = createDrawerNavigator();
-const { StatusBarManager } = NativeModules;
+const {StatusBarManager} = NativeModules;
 
 // function MyDrawer() {
 //   return (
@@ -47,8 +47,6 @@ const { StatusBarManager } = NativeModules;
 //   );
 // }
 
-
-
 const headerStyleTransparent = {
   headerStyle: {
     backgroundColor: light_theme.white,
@@ -65,8 +63,6 @@ const headerStyleTransparent = {
   ...TransitionPresets.SlideFromRightIOS,
 };
 const Stack = createStackNavigator<RootStackParamList>();
-
-
 
 const styles = StyleSheet.create({
   headerView: {
@@ -87,7 +83,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  backImage: { height: 20, width: 20, resizeMode: 'contain' },
+  backImage: {height: 20, width: 20, resizeMode: 'contain'},
   menuIcon: {
     height: 24,
     width: 24,
@@ -113,7 +109,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator initialRouteName={screenName.SplashScreen}>
       <Stack.Screen
-        options={({ navigation }) => ({
+        options={({navigation}) => ({
           headerShown: false,
           ...headerStyleTransparent,
         })}
@@ -121,7 +117,7 @@ const StackNavigator: FC = () => {
         component={SplashScreen}
       />
       <Stack.Screen
-        options={({ navigation }) => ({
+        options={({navigation}) => ({
           headerShown: false,
           ...headerStyleTransparent,
         })}
@@ -135,18 +131,17 @@ const StackNavigator: FC = () => {
         })}
         name={screenName.LoginSignupScreen}
         component={LoginSignupScreen}
-      />
-     
+      /> */}
+
       <Stack.Screen
         options={({navigation}) => ({
           ...headerStyleTransparent,
-          headerLeft: () => <Header navigation={navigation} />,
-          headerTitle: '',
+          headerShown: false,
         })}
         name={screenName.SignInScreen}
         component={SignInScreen}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         options={({navigation}) => ({
           ...headerStyleTransparent,
           headerLeft: () => <Header navigation={navigation} />,

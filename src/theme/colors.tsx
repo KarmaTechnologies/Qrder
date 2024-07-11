@@ -7,6 +7,7 @@ export const light_theme = {
   Surface_Tertiary: '#FFE1CE',
   Title_Text:'#32343E',
   Text_Tertiary: '#646982',
+  inputColor: '#F0F5FA',
 
   Surface_Secondary: '#EFEFF0',
   Surface_Secondary1: '#000000',

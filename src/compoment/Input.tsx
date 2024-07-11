@@ -2,183 +2,91 @@ import {
   Animated,
   Image,
   Pressable,
+  ReturnKeyType,
   StyleSheet,
   Text,
   TextInput,
+  TextInputProps,
   TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useFocusEffect, useIsFocused, useTheme} from '@react-navigation/native';
-import {commonFontStyle, hp} from '../theme/fonts';
+import {commonFontStyle, hp, wp} from '../theme/fonts';
 import {Icons} from '../utils/images';
 
 type Props = {
-  placeholder?: string;
-  value?: string;
-  onChangeText?: any;
-  validate?: boolean | string;
-  invalidText?: string;
-  isValidation?: boolean;
-  onBlur?: any;
-  IsEditable?: boolean;
-  IsEye?: boolean;
-  showIcon?: boolean;
-  extraStyle?: ViewStyle;
-  containerStyle?: ViewStyle;
-  editValue: boolean;
-  dateValue: any;
-  multiline: any;
-  editValuePress: any;
+  placeholder: string;
+  label: string;
+  value: string;
+  onChangeText: (params: string) => void;
+  isShowEyeIcon?: boolean;
+  secureTextEntry?: boolean;
+  onPressEye?: () => void;
+  onSubmitEditing?: () => void;
+  theme?: string;
+  autoCorrect?: boolean;
+  rest?: TextInputProps[];
+  inputRef?: any;
+  returnKeyType?: ReturnKeyType;
 };
 
 const Input = ({
-  onChangeText = () => {},
   placeholder,
+  label,
   value,
-  validate = false,
-  invalidText,
-  isValidation = false,
-  onBlur = () => {},
-  IsEditable = true,
-  IsEye = false,
-  extraStyle = {},
-  showIcon,
-  editValue,
-  containerStyle,
-  dateValue,
-  multiline,
-  inputStyle,
-  placeholderStyle,
+  onChangeText,
   secureTextEntry,
-  visible,
-  setVisible,
-  editValuePress
+  onPressEye,
+  isShowEyeIcon,
+  theme = "first",
+  autoCorrect,
+  inputRef,
+  returnKeyType,
+  onSubmitEditing,
+  ...rest
 }: Props) => {
   const {colors} = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
 
   const isFocuse = useIsFocused();
-  const [isFocused, setIsFocused] = useState(false);
-  const [isBlurred, setIsBlurred] = useState(false);
-
-  useFocusEffect(
-    useCallback(() => {
-      isFocuse ? setIsFocused(false) : setIsFocused(true);
-      value?.length > 0 ? setIsFocused(true) : setIsFocused(false);
-    }, [isFocuse]),
-  );
-
-  useEffect(() => {
-    value?.length > 0 || isFocused ? setIsFocused(true) : setIsFocused(false);
-  }, [value]);
-
-  const animatedValue = new Animated.Value(isFocused ? 1 : 0);
-  const handleFocus = () => {
-    if (value?.length > 0) {
-      setIsFocused(true);
-    } else {
-      setIsFocused(true);
-      Animated.timing(animatedValue, {
-        toValue: 0,
-        duration: 150,
-        useNativeDriver: false,
-      }).start();
-    }
-    setIsBlurred(false);
-  };
-  const handleBlur = () => {
-    value?.length > 0 ? setIsFocused(true) : setIsFocused(false);
-    setIsBlurred(true);
-  };
-  const translateY = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, -8],
-  });
-
-  const lablesize = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [16, 12],
-  });
-
-  const lablecolor = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [colors.Text_Tertiary, colors.Primary],
-  });
+ 
 
   return (
-    <View style={extraStyle}>
+    <View style={styles.container}>
+      <Text numberOfLines={1} style={styles.labelTextStyle}>
+        {label}
+      </Text>
       <View
-        style={[
-          styles.container,
-          {
-            height: 56,
-            borderColor: isFocused ? colors.black : colors.Surface_Tertiary,
-          },
-          containerStyle,
-        ]}>
-        <View style={{flex: 1}}>
-          <TouchableOpacity
-            disabled={!IsEditable}
-            onPress={() => {
-              handleFocus();
-            }}>
-            <Animated.Text
-              style={[
-                styles.label,
-                {
-                  transform: [{translateY}],
-                  fontSize: lablesize,
-                  color: lablecolor,
-                },
-                placeholderStyle,
-              ]}>
-              {placeholder}
-            </Animated.Text>
-          </TouchableOpacity>
-          <TextInput
-            value={value}
-            onFocus={handleFocus}
-            onBlur={() => (handleBlur(), onBlur())}
-            style={[styles.input, inputStyle]}
-            onChangeText={onChangeText}
-            editable={IsEditable}
-            multiline={multiline}
-            secureTextEntry={secureTextEntry}
-          />
-        </View>
-        {editValue && (
-          <TouchableOpacity onPress={editValuePress}>
+        style={
+          theme === "first"
+            ? { ...styles.firstThemeContainer }
+            : { ...styles.secondThemeContainer }
+        }
+      >
+        <TextInput
+          {...rest}
+          ref={inputRef}
+          value={value}
+          autoCorrect={autoCorrect}
+          placeholder={placeholder}
+          style={styles.inputStyle}
+          onChangeText={onChangeText}
+          returnKeyType={returnKeyType}
+          secureTextEntry={secureTextEntry}
+          onSubmitEditing={onSubmitEditing}
+          placeholderTextColor={colors.borderGreyLight}
+        />
+        {isShowEyeIcon ? (
+          <TouchableOpacity onPress={onPressEye}>
             <Image
-              source={dateValue ? Icons.calender : Icons.edit}
-              style={styles?.editIconStyle}
+              resizeMode="contain"
+              style={styles.eyeIconStyle}
+              source={secureTextEntry ? Icons.eyeOff : Icons.eyeIn}
             />
           </TouchableOpacity>
-        )}
-        {isValidation && (
-          <Pressable onPress={() => setVisible(!visible)}>
-            <Image
-              source={visible ? Icons?.hide : Icons?.eyeHide}
-              style={styles?.eyeIconStyle}
-            />
-          </Pressable>
-        )}
-        {/* {isValidation && IsEye ? (
-                    <Pressable onPress={() => setVisible(!visible)}>
-                        <Image
-                            source={visible ? icons?.eye : icons?.offeye}
-                            style={styles?.eyeIconStyle}
-                        />
-                    </Pressable>
-                ) : (
-                    (isBlurred && !showIcon) &&
-                    (validate ? (
-                        <Image style={styles.validateImg} source={Icons.check_circle} />
-                    ) : value?.length > 0 ? (
-                        <Image style={styles.validateImg} source={Icons.check_circle} />
-                    ) : null)
-                )} */}
+        ) : null}
       </View>
     </View>
   );
@@ -190,45 +98,41 @@ const getGlobalStyles = (props: any) => {
   const {colors} = props;
   return StyleSheet.create({
     container: {
-      borderWidth: 1,
-      position: 'relative',
-      overflow: 'hidden',
-      justifyContent: 'space-between',
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingLeft: hp(2),
-      borderRadius: 5,
+      marginTop: hp(25),
     },
-    label: {
-      position: 'absolute',
-      ...commonFontStyle(400, 16, colors.Text_Tertiary),
-      height: 56,
-      width: '100%',
+    labelTextStyle: {
+      ...commonFontStyle(400, 18, colors.primary),
+      marginBottom: hp(5),
     },
-    input: {
-      ...commonFontStyle(400, 16, colors.Primary),
+    firstThemeContainer: {
+      height: hp(60),
+      borderRadius: 10,
+      marginTop: hp(5),
+      backgroundColor: colors.inputColor,
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: wp(20),
+    },
+    secondThemeContainer: {
+      height: hp(60),
+      borderRadius: 10,
+      marginTop: hp(5),
+      backgroundColor: colors.white,
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: wp(20),
+      borderWidth: 1.5,
+      borderColor: colors.inputBorder,
+    },
+    inputStyle: {
+      flex: 1,
       padding: 0,
-      height: 35,
-      // backgroundColor: 'red',
-      justifyContent: 'flex-end',
-      marginBottom: -15,
+      ...commonFontStyle(400, 18, colors.primary),
     },
-    validateImg: {
-      width: 20,
-      height: 20,
-      marginHorizontal: hp(2),
+    eyeIconStyle: {
+      height: hp(26),
+      width: hp(26),
+      tintColor: "#BDBDBD",
     },
-    editIconStyle: {
-      width: 20,
-      height: 20,
-      marginRight: 10,
-    },
-    eyeIconStyle:{
-      width: 20,
-      height: 20,
-      marginRight: 10,
-      tintColor:colors.black
-
-    }
   });
 };

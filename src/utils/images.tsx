@@ -12,6 +12,6 @@ export const Icons = {
   eyeOff: require('../assets/icons/eyeOff.png'),
   facebook: require('../assets/icons/facebook.png'),
   mapPin: require('../assets/icons/mapPin.png'),
-  eyeIn: require('../assets/icons/eyeIn.png'),
+  // eyeIn: require('../assets/icons/eyeIn.png'),
 
 };

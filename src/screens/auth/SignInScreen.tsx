@@ -10,7 +10,7 @@ import {
 import React, {useState} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {Icons} from '../../utils/images';
-import {commonFontStyle, h, hp} from '../../theme/fonts';
+import {commonFontStyle, h, hp, wp} from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import {
   UpperCaseCheck,
@@ -26,7 +26,8 @@ import {screenName} from '../../navigation/screenNames';
 import {dispatchNavigation} from '../../utils/globalFunctions';
 import {useAppDispatch} from '../../redux/hooks';
 import {userLogin} from '../../actions/authAction';
-import { light_theme } from '../../theme/colors';
+import {light_theme} from '../../theme/colors';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 type Props = {};
 
@@ -35,11 +36,12 @@ const SignInScreen = (props: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
+
   const [visible, setVisible] = useState(true);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-
 
   const onPressLogin = () => {
     return;
@@ -81,53 +83,46 @@ const SignInScreen = (props: Props) => {
 
   return (
     <View style={styles.container}>
-       <StatusBar
-        barStyle={'dark-content'}
-        backgroundColor={colors.white}
-      />
-      <Image
-        source={isDark ? Icons.virtuaLoginIconWhite : Icons.virtuaLoginIcon}
-        style={styles.loginIcon}
-      />
-      <Text style={styles.loginText}>Sign in</Text>
-      <Input
-        onChangeText={(e: any) => {
-          setEmail(e.trim());
-        }}
-        placeholder={'Email address'}
-        value={email}
-        extraStyle={styles.input}
-      />
-      <Input
-        onChangeText={(e: any) => {
-          setPassword(e.trim());
-        }}
-        placeholder={'Password'}
-        value={password}
-        isValidation
-        secureTextEntry={visible}
-        visible={visible}
-        setVisible={() => setVisible(!visible)}
-      />
-      <TouchableOpacity
-        onPress={() => navigation.navigate(screenName.ChooseResetPassword)}>
-        <Text style={styles.forgotText}>Forgot Password ?</Text>
-      </TouchableOpacity>
-      <PrimaryButton
-        extraStyle={styles.signupButton}
-        onPress={onPressLogin}
-        title={'Sign in'}
-      />
-      <TouchableOpacity
-        onPress={() => navigation.navigate(screenName.SignUpScreen)}>
-        <Text style={styles.bottomText}>
-          {'New to tuti? Get ready!'}
-          <Text style={{...commonFontStyle(500, 16, colors.Primary)}}>
-            {' '}
-            Create account
+      <StatusBar barStyle={'dark-content'} backgroundColor={colors.white} />
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={'handled'}
+        contentContainerStyle={styles.contentContainerStyle}>
+        <Input
+          value={email}
+          placeholder="williams@david.com"
+          label={'Email'}
+          onChangeText={(t: string) => setEmail(t)}
+        />
+        <Input
+          value={password}
+          autoCorrect={false}
+          isShowEyeIcon={true}
+          placeholder="* * * * * * *"
+          secureTextEntry={isShowPassword}
+          label={"Password"}
+          onChangeText={(t: string) => setPassword(t)}
+          onPressEye={() => setIsShowPassword(!isShowPassword)}
+        />
+        <TouchableOpacity
+          onPress={() => navigation.navigate(screenName.ChooseResetPassword)}>
+          <Text style={styles.forgotText}>Forgot Password ?</Text>
+        </TouchableOpacity>
+        <PrimaryButton
+          extraStyle={styles.signupButton}
+          onPress={onPressLogin}
+          title={'Sign in'}
+        />
+        <TouchableOpacity
+          onPress={() => navigation.navigate(screenName.SignUpScreen)}>
+          <Text style={styles.bottomText}>
+            {'New to tuti? Get ready!'}
+            <Text style={{...commonFontStyle(500, 16, colors.Primary)}}>
+              {' '}
+              Create account
+            </Text>
           </Text>
-        </Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
@@ -141,6 +136,9 @@ const getGlobalStyles = (props: any) => {
       flex: 1,
       backgroundColor: colors.white,
       paddingHorizontal: hp(2),
+    },
+    contentContainerStyle: {
+      paddingHorizontal: wp(20),
     },
     loginIcon: {
       height: h(150),
