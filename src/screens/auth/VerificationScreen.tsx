@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../../theme/fonts';
 import PrimaryButton from '../../compoment/PrimaryButton';
@@ -22,6 +22,19 @@ const VerificationScreen = ({ route }) => {
     const [otp, setOtp] = useState(['', '', '', '']);
     const inputs = useRef([]);
     const navigation = useNavigation();
+    const [seconds, setSeconds] = useState(60);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+          if (seconds > 0) {
+            setSeconds(seconds - 1);
+          }
+        }, 1000);
+    
+        return () => {
+          clearInterval(interval);
+        };
+      });
 
     const handleChangeText = (text, index) => {
         const newOtp = [...otp];
@@ -68,10 +81,10 @@ const VerificationScreen = ({ route }) => {
                             <Text style={styles.resendText}>
                                 {' Resend'}
                             </Text>
-                            <Text style={styles.secText}>
+                           {seconds > 0 ? <Text style={styles.secText}>
                                 {' '}
-                                in.50sec
-                            </Text>
+                                in.{seconds}sec
+                            </Text> : null}
                         </TouchableOpacity>
                     </View>
                     <View style={{

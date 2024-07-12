@@ -41,7 +41,7 @@ const SplashScreen = (props: Props) => {
 
   return (
     <View style={styles.container}>
-    <StatusBar backgroundColor={colors.white} barStyle={'dark-content'}/>
+    <StatusBar backgroundColor={"transparent"} barStyle={'dark-content'}/>
       <SafeAreaView style={[AppStyles.flex]}>
         <Image style={styles.mainImage} source={Icons.launch_screen} />
       </SafeAreaView>

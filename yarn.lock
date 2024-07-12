@@ -3213,6 +3213,7 @@ __metadata:
     react-native-screens: ^3.31.1
     react-native-snackbar: ^2.6.2
     react-native-splash-screen: ^3.3.0
+    react-native-status-bar-height: ^2.6.0
     react-native-swipe-list-view: ^3.2.9
     react-native-swiper-flatlist: ^3.2.4
     react-native-toast-message: ^2.2.0
@@ -8539,6 +8540,13 @@ __metadata:
   peerDependencies:
     react-native: ">=0.57.0"
   checksum: 14c565d5d4214f55586dcf6f7abd12d99d3e0667f67de3bda7aa24988971567b283a4187fbc0c6269c83b3c21d59d1950335c61bb0780ec2d065e20b3b9199d0
+  languageName: node
+  linkType: hard
+
+"react-native-status-bar-height@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "react-native-status-bar-height@npm:2.6.0"
+  checksum: ee9e95ce30d346e113ecb68d6db66a5a2653263b03605428558e11956840bcc7498282c450a8bcc1c03ced9372ede6c4a5c51ab133c563492acedf328e8feecb
   languageName: node
   linkType: hard
 

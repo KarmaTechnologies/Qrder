@@ -25,7 +25,9 @@ export const commonFontStyle = (fontWeight: any, fontSize: any, color: any) => {
   };
 };
 
-import {Dimensions, Platform, PixelRatio} from 'react-native';
+import {Dimensions, Platform, PixelRatio} from 'react-native'
+import {getStatusBarHeight} from 'react-native-status-bar-height';
+;
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -50,3 +52,5 @@ export const w = (val: number) => {
 export const h = (val: number) => {
   return heightPercentageToDP((val * 100) / 812);
 };
+
+export const statusBarHeight = getStatusBarHeight();
