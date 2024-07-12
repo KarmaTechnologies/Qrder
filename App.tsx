@@ -7,13 +7,13 @@ import {colors, light_theme} from './src/theme/colors';
 import {hp, commonFontStyle, SCREEN_WIDTH} from './src/theme/fonts';
 import RootContainer from './src/navigation/mainNavigator';
 // import * as Sentry from '@sentry/react-native';
-// import SplashScreen from 'react-native-splash-screen';
+import SplashScreen from 'react-native-splash-screen';
 
 type Props = {};
 
 const App = (props: Props) => {
   useEffect(() => {
-    // SplashScreen.hide();
+    SplashScreen.hide();
   }, []);
 
   const toastConfig = {

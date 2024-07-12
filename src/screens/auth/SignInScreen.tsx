@@ -144,10 +144,13 @@ const SignInScreen = (props: Props) => {
               <Image style={styles.facebookIcon} source={Icons.facebook} />
             </View>
             <View style={[styles.roundView, {
-              backgroundColor: colors.blue_Sky
+              backgroundColor: colors.white12,
+              elevation:5,
+              borderWidth:1,
+              borderColor:colors.Surface_Tertiary
 
             }]}>
-              <Image style={styles.twitterIcon} source={Icons.twitter} />
+              <Image style={styles.twitterIcon} source={Icons.google} />
             </View>
             <View style={[styles.roundView, {
               backgroundColor: colors.blue_200
@@ -255,17 +258,17 @@ const getGlobalStyles = (props: any) => {
     facebookIcon: {
       height: hp(18),
       width: wp(9),
-      resizeMode: 'cover'
+      resizeMode: 'contain'
     },
     twitterIcon: {
-      height: hp(20),
-      width: wp(20),
-      resizeMode: 'cover'
+      height: wp(36),
+      width: wp(36),
+      resizeMode: 'contain'
     },
     appleIcon: {
       height: hp(20),
       width: wp(18),
-      resizeMode: 'cover'
+      resizeMode: 'contain'
     }
   });
 };

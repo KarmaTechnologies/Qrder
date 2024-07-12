@@ -1,6 +1,6 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { commonFontStyle, hp, SCREEN_HEIGHT, SCREEN_WIDTH, wp } from '../theme/fonts';
+import { commonFontStyle, hp, SCREEN_HEIGHT, SCREEN_WIDTH, statusBarHeight, wp } from '../theme/fonts';
 import { Icons } from '../utils/images';
 import { useTheme } from '@react-navigation/native';
 
@@ -17,7 +17,6 @@ const LoginHeader = ({ title, description, isBack = false, onPress = undefined ,
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     return (
         <View style={styles.topMainView}>
-
             {isBack ? <TouchableOpacity style={styles.backContainer} onPress={() => onPress()}>
                 <Image style={styles.backStyle} source={Icons.back} />
             </TouchableOpacity> : null}
@@ -43,8 +42,8 @@ const getGlobalStyles = (props: any) => {
         },
         backContainer: {
             position: 'absolute',
-            top: hp(30),
-            left: wp(24),
+            top: Platform.OS == "ios" ? SCREEN_HEIGHT*0.06: SCREEN_HEIGHT*0.015,
+            left: wp(16),
             zIndex: 1
         },
         backStyle: {

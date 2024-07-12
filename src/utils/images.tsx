@@ -11,6 +11,7 @@ export const Icons = {
   //ICON
   apple: require('../assets/Icons/apple.png'),
   twitter: require('../assets/Icons/twitter.png'),
+  google: require('../assets/Icons/google.png'),
   back: require('../assets/Icons/back.png'),
   eyeIn: require('../assets/Icons/eyeOn.png'),
   eyeOff: require('../assets/Icons/eyeOff.png'),
