@@ -19,13 +19,13 @@ const OnboardingScreen = (props: Props) => {
 
     return (
         <SafeAreaView style={AppStyles.flex}>
-            <StatusBar backgroundColor={colors.white} barStyle={'dark-content'}/>
+            <StatusBar backgroundColor={colors.white} barStyle={'dark-content'} />
             <View style={styles.container}>
                 <View>
                     <SwiperFlatList
                         index={index}
                         ref={flatlistRef}
-                        data={[Icons.onboardingW1, Icons.onboardingW1, Icons.onboardingW1]}
+                        data={[Icons.onboardingW1, Icons.onboardingW1, Icons.onboardingW1, Icons.onboardingW1]}
                         onChangeIndex={({ index }) => {
                             setIndex(index);
                         }}
@@ -43,15 +43,15 @@ const OnboardingScreen = (props: Props) => {
                     />
                 </View>
                 <Text style={styles.title}>{
-                index === 0 ? "All your favorites" : 
-                index === 1 ? "Order from choosen chef" :
-                index === 2 ? 'Free delivery offers' :
-                 "Free delivery offers"
-                 }</Text>
+                    index === 0 ? "All your favorites" :
+                        index === 1 ? "Order from choosen chef" :
+                            index === 2 ? 'Free delivery offers' :
+                                "Free delivery offers"
+                }</Text>
                 <Text style={styles.des}>{"Get all your loved foods in one once place,\nyou just place the orer we do the rest"}</Text>
                 <PrimaryButton
                     onPress={() => {
-                        if (index < 2) {
+                        if (index < 3) {
                             flatlistRef?.current?.scrollToIndex({
                                 index: index + 1,
                                 animated: true,
@@ -96,7 +96,7 @@ const getGlobalStyles = (props: any) => {
             height: '100%',
         },
         activeDot: {
-            backgroundColor: colors.Primary_Btn,
+            backgroundColor: colors.Primary_Orange,
             height: 10,
             width: 10,
             marginHorizontal: 5,
@@ -123,7 +123,7 @@ const getGlobalStyles = (props: any) => {
             alignSelf: 'center',
             width: SCREEN_WIDTH - wp(24),
             bottom: hp(55),
-            color: colors.Primary_Btn,
+            color: colors.Primary_Orange,
             borderRadius: 12,
             height: hp(62),
         },
@@ -134,7 +134,7 @@ const getGlobalStyles = (props: any) => {
             bottom: hp(24),
         },
         skipBtn: {
-            ...commonFontStyle(400, 16, colors.Primary_BtnGray),
+            ...commonFontStyle(400, 16, colors.Text_Tertiary),
         }
     });
 };

@@ -32,7 +32,7 @@ const PrimaryButton = ({
             style={[
                 styles.buttonView,
                 {
-                    backgroundColor: colors.Primary_Btn
+                    backgroundColor: colors.Primary_Orange
                 },
                 extraStyle,
             ]}>
@@ -53,7 +53,7 @@ const getGlobalStyles = (props: any) => {
     const { colors } = props;
     return StyleSheet.create({
         buttonView: {
-            backgroundColor: colors.Primary_Btn,
+            backgroundColor: colors.Primary_Orange,
             height: hp(62),
             justifyContent: 'center',
             borderRadius: 5,
@@ -61,6 +61,7 @@ const getGlobalStyles = (props: any) => {
         titleText: {
             ...commonFontStyle(700, 14, colors.white),
             textAlign: 'center',
+             textTransform:'uppercase'
         },
     });
 };

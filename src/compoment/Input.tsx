@@ -76,7 +76,7 @@ const Input = ({
           returnKeyType={returnKeyType}
           secureTextEntry={secureTextEntry}
           onSubmitEditing={onSubmitEditing}
-          placeholderTextColor={colors.borderGreyLight}
+          placeholderTextColor={colors.gray_300}
         />
         {isShowEyeIcon ? (
           <TouchableOpacity onPress={onPressEye}>
@@ -98,16 +98,17 @@ const getGlobalStyles = (props: any) => {
   const {colors} = props;
   return StyleSheet.create({
     container: {
-      marginTop: hp(25),
+      marginTop: hp(24),
     },
     labelTextStyle: {
-      ...commonFontStyle(400, 18, colors.primary),
-      marginBottom: hp(5),
+      ...commonFontStyle(400, 13, colors.Title_Text),
+      marginBottom: hp(4),
+      textTransform:'uppercase'
     },
     firstThemeContainer: {
       height: hp(60),
       borderRadius: 10,
-      marginTop: hp(5),
+      marginTop: hp(4),
       backgroundColor: colors.inputColor,
       flexDirection: "row",
       alignItems: "center",
@@ -127,7 +128,7 @@ const getGlobalStyles = (props: any) => {
     inputStyle: {
       flex: 1,
       padding: 0,
-      ...commonFontStyle(400, 18, colors.primary),
+      ...commonFontStyle(400, 14, colors.Title_Text),
     },
     eyeIconStyle: {
       height: hp(26),

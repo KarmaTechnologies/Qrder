@@ -5,5 +5,6 @@ export const screenName = {
     LoginSignupScreen: 'LoginSignupScreen',
     SignInScreen: 'SignInScreen',
     SignUpScreen: 'SignUpScreen',
-
+    ForgotScreen: 'ForgotScreen',
+    VerificationScreen:'VerificationScreen'
 }

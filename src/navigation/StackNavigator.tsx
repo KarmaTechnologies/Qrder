@@ -1,6 +1,6 @@
-import {FC} from 'react';
-import {TransitionPresets, createStackNavigator} from '@react-navigation/stack';
-import {useAppDispatch} from '../redux/hooks';
+import { FC } from 'react';
+import { TransitionPresets, createStackNavigator } from '@react-navigation/stack';
+import { useAppDispatch } from '../redux/hooks';
 import {
   Image,
   StyleSheet,
@@ -13,15 +13,18 @@ import {
   Clipboard,
 } from 'react-native';
 import SplashScreen from '../screens/auth/SplashScreen';
-import {screenName} from './screenNames';
-import {light_theme} from '../theme/colors';
-import {SCREEN_WIDTH, commonFontStyle, h} from '../theme/fonts';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { screenName } from './screenNames';
+import { light_theme } from '../theme/colors';
+import { SCREEN_WIDTH, commonFontStyle, h } from '../theme/fonts';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import OnboardingScreen from '../screens/auth/Onboarding';
 import SignInScreen from '../screens/auth/SignInScreen';
+import SignUpScreen from '../screens/auth/SignUpScreen';
+import ForgotScreen from '../screens/auth/ForgotScreen';
+import VerificationScreen from '../screens/auth/VerificationScreen';
 
 const Drawer = createDrawerNavigator();
-const {StatusBarManager} = NativeModules;
+const { StatusBarManager } = NativeModules;
 
 // function MyDrawer() {
 //   return (
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  backImage: {height: 20, width: 20, resizeMode: 'contain'},
+  backImage: { height: 20, width: 20, resizeMode: 'contain' },
   menuIcon: {
     height: 24,
     width: 24,
@@ -109,7 +112,7 @@ const StackNavigator: FC = () => {
   return (
     <Stack.Navigator initialRouteName={screenName.SplashScreen}>
       <Stack.Screen
-        options={({navigation}) => ({
+        options={({ navigation }) => ({
           headerShown: false,
           ...headerStyleTransparent,
         })}
@@ -117,7 +120,7 @@ const StackNavigator: FC = () => {
         component={SplashScreen}
       />
       <Stack.Screen
-        options={({navigation}) => ({
+        options={({ navigation }) => ({
           headerShown: false,
           ...headerStyleTransparent,
         })}
@@ -134,22 +137,43 @@ const StackNavigator: FC = () => {
       /> */}
 
       <Stack.Screen
-        options={({navigation}) => ({
+        options={({ navigation }) => ({
           ...headerStyleTransparent,
           headerShown: false,
         })}
         name={screenName.SignInScreen}
         component={SignInScreen}
       />
-      {/* <Stack.Screen
-        options={({navigation}) => ({
+      <Stack.Screen
+        options={({ navigation }) => ({
           ...headerStyleTransparent,
-          headerLeft: () => <Header navigation={navigation} />,
+          headerShown: false,
+          // headerLeft: () => <Header navigation={navigation} />,
           headerTitle: '',
         })}
         name={screenName.SignUpScreen}
         component={SignUpScreen}
-      /> */}
+      />
+      <Stack.Screen
+        options={({ navigation }) => ({
+          ...headerStyleTransparent,
+          headerShown: false,
+          // headerLeft: () => <Header navigation={navigation} />,
+          headerTitle: '',
+        })}
+        name={screenName.ForgotScreen}
+        component={ForgotScreen}
+      />
+        <Stack.Screen
+        options={({ navigation }) => ({
+          ...headerStyleTransparent,
+          headerShown: false,
+          // headerLeft: () => <Header navigation={navigation} />,
+          headerTitle: '',
+        })}
+        name={screenName.VerificationScreen}
+        component={VerificationScreen}
+      />
     </Stack.Navigator>
   );
 };
