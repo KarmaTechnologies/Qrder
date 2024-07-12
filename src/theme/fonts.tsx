@@ -31,6 +31,8 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 
+export const isIos = Platform.OS === "ios";
+
 export const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} =
   Dimensions.get('window');
 

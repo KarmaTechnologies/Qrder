@@ -14,6 +14,9 @@ export const light_theme = {
   blue_Sky: '#169CE8',
   blue_200: '#1B1F2F',
   gray_300: '#A0A5BA',
+  image_Bg_gray: '#98A8B8',
+  tabBar: '#AFAFAF',
+  Primary_BG: '#F7F8F9',
 
 
 

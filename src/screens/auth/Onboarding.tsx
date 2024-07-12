@@ -121,7 +121,7 @@ const getGlobalStyles = (props: any) => {
             position: 'absolute',
             justifyContent: 'center',
             alignSelf: 'center',
-            width: SCREEN_WIDTH - wp(24),
+            width: SCREEN_WIDTH - wp(48),
             bottom: hp(55),
             color: colors.Primary_Orange,
             borderRadius: 12,

@@ -6,5 +6,14 @@ export const screenName = {
     SignInScreen: 'SignInScreen',
     SignUpScreen: 'SignUpScreen',
     ForgotScreen: 'ForgotScreen',
-    VerificationScreen:'VerificationScreen'
+    VerificationCode:'VerificationCode',
+    LocationScreen:'LocationScreen',
+    BottomTabBar: "BottomTabBar",
+    tab_bar_name: {
+        Home: "Home",
+        FoodList: "FoodList",
+        AddFoodDetails: "AddFoodDetails",
+        Notification: "Notification",
+        Profile: "Profile",
+      },
 }

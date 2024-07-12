@@ -4,10 +4,12 @@ import {
     ViewStyle,
     TouchableOpacity,
     TextStyle,
+    Image,
 } from 'react-native';
 import React from 'react';
 import { useTheme } from '@react-navigation/native';
-import { commonFontStyle, hp } from '../theme/fonts';
+import { commonFontStyle, hp, wp } from '../theme/fonts';
+import { Icons } from '../utils/images';
 
 type Props = {
     title: string;
@@ -15,6 +17,7 @@ type Props = {
     isYellow?: boolean;
     extraStyle?: ViewStyle;
     titleStyle?: TextStyle;
+    isIconShow?: boolean
 };
 
 const PrimaryButton = ({
@@ -22,6 +25,7 @@ const PrimaryButton = ({
     onPress = undefined,
     extraStyle = {},
     titleStyle,
+    isIconShow = false
 }: Props) => {
     const { colors } = useTheme();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
@@ -43,6 +47,8 @@ const PrimaryButton = ({
                 ]}>
                 {title}
             </Text>
+            {isIconShow && <Image style={styles.locationIcon} source={Icons.mapPin} />}
+
         </TouchableOpacity>
     );
 };
@@ -56,12 +62,17 @@ const getGlobalStyles = (props: any) => {
             backgroundColor: colors.Primary_Orange,
             height: hp(62),
             justifyContent: 'center',
-            borderRadius: 5,
+            borderRadius: 12,
         },
         titleText: {
             ...commonFontStyle(700, 14, colors.white),
             textAlign: 'center',
-             textTransform:'uppercase'
+            textTransform: 'uppercase'
         },
+        locationIcon: {
+            width: wp(32),
+            height: wp(32),
+            marginLeft: wp(24),
+        }
     });
 };

@@ -41,6 +41,7 @@ const SignInScreen = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const onPressLogin = () => {
+    navigation.navigate(screenName.LocationScreen)
     return;
     if (email.trim().length === 0) {
       errorToast('Please enter your email address');

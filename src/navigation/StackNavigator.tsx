@@ -22,6 +22,9 @@ import SignInScreen from '../screens/auth/SignInScreen';
 import SignUpScreen from '../screens/auth/SignUpScreen';
 import ForgotScreen from '../screens/auth/ForgotScreen';
 import VerificationScreen from '../screens/auth/VerificationScreen';
+import VerificationCode from '../screens/auth/VerificationCode';
+import LocationScreen from '../screens/auth/LocationScreen';
+import MyTabs from "../navigation/BottomTabBar";
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -66,46 +69,6 @@ const headerStyleTransparent = {
   ...TransitionPresets.SlideFromRightIOS,
 };
 const Stack = createStackNavigator<RootStackParamList>();
-
-const styles = StyleSheet.create({
-  headerView: {
-    backgroundColor: light_theme.Primary_500,
-    width: SCREEN_WIDTH,
-    // height: 60,
-    justifyContent: 'center',
-  },
-  headerLogo: {
-    alignSelf: 'center',
-    height: 45,
-    resizeMode: 'contain',
-    marginBottom: Platform.OS == 'ios' ? 10 : 5,
-  },
-  backView: {
-    height: 60,
-    width: 60,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  backImage: { height: 20, width: 20, resizeMode: 'contain' },
-  menuIcon: {
-    height: 24,
-    width: 24,
-    resizeMode: 'contain',
-  },
-  headername: {
-    ...commonFontStyle(600, 16, '#000000'),
-    fontWeight: '600',
-    alignSelf: 'center',
-    position: 'absolute',
-  },
-  headersView: {
-    width: SCREEN_WIDTH,
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: light_theme?.neutral_100,
-    // paddingBottom: h(10),
-  },
-});
 
 const StackNavigator: FC = () => {
   const dispatch = useAppDispatch();
@@ -158,22 +121,35 @@ const StackNavigator: FC = () => {
         options={({ navigation }) => ({
           ...headerStyleTransparent,
           headerShown: false,
-          // headerLeft: () => <Header navigation={navigation} />,
           headerTitle: '',
         })}
         name={screenName.ForgotScreen}
         component={ForgotScreen}
       />
-        <Stack.Screen
+      <Stack.Screen
         options={({ navigation }) => ({
           ...headerStyleTransparent,
           headerShown: false,
-          // headerLeft: () => <Header navigation={navigation} />,
           headerTitle: '',
         })}
-        name={screenName.VerificationScreen}
-        component={VerificationScreen}
+        name={screenName.VerificationCode}
+        component={VerificationCode}
       />
+      <Stack.Screen
+        options={({ navigation }) => ({
+          ...headerStyleTransparent,
+          headerShown: false,
+          headerTitle: '',
+        })}
+        name={screenName.LocationScreen}
+        component={LocationScreen}
+      />
+      <Stack.Screen  options={({ navigation }) => ({
+          ...headerStyleTransparent,
+          headerShown: false,
+          headerTitle: '',
+        })} name={screenName.BottomTabBar} component={MyTabs} />
+
     </Stack.Navigator>
   );
 };

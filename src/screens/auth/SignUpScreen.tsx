@@ -11,6 +11,7 @@ import PrimaryButton from '../../compoment/PrimaryButton';
 import { useAppDispatch } from '../../redux/hooks';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
+import { screenName } from '../../navigation/screenNames';
 
 type Props = {};
 
@@ -25,7 +26,9 @@ const SignUpScreen = (props: Props) => {
 
   const navigation = useNavigation();
 
-  const onPressLogin = () => { };
+  const onPressLogin = () => {
+    navigation.navigate(screenName.SignInScreen)
+   };
 
   const onPressBack = () => {
     navigation.goBack()

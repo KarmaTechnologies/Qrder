@@ -21,7 +21,7 @@ const ForgotScreen = (props: Props) => {
     const [email, setEmail] = useState('example1232@gmail.com');
 
     const onPresSendCode = () => {
-        navigation.navigate(screenName.VerificationScreen, { email: email })
+        navigation.navigate(screenName.VerificationCode, { email: email })
     };
 
     const onPressBack = () => {

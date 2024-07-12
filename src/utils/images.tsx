@@ -4,6 +4,7 @@ export const Icons = {
   bgLogin: require('../assets/Images/bgLogin.png'),
   ellipse: require('../assets/Images/ellipse.png'),
   vector: require('../assets/Images/vector.png'),
+  location: require('../assets/Images/location.png'),
 
 
 
@@ -15,6 +16,10 @@ export const Icons = {
   eyeOff: require('../assets/Icons/eyeOff.png'),
   facebook: require('../assets/Icons/facebook.png'),
   mapPin: require('../assets/Icons/mapPin.png'),
-  // eyeIn: require('../assets/icons/eyeIn.png'),
+  home: require('../assets/Icons/home.png'),
+  menuTab: require('../assets/Icons/menuTab.png'),
+  notification: require('../assets/Icons/notification.png'),
+  profile: require('../assets/Icons/profile.png'),
+  addmenu: require('../assets/Icons/addmenu.png'),
 
 };
