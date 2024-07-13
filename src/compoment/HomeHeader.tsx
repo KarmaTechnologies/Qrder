@@ -1,131 +1,135 @@
-// import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-// import React, { useEffect, useState } from "react";
-// import { colors } from "../../theme/color";
-// import { icons, images } from "../../theme/icons";
-// import { hp, wp } from "../../helper/globalFunction";
-// import { SafeAreaView } from "react-native-safe-area-context";
-// import {
-//   DirectionIcon,
-//   FillBell,
-//   FillCart,
-//   FillLike,
-//   Hamburger,
-//   RightArrow,
-// } from "../../theme/SvgIcon";
-// import { useNavigation } from "@react-navigation/native";
-// import { screenName } from "../../helper/routeNames";
-// import { commonFontStyle, fontFamily } from "../../theme/fonts";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-// type HomeProps = {
-//   onPresslocation?: () => void;
-//   onPressCart?: () => void;
-//   onPressProfile?: () => void;
-//   location?: any;
-// };
+import {useNavigation, useTheme} from '@react-navigation/native';
+import {commonFontStyle, hp, wp} from '../theme/fonts';
+import {Icons} from '../utils/images';
+import { strings } from '../i18n/i18n';
 
-// const HomeHeader = ({
-//   onPresslocation,
-//   onPressCart,
-//   onPressProfile,
-//   location,
-// }: HomeProps) => {
-//   const { navigate } = useNavigation();
+type HomeProps = {
+  onPressLocation?: () => void;
+  onPressCart?: () => void;
+  onPressProfile?: () => void;
+  onRightPress?: () => void;
+  location?: any;
+  mainShow?: any;
+  rightShowView?: any;
+};
 
-//   const onPressBell = () => {
-//     // @ts-ignore
-//     navigate(screenName.Notifications);
-//   };
+const HomeHeader = ({
+  onPressLocation,
+  onPressCart,
+  location,
+  mainShow,
+  rightShowView,
+  onRightPress,
+}: HomeProps) => {
+  const {navigate} = useNavigation();
+  const {colors} = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
 
-//   return (
-//     <SafeAreaView edges={["top"]} style={styles?.container}>
-//       <View style={styles?.drawer_btn}>
-//         <DirectionIcon />
-//         <View style={styles.address_container}>
-//           <TouchableOpacity onPress={onPresslocation} style={styles.location}>
-//             <Text style={styles.home_title}>Home</Text>
-//             <View style={styles.location_icon}>
-//               <RightArrow />
-//             </View>
-//           </TouchableOpacity>
-//           <Text style={styles.addrs}>{location?.city}</Text>
-//         </View>
-//       </View>
-//       {/* <Image source={images?.header_logo} style={styles?.header_logo} /> */}
-//       <View style={styles?.header_service_container}>
-//         <TouchableOpacity onPress={onPressCart}>
-//           <FillCart />
-//         </TouchableOpacity>
-//         <TouchableOpacity onPress={onPressBell}>
-//           <FillBell />
-//         </TouchableOpacity>
-//         <TouchableOpacity onPress={onPressProfile} style={styles.profile}>
-//           <Text style={styles.profile_text}>K</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
+  const onPressBell = () => {
+    // @ts-ignore
+    navigate(screenName.Notifications);
+  };
 
-// export default HomeHeader;
+  if (mainShow) {
+    return (
+      <SafeAreaView edges={['top']} style={styles?.container}>
+        <View style={styles.address_container}>
+          <View style={styles.location_icon}>
+            <Image source={Icons?.ic_back} style={styles?.header_logo} />
+          </View>
+          <TouchableOpacity onPress={onPressLocation} style={styles.location}>
+            <Text style={styles.title}>{'Location'}</Text>
+          </TouchableOpacity>
+        </View>
 
-// const styles = StyleSheet.create({
-//   container: {
-//     backgroundColor: colors?.white,
-//     paddingVertical: hp(17),
-//     paddingHorizontal: wp(20),
-//     flexDirection: "row",
-//     alignItems: "center",
-//     justifyContent: "space-between",
-//     elevation: 1,
-//   },
-//   hemburger_icon: {
-//     width: wp(28),
-//     height: wp(28),
-//     alignSelf: "flex-start",
-//   },
-//   drawer_btn: {
-//     flexDirection: "row",
-//     gap: wp(6),
-//     alignItems: "center",
-//   },
-//   header_logo: {
-//     width: wp(100),
-//     height: hp(35),
-//     marginLeft: wp(50),
-//   },
-//   header_service_container: {
-//     flexDirection: "row",
-//     gap: wp(10),
-//     alignSelf: "center",
-//   },
-//   icons: {
-//     width: wp(24),
-//     height: wp(24),
-//   },
-//   location: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     gap: wp(5),
-//   },
-//   location_icon: {
-//     transform: [{ rotate: "90deg" }],
-//   },
-//   home_title: {
-//     ...commonFontStyle(fontFamily.medium, 16, colors.black),
-//   },
-//   addrs: {
-//     ...commonFontStyle(fontFamily.medium, 12, colors.gery_8),
-//   },
-//   address_container: {},
-//   profile: {
-//     width: wp(26),
-//     height: wp(26),
-//     borderRadius: wp(50),
-//     backgroundColor: colors.green_4,
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
-//   profile_text: {
-//     ...commonFontStyle(fontFamily.semi_bold, 16, colors.black),
-//   },
-// });
+        <TouchableOpacity onPress={onRightPress}>
+          {rightShowView}
+        </TouchableOpacity>
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView edges={['top']} style={styles?.container}>
+      <View style={styles.address_container}>
+        <TouchableOpacity style={styles.location_icon}>
+          <Image source={Icons?.leftMenu} style={styles?.header_logo} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onPressLocation} style={styles.location}>
+          <Text style={styles.home_title}>{strings("home.location")}</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text numberOfLines={1} style={styles.addrs}>
+              {location}
+            </Text>
+            <Image source={Icons?.arrow_down} style={styles?.arrow_down} />
+          </View>
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity style={styles.location_icon} onPress={onPressCart}>
+        <Image source={Icons?.cart} style={styles?.header_logo} />
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+};
+
+export default HomeHeader;
+
+const getGlobalStyles = (props: any) => {
+  const {colors} = props;
+  return StyleSheet.create({
+    container: {
+      backgroundColor: colors?.Primary_BG,
+      paddingVertical: hp(8),
+      paddingBottom:hp(10),
+      paddingHorizontal: wp(16),
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    header_logo: {
+      width: wp(45),
+      height: wp(45),
+      borderRadius:wp(45),
+      resizeMode: 'contain',
+    },
+    arrow_down: {
+      width: wp(9),
+      height: wp(9),
+      resizeMode: 'contain',
+    },
+    location: {
+      marginLeft: 8,
+    },
+    location_icon: {},
+    home_title: {
+      ...commonFontStyle(700, 12, colors.headerText1),
+    },
+    addrs: {
+      ...commonFontStyle(400, 14, colors.headerText2),
+      width: '55%',
+    },
+    address_container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
+    profile: {
+      width: wp(26),
+      height: wp(26),
+      borderRadius: wp(50),
+      backgroundColor: colors.green_4,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    profile_text: {
+      ...commonFontStyle(700, 16, colors.black),
+    },
+    title: {
+      ...commonFontStyle(400, 17, colors.headerText),
+    },
+  });
+};

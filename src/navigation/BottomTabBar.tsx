@@ -126,10 +126,9 @@ const getGlobalStyles = (props: any) => {
       shadowRadius: 3.84,
       elevation: 5,
       paddingHorizontal: wp(16),
-      borderTopEndRadius: 20,
-      borderTopLeftRadius: 20,
-      paddingBottom: 20,
-      paddingTop: 8,
+      borderRadius: 30,
+      paddingBottom: 15,
+      paddingTop: 4,
       bottom: 0,
       position: 'absolute',
       width: SCREEN_WIDTH

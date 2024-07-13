@@ -1,4 +1,4 @@
-import {
+ import {
     StatusBar,
     StyleSheet,
     Text,
@@ -23,6 +23,7 @@ import {
 import Login_Input from '../../compoment/Login_Input';
 import PrimaryButton from '../../compoment/PrimaryButton';
 import LoginHeader from '../../compoment/LoginHeader';
+import { strings } from '../../i18n/i18n';
 
 type Props = {};
 const CELL_COUNT = 4;
@@ -91,8 +92,8 @@ const VerificationCode = ({ route }) => {
             <StatusBar barStyle={'light-content'} backgroundColor={colors.Primary_Bg} />
 
             <LoginHeader
-                title={'Verification'}
-                description={'We have sent a code to your email'}
+                title={strings('Phone_number_verification.verification')}
+                description={strings('Phone_number_verification.verification_dec')}
                 email={email}
                 isBack={true}
                 onPress={() => onPressBack()}
@@ -103,14 +104,14 @@ const VerificationCode = ({ route }) => {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.contentContainerStyle}>
                     <View style={styles.bottomView}>
-                        <Text style={styles.codeText}>Code</Text>
+                        <Text style={styles.codeText}>{strings('Phone_number_verification.code')}</Text>
                         <TouchableOpacity style={styles.resendContainer}>
                             <Text style={styles.resendText}>
-                                {' Resend'}
+                                {strings('Phone_number_verification.resend')}
                             </Text>
                             <Text style={styles.secText}>
                                 {' '}
-                                in.50sec
+                                {strings('Phone_number_verification.in')}{50}{strings('Phone_number_verification.sec')}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -150,7 +151,7 @@ const VerificationCode = ({ route }) => {
                     <PrimaryButton
                         extraStyle={styles.signupButton}
                         onPress={onPressVerify}
-                        title={'Verify'}
+                        title={strings('Phone_number_verification.verify')}
                     />
                     <Text style={styles.otpText}>{otpValue}</Text>
                 </KeyboardAwareScrollView>

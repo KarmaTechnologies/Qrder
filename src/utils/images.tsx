@@ -22,5 +22,9 @@ export const Icons = {
   notification: require('../assets/Icons/notification.png'),
   profile: require('../assets/Icons/profile.png'),
   addmenu: require('../assets/Icons/addmenu.png'),
+  cart: require('../assets/Icons/cart.png'),
+  leftMenu: require('../assets/Icons/leftMenu.png'),
+  arrow_down: require('../assets/Icons/arrow_down.png'),
+  ic_back: require('../assets/Icons/ic_back.png'),
 
 };

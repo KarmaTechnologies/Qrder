@@ -5,12 +5,14 @@ import {
     Text,
     View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, SCREEN_HEIGHT, SCREEN_WIDTH, wp } from '../../theme/fonts';
 import PrimaryButton from '../../compoment/PrimaryButton';
 import { screenName } from '../../navigation/screenNames';
 import { Icons } from '../../utils/images';
+import { strings } from '../../i18n/i18n';
+import { requestLocationPermission } from '../../utils/loactionHandler';
 
 type Props = {};
 
@@ -20,8 +22,11 @@ const LocationScreen = (props: Props) => {
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
 
     const onPressLocation = () => {
+
+        requestLocationPermission()
         navigation.navigate(screenName.BottomTabBar)
     };
+
 
     return (
         <View style={styles.container}>
@@ -34,11 +39,11 @@ const LocationScreen = (props: Props) => {
             <PrimaryButton
                 extraStyle={styles.locationButton}
                 onPress={onPressLocation}
-                title={'Access Location'}
+                title={strings('login.access_location')}
                 titleStyle={styles.textStyle}
                 isIconShow={true}
             />
-            <Text style={styles.locationText}>DFOOD WILL ACCESS YOUR LOCATION ONLY WHILE USING THE APP</Text>
+            <Text style={styles.locationText}>{strings('login.access_location_dec')}</Text>
         </View>
     );
 };

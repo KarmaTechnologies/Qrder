@@ -12,6 +12,7 @@ import { useAppDispatch } from '../../redux/hooks';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
 import { screenName } from '../../navigation/screenNames';
+import { strings } from '../../i18n/i18n';
 
 type Props = {};
 
@@ -38,7 +39,7 @@ const SignUpScreen = (props: Props) => {
     <View style={styles.container}>
       <StatusBar barStyle={'light-content'} backgroundColor={colors.Primary_Bg} />
 
-      <LoginHeader title={'Sign Up'} description={'Please sign up to get started'} isBack={true} onPress={() => onPressBack()} />
+      <LoginHeader title={strings("sign_up.sign_up")} description={strings("sign_up.sign_dec")} isBack={true} onPress={() => onPressBack()} />
 
       <View style={styles.bottomContainer}>
         <KeyboardAwareScrollView
@@ -46,23 +47,23 @@ const SignUpScreen = (props: Props) => {
           contentContainerStyle={styles.contentContainerStyle}>
           <Input
             value={name}
-            placeholder="John doe"
-            label={'Name'}
+            placeholder={strings("sign_up.p_name")}
+            label={strings("sign_up.name")}
             onChangeText={(t: string) => setEmail(t)}
           />
           <Input
             value={email}
-            placeholder="williams@david.com"
-            label={'Email'}
+            placeholder={strings("sign_up.p_email")}
+            label={strings("sign_up.email")}
             onChangeText={(t: string) => setName(t)}
           />
           <Input
             value={password}
             autoCorrect={false}
             isShowEyeIcon={true}
-            placeholder="* * * * * * *"
             secureTextEntry={isShowPassword}
-            label={"Password"}
+             placeholder="* * * * * * *"
+            label={strings("sign_up.password")}
             onChangeText={(t: string) => setPassword(t)}
             onPressEye={() => setIsShowPassword(!isShowPassword)}
           />
@@ -72,7 +73,7 @@ const SignUpScreen = (props: Props) => {
             isShowEyeIcon={true}
             placeholder="* * * * * * *"
             secureTextEntry={isShowPassword}
-            label={"Re-Type Password"}
+            label={strings("sign_up.re_type_password")}
             onChangeText={(t: string) => setRePassword(t)}
             onPressEye={() => setIsShowPassword(!isShowPassword)}
           />
@@ -80,7 +81,7 @@ const SignUpScreen = (props: Props) => {
           <PrimaryButton
             extraStyle={styles.signupButton}
             onPress={onPressLogin}
-            title={'Sign Up'}
+            title={strings("sign_up.sign_up")}
           />
         </KeyboardAwareScrollView>
       </View>

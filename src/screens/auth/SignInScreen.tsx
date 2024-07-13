@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
-import { Icons } from '../../utils/images';
-import { commonFontStyle, h, hp, wp } from '../../theme/fonts';
+import React, {useState} from 'react';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import {Icons} from '../../utils/images';
+import {commonFontStyle, h, hp, wp} from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import {
   UpperCaseCheck,
@@ -21,18 +21,19 @@ import {
   successToast,
 } from '../../utils/commonFunction';
 import PrimaryButton from '../../compoment/PrimaryButton';
-import { screenName } from '../../navigation/screenNames';
-import { dispatchNavigation } from '../../utils/globalFunctions';
-import { useAppDispatch } from '../../redux/hooks';
-import { userLogin } from '../../actions/authAction';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {screenName} from '../../navigation/screenNames';
+import {dispatchNavigation} from '../../utils/globalFunctions';
+import {useAppDispatch} from '../../redux/hooks';
+import {userLogin} from '../../actions/authAction';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
+import {strings} from '../../i18n/i18n';
 
 type Props = {};
 
 const SignInScreen = (props: Props) => {
-  const { colors, isDark } = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const {colors, isDark} = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
@@ -41,7 +42,7 @@ const SignInScreen = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const onPressLogin = () => {
-    navigation.navigate(screenName.LocationScreen)
+    navigation.navigate(screenName.LocationScreen);
     return;
     if (email.trim().length === 0) {
       errorToast('Please enter your email address');
@@ -81,9 +82,15 @@ const SignInScreen = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle={'light-content'} backgroundColor={colors.Primary_Bg} />
+      <StatusBar
+        barStyle={'light-content'}
+        backgroundColor={colors.Primary_Bg}
+      />
 
-      <LoginHeader title={'Log In'} description={'Please sign in to your existing account'} />
+      <LoginHeader
+        title={strings('login.login_in')}
+        description={strings('login.login_dec')}
+      />
 
       <View style={styles.bottomContainer}>
         <KeyboardAwareScrollView
@@ -91,78 +98,85 @@ const SignInScreen = (props: Props) => {
           contentContainerStyle={styles.contentContainerStyle}>
           <Input
             value={email}
-            placeholder="williams@david.com"
-            label={'Email'}
+            placeholder={strings('login.p_email')}
+            label={strings('login.email')}
             onChangeText={(t: string) => setEmail(t)}
           />
           <Input
             value={password}
             autoCorrect={false}
             isShowEyeIcon={true}
-            placeholder="* * * * * * *"
             secureTextEntry={isShowPassword}
-            label={"Password"}
+            placeholder="* * * * * * *"
+            label={strings('login.password')}
             onChangeText={(t: string) => setPassword(t)}
             onPressEye={() => setIsShowPassword(!isShowPassword)}
           />
           <View style={styles.subContainer}>
             <View style={styles.rememberView}>
               <TouchableOpacity style={styles.checkBox} />
-              <Text style={styles.rememberText}>Remember me</Text>
+              <Text style={styles.rememberText}>
+                {strings('login.remember_me')}
+              </Text>
             </View>
             <TouchableOpacity
               onPress={() => navigation.navigate(screenName.ForgotScreen)}>
-              <Text style={styles.forgotText}>Forgot Password</Text>
+              <Text style={styles.forgotText}>
+                {strings('login.forgot_password')}
+              </Text>
             </TouchableOpacity>
           </View>
 
           <PrimaryButton
             extraStyle={styles.signupButton}
             onPress={onPressLogin}
-            title={'Log In'}
+            title={strings('login.login_in')}
           />
           <TouchableOpacity
             onPress={() => navigation.navigate(screenName.SignUpScreen)}>
             <Text style={styles.bottomText}>
-              {'Don’t have an account?'}
-              <Text style={styles.signUpText}>
-                {' '}
-                Sign Up
-              </Text>
+              {strings('login.dont_have_account')}
+              <Text style={styles.signUpText}> {strings('login.sign_up')}</Text>
             </Text>
           </TouchableOpacity>
 
           <View style={styles.orContainer}>
-            <Text style={styles.orText}>Or</Text>
+            <Text style={styles.orText}>{strings('login.or')}</Text>
           </View>
 
           <View style={styles.roundContainer}>
-            <View style={[styles.roundView, {
-              backgroundColor: colors.blue_100
-
-            }]}>
+            <View
+              style={[
+                styles.roundView,
+                {
+                  backgroundColor: colors.blue_100,
+                },
+              ]}>
               <Image style={styles.facebookIcon} source={Icons.facebook} />
             </View>
-            <View style={[styles.roundView, {
-              backgroundColor: colors.white12,
-              elevation:5,
-              borderWidth:1,
-              borderColor:colors.Surface_Tertiary
-
-            }]}>
+            <View
+              style={[
+                styles.roundView,
+                {
+                  backgroundColor: colors.white12,
+                  borderWidth: 1,
+                  borderColor: colors.Surface_Tertiary,
+                },
+              ]}>
               <Image style={styles.twitterIcon} source={Icons.google} />
             </View>
-            <View style={[styles.roundView, {
-              backgroundColor: colors.blue_200
-
-            }]}>
+            <View
+              style={[
+                styles.roundView,
+                {
+                  backgroundColor: colors.blue_200,
+                },
+              ]}>
               <Image style={styles.appleIcon} source={Icons.apple} />
             </View>
           </View>
-
         </KeyboardAwareScrollView>
       </View>
-
     </View>
   );
 };
@@ -170,7 +184,7 @@ const SignInScreen = (props: Props) => {
 export default SignInScreen;
 
 const getGlobalStyles = (props: any) => {
-  const { colors } = props;
+  const {colors} = props;
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -181,7 +195,7 @@ const getGlobalStyles = (props: any) => {
       flex: 2.5,
       backgroundColor: colors.white,
       borderTopLeftRadius: 24,
-      borderTopRightRadius: 24
+      borderTopRightRadius: 24,
     },
     contentContainerStyle: {
       paddingHorizontal: wp(24),
@@ -199,7 +213,7 @@ const getGlobalStyles = (props: any) => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginTop: hp(24),
-      alignItems: 'center'
+      alignItems: 'center',
     },
     rememberView: {
       flexDirection: 'row',
@@ -210,11 +224,11 @@ const getGlobalStyles = (props: any) => {
       borderRadius: 2,
       borderWidth: 2,
       borderColor: colors.Border_gray,
-      marginRight: wp(10)
+      marginRight: wp(10),
     },
     rememberText: {
       ...commonFontStyle(400, 13, colors.Text_gray),
-      alignSelf: 'center'
+      alignSelf: 'center',
     },
     forgotText: {
       ...commonFontStyle(400, 14, colors.Primary_Orange),
@@ -223,7 +237,7 @@ const getGlobalStyles = (props: any) => {
       marginTop: hp(30),
       borderRadius: 12,
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
     },
     bottomText: {
       ...commonFontStyle(400, 16, colors.Text_Tertiary),
@@ -233,19 +247,19 @@ const getGlobalStyles = (props: any) => {
     },
     signUpText: {
       ...commonFontStyle(700, 14, colors.Primary_Orange),
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
     },
     orContainer: {
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: hp(15)
+      marginBottom: hp(15),
     },
     orText: {
       ...commonFontStyle(400, 16, colors.Text_Tertiary),
     },
     roundContainer: {
       flexDirection: 'row',
-      justifyContent: 'space-evenly'
+      justifyContent: 'space-evenly',
     },
     roundView: {
       height: wp(60),
@@ -253,22 +267,22 @@ const getGlobalStyles = (props: any) => {
       borderRadius: wp(60),
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: hp(10)
+      marginBottom: hp(10),
     },
     facebookIcon: {
       height: hp(18),
       width: wp(9),
-      resizeMode: 'contain'
+      resizeMode: 'contain',
     },
     twitterIcon: {
       height: wp(36),
       width: wp(36),
-      resizeMode: 'contain'
+      resizeMode: 'contain',
     },
     appleIcon: {
       height: hp(20),
       width: wp(18),
-      resizeMode: 'contain'
-    }
+      resizeMode: 'contain',
+    },
   });
 };

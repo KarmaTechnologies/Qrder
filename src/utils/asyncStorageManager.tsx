@@ -8,6 +8,7 @@ export const asyncKeys = {
   notifiaction_data: "@notifiaction_data",
   guest_favorite_data: "@guest_favorite_data",
   is_dark_theme:"@is_dark_theme",
+  location: "@location",
 
   // no clear in logout time
   guest: "@guest",
@@ -42,6 +43,19 @@ export const getAsyncUserInfo = async () => {
   const userInfo = await AsyncStorage.getItem(asyncKeys.user_info);
   if (userInfo) {
     return JSON.parse(userInfo);
+  } else {
+    return null;
+  }
+};
+
+export const setAsyncLocation = async (location: any) => {
+  await AsyncStorage.setItem(asyncKeys.location, JSON.stringify(location));
+};
+
+export const getAsyncLocation = async () => {
+  const userlocation = await AsyncStorage.getItem(asyncKeys.location);
+  if (userlocation) {
+    return JSON.parse(userlocation);
   } else {
     return null;
   }

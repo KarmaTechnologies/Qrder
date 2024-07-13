@@ -3222,6 +3222,7 @@ __metadata:
     react-native-element-dropdown: ^2.12.0
     react-native-gesture-handler: ^2.16.2
     react-native-google-places-autocomplete: ^2.5.6
+    react-native-i18n: ^2.0.15
     react-native-image-crop-picker: ^0.41.2
     react-native-keyboard-aware-scroll-view: ^0.9.5
     react-native-modal: ^13.0.1
@@ -5707,6 +5708,13 @@ __metadata:
   version: 2.1.0
   resolution: "human-signals@npm:2.1.0"
   checksum: b87fd89fce72391625271454e70f67fe405277415b48bcc0117ca73d31fa23a4241787afdc8d67f5a116cf37258c052f59ea82daffa72364d61351423848e3b8
+  languageName: node
+  linkType: hard
+
+"i18n-js@npm:3.0.11":
+  version: 3.0.11
+  resolution: "i18n-js@npm:3.0.11"
+  checksum: 2fe94bf00f507068a3e9ac632a93d10d9aa7d254bbec33108311f0ee992a9d262fc68b4e48fd14d5fcffc539f6e58d78bfff24252266ebfd493df09618b440f4
   languageName: node
   linkType: hard
 
@@ -8444,6 +8452,15 @@ __metadata:
   peerDependencies:
     react-native: ">= 0.59"
   checksum: 132911198f217eff064f658517a06d3b57cba2081f40462f9cec7eabfe0409dc30a9ea519377eff77924f69ceb94662fb88105e87bf5071c02120292519a64eb
+  languageName: node
+  linkType: hard
+
+"react-native-i18n@npm:^2.0.15":
+  version: 2.0.15
+  resolution: "react-native-i18n@npm:2.0.15"
+  dependencies:
+    i18n-js: 3.0.11
+  checksum: 8ea3500556c6a55a8e3a0fc838217a9d27bf541e2d6d9cefe5293889859af8fb494d1b8b25de7e80f6086023128814af9b22b6636aa2733443ae1c7118338420
   languageName: node
   linkType: hard
 
