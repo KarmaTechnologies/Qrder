@@ -23,6 +23,8 @@ export const light_theme = {
   dropDownText: '#9C9BA6',
   cardText: '#838799',
   lineColor: '#C1C8D2',
+  title_orange:'#ED7A63',
+  btn_red:'#FF3326',
 
 
 

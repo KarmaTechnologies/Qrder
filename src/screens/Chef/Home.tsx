@@ -93,7 +93,7 @@ const Home = (props: Props) => {
       />
       <ScrollView style={{flex: 1}}>
         <View style={styles.headerCard}>
-          <CardView containerStyle={styles.headerView}>
+          <CardView containerStyle={styles.headerView} onPress={()=> setShowOrderModal(true)} isDisabled={true}>
             <Text style={styles.headerText}>20</Text>
             <Text style={styles.headerSubText}>Running Orders</Text>
           </CardView>

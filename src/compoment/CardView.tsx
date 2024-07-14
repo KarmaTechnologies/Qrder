@@ -26,7 +26,7 @@ type Props = {
 const CardView = ({children,containerStyle,onPress,isDisabled}: Props) => {
   const {colors} = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
-  return <TouchableOpacity disabled={!isDisabled} onPress={onPress} style={[styles.container,containerStyle]}>{children}</TouchableOpacity>;
+  return <TouchableOpacity onPress={() => onPress()} disabled={!isDisabled}  style={[styles.container,containerStyle]}>{children}</TouchableOpacity>;
 };
 
 export default CardView;
