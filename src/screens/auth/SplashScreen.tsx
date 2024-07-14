@@ -24,7 +24,7 @@ const SplashScreen = (props: Props) => {
 
   useEffect(() => {
     setTimeout(()=>{
-      dispatchNavigation(screenName.OnboardingScreen);
+      dispatchNavigation(screenName.BottomTabBar);
     },1000)
    
   }, []);

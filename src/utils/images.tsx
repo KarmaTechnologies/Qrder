@@ -26,5 +26,8 @@ export const Icons = {
   leftMenu: require('../assets/Icons/leftMenu.png'),
   arrow_down: require('../assets/Icons/arrow_down.png'),
   ic_back: require('../assets/Icons/ic_back.png'),
+  down: require('../assets/Icons/down.png'),
+  chartBg: require('../assets/Icons/chartBg.png'),
+  star: require('../assets/Icons/star.png'),
 
 };

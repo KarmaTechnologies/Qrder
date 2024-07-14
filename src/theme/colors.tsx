@@ -20,6 +20,9 @@ export const light_theme = {
   image_Bg_gray: '#98A8B8',
   tabBar: '#AFAFAF',
   Primary_BG: '#F7F8F9',
+  dropDownText: '#9C9BA6',
+  cardText: '#838799',
+  lineColor: '#C1C8D2',
 
 
 

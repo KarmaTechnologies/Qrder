@@ -1,4 +1,13 @@
-import {StatusBar, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {
@@ -10,6 +19,11 @@ import {
   setAsyncLocation,
 } from '../../utils/asyncStorageManager';
 import HomeHeader from '../../compoment/HomeHeader';
+import ChartsView from '../../compoment/ChartsView';
+import CardView from '../../compoment/CardView';
+import {commonFontStyle, hp, statusBarHeight, wp} from '../../theme/fonts';
+import {Icons} from '../../utils/images';
+import OrderModal from '../../compoment/OrderModal';
 
 type Props = {};
 
@@ -18,6 +32,7 @@ const Home = (props: Props) => {
   const navigation = useNavigation();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [value, setValue] = useState('');
+  const [showOrderModal, setShowOrderModal] = useState(false);
 
   const GetStatus = async () => {
     const Status = await getAsyncLocation();
@@ -75,9 +90,54 @@ const Home = (props: Props) => {
         onPressCart={() => {}}
         location={value}
         onPressLocation={onPressLocation}
-        // mainShow={true}
       />
-      <View></View>
+      <ScrollView style={{flex: 1}}>
+        <View style={styles.headerCard}>
+          <CardView containerStyle={styles.headerView}>
+            <Text style={styles.headerText}>20</Text>
+            <Text style={styles.headerSubText}>Running Orders</Text>
+          </CardView>
+          <CardView isDisabled={true} onPress={()=>setShowOrderModal(true)} containerStyle={styles.headerView}>
+            <Text style={styles.headerText}>05</Text>
+            <Text style={styles.headerSubText}>Order Request</Text>
+          </CardView>
+        </View>
+        <CardView>
+          <ChartsView />
+        </CardView>
+        <CardView containerStyle={styles.reviewView}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={styles.reviewStyle}>Reviews</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAllText}>See All Reviews</Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
+            <Image source={Icons.star} style={styles.starStyle} />
+            <Text style={styles.rateText}>4.9</Text>
+            <Text style={styles.rateText1}>Total 20 Reviews</Text>
+          </View>
+        </CardView>
+        <CardView containerStyle={styles.reviewView}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={styles.reviewStyle}>Populer Items This Weeks</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAllText}>See All</Text>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={[1, 2, 3, 4]}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={() => {
+              return <View style={styles.itemStyle}></View>;
+            }}
+          />
+        </CardView>
+        <View style={{height:90}} />
+        <OrderModal isVisible={showOrderModal} onPressCancel={()=>setShowOrderModal(false)} />
+      </ScrollView>
     </View>
   );
 };
@@ -90,6 +150,64 @@ const getGlobalStyles = (props: any) => {
     container: {
       flex: 1,
       backgroundColor: colors.Primary_BG,
+    },
+    headerCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      alignSelf: 'center',
+      justifyContent: 'space-between',
+      gap: 18,
+      marginVertical: 10,
+    },
+    headerView: {
+      width: '43%',
+      height: hp(110),
+      marginHorizontal: 0,
+      justifyContent: 'center',
+    },
+    headerText: {
+      alignSelf: 'center',
+      ...commonFontStyle(700, 52, colors.Title_Text),
+    },
+    headerSubText: {
+      ...commonFontStyle(700, 13, colors.cardText),
+      textTransform: 'uppercase',
+      alignSelf: 'center',
+      marginBottom: 10,
+    },
+    reviewStyle: {
+      ...commonFontStyle(400, 14, colors.Title_Text),
+      flex: 1,
+    },
+    seeAllText: {
+      ...commonFontStyle(400, 14, colors.Primary_Orange),
+      textDecorationLine: 'underline',
+    },
+    rateText: {
+      marginLeft: 4,
+      ...commonFontStyle(700, 21, colors.Primary_Orange),
+    },
+    rateText1: {
+      ...commonFontStyle(400, 14, colors.Title_Text),
+      marginLeft: 18,
+    },
+    reviewView: {
+      paddingHorizontal: 16,
+      paddingVertical: 15,
+      marginTop: 14,
+    },
+    starStyle: {
+      width: 25,
+      height: 25,
+    },
+    itemStyle: {
+      width: wp(150),
+      height: wp(150),
+      borderWidth: 1,
+      marginTop:20,
+      marginBottom:8,
+      marginLeft:16,
+      borderRadius:8
     },
   });
 };
