@@ -1,13 +1,16 @@
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import {colors} from '../theme/colors';
+import { useTheme } from '@react-navigation/native';
 
-type Props = {};
+type Props = {
+  size?: string
+};
 
-const Loader = ({visible = false}) => {
+const Loader = ({ size }: Props) => {
+  const { colors } = useTheme();
   return (
     <View>
-      <ActivityIndicator size={'large'} color={colors.black} />
+      <ActivityIndicator size={size} color={colors.black} />
     </View>
   );
 };

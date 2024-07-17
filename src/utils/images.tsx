@@ -5,6 +5,8 @@ export const Icons = {
   ellipse: require('../assets/Images/ellipse.png'),
   vector: require('../assets/Images/vector.png'),
   location: require('../assets/Images/location.png'),
+  slider1: require('../assets/Images/slider1.png'),
+  profileImage: require('../assets/Images/profileImage.png'),
 
 
 
@@ -29,5 +31,18 @@ export const Icons = {
   down: require('../assets/Icons/down.png'),
   chartBg: require('../assets/Icons/chartBg.png'),
   star: require('../assets/Icons/star.png'),
-
+  option: require('../assets/Icons/option.png'),
+  addImage: require('../assets/Icons/addImage.png'),
+  locationPin: require('../assets/Icons/location_pin.png'),
+  profileIcon: require('../assets/Icons/profile_Icon.png'),
+  rightBack: require('../assets/Icons/right_back.png'),
+  addresses: require('../assets/Icons/addresses.png'),
+  menuIcon: require('../assets/Icons/menuIcon.png'),
+  inventory: require('../assets/Icons/inventory.png'),
+  bellIcon: require('../assets/Icons/bellIcon.png'),
+  chefIcon: require('../assets/Icons/chefIcon.png'),
+  faqsIcon: require('../assets/Icons/faqsIcon.png'),
+  crmIcon: require('../assets/Icons/crmIcon.png'),
+  settingsIcon: require('../assets/Icons/settingsIcon.png'),
+  logout: require('../assets/Icons/logout.png'),
 };

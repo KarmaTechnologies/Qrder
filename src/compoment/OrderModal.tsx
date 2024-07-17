@@ -1,11 +1,11 @@
 //import liraries
-import React, {useState} from 'react';
-import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import ReactNativeModal from 'react-native-modal';
-import {SCREEN_HEIGHT, commonFontStyle, hp, wp} from '../theme/fonts';
-import {useTheme} from '@react-navigation/native';
-import {Icons} from '../utils/images';
+import { SCREEN_HEIGHT, commonFontStyle, hp, wp } from '../theme/fonts';
+import { useTheme } from '@react-navigation/native';
+import { Icons } from '../utils/images';
 import PrimaryButton from './PrimaryButton';
 
 export type OrderModal = {
@@ -14,6 +14,7 @@ export type OrderModal = {
   question: string;
   onPressYes: () => void;
   onPressCancel: () => void;
+  isShow?: boolean
 };
 
 const OrderModal = ({
@@ -22,12 +23,13 @@ const OrderModal = ({
   question,
   onPressCancel,
   onPressYes,
+  isShow = false,
 }: OrderModal) => {
-  const {colors, isDark} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
 
-  const onPressDone = () => {};
-  const onCancelBtn = () => {};
+  const onPressDone = () => { };
+  const onCancelBtn = () => { };
 
   return (
     <ReactNativeModal
@@ -38,7 +40,7 @@ const OrderModal = ({
       animationOutTiming={1000}
       onBackButtonPress={onPressCancel}
       onBackdropPress={onPressCancel}
-      style={{justifyContent: 'flex-end', margin: 0}}>
+      style={{ justifyContent: 'flex-end', margin: 0 }}>
       <View style={styles.container}>
         <View style={styles.lineStyle} />
         <View style={styles.headerView}>
@@ -59,13 +61,13 @@ const OrderModal = ({
                   <View style={styles.btnContainer}>
                     <PrimaryButton
                       extraStyle={styles.doneBtn}
-                      title={'Done'}
+                      title={ isShow ? 'Add' : 'Done'}
                       titleStyle={styles.doneText}
                       onPress={() => onPressDone()}
                     />
                     <PrimaryButton
                       extraStyle={styles.cancelBtn}
-                      title={'Cancel'}
+                      title={isShow ? 'Add' : 'Cancel'}
                       titleStyle={styles.cancelText}
                       onPress={() => onCancelBtn()}
                     />
@@ -73,7 +75,7 @@ const OrderModal = ({
                 </View>
               );
             })}
-            <View style={{height: 60}} />
+            <View style={{ height: 60 }} />
           </ScrollView>
         </View>
       </View>
@@ -82,7 +84,7 @@ const OrderModal = ({
 };
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
 
   return StyleSheet.create({
     container: {

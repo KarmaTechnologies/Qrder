@@ -1,7 +1,5 @@
 import {
-  Animated,
   Image,
-  Pressable,
   ReturnKeyType,
   StyleSheet,
   Text,
@@ -11,10 +9,10 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {useFocusEffect, useIsFocused, useTheme} from '@react-navigation/native';
-import {commonFontStyle, hp, wp} from '../theme/fonts';
-import {Icons} from '../utils/images';
+import React from 'react';
+import { useIsFocused, useTheme } from '@react-navigation/native';
+import { commonFontStyle, hp, wp } from '../theme/fonts';
+import { Icons } from '../utils/images';
 
 type Props = {
   placeholder: string;
@@ -25,11 +23,15 @@ type Props = {
   secureTextEntry?: boolean;
   onPressEye?: () => void;
   onSubmitEditing?: () => void;
-  theme?: string;
   autoCorrect?: boolean;
   rest?: TextInputProps[];
   inputRef?: any;
   returnKeyType?: ReturnKeyType;
+  extraStyle?: ViewStyle
+  inputStyle: ViewStyle;
+  maxLength: number;
+  keyboardType:any;
+  multiline?:boolean
 };
 
 const Input = ({
@@ -40,30 +42,26 @@ const Input = ({
   secureTextEntry,
   onPressEye,
   isShowEyeIcon,
-  theme = "first",
   autoCorrect,
   inputRef,
   returnKeyType,
   onSubmitEditing,
+  extraStyle,
+  inputStyle,
+  maxLength,
+  keyboardType,
+  multiline= false,
   ...rest
 }: Props) => {
-  const {colors} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
-
-  const isFocuse = useIsFocused();
- 
-
+  const { colors } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, extraStyle]}>
       <Text numberOfLines={1} style={styles.labelTextStyle}>
         {label}
       </Text>
       <View
-        style={
-          theme === "first"
-            ? { ...styles.firstThemeContainer }
-            : { ...styles.secondThemeContainer }
-        }
+        style={[styles.firstThemeContainer, inputStyle]}
       >
         <TextInput
           {...rest}
@@ -71,12 +69,15 @@ const Input = ({
           value={value}
           autoCorrect={autoCorrect}
           placeholder={placeholder}
-          style={styles.inputStyle}
+          style={[styles.inputStyle]}
           onChangeText={onChangeText}
           returnKeyType={returnKeyType}
           secureTextEntry={secureTextEntry}
           onSubmitEditing={onSubmitEditing}
           placeholderTextColor={colors.gray_300}
+          multiline={multiline}
+          maxLength={maxLength}
+          keyboardType={keyboardType}
         />
         {isShowEyeIcon ? (
           <TouchableOpacity onPress={onPressEye}>
@@ -95,7 +96,7 @@ const Input = ({
 export default Input;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       marginTop: hp(24),
@@ -103,7 +104,7 @@ const getGlobalStyles = (props: any) => {
     labelTextStyle: {
       ...commonFontStyle(400, 13, colors.Title_Text),
       marginBottom: hp(4),
-      textTransform:'uppercase'
+      textTransform: 'uppercase'
     },
     firstThemeContainer: {
       height: hp(60),
@@ -122,8 +123,8 @@ const getGlobalStyles = (props: any) => {
       flexDirection: "row",
       alignItems: "center",
       paddingHorizontal: wp(20),
-      borderWidth: 1.5,
-      borderColor: colors.inputBorder,
+      borderWidth: 1,
+      borderColor: colors.border_line4,
     },
     inputStyle: {
       flex: 1,

@@ -49,13 +49,13 @@ const SignUpScreen = (props: Props) => {
             value={name}
             placeholder={strings("sign_up.p_name")}
             label={strings("sign_up.name")}
-            onChangeText={(t: string) => setEmail(t)}
+            onChangeText={(t: string) => setName(t)}
           />
           <Input
             value={email}
             placeholder={strings("sign_up.p_email")}
             label={strings("sign_up.email")}
-            onChangeText={(t: string) => setName(t)}
+            onChangeText={(t: string) => setEmail(t)}
           />
           <Input
             value={password}

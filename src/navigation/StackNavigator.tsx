@@ -25,6 +25,8 @@ import VerificationScreen from '../screens/auth/VerificationScreen';
 import VerificationCode from '../screens/auth/VerificationCode';
 import LocationScreen from '../screens/auth/LocationScreen';
 import MyTabs from "../navigation/BottomTabBar";
+import FoodDetails from '../screens/Chef/FoodDetails';
+import ChefSignUp from '../screens/ChefAuth/ChefSignUp';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -144,12 +146,23 @@ const StackNavigator: FC = () => {
         name={screenName.LocationScreen}
         component={LocationScreen}
       />
-      <Stack.Screen  options={({ navigation }) => ({
-          ...headerStyleTransparent,
-          headerShown: false,
-          headerTitle: '',
-        })} name={screenName.BottomTabBar} component={MyTabs} />
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.BottomTabBar} component={MyTabs} />
 
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.FoodDetails} component={FoodDetails} />
+
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.ChefSignUp} component={ChefSignUp} />
     </Stack.Navigator>
   );
 };

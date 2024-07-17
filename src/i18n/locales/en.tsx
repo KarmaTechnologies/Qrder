@@ -1,4 +1,4 @@
-export default  {
+export default {
   onboarding: {
     all_you_favorites: "All your favorites",
     order_from_choosen_chef: "Order from chosen chef",
@@ -9,8 +9,8 @@ export default  {
     skip: "skip",
   },
   login: {
-    login_in:"Log In",
-    login_dec:"Please sign in to your existing account",
+    login_in: "Log In",
+    login_dec: "Please sign in to your existing account",
     email: "Email",
     p_email: "williams@david.com",
     password: "Password",
@@ -28,8 +28,8 @@ export default  {
   sign_up: {
     sign_up: "Sign Up",
     sign_dec: "Please sign up to get started",
-    name:"Name",
-    p_name:"Name",
+    name: "Name",
+    p_name: "Name",
     p_email: "williams@david.com",
     email: "Email",
     full_name: "Full Name",
@@ -41,6 +41,7 @@ export default  {
     great: "Great!",
     account_success_text: "Your account has been Created successfully",
     start_shopping: "Start Shopping",
+    mobile_Number:'Mobile Number'
   },
   Phone_number_verification: {
     verification: "Verification",
@@ -56,7 +57,49 @@ export default  {
     enter_otp_code: "Enter OTP Code",
     otp_code_text: "We are sending you an OTP verify your phone number",
   },
-  home:{
-    location:"Location"
+  home: {
+    location: "Location"
+  },
+  ordersList: {
+    myOrders: "My Orders",
+    ongoing: 'Ongoing',
+    history: 'History',
+    trackOrder: 'Track Order',
+    cancel: 'Cancel',
+  },
+  addFoodList: {
+    add_new_items: 'Add New Items',
+    reset: 'RESET',
+    item_name: 'ITEM NAME',
+    p_itemName: 'Mazalichiken Halim',
+    upload_photo_video:'Upload photo/video',
+    add:'Add',
+    price:'PRICE',
+    add_cusine:'ADD CUSINE',
+    select_cusine:'Select Cusine',
+    basic_details:'Basic Details',
+    save_changes:'Save Changes'
+  },
+  foodDetails:{
+    food_Details:'Food Details',
+    edit:'EDIT',
+    basic_details:'Basic Details'
+  },
+  profileScreen:{
+    profile:'Profile',
+    personal_info:'Personal Info',
+    addresses:'Addresses',
+    menu:'Menu',
+    inventory:'Inventory',
+    notifications:'Notifications',
+    chef:'Chef',
+    fAQs:'FAQs',
+    crm:'CRM',
+    settings:'Settings',
+    log_out:'Log Out'
+  },
+  notifications:{
+    notifications:'Notifications',
+    messages:'Messages'
   }
 };

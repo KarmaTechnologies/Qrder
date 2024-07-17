@@ -1,10 +1,10 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { Image, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {useNavigation, useTheme} from '@react-navigation/native';
-import {commonFontStyle, hp, wp} from '../theme/fonts';
-import {Icons} from '../utils/images';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { commonFontStyle, hp, wp } from '../theme/fonts';
+import { Icons } from '../utils/images';
 import { strings } from '../i18n/i18n';
 
 type HomeProps = {
@@ -12,9 +12,15 @@ type HomeProps = {
   onPressCart?: () => void;
   onPressProfile?: () => void;
   onRightPress?: () => void;
+  onBackPress?: () => void;
   location?: any;
   mainShow?: any;
   rightShowView?: any;
+  title?: string;
+  extraStyle?: ViewStyle;
+  isHideIcon?: boolean
+  rightText?: string
+  isShowIcon?: boolean
 };
 
 const HomeHeader = ({
@@ -24,10 +30,16 @@ const HomeHeader = ({
   mainShow,
   rightShowView,
   onRightPress,
+  onBackPress,
+  title = '',
+  extraStyle = {},
+  isHideIcon = false,
+  rightText,
+  isShowIcon = true
 }: HomeProps) => {
-  const {navigate} = useNavigation();
-  const {colors} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { navigate } = useNavigation();
+  const { colors } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
 
   const onPressBell = () => {
     // @ts-ignore
@@ -36,19 +48,19 @@ const HomeHeader = ({
 
   if (mainShow) {
     return (
-      <SafeAreaView edges={['top']} style={styles?.container}>
+      <SafeAreaView edges={['top']} style={[styles?.container, extraStyle]}>
         <View style={styles.address_container}>
-          <View style={styles.location_icon}>
+          <TouchableOpacity style={styles.location_icon} onPress={onBackPress}>
             <Image source={Icons?.ic_back} style={styles?.header_logo} />
-          </View>
-          <TouchableOpacity onPress={onPressLocation} style={styles.location}>
-            <Text style={styles.title}>{'Location'}</Text>
           </TouchableOpacity>
+          <View style={[styles.headerTitle]}>
+            <Text style={styles.title}>{title}</Text>
+          </View>
         </View>
-
-        <TouchableOpacity onPress={onRightPress}>
-          {rightShowView}
-        </TouchableOpacity>
+        {isShowIcon ?
+          <TouchableOpacity onPress={onRightPress}>
+            {isHideIcon ? <Text style={styles.resetText}>{rightText}</Text> : <Image source={Icons?.option} style={styles?.header_logo} />}
+          </TouchableOpacity> : null}
       </SafeAreaView>
     );
   }
@@ -61,7 +73,7 @@ const HomeHeader = ({
         </TouchableOpacity>
         <TouchableOpacity onPress={onPressLocation} style={styles.location}>
           <Text style={styles.home_title}>{strings("home.location")}</Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text numberOfLines={1} style={styles.addrs}>
               {location}
             </Text>
@@ -80,12 +92,12 @@ const HomeHeader = ({
 export default HomeHeader;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       backgroundColor: colors?.Primary_BG,
       paddingVertical: hp(8),
-      paddingBottom:hp(10),
+      paddingBottom: hp(10),
       paddingHorizontal: wp(16),
       flexDirection: 'row',
       alignItems: 'center',
@@ -93,7 +105,7 @@ const getGlobalStyles = (props: any) => {
     header_logo: {
       width: wp(45),
       height: wp(45),
-      borderRadius:wp(45),
+      borderRadius: wp(45),
       resizeMode: 'contain',
     },
     arrow_down: {
@@ -103,6 +115,9 @@ const getGlobalStyles = (props: any) => {
     },
     location: {
       marginLeft: 8,
+    },
+    headerTitle: {
+      marginLeft: wp(16),
     },
     location_icon: {},
     home_title: {
@@ -131,5 +146,8 @@ const getGlobalStyles = (props: any) => {
     title: {
       ...commonFontStyle(400, 17, colors.headerText),
     },
+    resetText: {
+      ...commonFontStyle(400, 14, colors.headerText3),
+    }
   });
 };

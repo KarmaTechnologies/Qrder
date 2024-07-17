@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import {
   getAddress,
   requestLocationPermission,
@@ -21,18 +21,20 @@ import {
 import HomeHeader from '../../compoment/HomeHeader';
 import ChartsView from '../../compoment/ChartsView';
 import CardView from '../../compoment/CardView';
-import {commonFontStyle, hp, statusBarHeight, wp} from '../../theme/fonts';
-import {Icons} from '../../utils/images';
+import { commonFontStyle, hp, statusBarHeight, wp } from '../../theme/fonts';
+import { Icons } from '../../utils/images';
 import OrderModal from '../../compoment/OrderModal';
+import { screenName } from '../../navigation/screenNames';
 
 type Props = {};
 
 const Home = (props: Props) => {
-  const {colors, isDark} = useTheme();
+  const { colors, isDark } = useTheme();
   const navigation = useNavigation();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [value, setValue] = useState('');
-  const [showOrderModal, setShowOrderModal] = useState(false);
+  const [runningOrderModal, setRunninOrderModal] = useState(false);
+  const [orderRequestModal, setOrderRequestModal] = useState(false);
 
   const GetStatus = async () => {
     const Status = await getAsyncLocation();
@@ -86,18 +88,18 @@ const Home = (props: Props) => {
         backgroundColor={colors.Primary_BG}
       />
       <HomeHeader
-        onPressProfile={() => {}}
-        onPressCart={() => {}}
+        onPressProfile={() => { }}
+        onPressCart={() => { }}
         location={value}
         onPressLocation={onPressLocation}
       />
-      <ScrollView style={{flex: 1}}>
+      <ScrollView style={{ flex: 1 }}>
         <View style={styles.headerCard}>
-          <CardView containerStyle={styles.headerView} onPress={()=> setShowOrderModal(true)} isDisabled={true}>
+          <CardView containerStyle={styles.headerView} onPress={() => setRunninOrderModal(true)} isDisabled={true}>
             <Text style={styles.headerText}>20</Text>
             <Text style={styles.headerSubText}>Running Orders</Text>
           </CardView>
-          <CardView isDisabled={true} onPress={()=>setShowOrderModal(true)} containerStyle={styles.headerView}>
+          <CardView isDisabled={true} onPress={() => setOrderRequestModal(true)} containerStyle={styles.headerView}>
             <Text style={styles.headerText}>05</Text>
             <Text style={styles.headerSubText}>Order Request</Text>
           </CardView>
@@ -106,23 +108,23 @@ const Home = (props: Props) => {
           <ChartsView />
         </CardView>
         <CardView containerStyle={styles.reviewView}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={styles.reviewStyle}>Reviews</Text>
             <TouchableOpacity>
               <Text style={styles.seeAllText}>See All Reviews</Text>
             </TouchableOpacity>
           </View>
           <View
-            style={{flexDirection: 'row', alignItems: 'center', marginTop: 15}}>
+            style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
             <Image source={Icons.star} style={styles.starStyle} />
             <Text style={styles.rateText}>4.9</Text>
             <Text style={styles.rateText1}>Total 20 Reviews</Text>
           </View>
         </CardView>
         <CardView containerStyle={styles.reviewView}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={styles.reviewStyle}>Populer Items This Weeks</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate(screenName.FoodDetails)}>
               <Text style={styles.seeAllText}>See All</Text>
             </TouchableOpacity>
           </View>
@@ -135,8 +137,19 @@ const Home = (props: Props) => {
             }}
           />
         </CardView>
-        <View style={{height:90}} />
-        <OrderModal isVisible={showOrderModal} onPressCancel={()=>setShowOrderModal(false)} />
+        <View style={{ height: 90 }} />
+
+        {runningOrderModal &&
+          <OrderModal isVisible={runningOrderModal} onPressCancel={() => setRunninOrderModal(false)}
+          />
+        }
+
+        {orderRequestModal &&
+          <OrderModal
+            isVisible={orderRequestModal}
+            onPressCancel={() => setOrderRequestModal(false)}
+            isShow={true}
+          />}
       </ScrollView>
     </View>
   );
@@ -145,7 +158,7 @@ const Home = (props: Props) => {
 export default Home;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -204,10 +217,10 @@ const getGlobalStyles = (props: any) => {
       width: wp(150),
       height: wp(150),
       borderWidth: 1,
-      marginTop:20,
-      marginBottom:8,
-      marginLeft:16,
-      borderRadius:8
+      marginTop: 20,
+      marginBottom: 8,
+      marginLeft: 16,
+      borderRadius: 8
     },
   });
 };

@@ -1,22 +1,173 @@
 import {
-    StatusBar,
+    FlatList,
+    Image,
     StyleSheet,
     Text,
+    TextInput,
+    TouchableOpacity,
     View,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
+import HomeHeader from '../../compoment/HomeHeader';
+import { strings } from '../../i18n/i18n';
+import Input from '../../compoment/Input';
+import { commonFontStyle, hp,  wp } from '../../theme/fonts';
+import { Icons } from '../../utils/images';
+import ImagePicker from 'react-native-image-crop-picker';
+import CCDropDown from '../../compoment/CCDropDown';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import PrimaryButton from '../../compoment/PrimaryButton';
 
 type Props = {};
+
+const DropDownData = [
+    {
+        key: "USER",
+        label: 'Customer',
+        value: '1',
+    },
+    {
+        key: "DRIVER",
+        label: 'Driver',
+        value: '2',
+    },
+    {
+        key: "COLLECTION",
+        label: 'Collection',
+        value: '3',
+    },
+];
 
 const AddFoodDetails = (props: Props) => {
     const { colors, isDark } = useTheme();
     const navigation = useNavigation();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+    const [itemName, setItemName] = useState('');
+    const [price, setPrice] = useState('');
+    const [basicDetails, setBasicDetails] = useState('');
+    const [images, setImages] = useState([]);
+    const [quantityValue, setQuantityValue] = useState('');
+
+
+    const selectAndCropImage = () => {
+        ImagePicker.openPicker({
+            multiple: true,
+            mediaType: 'photo',
+        })
+            .then(selectedImages => {
+                const cropPromises = selectedImages.map(image => {
+                    return ImagePicker.openCropper({
+                        path: image.path,
+                        width: 300,
+                        height: 300,
+                    });
+                });
+
+                Promise.all(cropPromises).then(croppedImages => {
+                    const newImages = croppedImages.map(image => ({
+                        uri: image.path,
+                        id: image.path,
+                    }));
+                    setImages([...newImages, ...images]);
+                }).catch(error => {
+                    console.log('Error cropping images:', error);
+                });
+            })
+            .catch(error => {
+                console.log('Error selecting images:', error);
+            });
+    };
+
+    const renderImage = ({ item }: any) => (
+        <View style={styles.imageContainer}>
+            <Image source={{ uri: item.uri }} style={styles.imageView} />
+        </View>
+    );
+
+    const onPressAddItem = () => { }
 
     return (
         <View style={styles.container}>
-            <Text>AddFoodDetails</Text>
+            <HomeHeader
+                onBackPress={() => { navigation.goBack() }}
+                onRightPress={() => { console.log('dee') }}
+                mainShow={true}
+                title={strings('addFoodList.add_new_items')}
+                extraStyle={styles.headerContainer}
+                isHideIcon={true}
+                rightText={strings('addFoodList.reset')}
+            />
+            <View style={styles.subContainer}>
+                <KeyboardAwareScrollView
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps={'handled'}
+                >
+                    <Input
+                        value={itemName}
+                        placeholder={strings("addFoodList.p_itemName")}
+                        label={strings("addFoodList.item_name")}
+                        onChangeText={(t: string) => setItemName(t)}
+                        extraStyle={styles.inputView}
+                        inputStyle={styles.inputStyle}
+                    />
+
+                    <Text style={styles.uploadText}>{strings('addFoodList.upload_photo_video')}</Text>
+
+                    <View style={styles.uploadImage}>
+                        <TouchableOpacity style={styles.addImage} onPress={selectAndCropImage}>
+                            <Image style={styles.addIcon} source={Icons.addImage} />
+                            <Text style={styles.addText}>{strings("addFoodList.add")}</Text>
+                        </TouchableOpacity>
+                        <FlatList
+                            data={images}
+                            renderItem={renderImage}
+                            keyExtractor={item => item.id}
+                            showsHorizontalScrollIndicator={false}
+                            horizontal
+                            style={styles.imageList}
+                        />
+                    </View>
+                    <View style={styles.itemPrice}>
+                        <Input
+                            value={price}
+                            placeholder={'$50'}
+                            label={strings("addFoodList.price")}
+                            onChangeText={(t: string) => setPrice(t)}
+                            extraStyle={styles.priceInput}
+                            inputStyle={styles.priceInputStyle}
+                        />
+                        <CCDropDown
+                            data={DropDownData}
+                            label={strings("addFoodList.add_cusine")}
+                            labelField={'label'}
+                            valueField={'key'}
+                            placeholder={strings("addFoodList.select_cusine")}
+                            DropDownStyle={styles.dropDownStyle}
+                            value={quantityValue}
+                            setValue={setQuantityValue}
+                        />
+                    </View>
+
+                    <Text style={styles.basicText}>{strings('addFoodList.basic_details')}</Text>
+                    <TextInput
+                        value={basicDetails}
+                        onChangeText={(t: string) => setBasicDetails(t)}
+                        placeholder={'Write your basic details here...'}
+                        style={styles.basicInput}
+                        multiline
+                        maxLength={200}
+                        placeholderTextColor={colors.gray_400}
+                    />
+                    <PrimaryButton
+                        extraStyle={styles.saveChangeButton}
+                        onPress={onPressAddItem}
+                        title={strings("addFoodList.save_changes")}
+                        titleStyle={styles.saveText}
+                    />
+                    <View style={styles.spacerView} />
+                </KeyboardAwareScrollView>
+            </View>
         </View>
     );
 };
@@ -28,7 +179,107 @@ const getGlobalStyles = (props: any) => {
     return StyleSheet.create({
         container: {
             flex: 1,
+            backgroundColor: colors.white
+        },
+        headerContainer: {
             backgroundColor: colors.white,
         },
+        subContainer: {
+            marginHorizontal: wp(16),
+        },
+        inputView: {
+            marginTop: hp(6)
+        },
+        inputStyle: {
+            backgroundColor: colors.white,
+            borderWidth: 1,
+            borderColor: colors.border_line4,
+            height: hp(50),
+            paddingHorizontal: wp(16),
+        },
+        uploadText: {
+            ...commonFontStyle(400, 13, colors.Title_Text),
+            lineHeight: 15,
+            textTransform: 'uppercase',
+            paddingTop: hp(20)
+        },
+        uploadImage: {
+            paddingTop: hp(16),
+            flexDirection: 'row'
+        },
+        addImage: {
+            width: wp(110),
+            height: wp(101),
+            borderRadius: 20,
+            borderColor: colors.border_line4,
+            borderWidth: 1,
+            borderStyle: 'dashed',
+            alignItems: 'center',
+            justifyContent: 'center'
+        },
+        addIcon: {
+            width: wp(42),
+            height: wp(42),
+            resizeMode: 'cover'
+        },
+        addText: {
+            ...commonFontStyle(400, 13, colors.dropDownText),
+        },
+        imageList: {
+            flexGrow: 0,
+        },
+        itemPrice: {
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+        },
+        priceInput: {
+            marginTop: hp(40)
+        },
+        priceInputStyle: {
+            backgroundColor: colors.white,
+            borderWidth: 1,
+            borderColor: colors.border_line4,
+            height: hp(42),
+            width: wp(115),
+            paddingHorizontal: wp(16),
+        },
+        dropDownStyle: {
+            borderColor: colors.border_line4,
+            width: wp(137)
+        },
+        imageContainer: {
+            marginHorizontal: 10,
+        },
+        imageView: {
+            width: wp(110),
+            height: wp(101),
+            borderRadius: 20,
+            backgroundColor: colors.image_Bg_gray,
+        },
+        basicText: {
+            ...commonFontStyle(400, 14, colors.Title_Text),
+            paddingTop: hp(40)
+        },
+        basicInput: {
+            height: hp(136),
+            borderColor: colors.border_line4,
+            borderWidth: 1,
+            borderRadius: 8,
+            padding: 15,
+            textAlignVertical: 'top',
+            marginTop: hp(20)
+        },
+        saveChangeButton: {
+            marginTop: hp(49),
+            borderRadius: 12,
+            alignItems: 'center',
+            justifyContent: 'center'
+        },
+        saveText: {
+            ...commonFontStyle(400, 18, colors.white),
+        },
+        spacerView: {
+            height: hp(150)
+        }
     });
 };
