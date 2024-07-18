@@ -34,46 +34,42 @@ type Props = {};
 const SignInScreen = (props: Props) => {
   const {colors, isDark} = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(__DEV__ ?"test@gmail.com":'');
+  const [password, setPassword] = useState(__DEV__?"Test@1234":'');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   const onPressLogin = () => {
-    // navigation.navigate(screenName.LocationScreen);
-    navigation.navigate(screenName.BottomTabBar)
-    return;
     if (email.trim().length === 0) {
-      errorToast('Please enter your email address');
-    } else if (!emailCheck(email)) {
-      errorToast('Please enter your valid email address');
+      errorToast(strings("login.error_email"));
+    } else if (!emailCheck(email)) {;
+      errorToast(strings("login.error_v_email"));
     } else if (password.trim().length === 0) {
-      errorToast('Please enter your password');
+      errorToast(strings("login.error_password"));
     } else if (password.trim().length < 9) {
-      errorToast('Your password must be at least 9 characters long');
+      errorToast(strings("login.error_v_password"));
     } else if (!numberCheck(password)) {
-      errorToast('Password must contain one number');
+      errorToast(strings("login.error_number_password"));
     } else if (!specialCarCheck(password)) {
-      errorToast('Password must contain one special character');
+      errorToast(strings("login.error_character_password"));
     } else if (!UpperCaseCheck(password)) {
-      errorToast('Password must contain one uppercase letter');
+      errorToast(strings("login.error_uppercase_password"));
     } else {
+      var data = new FormData();
+      data.append('email', email);
+      data.append('password', password);
       let obj = {
-        data: {
-          email: email,
-          password: password,
-        },
+        data,
         onSuccess: (response: any) => {
-          successToast('Login successful');
-          dispatchNavigation(screenName.MyDrawer);
+          dispatchNavigation(screenName.BottomTabBar);
           setEmail('');
           setPassword('');
         },
         onFailure: (Err: any) => {
           if (Err != undefined) {
-            Alert.alert(Err?.message);
+            Alert.alert(Err?.data?.message);
           }
         },
       };

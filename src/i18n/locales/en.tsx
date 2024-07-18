@@ -24,6 +24,24 @@ export default {
     send_code: "Send Code",
     access_location: "Access Location",
     access_location_dec: "DFOOD WILL ACCESS YOUR LOCATION ONLY WHILE USING THE APP",
+
+    error_email:"Please enter your email address",
+    error_name:"Please enter your name",
+    error_password:"Please enter your password",
+    error_v_password:"Your password must be at least 9 characters long",
+    error_number_password:"Password must contain one number",
+    error_character_password:"Password must contain one special character",
+    error_uppercase_password:"Password must contain one uppercase letter",
+    error_v_email:"Please enter your valid email address",
+    error_phone:"Please enter your phone number",
+    error_v_phone:"Please enter valid phone number",
+    error_country:"Please enter your country",
+    error_city:"Please enter your city",
+    error_state:"Please enter your state",
+    error_pincode:"Please enter your pin code",
+    error_re_tyre:"Please enter your re-tyre password",
+    error_restaurantName:"Please enter your Restaurant Name",
+    error_re_tyre_match:"Your password and confirm password do not match.",
   },
   sign_up: {
     sign_up: "Sign Up",
@@ -51,6 +69,8 @@ export default {
     p_enter_area:'Enter Area',
     area:'Area',
     p_enter_pincode:'Enter Pincode',
+    p_enter_number:'Number',
+    restaurantName:'Restaurant Name',
     pincode:'Pincode'
   },
   Phone_number_verification: {

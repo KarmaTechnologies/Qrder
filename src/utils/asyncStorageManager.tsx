@@ -5,8 +5,6 @@ export const asyncKeys = {
   token: "@token",
   user_info: "@user_info",
   driver_info: "@user_info",
-  notifiaction_data: "@notifiaction_data",
-  guest_favorite_data: "@guest_favorite_data",
   is_dark_theme:"@is_dark_theme",
   location: "@location",
 

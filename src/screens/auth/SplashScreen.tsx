@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
@@ -13,7 +13,7 @@ import {AppStyles} from '../../theme/appStyles';
 import {screenName} from '../../navigation/screenNames';
 import {dispatchNavigation} from '../../utils/globalFunctions';
 import {getAsyncToken} from '../../utils/asyncStorageManager';
-import { Icons } from '../../utils/images';
+import {Icons} from '../../utils/images';
 
 type Props = {};
 
@@ -21,28 +21,24 @@ const SplashScreen = (props: Props) => {
   const {colors, isDark} = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
 
-
   useEffect(() => {
-    setTimeout(()=>{
-      // dispatchNavigation(screenName.OnboardingScreen);
-      dispatchNavigation(screenName.BottomTabBar);
-    },1000)
-   
+    setTimeout(() => {
+      getUserInfo();
+    }, 1000);
   }, []);
 
   const getUserInfo = async () => {
     let isUser = await getAsyncToken();
     if (isUser) {
-      dispatchNavigation(screenName.MyDrawer);
+      dispatchNavigation(screenName.BottomTabBar);
     } else {
-      dispatchNavigation(screenName.LoginSignupScreen);
+      dispatchNavigation(screenName.SignInScreen);
     }
   };
 
-
   return (
     <View style={styles.container}>
-    <StatusBar backgroundColor={"transparent"} barStyle={'dark-content'}/>
+      <StatusBar backgroundColor={'transparent'} barStyle={'dark-content'} />
       <SafeAreaView style={[AppStyles.flex]}>
         <Image style={styles.mainImage} source={Icons.launch_screen} />
       </SafeAreaView>
@@ -63,7 +59,7 @@ const getGlobalStyles = (props: any) => {
     },
     mainImage: {
       height: SCREEN_HEIGHT,
-      width:SCREEN_WIDTH,
+      width: SCREEN_WIDTH,
       resizeMode: 'cover',
     },
   });

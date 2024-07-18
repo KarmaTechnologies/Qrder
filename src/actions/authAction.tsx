@@ -10,7 +10,7 @@ export const userLogin =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
   async dispatch => {
     let headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'multipart/form-data',
     };
     dispatch({type: IS_LOADING, payload: true});
     return makeAPIRequest({
@@ -21,9 +21,10 @@ export const userLogin =
     })
       .then(async (response: any) => {
         if (response.status === 200 || response.status === 201) {
-          console.log('token', response?.data?.token);
-          await setAsyncToken(response?.data?.token);
-          await setAsyncUserInfo(response?.data?.farmerData);
+          console.log('response?.data?.token');
+
+          await setAsyncToken(response?.data?.data?.token);
+          await setAsyncUserInfo(response?.data?.data?.user);
           dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);
         }
@@ -44,80 +45,16 @@ export const userSignUp =
     dispatch({type: IS_LOADING, payload: true});
     return makeAPIRequest({
       method: POST,
-      url: api.login,
+      url: api.register,
       headers: headers,
       data: request.data,
     })
       .then(async (response: any) => {
-        if (response.status === 200) {
+        if (response.status === 200 || response.status === 201) {
           dispatch({type: IS_LOADING, payload: false});
-          if (response.data.status) {
-            setAsyncToken(response.data.data.auth_token);
-            setAsyncUserInfo(response?.data?.data?.user?.[0]);
-            dispatch({
-              type: USER_INFO,
-              payload: {...response?.data?.data?.user?.[0], isGuest: false},
-            });
-            if (request.onSuccess) request.onSuccess(response.data);
-          } else {
-            // errorToast(response.data.message);
-          }
-        }
-      })
-      .catch(error => {
-        dispatch({type: IS_LOADING, payload: false});
-        if (request.onFailure) request.onFailure(error.response);
-      });
-  };
-
-export const getOtp =
-  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
-  async dispatch => {
-    let headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-    dispatch({type: IS_LOADING, payload: true});
-    return makeAPIRequest({
-      method: POST,
-      url: api.getOtp,
-      headers: headers,
-      data: request.data,
-    })
-      .then(async (response: any) => {
-        if (response.status === 200 && response.data.error == false) {
-          dispatch({type: IS_LOADING, payload: false});
+          await setAsyncToken(response?.data?.data?.token);
+          await setAsyncUserInfo(response?.data?.data?.user);
           if (request.onSuccess) request.onSuccess(response.data);
-        } else {
-          dispatch({type: IS_LOADING, payload: false});
-          if (request.onFailure) request.onFailure(response.data);
-        }
-      })
-      .catch(error => {
-        dispatch({type: IS_LOADING, payload: false});
-        if (request.onFailure) request.onFailure(error.response);
-      });
-  };
-
-export const verifyOtp =
-  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
-  async dispatch => {
-    let headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-    dispatch({type: IS_LOADING, payload: true});
-    return makeAPIRequest({
-      method: POST,
-      url: api.verifyOtp,
-      headers: headers,
-      data: request.data,
-    })
-      .then(async (response: any) => {
-        if (response.status === 200 && response.data.error == false) {
-          dispatch({type: IS_LOADING, payload: false});
-          if (request.onSuccess) request.onSuccess(response.data);
-        } else {
-          dispatch({type: IS_LOADING, payload: false});
-          if (request.onFailure) request.onFailure(response.data);
         }
       })
       .catch(error => {

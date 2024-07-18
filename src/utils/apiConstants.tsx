@@ -1,12 +1,9 @@
 export const api = {
-  BASE_URL: "https://agri-grow-backend.vercel.app/api/v1",
+  BASE_URL: "https://81d6-2405-201-201f-9802-39cd-4b8d-9c86-5316.ngrok-free.app/api/",
 
   // Auth
-  login: '/farmer/login',
-  signUp: 'api/user/signup',
-  verifyOtp: 'api/user/verify_otp',
-  logout: "logout",
-  getOtp: 'api/user/get_otp',
+  login: 'login',
+  register: 'register',
 };
 
 export const POST = "POST";
