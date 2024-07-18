@@ -1,20 +1,14 @@
 import {
-  Animated,
-  Image,
   ImageBackground,
-  Pressable,
   ReturnKeyType,
-  ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TextInputProps,
   TouchableOpacity,
   View,
-  ViewStyle,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {useFocusEffect, useIsFocused, useTheme} from '@react-navigation/native';
+import React, { useState } from 'react';
+import { useIsFocused, useNavigation, useTheme } from '@react-navigation/native';
 import {
   commonFontStyle,
   hp,
@@ -22,9 +16,11 @@ import {
   SCREEN_WIDTH,
   wp,
 } from '../theme/fonts';
-import {Icons} from '../utils/images';
+import { Icons } from '../utils/images';
 import HomeDropDown from './HomeDropDown';
-import {LineChart} from 'react-native-gifted-charts';
+import { LineChart } from 'react-native-gifted-charts';
+import { strings } from '../i18n/i18n';
+import { screenName } from '../navigation/screenNames';
 
 type Props = {
   placeholder: string;
@@ -43,15 +39,15 @@ type Props = {
 };
 
 const ptData = [
-  {value: 500, label: '10am', frontColor: '#177AD5'},
-  {value: 745, label: '11am', frontColor: '#177AD5'},
-  {value: 320, label: '12pm'},
-  {value: 600, label: '1pm', frontColor: '#177AD5'},
-  {value: 256, label: '2pm'},
-  {value: 300, label: '3pm'},
-  {value: 300, label: '4pm'},
-  {value: 300, label: '5pm'},
-  {value: 300, label: '6pm'},
+  { value: 500, label: '10am', frontColor: '#177AD5' },
+  { value: 745, label: '11am', frontColor: '#177AD5' },
+  { value: 320, label: '12pm' },
+  { value: 600, label: '1pm', frontColor: '#177AD5' },
+  { value: 256, label: '2pm' },
+  { value: 300, label: '3pm' },
+  { value: 300, label: '4pm' },
+  { value: 300, label: '5pm' },
+  { value: 300, label: '6pm' },
 ];
 
 const ChartsView = ({
@@ -69,8 +65,9 @@ const ChartsView = ({
   onSubmitEditing,
   ...rest
 }: Props) => {
-  const {colors} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { colors } = useTheme();
+  const navigation = useNavigation();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [dropDownValue, setdropDownValue] = useState('Today');
   const [pointerIndex, setpointerIndex] = useState(0);
 
@@ -82,21 +79,21 @@ const ChartsView = ({
 
   const isFocuse = useIsFocused();
   const data2 = [
-    {value: 50},
-    {value: 10},
-    {value: 45},
-    {value: 30},
-    {value: 45},
-    {value: 18},
+    { value: 50 },
+    { value: 10 },
+    { value: 45 },
+    { value: 30 },
+    { value: 45 },
+    { value: 18 },
   ];
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row'}}>
-        <View style={{flexDirection: 'row', flex: 1}}>
-          <View style={{marginRight: 10}}>
+      <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', flex: 1 }}>
+          <View style={{ marginRight: 10 }}>
             <Text numberOfLines={1} style={styles.labelTextStyle}>
-              {'Total Revenue'}
+              {strings("home.total_revenue")}
             </Text>
             <Text numberOfLines={1} style={styles.labelTextStyle1}>
               {'$2,241'}
@@ -109,9 +106,11 @@ const ChartsView = ({
             }}
           />
         </View>
-        <Text style={styles.seeText}>See Details</Text>
+        <TouchableOpacity onPress={() => navigation.navigate(screenName.MyOrdersList)}>
+          <Text style={styles.seeText}>{strings("home.see_details")}</Text>
+        </TouchableOpacity>
       </View>
-      <View style={{left: -8,marginTop:20}}>
+      <View style={{ left: -8, marginTop: 20 }}>
         <LineChart
           curved
           isAnimated
@@ -132,7 +131,7 @@ const ChartsView = ({
           hideRules
           hideYAxisText
           hideAxesAndRules
-          xAxisLabelTextStyle={{ ...commonFontStyle(400, 11, colors.dropDownText),}}
+          xAxisLabelTextStyle={{ ...commonFontStyle(400, 11, colors.dropDownText), }}
           pointerConfig={{
             hidePointer1: false,
             pointerStripColor: colors.Primary_Orange,
@@ -161,7 +160,7 @@ const ChartsView = ({
                     alignItems: 'center',
                     // marginTop:20
                   }}>
-                  <Text style={{color: 'white', fontWeight: 'bold'}}>
+                  <Text style={{ color: 'white', fontWeight: 'bold' }}>
                     {selectedType?.data[0].value}
                   </Text>
                 </ImageBackground>
@@ -180,7 +179,7 @@ const ChartsView = ({
 export default ChartsView;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       padding: 16,

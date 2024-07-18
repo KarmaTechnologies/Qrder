@@ -90,10 +90,6 @@ const Profile = (props: Props) => {
                             title: strings('profileScreen.personal_info'),
                             iconName: Icons.profileIcon,
                         },
-                        {
-                            title: strings('profileScreen.addresses'),
-                            iconName: Icons.addresses,
-                        },
                     ]}
                     onPressCell={onPressNavigation}
                 />
@@ -106,6 +102,10 @@ const Profile = (props: Props) => {
                         {
                             title: strings('profileScreen.inventory'),
                             iconName: Icons.inventory,
+                        },
+                        {
+                            title: strings('profileScreen.crm'),
+                            iconName: Icons.crmIcon,
                         },
                         {
                             title: strings('profileScreen.notifications'),
@@ -124,10 +124,6 @@ const Profile = (props: Props) => {
                         {
                             title: strings('profileScreen.fAQs'),
                             iconName: Icons.faqsIcon,
-                        },
-                        {
-                            title: strings('profileScreen.crm'),
-                            iconName: Icons.crmIcon,
                         },
                         {
                             title: strings('profileScreen.settings'),

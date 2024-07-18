@@ -27,6 +27,7 @@ import LocationScreen from '../screens/auth/LocationScreen';
 import MyTabs from "../navigation/BottomTabBar";
 import FoodDetails from '../screens/Chef/FoodDetails';
 import ChefSignUp from '../screens/ChefAuth/ChefSignUp';
+import MyOrdersList from '../screens/Chef/MyOrdersList';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -157,6 +158,12 @@ const StackNavigator: FC = () => {
         headerShown: false,
         headerTitle: '',
       })} name={screenName.FoodDetails} component={FoodDetails} />
+
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.MyOrdersList} component={MyOrdersList} />
 
       <Stack.Screen options={({ navigation }) => ({
         ...headerStyleTransparent,

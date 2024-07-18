@@ -17,6 +17,7 @@ export const screenName = {
     Profile: "Profile",
   },
   FoodDetails: 'FoodDetails',
+  MyOrdersList:'MyOrdersList',
 
   //chefSignUp
 

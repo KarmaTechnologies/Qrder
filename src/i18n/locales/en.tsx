@@ -41,7 +41,17 @@ export default {
     great: "Great!",
     account_success_text: "Your account has been Created successfully",
     start_shopping: "Start Shopping",
-    mobile_Number:'Mobile Number'
+    mobile_Number:'Mobile Number',
+    p_enter_cty:'Enter City',
+    city:"City",
+    p_enter_state:'Enter State',
+    state:'State',
+    p_enter_country:'Enter Country',
+    country:'Country',
+    p_enter_area:'Enter Area',
+    area:'Area',
+    p_enter_pincode:'Enter Pincode',
+    pincode:'Pincode'
   },
   Phone_number_verification: {
     verification: "Verification",
@@ -58,7 +68,27 @@ export default {
     otp_code_text: "We are sending you an OTP verify your phone number",
   },
   home: {
-    location: "Location"
+    location: "Location",
+    running_orders:'Running Orders',
+    order_request:'Order Request',
+    reviews:'Reviews',
+    see_all_reviews:'See All Reviews',
+    see_details:'See Details',
+    total_revenue:'Total Revenue',
+    populer_items_this_weeks:'Populer Items This Weeks',
+    see_all:'See All'
+  },
+  myMenuList:{
+    my_menu:'My Menu',
+    all:'All',
+    breakfast:'Breakfast',
+    lunch:'Lunch',
+    dinner:'Dinner'
+  },
+  orderModal:{
+    done:'Done',
+    cancel:'Cancel',
+    select_chef:'Select Chef'
   },
   ordersList: {
     myOrders: "My Orders",

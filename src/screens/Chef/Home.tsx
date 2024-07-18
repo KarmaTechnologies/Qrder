@@ -25,6 +25,7 @@ import { commonFontStyle, hp, statusBarHeight, wp } from '../../theme/fonts';
 import { Icons } from '../../utils/images';
 import OrderModal from '../../compoment/OrderModal';
 import { screenName } from '../../navigation/screenNames';
+import { strings } from '../../i18n/i18n';
 
 type Props = {};
 
@@ -97,11 +98,11 @@ const Home = (props: Props) => {
         <View style={styles.headerCard}>
           <CardView containerStyle={styles.headerView} onPress={() => setRunninOrderModal(true)} isDisabled={true}>
             <Text style={styles.headerText}>20</Text>
-            <Text style={styles.headerSubText}>Running Orders</Text>
+            <Text style={styles.headerSubText}>{strings("home.running_orders")}</Text>
           </CardView>
           <CardView isDisabled={true} onPress={() => setOrderRequestModal(true)} containerStyle={styles.headerView}>
             <Text style={styles.headerText}>05</Text>
-            <Text style={styles.headerSubText}>Order Request</Text>
+            <Text style={styles.headerSubText}>{strings("home.order_request")}</Text>
           </CardView>
         </View>
         <CardView>
@@ -109,9 +110,9 @@ const Home = (props: Props) => {
         </CardView>
         <CardView containerStyle={styles.reviewView}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles.reviewStyle}>Reviews</Text>
+            <Text style={styles.reviewStyle}>{strings("home.reviews")}</Text>
             <TouchableOpacity>
-              <Text style={styles.seeAllText}>See All Reviews</Text>
+              <Text style={styles.seeAllText}>{strings("home.see_all_reviews")}</Text>
             </TouchableOpacity>
           </View>
           <View
@@ -123,9 +124,9 @@ const Home = (props: Props) => {
         </CardView>
         <CardView containerStyle={styles.reviewView}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={styles.reviewStyle}>Populer Items This Weeks</Text>
+            <Text style={styles.reviewStyle}>{strings("home.populer_items_this_weeks")}</Text>
             <TouchableOpacity onPress={() => navigation.navigate(screenName.FoodDetails)}>
-              <Text style={styles.seeAllText}>See All</Text>
+              <Text style={styles.seeAllText}>{strings("home.see_all")}</Text>
             </TouchableOpacity>
           </View>
           <FlatList
@@ -140,7 +141,10 @@ const Home = (props: Props) => {
         <View style={{ height: 90 }} />
 
         {runningOrderModal &&
-          <OrderModal isVisible={runningOrderModal} onPressCancel={() => setRunninOrderModal(false)}
+          <OrderModal 
+          isVisible={runningOrderModal} 
+          onPressCancel={() => setRunninOrderModal(false)}
+          isRunning={true}
           />
         }
 
@@ -148,7 +152,6 @@ const Home = (props: Props) => {
           <OrderModal
             isVisible={orderRequestModal}
             onPressCancel={() => setOrderRequestModal(false)}
-            isShow={true}
           />}
       </ScrollView>
     </View>

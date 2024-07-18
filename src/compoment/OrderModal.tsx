@@ -7,6 +7,8 @@ import { SCREEN_HEIGHT, commonFontStyle, hp, wp } from '../theme/fonts';
 import { useTheme } from '@react-navigation/native';
 import { Icons } from '../utils/images';
 import PrimaryButton from './PrimaryButton';
+import { strings } from '../i18n/i18n';
+import CCDropDown from './CCDropDown';
 
 export type OrderModal = {
   isVisible: boolean;
@@ -14,7 +16,7 @@ export type OrderModal = {
   question: string;
   onPressYes: () => void;
   onPressCancel: () => void;
-  isShow?: boolean
+  isRunning?: boolean
 };
 
 const OrderModal = ({
@@ -23,13 +25,38 @@ const OrderModal = ({
   question,
   onPressCancel,
   onPressYes,
-  isShow = false,
+  isRunning = false,
 }: OrderModal) => {
   const { colors, isDark } = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const [selectedChefs, setSelectedChefs] = useState('');
 
   const onPressDone = () => { };
   const onCancelBtn = () => { };
+
+
+  const DropDownData = [
+    {
+      key: "Rahul",
+      label: 'Rahul',
+      value: '1',
+    },
+    {
+      label: 'Ravi',
+      value: '2',
+    },
+    {
+      label: 'Sanjay',
+      value: '3',
+    },
+  ];
+
+  const handleChefSelection = (value: string, index: number) => {
+    setSelectedChefs(prevState => ({
+      ...prevState,
+      [index]: value,
+    }));
+  };
 
   return (
     <ReactNativeModal
@@ -44,10 +71,10 @@ const OrderModal = ({
       <View style={styles.container}>
         <View style={styles.lineStyle} />
         <View style={styles.headerView}>
-          <Text style={styles.titleText}>{`${20} Running Orders`}</Text>
+          <Text style={styles.titleText}>{isRunning ? `${20} Running Orders` : `${5} Order Request`}</Text>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => {
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((value, index) => {
               return (
                 <View style={styles.listContainer}>
                   <View style={styles.imageView} />
@@ -59,18 +86,32 @@ const OrderModal = ({
                     <Text style={styles.priceText}>$60</Text>
                   </View>
                   <View style={styles.btnContainer}>
-                    <PrimaryButton
-                      extraStyle={styles.doneBtn}
-                      title={ isShow ? 'Add' : 'Done'}
-                      titleStyle={styles.doneText}
-                      onPress={() => onPressDone()}
-                    />
-                    <PrimaryButton
-                      extraStyle={styles.cancelBtn}
-                      title={isShow ? 'Add' : 'Cancel'}
-                      titleStyle={styles.cancelText}
-                      onPress={() => onCancelBtn()}
-                    />
+                    {isRunning ?
+                      <View style={{ flexDirection: 'row' }}>
+                        <PrimaryButton
+                          extraStyle={styles.doneBtn}
+                          title={strings("orderModal.done")}
+                          titleStyle={styles.doneText}
+                          onPress={() => onPressDone()}
+                        />
+                        <PrimaryButton
+                          extraStyle={styles.cancelBtn}
+                          title={strings("orderModal.cancel")}
+                          titleStyle={styles.cancelText}
+                          onPress={() => onCancelBtn()}
+                        />
+                      </View> :
+                      <CCDropDown
+                        data={DropDownData}
+                        label={''}
+                        labelField={'label'}
+                        valueField={'label'}
+                        placeholder={strings("orderModal.select_chef")}
+                        DropDownStyle={styles.dropDownStyle}
+                        value={selectedChefs[index]}
+                        setValue={(value) => handleChefSelection(value, index)}
+                      />
+                    }
                   </View>
                 </View>
               );
@@ -111,7 +152,7 @@ const getGlobalStyles = (props: any) => {
     },
     listContainer: {
       marginTop: hp(20),
-      height: hp(103),
+      height: hp(104),
       flexDirection: 'row',
     },
     imageView: {
@@ -163,6 +204,12 @@ const getGlobalStyles = (props: any) => {
     cancelText: {
       ...commonFontStyle(400, 14, colors?.btn_red),
       textTransform: 'none',
+    },
+    dropDownStyle: {
+      borderColor: colors.border_line4,
+      width: wp(120),
+      height: hp(30),
+      borderRadius: 5,
     },
   });
 };

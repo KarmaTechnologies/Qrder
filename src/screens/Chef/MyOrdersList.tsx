@@ -13,6 +13,7 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
 import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
 import PagerView from 'react-native-pager-view';
+import PrimaryButton from '../../compoment/PrimaryButton';
 import NoDataFound from '../../compoment/NoDataFound';
 import OngoingCardList from '../../compoment/OngoingCardList';
 import Loader from '../../compoment/Loader';
@@ -20,28 +21,15 @@ import { strings } from '../../i18n/i18n';
 
 type Props = {};
 
-const tabs = [
-    { key: 'All', label: strings('myMenuList.all'), page: 0 },
-    { key: 'Breakfast', label: strings('myMenuList.breakfast'), page: 1 },
-    { key: 'Lunch', label: strings('myMenuList.lunch'), page: 2 },
-    { key: 'Dinner', label: strings('myMenuList.dinner'), page: 3 },
-];
-
-const MyMenuList = (props: Props) => {
+const MyOrdersList = (props: Props) => {
     const { colors, isDark } = useTheme();
     const navigation = useNavigation();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
-    const [tabSelection, setTabSelection] = useState(strings('myMenuList.all'));
+    const [tabSelection, setTabSelection] = useState('Ongoing');
     const [tabSelectionIndex, setTabSelectionIndex] = useState(0);
+    const [isLeftButtonActive, setIsLeftButtonActive] = useState(true);
     const [refreshing, setRefreshing] = React.useState(false);
     const ref = React.createRef(PagerView);
-
-    const onPageSelected = (event: { nativeEvent: { position: number; } }) => {
-        const pageIndex = event.nativeEvent.position;
-        setTabSelection(tabs[pageIndex].key);
-        setTabSelectionIndex(pageIndex);
-    };
-
 
     const onPressTrack = () => { }
 
@@ -65,26 +53,34 @@ const MyMenuList = (props: Props) => {
                 onBackPress={() => { navigation.goBack() }}
                 onRightPress={() => { console.log('dee') }}
                 mainShow={true}
-                title={strings('myMenuList.my_menu')}
+                title={strings('ordersList.myOrders')}
                 extraStyle={styles.headerContainer}
-                isShowIcon={false}
             />
             <View style={styles.tabMainView}>
-                {tabs.map((tab, index) => (
-                    <TouchableOpacity
-                        key={index}
-                        onPress={() => {
-                            setTabSelection(tab.key);
-                            ref.current?.setPage(tab.page);
-                            setTabSelectionIndex(index);
-                        }}
-                        style={styles.tabItemView}>
-                        <Text style={[styles[`${tab.key.toLowerCase()}Text`], { color: tabSelection === tab.key ? colors.headerText3 : colors.Title_Text }]}>
-                            {tab.label}
-                        </Text>
-                        {tabSelection === tab.key && <View style={styles.selectUnderline} />}
-                    </TouchableOpacity>
-                ))}
+                <TouchableOpacity
+                    onPress={() => {
+                        setTabSelection('Ongoing');
+                        setIsLeftButtonActive(true);
+                        ref.current?.setPage(0);
+                    }}
+                    style={styles.tabItemView}>
+                    <Text style={[styles.ongoingText, { color: tabSelection === 'Ongoing' ? colors.Primary_Orange : colors.gray_200 }]}>
+                        {strings('ordersList.ongoing')}
+                    </Text>
+                    {tabSelection === 'Ongoing' && <View style={styles.underline} />}
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        setTabSelection('History');
+                        ref.current?.setPage(1);
+                        setIsLeftButtonActive(false);
+                    }}
+                    style={styles.tabItemView}>
+                    <Text style={[styles.historyText, { color: tabSelection === 'History' ? colors.Primary_Orange : colors.gray_200 }]}>
+                        {strings('ordersList.history')}
+                    </Text>
+                    {tabSelection === 'History' && <View style={styles.underline} />}
+                </TouchableOpacity>
                 <View style={styles.underlineAll} />
             </View>
 
@@ -92,15 +88,18 @@ const MyMenuList = (props: Props) => {
                 style={{ flex: 1 }}
                 initialPage={tabSelectionIndex}
                 ref={ref}
-                onPageSelected={onPageSelected}
-            >
+                onPageSelected={e => {
+                    setTabSelection(e?.nativeEvent?.position == 0 ? 'Ongoing' : 'History');
+                    setTabSelectionIndex(e?.nativeEvent?.position);
+                    setIsLeftButtonActive(e?.nativeEvent?.position == 0 ? true : false);
+                }}>
                 <View style={styles.boxContainer} key={'1'}>
                     <FlatList
                         refreshControl={
                             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                         }
                         onEndReachedThreshold={0.3}
-                        data={[1, 2, 3, 4, 5, 6]}
+                        data={[1, 2, 3, 4,5,6]}
                         ListEmptyComponent={<NoDataFound />}
                         renderItem={({ item, index }) => {
                             return (
@@ -111,7 +110,7 @@ const MyMenuList = (props: Props) => {
                         ListFooterComponent={() => {
                             return (
                                 <View>
-                                    {true && <Loader size={'small'} />}
+                                    {true && <Loader  size={'small'}/>}
                                     <View style={{ height: 70 }} />
                                 </View>
                             )
@@ -129,7 +128,7 @@ const MyMenuList = (props: Props) => {
     );
 };
 
-export default MyMenuList;
+export default MyOrdersList;
 
 const getGlobalStyles = (props: any) => {
     const { colors } = props;
@@ -147,7 +146,7 @@ const getGlobalStyles = (props: any) => {
         },
         tabItemView: {
             flex: 1,
-            marginTop: hp(14),
+            marginTop: hp(6),
             alignItems: 'center',
         },
         ongoingText: {
@@ -156,17 +155,17 @@ const getGlobalStyles = (props: any) => {
         historyText: {
             ...commonFontStyle(700, 14, colors.gray_200),
         },
-        selectUnderline: {
+        underline: {
             height: 2,
-            width: wp(50),
-            backgroundColor: colors.headerText3,
+            width: wp(145),
+            backgroundColor: colors.Primary_Orange,
             marginTop: hp(16),
 
         },
         underlineAll: {
             height: 1,
             width: SCREEN_WIDTH,
-            backgroundColor: colors.card_bg,
+            backgroundColor: colors.gray_200,
             marginTop: hp(16),
             position: 'absolute',
             bottom: 0,
