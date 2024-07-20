@@ -30,7 +30,7 @@ const SignUpScreen = (props: Props) => {
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
-  const [area, setArea] = useState('');
+  const [isShowRePassword, setisShowRePassword] = useState<boolean>(true);
   const [number, setNumber] = useState('');
   const [restaurantName, setRestaurantName] = useState('');
   const [city, setCity] = useState('');
@@ -201,10 +201,10 @@ const SignUpScreen = (props: Props) => {
             autoCorrect={false}
             isShowEyeIcon={true}
             placeholder="* * * * * * *"
-            secureTextEntry={isShowPassword}
+            secureTextEntry={isShowRePassword}
             label={strings('sign_up.re_type_password')}
             onChangeText={(t: string) => setRePassword(t)}
-            onPressEye={() => setIsShowPassword(!isShowPassword)}
+            onPressEye={() => setisShowRePassword(!isShowRePassword)}
           />
           <PrimaryButton
             extraStyle={styles.signupButton}

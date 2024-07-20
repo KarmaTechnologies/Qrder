@@ -35,6 +35,8 @@ export const light_theme = {
   border_line5: '#F0F4F9',
   card_bg: "#F6F8FA",
   message_text:"#373738",
+  orange_bg:'rgba(255, 118, 34, 0.2)',
+  indicator_bg:'#1AD52B',
 
 
 

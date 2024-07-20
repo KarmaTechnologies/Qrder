@@ -1,14 +1,18 @@
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { useTheme } from '@react-navigation/native';
-import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../theme/fonts';
-import NoDataFound from './NoDataFound';
-import Loader from './Loader';
-import Spacer from './Spacer';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
+import NoDataFound from '../../compoment/NoDataFound';
+import Loader from '../../compoment/Loader';
+import Spacer from '../../compoment/Spacer';
+import HomeHeader from '../../compoment/HomeHeader';
+import { strings } from '../../i18n/i18n';
+
 type Props = {};
 
-const MessagesListCard = (props: Props) => {
+const ProfileMessages = (props: Props) => {
     const { colors, isDark } = useTheme();
+    const navigation = useNavigation();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const [refreshing, setRefreshing] = React.useState(false);
 
@@ -25,7 +29,7 @@ const MessagesListCard = (props: Props) => {
                 <View style={styles.subBoxView}>
                     <View style={styles.boxImageView}>
                         <View style={styles.leftImage}>
-                            {/* <Image source={Icons.optionIcon} style={styles.optionIcon} /> */}
+                            {/* <Image source={Icons.optionIcon} style={styles.imageStyle} /> */}
                             <View style={styles.indicatorIcon} />
                         </View>
                         <View style={{ marginLeft: wp(14) }}>
@@ -46,31 +50,40 @@ const MessagesListCard = (props: Props) => {
         )
     }
     return (
-        <View style={styles.boxContainer}>
-            <FlatList
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-                onEndReachedThreshold={0.3}
-                data={[1, 2, 3, 4, 5, 6, 7, 8]}
-                ListEmptyComponent={<NoDataFound />}
-                renderItem={renderItem}
-                showsVerticalScrollIndicator={false}
-                ListFooterComponent={() => {
-                    return (
-                        <View>
-                            {true && <Loader size={'small'} />}
-                            <Spacer height={hp(70)} />
-                        </View>
-                    )
-                }}
+        <View style={{ flex: 1, backgroundColor: colors.white }}>
+            <HomeHeader
+                onBackPress={() => { navigation.goBack() }}
+                onRightPress={() => { console.log('dee') }}
+                mainShow={true}
+                title={strings('notifications.messages')}
+                extraStyle={styles.headerContainer}
+                isShowIcon={false}
             />
-
+            <View style={styles.boxContainer}>
+                <FlatList
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                    onEndReachedThreshold={0.3}
+                    data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
+                    ListEmptyComponent={<NoDataFound />}
+                    renderItem={renderItem}
+                    showsVerticalScrollIndicator={false}
+                    ListFooterComponent={() => {
+                        return (
+                            <View>
+                                {true && <Loader size={'small'} />}
+                                <Spacer height={hp(70)} />
+                            </View>
+                        )
+                    }}
+                />
+            </View>
         </View>
     );
 };
 
-export default MessagesListCard;
+export default ProfileMessages;
 
 const getGlobalStyles = (props: any) => {
     const { colors } = props;
@@ -78,6 +91,10 @@ const getGlobalStyles = (props: any) => {
         boxContainer: {
             flex: 1,
             marginHorizontal: wp(16),
+        },
+        headerContainer: {
+            backgroundColor: colors.white,
+            marginBottom: hp(10)
         },
         subBoxView: {
             flexDirection: 'row',

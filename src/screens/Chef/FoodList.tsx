@@ -17,6 +17,7 @@ import NoDataFound from '../../compoment/NoDataFound';
 import OngoingCardList from '../../compoment/OngoingCardList';
 import Loader from '../../compoment/Loader';
 import { strings } from '../../i18n/i18n';
+import MenuCardList from '../../compoment/MenuCardList';
 
 type Props = {};
 
@@ -33,7 +34,6 @@ const MyMenuList = (props: Props) => {
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const [tabSelection, setTabSelection] = useState(strings('myMenuList.all'));
     const [tabSelectionIndex, setTabSelectionIndex] = useState(0);
-    const [refreshing, setRefreshing] = React.useState(false);
     const ref = React.createRef(PagerView);
 
     const onPageSelected = (event: { nativeEvent: { position: number; } }) => {
@@ -46,13 +46,6 @@ const MyMenuList = (props: Props) => {
     const onPressTrack = () => { }
 
     const onCancelBtn = () => { }
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true)
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 2000);
-    }, []);
 
 
     return (
@@ -95,34 +88,19 @@ const MyMenuList = (props: Props) => {
                 onPageSelected={onPageSelected}
             >
                 <View style={styles.boxContainer} key={'1'}>
-                    <FlatList
-                        refreshControl={
-                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                        }
-                        onEndReachedThreshold={0.3}
-                        data={[1, 2, 3, 4, 5, 6]}
-                        ListEmptyComponent={<NoDataFound />}
-                        renderItem={({ item, index }) => {
-                            return (
-                                <OngoingCardList onPressTrack={onPressTrack} onCancelBtn={onCancelBtn} />
-                            );
-                        }}
-                        showsVerticalScrollIndicator={false}
-                        ListFooterComponent={() => {
-                            return (
-                                <View>
-                                    {true && <Loader size={'small'} />}
-                                    <View style={{ height: 70 }} />
-                                </View>
-                            )
-                        }}
-                    />
+                    <MenuCardList />
                 </View>
 
-                <View style={{ flex: 1 }} key={'2'}>
-                    <Text style={[
-                        { marginHorizontal: wp(16), marginVertical: 8 },
-                    ]}> {tabSelection == 'Ongoing' ? 'People you may know' : 'Pages from your area'}</Text>
+                <View style={styles.boxContainer} key={'2'}>
+                    <MenuCardList />
+                </View>
+
+                <View style={styles.boxContainer} key={'3'}>
+                    <MenuCardList />
+                </View>
+
+                <View style={styles.boxContainer} key={'4'}>
+                    <MenuCardList />
                 </View>
             </PagerView>
         </View>
@@ -143,7 +121,7 @@ const getGlobalStyles = (props: any) => {
         },
         tabMainView: {
             flexDirection: 'row',
-            marginBottom: hp(8)
+            marginBottom: hp(24)
         },
         tabItemView: {
             flex: 1,
@@ -167,7 +145,6 @@ const getGlobalStyles = (props: any) => {
             height: 1,
             width: SCREEN_WIDTH,
             backgroundColor: colors.card_bg,
-            marginTop: hp(16),
             position: 'absolute',
             bottom: 0,
             zIndex: -1

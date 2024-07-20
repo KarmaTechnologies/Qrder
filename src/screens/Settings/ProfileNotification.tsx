@@ -1,15 +1,17 @@
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { useTheme } from '@react-navigation/native';
-import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../theme/fonts';
-import NoDataFound from './NoDataFound';
-import Loader from './Loader';
-import Spacer from './Spacer';
-
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
+import NoDataFound from '../../compoment/NoDataFound';
+import Loader from '../../compoment/Loader';
+import Spacer from '../../compoment/Spacer';
+import HomeHeader from '../../compoment/HomeHeader';
+import { strings } from '../../i18n/i18n';
 type Props = {};
 
-const NotificationListCard = ({ }: Props) => {
+const ProfileNotification = ({ }: Props) => {
     const { colors, isDark } = useTheme();
+    const navigation = useNavigation();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const [refreshing, setRefreshing] = React.useState(false);
 
@@ -44,6 +46,14 @@ const NotificationListCard = ({ }: Props) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: colors.white }}>
+            <HomeHeader
+                onBackPress={() => { navigation.goBack() }}
+                onRightPress={() => { console.log('dee') }}
+                mainShow={true}
+                title={strings('notifications.notifications')}
+                extraStyle={styles.headerContainer}
+                isShowIcon={false}
+            />
             <View style={styles.boxContainer}>
                 <FlatList
                     refreshControl={
@@ -70,7 +80,7 @@ const NotificationListCard = ({ }: Props) => {
     );
 };
 
-export default NotificationListCard;
+export default ProfileNotification;
 
 const getGlobalStyles = (props: any) => {
     const { colors } = props;
@@ -78,6 +88,10 @@ const getGlobalStyles = (props: any) => {
         boxContainer: {
             flex: 1,
             marginHorizontal: wp(16),
+        },
+        headerContainer: {
+            backgroundColor: colors.white,
+            marginBottom:hp(10)
         },
         subBoxView: {
             flexDirection: 'row',

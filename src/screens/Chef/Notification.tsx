@@ -13,11 +13,8 @@ import HomeHeader from '../../compoment/HomeHeader';
 import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
 import PagerView from 'react-native-pager-view';
 import { strings } from '../../i18n/i18n';
-import NotificationListCard from '../../compoment/NotificationListCard';
-import NoDataFound from '../../compoment/NoDataFound';
-import Loader from '../../compoment/Loader';
-import Spacer from '../../compoment/Spacer';
 import MessagesListCard from '../../compoment/MessagesListCard';
+import NotificationListCard from '../../compoment/NotificationListCard';
 
 type Props = {};
 
@@ -28,19 +25,11 @@ const Notification = (props: Props) => {
     const [tabSelection, setTabSelection] = useState('Notifications');
     const [tabSelectionIndex, setTabSelectionIndex] = useState(0);
     const [isLeftButtonActive, setIsLeftButtonActive] = useState(true);
-    const [refreshing, setRefreshing] = React.useState(false);
     const ref = React.createRef(PagerView);
 
     const onPressTrack = () => { }
 
     const onCancelBtn = () => { }
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true)
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 2000);
-    }, []);
 
 
     return (
@@ -95,56 +84,13 @@ const Notification = (props: Props) => {
                     setIsLeftButtonActive(e?.nativeEvent?.position == 0 ? true : false);
                 }}>
                 <View style={styles.boxContainer} key={'1'}>
-                    <FlatList
-                        refreshControl={
-                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                        }
-                        onEndReachedThreshold={0.3}
-                        data={[1, 2, 3, 4, 5, 6, 7, 8]}
-                        ListEmptyComponent={<NoDataFound />}
-                        renderItem={({ item, index }) => {
-                            return (
-                                <NotificationListCard />
-                            );
-                        }}
-                        showsVerticalScrollIndicator={false}
-                        ListFooterComponent={() => {
-                            return (
-                                <View>
-                                    {true && <Loader size={'small'} />}
-                                    <Spacer height={hp(70)} />
-                                </View>
-                            )
-                        }}
-                    />
-
+                    <NotificationListCard />
                 </View>
 
                 <View style={styles.boxContainer} key={'2'}>
-                    <FlatList
-                        refreshControl={
-                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                        }
-                        onEndReachedThreshold={0.3}
-                        data={[1, 2, 3, 4, 5, 6, 7, 8]}
-                        ListEmptyComponent={<NoDataFound />}
-                        renderItem={({ item, index }) => {
-                            return (
-                                <MessagesListCard />
-                            );
-                        }}
-                        showsVerticalScrollIndicator={false}
-                        ListFooterComponent={() => {
-                            return (
-                                <View>
-                                    {true && <Loader size={'small'} />}
-                                    <Spacer height={hp(70)} />
-                                </View>
-                            )
-                        }}
-                    />
-
+                    <MessagesListCard />
                 </View>
+
             </PagerView>
         </View>
     );
@@ -195,7 +141,6 @@ const getGlobalStyles = (props: any) => {
         },
         boxContainer: {
             flex: 1,
-            marginHorizontal: wp(16),
         },
     });
 };

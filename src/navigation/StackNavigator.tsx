@@ -28,6 +28,11 @@ import MyTabs from "../navigation/BottomTabBar";
 import FoodDetails from '../screens/Chef/FoodDetails';
 import ChefSignUp from '../screens/ChefAuth/ChefSignUp';
 import MyOrdersList from '../screens/Chef/MyOrdersList';
+import Notification from '../screens/Chef/Notification';
+import NotificationListCard from '../screens/Chef/NotificationListCard';
+import ProfileNotification from '../screens/Settings/ProfileNotification';
+import ProfileMessages from '../screens/Settings/ProfileMessages';
+import ReviewsScreen from '../screens/Chef/ReviewsScreen';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -170,6 +175,24 @@ const StackNavigator: FC = () => {
         headerShown: false,
         headerTitle: '',
       })} name={screenName.ChefSignUp} component={ChefSignUp} />
+
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.ProfileNotification} component={ProfileNotification} />
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.ProfileMessages} component={ProfileMessages} />
+
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.ReviewsScreen} component={ReviewsScreen} />
+
     </Stack.Navigator>
   );
 };

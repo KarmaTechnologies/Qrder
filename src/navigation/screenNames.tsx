@@ -18,6 +18,9 @@ export const screenName = {
   },
   FoodDetails: 'FoodDetails',
   MyOrdersList:'MyOrdersList',
+  ProfileNotification:'ProfileNotification',
+  ProfileMessages:'ProfileMessages',
+  ReviewsScreen:'ReviewsScreen',
 
   //chefSignUp
 

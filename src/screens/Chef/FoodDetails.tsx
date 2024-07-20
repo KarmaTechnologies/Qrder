@@ -143,7 +143,8 @@ const getGlobalStyles = (props: any) => {
         },
         rateView: {
             flexDirection: 'row',
-            paddingTop: hp(7)
+            paddingTop: hp(7),
+            alignItems:'center'
         },
         starStyle: {
             width: 17,

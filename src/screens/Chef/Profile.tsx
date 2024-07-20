@@ -53,6 +53,12 @@ const Profile = (props: Props) => {
       case 'Chef':
         navigation.navigate(screenName.ChefSignUp);
         break;
+        case 'Notifications':
+          navigation.navigate(screenName.ProfileNotification);
+          break;
+          case 'CRM':
+          navigation.navigate(screenName.ProfileMessages);
+          break;
       default:
         break;
     }
