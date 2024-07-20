@@ -50,12 +50,13 @@ const CCDropDown = ({
   labelField,
   valueField,
   labelTextStyle,
+  extraStyle,
   ...rest
 }: InputProps) => {
   const { colors, isDark } = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,extraStyle]}>
       <Text numberOfLines={1} style={[styles.labelTextStyle, labelTextStyle]}>
         {label}
       </Text>

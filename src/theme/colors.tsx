@@ -37,6 +37,7 @@ export const light_theme = {
   message_text:"#373738",
   orange_bg:'rgba(255, 118, 34, 0.2)',
   indicator_bg:'#1AD52B',
+  text_color:'#747783',
 
 
 

@@ -161,7 +161,7 @@ const Profile = (props: Props) => {
           }}
           styleProp={styles.boxCotainer}
         />
-        <Spacer height={hp(75)} />
+        <Spacer height={hp(90)} />
       </KeyboardAwareScrollView>
     </View>
   );

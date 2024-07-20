@@ -29,19 +29,20 @@ const SplashScreen = (props: Props) => {
 
   const getUserInfo = async () => {
     let isUser = await getAsyncToken();
-    if (isUser) {
-      dispatchNavigation(screenName.BottomTabBar);
-    } else {
-      dispatchNavigation(screenName.SignInScreen);
-    }
+    dispatchNavigation(screenName.SignInScreen);
+    // if (isUser) {
+    //   dispatchNavigation(screenName.BottomTabBar);
+    // } else {
+    //   dispatchNavigation(screenName.SignInScreen);
+    // }
   };
 
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={'transparent'} barStyle={'dark-content'} />
-      <SafeAreaView style={[AppStyles.flex]}>
+      <View style={[AppStyles.flex]}>
         <Image style={styles.mainImage} source={Icons.launch_screen} />
-      </SafeAreaView>
+      </View>
     </View>
   );
 };

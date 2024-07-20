@@ -3,11 +3,13 @@ import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { USER_LOGOUT } from './actionTypes';
 import commonReducer from './reducer/commonReducer';
+import dataReducer from './reducer/dataReducer';
 
 // const middleware = [thunk];
 
 const reducers = combineReducers({
   common: commonReducer,
+  data: dataReducer,
 });
 
 const rootReducer = (state: any, action: any) => {

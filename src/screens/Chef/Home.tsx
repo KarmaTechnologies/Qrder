@@ -138,7 +138,7 @@ const Home = (props: Props) => {
             }}
           />
         </CardView>
-        <View style={{ height: 90 }} />
+        <View style={{ height: 100 }} />
 
         {runningOrderModal &&
           <OrderModal 

@@ -30,8 +30,10 @@ const HomeDropDown = ({value, onChangeText}: Props) => {
       <Dropdown
         style={[styles.dropdown]}
         data={[
-          {label: 'Today', value: 'Today'},
-          {label: 'Yesterday', value: 'Yesterday'},
+          {label: 'Daily', value: 'Daily'},
+          {label: 'Week', value: 'Week'},
+          {label: 'Monthly', value: 'Monthly'},
+          {label: 'Yearly', value: 'Yearly'},
         ]}
         placeholder=""
         labelField={'label'}
@@ -66,7 +68,7 @@ const getGlobalStyles = (props: any) => {
       borderRadius: 10,
       paddingHorizontal: 9,
       marginLeft:13,
-      height: 35,
+      height: 34,
       marginTop:3,
       borderWidth:1,
       borderColor:colors.Border_gray
@@ -78,7 +80,7 @@ const getGlobalStyles = (props: any) => {
     dropdown: {
       // flex: 1,
       width: 70,
-      height: 35,
+      height: 32,
     },
     downIcon: {
       width: 22,
@@ -89,7 +91,8 @@ const getGlobalStyles = (props: any) => {
       ...commonFontStyle(400, 12, colors.btnText),
     },
     itemContainer: {
-      width: 80,
+      width: 180,
+      alignItems:'center'
     },
   });
 };

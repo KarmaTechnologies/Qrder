@@ -68,7 +68,7 @@ const ChartsView = ({
   const { colors } = useTheme();
   const navigation = useNavigation();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
-  const [dropDownValue, setdropDownValue] = useState('Today');
+  const [dropDownValue, setdropDownValue] = useState('Daily');
   const [pointerIndex, setpointerIndex] = useState(0);
 
   const [selectedType, setselectedType] = useState({

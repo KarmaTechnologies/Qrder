@@ -1,5 +1,12 @@
-import {Alert, StatusBar, StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
+import {
+  Alert,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {hp, wp} from '../../theme/fonts';
 import Input from '../../compoment/Input';
@@ -18,9 +25,28 @@ import {
 } from '../../utils/commonFunction';
 import {dispatchNavigation} from '../../utils/globalFunctions';
 import {userSignUp} from '../../actions/authAction';
-import {useAppDispatch} from '../../redux/hooks';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import CCDropDown from '../../compoment/CCDropDown';
+import { getCityAction } from '../../actions/commonAction';
 
 type Props = {};
+const DropDownData = [
+  {
+    key: 'USER',
+    label: 'Customer',
+    value: '1',
+  },
+  {
+    key: 'DRIVER',
+    label: 'Driver',
+    value: '2',
+  },
+  {
+    key: 'COLLECTION',
+    label: 'Collection',
+    value: '3',
+  },
+];
 
 const SignUpScreen = (props: Props) => {
   const {colors, isDark} = useTheme();
@@ -37,9 +63,17 @@ const SignUpScreen = (props: Props) => {
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
   const [pincode, setPincode] = useState('');
+  const [quantityValue, setQuantityValue] = useState('');
+  const [showListView, setShowListView] = useState(false);
+  const {getCity} = useAppSelector(state => state.common);
+  const [filteredData, setFilteredData] = useState([]);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
+
+  useEffect(()=>{
+    // getCityList()
+  },[])
 
   const onPressBack = () => {
     navigation.goBack();
@@ -109,6 +143,25 @@ const SignUpScreen = (props: Props) => {
     }
   };
 
+  const getCityList = () => {
+    let obj = {
+      onSuccess: (res: any) => {},
+      onFailure: (Err: any) => {},
+    };
+    dispatch(getCityAction(obj));
+  };
+
+  const FilterSearch=(searchText)=>{
+    setCity(searchText);
+    let text = searchText?.toLowerCase();
+    let filteredData = getCity?.filter(subItem => {
+      return (
+        subItem?.name?.toLowerCase()?.includes(text)
+      );
+    });
+    setFilteredData(filteredData);
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -127,6 +180,7 @@ const SignUpScreen = (props: Props) => {
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps={'handled'}
           showsVerticalScrollIndicator={false}
+          nestedScrollEnabled
           contentContainerStyle={styles.contentContainerStyle}>
           <Input
             value={name}
@@ -159,19 +213,33 @@ const SignUpScreen = (props: Props) => {
             value={city}
             placeholder={strings('sign_up.p_enter_cty')}
             label={strings('sign_up.city')}
-            onChangeText={(t: string) => setCity(t)}
+            onChangeText={(t: string) => FilterSearch(t)}
+            showListView={showListView}
+            searchData={filteredData}
+            setShowListView={(item)=>{
+              setShowListView(false)
+              setCity(item.name)
+              setState(item?.state?.name)
+              setCountry(item?.state?.country?.name)
+            }}
+            onFocus={()=>{
+              setShowListView(true)
+            }}
           />
           <Input
             value={state}
             placeholder={strings('sign_up.p_enter_state')}
             label={strings('sign_up.state')}
             onChangeText={(t: string) => setState(t)}
+            showListView={false}
+            extraStyle={{zIndex: -1}}
           />
           <Input
             value={country}
             placeholder={strings('sign_up.p_enter_country')}
             label={strings('sign_up.country')}
             onChangeText={(t: string) => setCountry(t)}
+            extraStyle={{zIndex: -1}}
           />
           {/* <Input
             value={area}

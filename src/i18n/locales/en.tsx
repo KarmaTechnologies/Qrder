@@ -133,7 +133,8 @@ export default {
   foodDetails:{
     food_Details:'Food Details',
     edit:'EDIT',
-    basic_details:'Basic Details'
+    basic_details:'Basic Details',
+    description:'Description'
   },
   profileScreen:{
     profile:'Profile',
@@ -151,5 +152,8 @@ export default {
   notifications:{
     notifications:'Notifications',
     messages:'Messages'
+  },
+  reviews:{
+    reviews:"Reviews"
   }
 };

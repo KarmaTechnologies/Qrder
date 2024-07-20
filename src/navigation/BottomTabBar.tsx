@@ -3,7 +3,7 @@ import {
   BottomTabBarProps,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
-import { Image, Pressable, StyleSheet, Text } from "react-native";
+import { Image, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { hp, isIos, SCREEN_WIDTH, wp } from "../theme/fonts";
 import { screenName } from "./screenNames";
@@ -44,7 +44,7 @@ const TabBarItem = ({ state, navigation }: BottomTabBarProps) => {
   };
 
   return (
-    <SafeAreaView style={styles.itemContainer}>
+    <View edges={['bottom']} style={styles.itemContainer}>
       {state.routes.map((route, index) => {
         const isFocused = state.index === index;
         const onPress = () => {
@@ -81,7 +81,7 @@ const TabBarItem = ({ state, navigation }: BottomTabBarProps) => {
           </Pressable>
         );
       })}
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -127,18 +127,19 @@ const getGlobalStyles = (props: any) => {
       elevation: 5,
       paddingHorizontal: wp(16),
       borderRadius: 30,
-      paddingBottom: 15,
+      paddingBottom: Platform.OS == 'ios' ? 4 :15,
       paddingTop: 4,
-      bottom: 0,
+      bottom: isIos ?  hp(16) :0,
       position: 'absolute',
-      width: SCREEN_WIDTH
+      width: SCREEN_WIDTH,
+      height: isIos ? hp(65) : hp(70),
     },
     itemViewContainer: {
-      height: isIos ? hp(80) : hp(70),
+      height: isIos ? hp(0) : hp(70),
       alignItems: "center",
       flexDirection: "column",
       justifyContent: "center",
-      marginBottom: isIos ? hp(10) : -hp(15),
+      marginBottom: isIos ? hp(0) : -hp(15),
     },
     itemFocusContainer: {
       backgroundColor: 'red',

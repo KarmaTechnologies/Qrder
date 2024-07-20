@@ -1,9 +1,15 @@
 export const api = {
-  BASE_URL: "https://81d6-2405-201-201f-9802-39cd-4b8d-9c86-5316.ngrok-free.app/api/",
+  BASE_URL: "https://ac40-2405-201-201f-9802-4de5-1981-65b8-ddd1.ngrok-free.app/api/",
 
   // Auth
   login: 'login',
   register: 'register',
+
+  get_cities:"get-cities",
+  getCountry:"get-selected-country",
+  getState:"get-selected-state",
+  getCuisines:"cuisines",
+  getChefs:"chefs",
 };
 
 export const POST = "POST";

@@ -1,13 +1,13 @@
 //import liraries
-import React, { useState } from 'react';
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import ReactNativeModal from 'react-native-modal';
-import { SCREEN_HEIGHT, commonFontStyle, hp, wp } from '../theme/fonts';
-import { useTheme } from '@react-navigation/native';
-import { Icons } from '../utils/images';
+import {SCREEN_HEIGHT, commonFontStyle, hp, wp} from '../theme/fonts';
+import {useTheme} from '@react-navigation/native';
+import {Icons} from '../utils/images';
 import PrimaryButton from './PrimaryButton';
-import { strings } from '../i18n/i18n';
+import {strings} from '../i18n/i18n';
 import CCDropDown from './CCDropDown';
 
 export type OrderModal = {
@@ -16,7 +16,7 @@ export type OrderModal = {
   question: string;
   onPressYes: () => void;
   onPressCancel: () => void;
-  isRunning?: boolean
+  isRunning?: boolean;
 };
 
 const OrderModal = ({
@@ -27,17 +27,16 @@ const OrderModal = ({
   onPressYes,
   isRunning = false,
 }: OrderModal) => {
-  const { colors, isDark } = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const {colors, isDark} = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [selectedChefs, setSelectedChefs] = useState('');
 
-  const onPressDone = () => { };
-  const onCancelBtn = () => { };
-
+  const onPressDone = () => {};
+  const onCancelBtn = () => {};
 
   const DropDownData = [
     {
-      key: "Rahul",
+      key: 'Rahul',
       label: 'Rahul',
       value: '1',
     },
@@ -67,11 +66,13 @@ const OrderModal = ({
       animationOutTiming={1000}
       onBackButtonPress={onPressCancel}
       onBackdropPress={onPressCancel}
-      style={{ justifyContent: 'flex-end', margin: 0 }}>
+      style={{justifyContent: 'flex-end', margin: 0}}>
       <View style={styles.container}>
         <View style={styles.lineStyle} />
         <View style={styles.headerView}>
-          <Text style={styles.titleText}>{isRunning ? `${20} Running Orders` : `${5} Order Request`}</Text>
+          <Text style={styles.titleText}>
+            {isRunning ? `${20} Running Orders` : `${5} Order Request`}
+          </Text>
 
           <ScrollView showsVerticalScrollIndicator={false}>
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((value, index) => {
@@ -82,41 +83,53 @@ const OrderModal = ({
                   <View style={styles.rightContainer}>
                     <Text style={styles.breakText}>#Breakfast</Text>
                     <Text style={styles.titleStyle}>Chicken Thai Biriyani</Text>
+                    {isRunning && <Text style={styles.idText}>Table Number: 123654</Text>}
                     <Text style={styles.idText}>ID: 32053</Text>
-                    <Text style={styles.priceText}>$60</Text>
+                    <Text
+                      style={[
+                        styles.priceText,
+                        {marginTop: isRunning ? hp(0) : hp(14)},
+                      ]}>
+                      $60
+                    </Text>
                   </View>
-                  <View style={styles.btnContainer}>
-                    {isRunning ?
-                      <View style={{ flexDirection: 'row' }}>
+                  <View
+                    style={[
+                      styles.btnContainer,
+                      {bottom: isRunning ? -12 : 2},
+                    ]}>
+                    {isRunning ? (
+                      <View style={{flexDirection: 'row'}}>
                         <PrimaryButton
                           extraStyle={styles.doneBtn}
-                          title={strings("orderModal.done")}
+                          title={strings('orderModal.done')}
                           titleStyle={styles.doneText}
                           onPress={() => onPressDone()}
                         />
                         <PrimaryButton
                           extraStyle={styles.cancelBtn}
-                          title={strings("orderModal.cancel")}
+                          title={strings('orderModal.cancel')}
                           titleStyle={styles.cancelText}
                           onPress={() => onCancelBtn()}
                         />
-                      </View> :
+                      </View>
+                    ) : (
                       <CCDropDown
                         data={DropDownData}
                         label={''}
                         labelField={'label'}
                         valueField={'label'}
-                        placeholder={strings("orderModal.select_chef")}
+                        placeholder={strings('orderModal.select_chef')}
                         DropDownStyle={styles.dropDownStyle}
                         value={selectedChefs[index]}
-                        setValue={(value) => handleChefSelection(value, index)}
+                        setValue={value => handleChefSelection(value, index)}
                       />
-                    }
+                    )}
                   </View>
                 </View>
               );
             })}
-            <View style={{ height: 60 }} />
+            <View style={{height: 60}} />
           </ScrollView>
         </View>
       </View>
@@ -125,7 +138,7 @@ const OrderModal = ({
 };
 
 const getGlobalStyles = (props: any) => {
-  const { colors } = props;
+  const {colors} = props;
 
   return StyleSheet.create({
     container: {
@@ -151,7 +164,7 @@ const getGlobalStyles = (props: any) => {
       marginBottom: hp(4),
     },
     listContainer: {
-      marginTop: hp(20),
+      marginTop: hp(28),
       height: hp(104),
       flexDirection: 'row',
     },
@@ -174,13 +187,12 @@ const getGlobalStyles = (props: any) => {
       ...commonFontStyle(400, 14, colors?.dropDownText),
     },
     priceText: {
-      marginTop: hp(14),
+      // marginTop: hp(14),
       ...commonFontStyle(400, 18, colors?.Title_Text),
     },
     btnContainer: {
       flexDirection: 'row',
       position: 'absolute',
-      bottom: 0,
       right: 0,
     },
     doneBtn: {

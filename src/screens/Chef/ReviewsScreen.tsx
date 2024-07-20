@@ -51,7 +51,7 @@ const ReviewsScreen = (props: Props) => {
                 onBackPress={() => { navigation.goBack() }}
                 onRightPress={() => { console.log('dee') }}
                 mainShow={true}
-                title={'Reviews'}
+                title={strings("reviews.reviews")}
                 extraStyle={styles.headerContainer}
                 isShowIcon={false}
             />
