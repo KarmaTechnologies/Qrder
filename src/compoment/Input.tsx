@@ -97,21 +97,11 @@ const Input = ({
           </TouchableOpacity>
         ) : null}
       </View>
-      {showListView ? (
+      {showListView && value.length > 0 ? (
         <ScrollView
           nestedScrollEnabled
           keyboardShouldPersistTaps={'handled'}
-          style={{
-            position: 'absolute',
-            backgroundColor: colors.white,
-            bottom: -250,
-            borderRadius: 18,
-            width: '100%',
-            paddingLeft: 20,
-            maxHeight: 250,
-            zIndex: 1,
-            height: 250,
-          }}>
+          style={styles.listView}>
           <FlatList
             data={searchData}
             contentContainerStyle={{flex: 1}}
@@ -122,7 +112,12 @@ const Input = ({
                     setShowListView(item);
                   }}
                   key={index}
-                  style={{paddingVertical: 10}}>
+                  style={{
+                    paddingVertical: 10,
+                    paddingLeft: 20,
+                    borderTopWidth: index == 0 ? 0 : 1,
+                    borderColor: colors.gray_200,
+                  }}>
                   <Text style={styles.listText}>{item?.name}</Text>
                 </TouchableOpacity>
               );
@@ -169,5 +164,17 @@ const getGlobalStyles = (props: any) => {
     listText: {
       ...commonFontStyle(400, 14, colors.Title_Text),
     },
+    listView:{
+      position: 'absolute',
+      backgroundColor: colors.white,
+      bottom: -255,
+      borderRadius: 10,
+      width: '100%',
+      maxHeight: 250,
+      zIndex: 1,
+      height: 250,
+      borderWidth: 1,
+      borderColor: colors.gray_200,
+    }
   });
 };

@@ -3507,6 +3507,7 @@ __metadata:
     react-native-image-slider-box: ^2.0.7
     react-native-keyboard-aware-scroll-view: ^0.9.5
     react-native-linear-gradient: ^2.8.3
+    react-native-material-menu: ^2.0.0
     react-native-modal: ^13.0.1
     react-native-pager-view: ^6.3.3
     react-native-reanimated: ^3.12.0
@@ -9095,6 +9096,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: f980d324e551bbc475c6406bdc5250a08242020cbe653412fa169bbdf51e28a502e225de105b4d696d6a1a1b733d44782469020f4936d8b3ce0e2c78e51cf58f
+  languageName: node
+  linkType: hard
+
+"react-native-material-menu@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "react-native-material-menu@npm:2.0.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 6aaf1f53f41c03803b37c84bde5d4b4994f76092e992a91523ab09879e042d0df931c0ba8d5f7ef24074ca5cb88fdd7defbfabb68aef209e1a0ad8202562aab1
   languageName: node
   linkType: hard
 

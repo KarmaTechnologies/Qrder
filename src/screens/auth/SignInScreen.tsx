@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
-import { Icons } from '../../utils/images';
-import { commonFontStyle, h, hp, wp } from '../../theme/fonts';
+import React, {useState} from 'react';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import {Icons} from '../../utils/images';
+import {commonFontStyle, h, hp, wp} from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import {
   UpperCaseCheck,
@@ -21,21 +21,21 @@ import {
   successToast,
 } from '../../utils/commonFunction';
 import PrimaryButton from '../../compoment/PrimaryButton';
-import { screenName } from '../../navigation/screenNames';
-import { dispatchNavigation } from '../../utils/globalFunctions';
-import { useAppDispatch } from '../../redux/hooks';
-import { userLogin } from '../../actions/authAction';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {screenName} from '../../navigation/screenNames';
+import {dispatchNavigation} from '../../utils/globalFunctions';
+import {useAppDispatch} from '../../redux/hooks';
+import {userLogin} from '../../actions/authAction';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
-import { strings } from '../../i18n/i18n';
+import {strings} from '../../i18n/i18n';
 
 type Props = {};
 
 const SignInScreen = (props: Props) => {
-  const { colors, isDark } = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
-  const [email, setEmail] = useState(__DEV__ ? "test@gmail.com" : '');
-  const [password, setPassword] = useState(__DEV__ ? "Test@1234" : '');
+  const {colors, isDark} = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const [email, setEmail] = useState(__DEV__ ? 'user@gmail.com' : '');
+  const [password, setPassword] = useState(__DEV__ ? 'Test@1234' : '');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
   const [isSelect, setIsSelect] = useState<boolean>(false);
 
@@ -43,22 +43,22 @@ const SignInScreen = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const onPressLogin = () => {
-    dispatchNavigation(screenName.BottomTabBar);
+    // dispatchNavigation(screenName.BottomTabBar);
+    // return
     if (email.trim().length === 0) {
-      errorToast(strings("login.error_email"));
+      errorToast(strings('login.error_email'));
     } else if (!emailCheck(email)) {
-      ;
-      errorToast(strings("login.error_v_email"));
+      errorToast(strings('login.error_v_email'));
     } else if (password.trim().length === 0) {
-      errorToast(strings("login.error_password"));
+      errorToast(strings('login.error_password'));
     } else if (password.trim().length < 9) {
-      errorToast(strings("login.error_v_password"));
+      errorToast(strings('login.error_v_password'));
     } else if (!numberCheck(password)) {
-      errorToast(strings("login.error_number_password"));
+      errorToast(strings('login.error_number_password'));
     } else if (!specialCarCheck(password)) {
-      errorToast(strings("login.error_character_password"));
+      errorToast(strings('login.error_character_password'));
     } else if (!UpperCaseCheck(password)) {
-      errorToast(strings("login.error_uppercase_password"));
+      errorToast(strings('login.error_uppercase_password'));
     } else {
       var data = new FormData();
       data.append('email', email);
@@ -114,8 +114,12 @@ const SignInScreen = (props: Props) => {
           />
           <View style={styles.subContainer}>
             <View style={styles.rememberView}>
-              <TouchableOpacity style={styles.checkBox} onPress={() => setIsSelect(!isSelect)}>
-                {isSelect ? <Image style={styles.checkIcon} source={Icons.checkIcon} /> : null}
+              <TouchableOpacity
+                style={styles.checkBox}
+                onPress={() => setIsSelect(!isSelect)}>
+                {isSelect ? (
+                  <Image style={styles.checkIcon} source={Icons.checkIcon} />
+                ) : null}
               </TouchableOpacity>
               <Text style={styles.rememberText}>
                 {strings('login.remember_me')}
@@ -186,7 +190,7 @@ const SignInScreen = (props: Props) => {
 export default SignInScreen;
 
 const getGlobalStyles = (props: any) => {
-  const { colors } = props;
+  const {colors} = props;
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -228,12 +232,12 @@ const getGlobalStyles = (props: any) => {
       borderColor: colors.Border_gray,
       marginRight: wp(10),
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
     },
     checkIcon: {
       width: wp(20),
       height: hp(20),
-      resizeMode: 'contain'
+      resizeMode: 'contain',
     },
     rememberText: {
       ...commonFontStyle(400, 13, colors.Text_gray),

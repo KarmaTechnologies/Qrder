@@ -1,5 +1,5 @@
 export const api = {
-  BASE_URL: "https://ac40-2405-201-201f-9802-4de5-1981-65b8-ddd1.ngrok-free.app/api/",
+  BASE_URL: "https://5403-2405-201-201f-9802-4de5-1981-65b8-ddd1.ngrok-free.app/api/",
 
   // Auth
   login: 'login',
@@ -10,6 +10,8 @@ export const api = {
   getState:"get-selected-state",
   getCuisines:"cuisines",
   getChefs:"chefs",
+  getMenu:"menu",
+  chefsRegister:"chefs"
 };
 
 export const POST = "POST";

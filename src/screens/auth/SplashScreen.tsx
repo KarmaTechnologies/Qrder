@@ -29,12 +29,12 @@ const SplashScreen = (props: Props) => {
 
   const getUserInfo = async () => {
     let isUser = await getAsyncToken();
-    dispatchNavigation(screenName.SignInScreen);
-    // if (isUser) {
-    //   dispatchNavigation(screenName.BottomTabBar);
-    // } else {
-    //   dispatchNavigation(screenName.SignInScreen);
-    // }
+    // dispatchNavigation(screenName.SignInScreen);
+    if (isUser) {
+      dispatchNavigation(screenName.BottomTabBar);
+    } else {
+      dispatchNavigation(screenName.SignInScreen);
+    }
   };
 
   return (

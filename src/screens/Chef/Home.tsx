@@ -26,6 +26,9 @@ import { Icons } from '../../utils/images';
 import OrderModal from '../../compoment/OrderModal';
 import { screenName } from '../../navigation/screenNames';
 import { strings } from '../../i18n/i18n';
+import { useAppDispatch } from '../../redux/hooks';
+import { getCuisinesAction } from '../../actions/cuisinesAction';
+import { getChefsAction } from '../../actions/chefsAction';
 
 type Props = {};
 
@@ -36,6 +39,7 @@ const Home = (props: Props) => {
   const [value, setValue] = useState('');
   const [runningOrderModal, setRunninOrderModal] = useState(false);
   const [orderRequestModal, setOrderRequestModal] = useState(false);
+  const dispatch = useAppDispatch();
 
   const GetStatus = async () => {
     const Status = await getAsyncLocation();
@@ -74,7 +78,25 @@ const Home = (props: Props) => {
 
   useEffect(() => {
     getCurrentLocation();
+    getCuisinesList()
+    getChefsList()
   }, []);
+
+  const getCuisinesList = () => {
+    let obj = {
+      onSuccess: (res: any) => {},
+      onFailure: (Err: any) => {},
+    };
+    dispatch(getCuisinesAction(obj));
+  };
+
+  const getChefsList = () => {
+    let obj = {
+      onSuccess: (res: any) => {},
+      onFailure: (Err: any) => {},
+    };
+    dispatch(getChefsAction(obj));
+  };
 
   const onPressLocation = () => {
     // @ts-ignore

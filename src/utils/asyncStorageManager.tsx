@@ -27,7 +27,7 @@ export const setAsyncToken = async (token: string) => {
 export const getAsyncToken = async () => {
   const token = await AsyncStorage.getItem(asyncKeys.token);
   if (token) {
-    return "Bearer " + JSON.parse(token);
+    return "Bearer " + "1|9faigV6kLlDafX8NU5VXW4eL7OfoZDpvfugQgELhd1fdf9af";
   } else {
     return null;
   }

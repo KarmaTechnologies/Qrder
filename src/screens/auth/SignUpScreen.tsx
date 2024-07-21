@@ -27,7 +27,7 @@ import {dispatchNavigation} from '../../utils/globalFunctions';
 import {userSignUp} from '../../actions/authAction';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import CCDropDown from '../../compoment/CCDropDown';
-import { getCityAction } from '../../actions/commonAction';
+import {getCityAction} from '../../actions/commonAction';
 
 type Props = {};
 const DropDownData = [
@@ -67,13 +67,15 @@ const SignUpScreen = (props: Props) => {
   const [showListView, setShowListView] = useState(false);
   const {getCity} = useAppSelector(state => state.common);
   const [filteredData, setFilteredData] = useState([]);
+  const [addressList, setAddressList] = useState([]);
+  const [area, setArea] = useState([]);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  useEffect(()=>{
+  useEffect(() => {
     // getCityList()
-  },[])
+  }, []);
 
   const onPressBack = () => {
     navigation.goBack();
@@ -120,9 +122,13 @@ const SignUpScreen = (props: Props) => {
       data.append('email', email);
       data.append('password', password);
       data.append('confirmed', rePassword);
-      data.append('restaurant_name', 'test');
+      data.append('restaurant_name', restaurantName);
       data.append('slug', 'swad-tests');
       data.append('number', number);
+      data.append('address', area);
+      data.append('city_id', addressList?.id);
+      data.append('state_id', addressList?.state?.id);
+      data.append('country_id',addressList?.state?.country?.id);
       data.append('address', 'test');
       data.append('role', 'admin');
       data.append('status', '1');
@@ -151,16 +157,14 @@ const SignUpScreen = (props: Props) => {
     dispatch(getCityAction(obj));
   };
 
-  const FilterSearch=(searchText)=>{
+  const FilterSearch = searchText => {
     setCity(searchText);
     let text = searchText?.toLowerCase();
     let filteredData = getCity?.filter(subItem => {
-      return (
-        subItem?.name?.toLowerCase()?.includes(text)
-      );
+      return subItem?.name?.toLowerCase()?.includes(text);
     });
     setFilteredData(filteredData);
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -210,49 +214,59 @@ const SignUpScreen = (props: Props) => {
             onChangeText={(t: string) => setRestaurantName(t)}
           />
           <Input
+            value={area}
+            placeholder={strings('sign_up.p_enter_area')}
+            label={strings('sign_up.area')}
+            onChangeText={(t: string) => setArea(t)}
+          />
+          <Input
             value={city}
             placeholder={strings('sign_up.p_enter_cty')}
             label={strings('sign_up.city')}
             onChangeText={(t: string) => FilterSearch(t)}
             showListView={showListView}
             searchData={filteredData}
-            setShowListView={(item)=>{
-              setShowListView(false)
-              setCity(item.name)
-              setState(item?.state?.name)
-              setCountry(item?.state?.country?.name)
+            setShowListView={item => {
+              setShowListView(false);
+              setCity(item.name);
+              setState(item?.state?.name);
+              setCountry(item?.state?.country?.name);
+              setAddressList(item)
             }}
-            onFocus={()=>{
-              setShowListView(true)
+            onFocus={() => {
+              setShowListView(true);
             }}
           />
-          <Input
-            value={state}
-            placeholder={strings('sign_up.p_enter_state')}
-            label={strings('sign_up.state')}
-            onChangeText={(t: string) => setState(t)}
-            showListView={false}
-            extraStyle={{zIndex: -1}}
-          />
-          <Input
-            value={country}
-            placeholder={strings('sign_up.p_enter_country')}
-            label={strings('sign_up.country')}
-            onChangeText={(t: string) => setCountry(t)}
-            extraStyle={{zIndex: -1}}
-          />
-          {/* <Input
-            value={area}
-            placeholder={strings("sign_up.p_enter_area")}
-            label={strings("sign_up.area")}
-            onChangeText={(t: string) => setArea(t)}
-          /> */}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 6,
+              zIndex: -1,
+            }}>
+            <Input
+              value={state}
+              placeholder={strings('sign_up.p_enter_state')}
+              label={strings('sign_up.state')}
+              onChangeText={(t: string) => setState(t)}
+              showListView={false}
+              extraStyle={{zIndex: -1, width: '48.9%'}}
+            />
+            <Input
+              value={country}
+              placeholder={strings('sign_up.p_enter_country')}
+              label={strings('sign_up.country')}
+              onChangeText={(t: string) => setCountry(t)}
+              extraStyle={{zIndex: -1, width: '49%'}}
+            />
+          </View>
           <Input
             value={pincode}
             placeholder={strings('sign_up.p_enter_pincode')}
             keyboardType="number-pad"
             label={strings('sign_up.pincode')}
             onChangeText={(t: string) => setPincode(t)}
+            extraStyle={{zIndex: -1}}
           />
           <Input
             value={password}
@@ -263,6 +277,7 @@ const SignUpScreen = (props: Props) => {
             label={strings('sign_up.password')}
             onChangeText={(t: string) => setPassword(t)}
             onPressEye={() => setIsShowPassword(!isShowPassword)}
+            extraStyle={{zIndex: -1}}
           />
           <Input
             value={rePassword}

@@ -39,7 +39,7 @@ export const makeAPIRequest = ({
         }
       })
       .catch((error) => {
-        console.log("error?.response?", error?.response);
+        console.log("error?.response?", error);
         if (error?.response?.status === 401) {
           clearAsync();
           // errorToast(error?.response?.data?.message);

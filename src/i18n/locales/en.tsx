@@ -66,7 +66,7 @@ export default {
     state:'State',
     p_enter_country:'Enter Country',
     country:'Country',
-    p_enter_area:'Enter Area',
+    p_enter_area:'Enter Address',
     area:'Area',
     p_enter_pincode:'Enter Pincode',
     p_enter_number:'Number',
@@ -128,7 +128,11 @@ export default {
     add_cusine:'ADD CUSINE',
     select_cusine:'Select Cusine',
     basic_details:'Basic Details',
-    save_changes:'Save Changes'
+    save_changes:'Save Changes',
+    item_name_error:"Please enter your Item Name",
+    price_error:"Please enter your price",
+    cuisines_error:"Please select add cuisines",
+    basicDetails:"Please enter your basic details",
   },
   foodDetails:{
     food_Details:'Food Details',
@@ -155,5 +159,10 @@ export default {
   },
   reviews:{
     reviews:"Reviews"
-  }
+  },
+  chefSignUp:{
+    select_chef:'SELECT CHEF',
+    phone_Number:'Phone Number',
+    select_chef_error:"Please select your chef",
+  },
 };

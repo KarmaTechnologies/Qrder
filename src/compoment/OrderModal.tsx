@@ -9,6 +9,7 @@ import {Icons} from '../utils/images';
 import PrimaryButton from './PrimaryButton';
 import {strings} from '../i18n/i18n';
 import CCDropDown from './CCDropDown';
+import { useAppSelector } from '../redux/hooks';
 
 export type OrderModal = {
   isVisible: boolean;
@@ -30,6 +31,7 @@ const OrderModal = ({
   const {colors, isDark} = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [selectedChefs, setSelectedChefs] = useState('');
+  const {getChefsData} = useAppSelector(state => state.data);
 
   const onPressDone = () => {};
   const onCancelBtn = () => {};
@@ -115,10 +117,10 @@ const OrderModal = ({
                       </View>
                     ) : (
                       <CCDropDown
-                        data={DropDownData}
+                        data={getChefsData}
                         label={''}
-                        labelField={'label'}
-                        valueField={'label'}
+                        labelField={'name'}
+                        valueField={'id'}
                         placeholder={strings('orderModal.select_chef')}
                         DropDownStyle={styles.dropDownStyle}
                         value={selectedChefs[index]}

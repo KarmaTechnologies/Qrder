@@ -1,7 +1,9 @@
-import {GET_CITY_DATA, GET_CUISINES_DATA, IS_LOADING, SET_APP_THEME} from '../actionTypes';
+import {GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_MENU_DATA, IS_LOADING, SET_APP_THEME} from '../actionTypes';
 
 const initialState = {
-  getCuisines:[]
+  getCuisines:[],
+  getMenuData:[],
+  getChefsData:[],
 };
 
 export default function (state = initialState, action: any) {
@@ -9,11 +11,11 @@ export default function (state = initialState, action: any) {
     case GET_CUISINES_DATA: {
       return {...state, getCuisines: action.payload};
     }
-    case SET_APP_THEME: {
-      return {...state, isDarkTheme: action.payload};
+    case GET_MENU_DATA: {
+      return {...state, getMenuData: action.payload};
     }
-    case GET_CITY_DATA: {
-      return {...state, getCity: action.payload};
+    case GET_CHEFS_DATA: {
+      return {...state, getChefsData: action.payload};
     }
     default:
       return state;
