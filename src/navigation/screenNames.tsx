@@ -1,6 +1,7 @@
 export const screenName = {
   SplashScreen: 'SplashScreen',
   OnboardingScreen: 'OnboardingScreen',
+  RoleSelectionScreen:'RoleSelectionScreen',
   HomeScreen: 'HomeScreen',
   LoginSignupScreen: 'LoginSignupScreen',
   SignInScreen: 'SignInScreen',
@@ -21,8 +22,20 @@ export const screenName = {
   ProfileNotification:'ProfileNotification',
   ProfileMessages:'ProfileMessages',
   ReviewsScreen:'ReviewsScreen',
+  PersonalInfo:'PersonalInfo',
 
   //chefSignUp
 
-  ChefSignUp:'ChefSignUp'
+  ChefSignUp:'ChefSignUp',
+
+
+  //chefSell
+
+  ChefSelfBottomBar:'ChefSelfBottomBar',
+  chef_tab_bar: {
+    ChefHome: "ChefHome",
+    ChefMenuList: "ChefMenuList",
+    ChefNotification: "ChefNotification",
+    ChefProfile: "ChefProfile",
+  },
 }

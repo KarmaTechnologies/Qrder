@@ -20,7 +20,8 @@ type HomeProps = {
   extraStyle?: ViewStyle;
   isHideIcon?: boolean
   rightText?: string
-  isShowIcon?: boolean
+  isShowIcon?: boolean;
+  rightTextStyle:any
 };
 
 const HomeHeader = ({
@@ -35,7 +36,8 @@ const HomeHeader = ({
   extraStyle = {},
   isHideIcon = false,
   rightText,
-  isShowIcon = true
+  isShowIcon = true,
+  rightTextStyle
 }: HomeProps) => {
   const { navigate } = useNavigation();
   const { colors } = useTheme();
@@ -59,7 +61,7 @@ const HomeHeader = ({
         </View>
         {isShowIcon ?
           <TouchableOpacity onPress={onRightPress}>
-            {isHideIcon ? <Text style={styles.resetText}>{rightText}</Text> : <Image source={Icons?.option} style={styles?.header_logo} />}
+            {isHideIcon ? <Text style={[styles.resetText,rightTextStyle]}>{rightText}</Text> : <Image source={Icons?.option} style={styles?.header_logo} />}
           </TouchableOpacity> : null}
       </SafeAreaView>
     );

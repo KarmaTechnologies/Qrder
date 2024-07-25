@@ -8,6 +8,10 @@ export default {
     get_started: "Get Started",
     skip: "skip",
   },
+  roleSelection:{
+    select_role:'Select Role',
+    save:'Save'
+  },
   login: {
     login_in: "Log In",
     login_dec: "Please sign in to your existing account",
@@ -25,23 +29,25 @@ export default {
     access_location: "Access Location",
     access_location_dec: "DFOOD WILL ACCESS YOUR LOCATION ONLY WHILE USING THE APP",
 
-    error_email:"Please enter your email address",
-    error_name:"Please enter your name",
-    error_password:"Please enter your password",
-    error_v_password:"Your password must be at least 9 characters long",
-    error_number_password:"Password must contain one number",
-    error_character_password:"Password must contain one special character",
-    error_uppercase_password:"Password must contain one uppercase letter",
-    error_v_email:"Please enter your valid email address",
-    error_phone:"Please enter your phone number",
-    error_v_phone:"Please enter valid phone number",
-    error_country:"Please enter your country",
-    error_city:"Please enter your city",
-    error_state:"Please enter your state",
-    error_pincode:"Please enter your pin code",
-    error_re_tyre:"Please enter your re-tyre password",
-    error_restaurantName:"Please enter your Restaurant Name",
-    error_re_tyre_match:"Your password and confirm password do not match.",
+    error_email: "Please enter your email address",
+    error_name: "Please enter your name",
+    error_password: "Please enter your password",
+    error_v_password: "Your password must be at least 9 characters long",
+    error_number_password: "Password must contain one number",
+    error_character_password: "Password must contain one special character",
+    error_uppercase_password: "Password must contain one uppercase letter",
+    error_v_email: "Please enter your valid email address",
+    error_phone: "Please enter your phone number",
+    error_v_phone: "Please enter valid phone number",
+    error_country: "Please enter your country",
+    error_city: "Please enter your city",
+    error_state: "Please enter your state",
+    error_pincode: "Please enter your pin code",
+    error_re_tyre: "Please enter your re-tyre password",
+    error_restaurantName: "Please enter your Restaurant Name",
+    error_re_tyre_match: "Your password and confirm password do not match.",
+    role:'Role',
+    select_role:'SELECT ROLE'
   },
   sign_up: {
     sign_up: "Sign Up",
@@ -59,19 +65,19 @@ export default {
     great: "Great!",
     account_success_text: "Your account has been Created successfully",
     start_shopping: "Start Shopping",
-    mobile_Number:'Mobile Number',
-    p_enter_cty:'Enter City',
-    city:"City",
-    p_enter_state:'Enter State',
-    state:'State',
-    p_enter_country:'Enter Country',
-    country:'Country',
-    p_enter_area:'Enter Address',
-    area:'Area',
-    p_enter_pincode:'Enter Pincode',
-    p_enter_number:'Number',
-    restaurantName:'Restaurant Name',
-    pincode:'Pincode'
+    mobile_Number: 'Mobile Number',
+    p_enter_cty: 'Enter City',
+    city: "City",
+    p_enter_state: 'Enter State',
+    state: 'State',
+    p_enter_country: 'Enter Country',
+    country: 'Country',
+    p_enter_area: 'Enter Address',
+    area: 'Area',
+    p_enter_pincode: 'Enter Pincode',
+    p_enter_number: 'Number',
+    restaurantName: 'Restaurant Name',
+    pincode: 'Pincode'
   },
   Phone_number_verification: {
     verification: "Verification",
@@ -89,26 +95,31 @@ export default {
   },
   home: {
     location: "Location",
-    running_orders:'Running Orders',
-    order_request:'Order Request',
-    reviews:'Reviews',
-    see_all_reviews:'See All Reviews',
-    see_details:'See Details',
-    total_revenue:'Total Revenue',
-    populer_items_this_weeks:'Populer Items This Weeks',
-    see_all:'See All'
+    running_orders: 'Running Orders',
+    order_request: 'Order Request',
+    reviews: 'Reviews',
+    see_all_reviews: 'See All Reviews',
+    see_details: 'See Details',
+    total_revenue: 'Total Revenue',
+    populer_items_this_weeks: 'Populer Items This Weeks',
+    see_all: 'See All'
   },
-  myMenuList:{
-    my_menu:'My Menu',
-    all:'All',
-    breakfast:'Breakfast',
-    lunch:'Lunch',
-    dinner:'Dinner'
+  myMenuList: {
+    my_menu: 'My Menu',
+    all: 'All',
+    breakfast: 'Breakfast',
+    lunch: 'Lunch',
+    dinner: 'Dinner',
+    edit: 'Edit',
+    delete: 'Delete',
+    are_you_sure: 'Are you sure you want to delete ?',
+    no:'No',
+    yes:'Yes'
   },
-  orderModal:{
-    done:'Done',
-    cancel:'Cancel',
-    select_chef:'Select Chef'
+  orderModal: {
+    done: 'Done',
+    cancel: 'Cancel',
+    select_chef: 'Select Chef'
   },
   ordersList: {
     myOrders: "My Orders",
@@ -122,47 +133,55 @@ export default {
     reset: 'RESET',
     item_name: 'ITEM NAME',
     p_itemName: 'Mazalichiken Halim',
-    upload_photo_video:'Upload photo/video',
-    add:'Add',
-    price:'PRICE',
-    add_cusine:'ADD CUSINE',
-    select_cusine:'Select Cusine',
-    basic_details:'Basic Details',
-    save_changes:'Save Changes',
-    item_name_error:"Please enter your Item Name",
-    price_error:"Please enter your price",
-    cuisines_error:"Please select add cuisines",
-    basicDetails:"Please enter your basic details",
+    upload_photo_video: 'Upload photo/video',
+    add: 'Add',
+    price: 'PRICE',
+    add_cusine: 'ADD CUSINE',
+    select_cusine: 'Select Cusine',
+    basic_details: 'Basic Details',
+    save_changes: 'Save Changes',
+    item_name_error: "Please enter your Item Name",
+    price_error: "Please enter your price",
+    cuisines_error: "Please select add cuisines",
+    basicDetails: "Please enter your basic details",
   },
-  foodDetails:{
-    food_Details:'Food Details',
-    edit:'EDIT',
-    basic_details:'Basic Details',
-    description:'Description'
+  foodDetails: {
+    food_Details: 'Food Details',
+    edit: 'EDIT',
+    basic_details: 'Basic Details',
+    description: 'Description'
   },
-  profileScreen:{
-    profile:'Profile',
-    personal_info:'Personal Info',
-    addresses:'Addresses',
-    menu:'Menu',
-    inventory:'Inventory',
-    notifications:'Notifications',
-    chef:'Chef',
-    fAQs:'FAQs',
-    crm:'CRM',
-    settings:'Settings',
-    log_out:'Log Out'
+  profileScreen: {
+    profile: 'Profile',
+    personal_info: 'Personal Info',
+    addresses: 'Addresses',
+    menu: 'Menu',
+    inventory: 'Inventory',
+    notifications: 'Notifications',
+    chef: 'Chef',
+    fAQs: 'FAQs',
+    crm: 'CRM',
+    settings: 'Settings',
+    salary: "Salary",
+    log_out: 'Log Out'
   },
-  notifications:{
-    notifications:'Notifications',
-    messages:'Messages'
+  notifications: {
+    notifications: 'Notifications',
+    messages: 'Messages'
   },
-  reviews:{
-    reviews:"Reviews"
+  reviews: {
+    reviews: "Reviews"
   },
-  chefSignUp:{
-    select_chef:'SELECT CHEF',
-    phone_Number:'Phone Number',
-    select_chef_error:"Please select your chef",
+  chefSignUp: {
+    chef_register:'Chef Register',
+    select_cusine: 'SELECT CUSINE',
+    phone_Number: 'Phone Number',
+    select_cusine_error: "Please select your cusine",
+    salary: "Salary",
+    p_salary: "Please enter salary",
   },
+  PersonalInfo:{
+    personal_Info:'Personal Info',
+    edit:'Edit'
+  }
 };

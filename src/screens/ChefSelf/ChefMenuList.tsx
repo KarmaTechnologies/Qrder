@@ -22,7 +22,7 @@ import { getCuisinesMenuList, getMenuAction } from '../../actions/menuAction';
 
 type Props = {};
 
-const MyMenuList = (props: Props) => {
+const ChefMenuList = (props: Props) => {
   const { colors, isDark } = useTheme();
   const navigation = useNavigation();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
@@ -171,7 +171,7 @@ const MyMenuList = (props: Props) => {
   );
 };
 
-export default MyMenuList;
+export default ChefMenuList;
 
 const getGlobalStyles = (props: any) => {
   const { colors } = props;

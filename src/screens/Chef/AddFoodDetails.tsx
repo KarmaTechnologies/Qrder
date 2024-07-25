@@ -54,7 +54,7 @@ const AddFoodDetails = (props: Props) => {
   const [basicDetails, setBasicDetails] = useState('');
   const [images, setImages] = useState([]);
   const [quantityValue, setQuantityValue] = useState(0);
-  const {getChefsData} = useAppSelector(state => state.data);
+  const {getCuisines} = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
   console.log('quantityValue', quantityValue);
 
@@ -129,7 +129,7 @@ const AddFoodDetails = (props: Props) => {
       let obj = {
         data,
         onSuccess: (response: any) => {
-          setImages('');
+          setImages([]);
           setItemName('');
           setPrice('');
           setQuantityValue(0);
@@ -212,7 +212,7 @@ const AddFoodDetails = (props: Props) => {
               keyboardType="number-pad"
             />
             <CCDropDown
-              data={getChefsData}
+              data={getCuisines}
               label={strings('addFoodList.add_cusine')}
               labelField={'name'}
               valueField={'id'}

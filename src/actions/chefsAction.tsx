@@ -11,6 +11,7 @@ import {
   USER_INFO,
 } from '../redux/actionTypes';
 import {getAsyncToken} from '../utils/asyncStorageManager';
+import { successToast } from '../utils/commonFunction';
 
 export const getChefsAction =
   (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
@@ -42,6 +43,7 @@ export const getChefsAction =
   async dispatch => {
     let headers = {
       'Content-Type': 'multipart/form-data',
+      Authorization: await getAsyncToken(),
     };
     dispatch({type: IS_LOADING, payload: true});
     return makeAPIRequest({
@@ -53,9 +55,7 @@ export const getChefsAction =
       .then(async (response: any) => {
         if (response.status === 200 || response.status === 201) {
           dispatch({type: IS_LOADING, payload: false});
-          console.log("-->>",response?.data)
-          // await setAsyncToken(response?.data?.data?.token);
-          // await setAsyncUserInfo(response?.data?.data?.user);
+          successToast(response?.data?.message)
           if (request.onSuccess) request.onSuccess(response.data);
         }
       })

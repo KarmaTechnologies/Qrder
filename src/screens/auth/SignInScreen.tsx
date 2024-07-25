@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
-import {Icons} from '../../utils/images';
-import {commonFontStyle, h, hp, wp} from '../../theme/fonts';
+import React, { useState } from 'react';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { Icons } from '../../utils/images';
+import { commonFontStyle, h, hp, wp } from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import {
+  DropDownData,
   UpperCaseCheck,
   emailCheck,
   errorToast,
@@ -21,29 +22,33 @@ import {
   successToast,
 } from '../../utils/commonFunction';
 import PrimaryButton from '../../compoment/PrimaryButton';
-import {screenName} from '../../navigation/screenNames';
-import {dispatchNavigation} from '../../utils/globalFunctions';
-import {useAppDispatch} from '../../redux/hooks';
-import {userLogin} from '../../actions/authAction';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { screenName } from '../../navigation/screenNames';
+import { dispatchNavigation } from '../../utils/globalFunctions';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { userLogin } from '../../actions/authAction';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
-import {strings} from '../../i18n/i18n';
+import { strings } from '../../i18n/i18n';
+import CCDropDown from '../../compoment/CCDropDown';
 
 type Props = {};
 
+
 const SignInScreen = (props: Props) => {
-  const {colors, isDark} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [email, setEmail] = useState(__DEV__ ? 'user@gmail.com' : '');
   const [password, setPassword] = useState(__DEV__ ? 'Test@1234' : '');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
+  const [selectRole, setSelectRole] = useState('');
   const [isSelect, setIsSelect] = useState<boolean>(false);
+  const { selectedRole } = useAppSelector(state => state.common);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   const onPressLogin = () => {
-    // dispatchNavigation(screenName.BottomTabBar);
+    dispatchNavigation(screenName.ChefSelfBottomBar);
     // return
     if (email.trim().length === 0) {
       errorToast(strings('login.error_email'));
@@ -80,6 +85,14 @@ const SignInScreen = (props: Props) => {
     }
   };
 
+  const onPressSignUp = () =>{
+    if(selectedRole === 'Admin'){
+      navigation.navigate(screenName.SignUpScreen)
+    }else{
+      navigation.navigate(screenName.ChefSignUp)
+    }
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -112,6 +125,18 @@ const SignInScreen = (props: Props) => {
             onChangeText={(t: string) => setPassword(t)}
             onPressEye={() => setIsShowPassword(!isShowPassword)}
           />
+          <CCDropDown
+            data={DropDownData}
+            label={strings('login.select_role')}
+            labelField={'name'}
+            valueField={'name'}
+            placeholder={strings('login.role')}
+            DropDownStyle={styles.dropDownStyle}
+            value={selectRole}
+            setValue={setSelectRole}
+            extraStyle={styles.extraStyle}
+          />
+      
           <View style={styles.subContainer}>
             <View style={styles.rememberView}>
               <TouchableOpacity
@@ -139,7 +164,7 @@ const SignInScreen = (props: Props) => {
             title={strings('login.login_in')}
           />
           <TouchableOpacity
-            onPress={() => navigation.navigate(screenName.SignUpScreen)}>
+            onPress={onPressSignUp}>
             <Text style={styles.bottomText}>
               {strings('login.dont_have_account')}
               <Text style={styles.signUpText}> {strings('login.sign_up')}</Text>
@@ -190,7 +215,7 @@ const SignInScreen = (props: Props) => {
 export default SignInScreen;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -296,6 +321,15 @@ const getGlobalStyles = (props: any) => {
       height: hp(20),
       width: wp(18),
       resizeMode: 'contain',
+    },
+    dropDownStyle: {
+      borderColor: colors.inputColor,
+      backgroundColor: colors.inputColor,
+      height: hp(60),
+      borderRadius: 10,
+    },
+    extraStyle: {
+      marginTop: hp(24),
     },
   });
 };

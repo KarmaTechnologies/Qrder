@@ -1,11 +1,9 @@
 import thunk from 'redux-thunk';
 import { combineReducers } from 'redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { USER_LOGOUT } from './actionTypes';
 import commonReducer from './reducer/commonReducer';
 import dataReducer from './reducer/dataReducer';
-
-// const middleware = [thunk];
 
 const reducers = combineReducers({
   common: commonReducer,
@@ -14,11 +12,25 @@ const reducers = combineReducers({
 
 const rootReducer = (state: any, action: any) => {
   if (action.type === USER_LOGOUT) {
-    return reducers(undefined, action);
+    state = undefined;
   }
   return reducers(state, action);
 };
 
-const store = configureStore({ reducer: rootReducer });
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+const middleware = getDefaultMiddleware({
+  thunk,
+  serializableCheck: isDevelopment ? {
+    ignoredActions: [],
+    ignoredPaths: [],
+    warnAfter: 128, // Adjust the threshold as needed
+  } : false,
+});
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware,
+});
 
 export default store;

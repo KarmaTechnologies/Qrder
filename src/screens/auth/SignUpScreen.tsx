@@ -6,15 +6,15 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
-import {hp, wp} from '../../theme/fonts';
+import React, { useEffect, useState } from 'react';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { hp, wp } from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import PrimaryButton from '../../compoment/PrimaryButton';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
-import {screenName} from '../../navigation/screenNames';
-import {strings} from '../../i18n/i18n';
+import { screenName } from '../../navigation/screenNames';
+import { strings } from '../../i18n/i18n';
 import Spacer from '../../compoment/Spacer';
 import {
   emailCheck,
@@ -23,34 +23,17 @@ import {
   specialCarCheck,
   UpperCaseCheck,
 } from '../../utils/commonFunction';
-import {dispatchNavigation} from '../../utils/globalFunctions';
-import {userSignUp} from '../../actions/authAction';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import CCDropDown from '../../compoment/CCDropDown';
-import {getCityAction} from '../../actions/commonAction';
+import { dispatchNavigation } from '../../utils/globalFunctions';
+import { userSignUp } from '../../actions/authAction';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { getCityAction, searchCities } from '../../actions/commonAction';
+import debounce from 'lodash/debounce';
 
 type Props = {};
-const DropDownData = [
-  {
-    key: 'USER',
-    label: 'Customer',
-    value: '1',
-  },
-  {
-    key: 'DRIVER',
-    label: 'Driver',
-    value: '2',
-  },
-  {
-    key: 'COLLECTION',
-    label: 'Collection',
-    value: '3',
-  },
-];
 
 const SignUpScreen = (props: Props) => {
-  const {colors, isDark} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -65,7 +48,7 @@ const SignUpScreen = (props: Props) => {
   const [pincode, setPincode] = useState('');
   const [quantityValue, setQuantityValue] = useState('');
   const [showListView, setShowListView] = useState(false);
-  const {getCity} = useAppSelector(state => state.common);
+  const { getCity, searchCity } = useAppSelector(state => state.common);
   const [filteredData, setFilteredData] = useState([]);
   const [addressList, setAddressList] = useState([]);
   const [area, setArea] = useState([]);
@@ -128,7 +111,7 @@ const SignUpScreen = (props: Props) => {
       data.append('address', area);
       data.append('city_id', addressList?.id);
       data.append('state_id', addressList?.state?.id);
-      data.append('country_id',addressList?.state?.country?.id);
+      data.append('country_id', addressList?.state?.country?.id);
       data.append('address', 'test');
       data.append('role', 'admin');
       data.append('status', '1');
@@ -151,19 +134,34 @@ const SignUpScreen = (props: Props) => {
 
   const getCityList = () => {
     let obj = {
-      onSuccess: (res: any) => {},
-      onFailure: (Err: any) => {},
+      onSuccess: (res: any) => { },
+      onFailure: (Err: any) => { },
     };
     dispatch(getCityAction(obj));
   };
 
-  const FilterSearch = searchText => {
+  const debouncedFilterSearch = React.useCallback(
+    debounce((searchText) => {
+      let UserInfo = {
+        data: searchText,
+        onSuccess: (res) => { },
+        onFailure: (Err) => { },
+      };
+      dispatch(searchCities(UserInfo));
+    }, 300),
+    []
+  );
+  const FilterSearch = (searchText: any) => {
     setCity(searchText);
-    let text = searchText?.toLowerCase();
-    let filteredData = getCity?.filter(subItem => {
-      return subItem?.name?.toLowerCase()?.includes(text);
-    });
-    setFilteredData(filteredData);
+    if (searchText.length >= 3) {
+      debouncedFilterSearch(searchText);
+    }
+
+    // let text = searchText?.toLowerCase();
+    // let filteredData = getCity?.filter(subItem => {
+    //   return subItem?.name?.toLowerCase()?.includes(text);
+    // });
+    // setFilteredData(filteredData);
   };
 
   return (
@@ -225,7 +223,7 @@ const SignUpScreen = (props: Props) => {
             label={strings('sign_up.city')}
             onChangeText={(t: string) => FilterSearch(t)}
             showListView={showListView}
-            searchData={filteredData}
+            searchData={searchCity}
             setShowListView={item => {
               setShowListView(false);
               setCity(item.name);
@@ -250,14 +248,14 @@ const SignUpScreen = (props: Props) => {
               label={strings('sign_up.state')}
               onChangeText={(t: string) => setState(t)}
               showListView={false}
-              extraStyle={{zIndex: -1, width: '48.9%'}}
+              extraStyle={{ zIndex: -1, width: '48.9%' }}
             />
             <Input
               value={country}
               placeholder={strings('sign_up.p_enter_country')}
               label={strings('sign_up.country')}
               onChangeText={(t: string) => setCountry(t)}
-              extraStyle={{zIndex: -1, width: '49%'}}
+              extraStyle={{ zIndex: -1, width: '49%' }}
             />
           </View>
           <Input
@@ -266,7 +264,7 @@ const SignUpScreen = (props: Props) => {
             keyboardType="number-pad"
             label={strings('sign_up.pincode')}
             onChangeText={(t: string) => setPincode(t)}
-            extraStyle={{zIndex: -1}}
+            extraStyle={{ zIndex: -1 }}
           />
           <Input
             value={password}
@@ -277,7 +275,7 @@ const SignUpScreen = (props: Props) => {
             label={strings('sign_up.password')}
             onChangeText={(t: string) => setPassword(t)}
             onPressEye={() => setIsShowPassword(!isShowPassword)}
-            extraStyle={{zIndex: -1}}
+            extraStyle={{ zIndex: -1 }}
           />
           <Input
             value={rePassword}
@@ -304,7 +302,7 @@ const SignUpScreen = (props: Props) => {
 export default SignUpScreen;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,

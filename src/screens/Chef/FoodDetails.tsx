@@ -6,8 +6,8 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import React, { useState } from 'react';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import {
   commonFontStyle,
   hp,
@@ -15,19 +15,21 @@ import {
   SCREEN_WIDTH,
   wp,
 } from '../../theme/fonts';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {strings} from '../../i18n/i18n';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { strings } from '../../i18n/i18n';
 import HomeHeader from '../../compoment/HomeHeader';
 import Swiper from 'react-native-swiper';
-import {Icons} from '../../utils/images';
+import { Icons } from '../../utils/images';
 
 type Props = {};
 
-const FoodDetails = (props: Props) => {
-  const {colors, isDark} = useTheme();
+const FoodDetails = ({ route }) => {
+  const { itemData } = route?.params;
+  const { colors, isDark } = useTheme();
   const navigation = useNavigation();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [basicDetails, setBasicDetails] = useState('');
+  const { name, price,cuisine_name ,description } = itemData
 
   return (
     <View style={styles.container}>
@@ -53,13 +55,13 @@ const FoodDetails = (props: Props) => {
             showsPagination={true}
             autoplay={true}
             horizontal={true}
-            paginationStyle={{height: 10}}
+            paginationStyle={{ height: 10 }}
             height="auto"
             dot={
               <>
                 <View style={styles.dot} />
                 <View style={styles.leftView}>
-                  <Text style={styles.leftText}>Breakfast</Text>
+                  <Text style={styles.leftText}>{cuisine_name}</Text>
                 </View>
               </>
             }
@@ -85,14 +87,14 @@ const FoodDetails = (props: Props) => {
 
         <View style={styles.foodTitle}>
           <View>
-            <Text style={styles.foodText}>Chicken Thai Biriyani</Text>
+            <Text style={styles.foodText}>{name}</Text>
             <View style={styles.locationView}>
               <Image source={Icons.locationPin} style={styles.locationIcon} />
               <Text style={styles.locationText}>Kentucky 39495</Text>
             </View>
           </View>
           <View>
-            <Text style={styles.priceText}>$60</Text>
+            <Text style={styles.priceText}>{`$${price}`}</Text>
             <View style={styles.rateView}>
               <Image source={Icons.star} style={styles.starStyle} />
               <Text style={styles.rateText}>4.9</Text>
@@ -114,15 +116,11 @@ const FoodDetails = (props: Props) => {
           placeholderTextColor={colors.gray_400}
         />
 
-        <View style={[styles.underlineAll, {marginTop: hp(36)}]} />
+        <View style={[styles.underlineAll, { marginTop: hp(36) }]} />
         <Text style={styles.descriptionText}>
           {strings('foodDetails.description')}
         </Text>
-        <Text style={styles.descriptionText1}>
-          {
-            'Lorem ipsum dolor sit amet, consetdur Maton adipiscing elit. Bibendum in vel, mattis et amet dui mauris turpis.'
-          }
-        </Text>
+        <Text style={styles.descriptionText1}>{description}</Text>
       </KeyboardAwareScrollView>
     </View>
   );
@@ -131,7 +129,7 @@ const FoodDetails = (props: Props) => {
 export default FoodDetails;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -262,7 +260,7 @@ const getGlobalStyles = (props: any) => {
       paddingVertical: 5,
       paddingHorizontal: 16,
     },
-    leftText:{
+    leftText: {
       ...commonFontStyle(400, 14, colors.Title_Text),
     }
   });

@@ -34,6 +34,7 @@ type InputProps = {
   labelField?: any;
   valueField?: any;
   labelTextStyle?: ViewStyle;
+  extraStyle?:ViewStyle
 };
 
 const CCDropDown = ({

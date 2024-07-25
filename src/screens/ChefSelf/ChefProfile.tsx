@@ -24,7 +24,7 @@ import {dispatchNavigation} from '../../utils/globalFunctions';
 
 type Props = {};
 
-const Profile = (props: Props) => {
+const ChefProfile = (props: Props) => {
   const {colors, isDark} = useTheme();
   const navigation = useNavigation();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
@@ -53,15 +53,9 @@ const Profile = (props: Props) => {
       case 'Personal Info':
         navigation.navigate(screenName.PersonalInfo);
         break;
-      case 'Chef':
-        navigation.navigate(screenName.ChefSignUp);
+        case 'Menu':
+        navigation.navigate(screenName.MyOrdersList);
         break;
-        case 'Notifications':
-          navigation.navigate(screenName.ProfileNotification);
-          break;
-          case 'CRM':
-          navigation.navigate(screenName.ProfileMessages);
-          break;
       default:
         break;
     }
@@ -119,34 +113,12 @@ const Profile = (props: Props) => {
               iconName: Icons.menuIcon,
             },
             {
-              title: strings('profileScreen.inventory'),
+              title: strings('profileScreen.salary'),
               iconName: Icons.inventory,
             },
             {
-              title: strings('profileScreen.crm'),
-              iconName: Icons.crmIcon,
-            },
-            {
-              title: strings('profileScreen.notifications'),
-              iconName: Icons.bellIcon,
-            },
-            {
-              title: strings('profileScreen.chef'),
-              iconName: Icons.chefIcon,
-            },
-          ]}
-          onPressCell={onPressNavigation}
-          styleProp={styles.boxCotainer}
-        />
-        <TitleList
-          arr_list={[
-            {
-              title: strings('profileScreen.fAQs'),
-              iconName: Icons.faqsIcon,
-            },
-            {
               title: strings('profileScreen.settings'),
-              iconName: Icons.settingsIcon,
+              iconName: Icons.crmIcon,
             },
           ]}
           onPressCell={onPressNavigation}
@@ -170,7 +142,7 @@ const Profile = (props: Props) => {
   );
 };
 
-export default Profile;
+export default ChefProfile;
 
 const getGlobalStyles = (props: any) => {
   const {colors} = props;

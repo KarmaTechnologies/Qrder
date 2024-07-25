@@ -33,6 +33,10 @@ import NotificationListCard from '../screens/Chef/NotificationListCard';
 import ProfileNotification from '../screens/Settings/ProfileNotification';
 import ProfileMessages from '../screens/Settings/ProfileMessages';
 import ReviewsScreen from '../screens/Chef/ReviewsScreen';
+import PersonalInfo from '../screens/Settings/PersonalInfo';
+import RoleSelectionScreen from '../screens/auth/RoleSelectionScreen';
+import ChefSellBottomBar from './ChefSelfBottomBar';
+import ChefSelfBottomBar from './ChefSelfBottomBar';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -107,6 +111,14 @@ const StackNavigator: FC = () => {
         component={LoginSignupScreen}
       /> */}
 
+      <Stack.Screen
+        options={({ navigation }) => ({
+          headerShown: false,
+          ...headerStyleTransparent,
+        })}
+        name={screenName.RoleSelectionScreen}
+        component={RoleSelectionScreen}
+      />
       <Stack.Screen
         options={({ navigation }) => ({
           ...headerStyleTransparent,
@@ -192,7 +204,19 @@ const StackNavigator: FC = () => {
         headerShown: false,
         headerTitle: '',
       })} name={screenName.ReviewsScreen} component={ReviewsScreen} />
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.PersonalInfo} component={PersonalInfo} />
 
+      {/* // chefSell */}
+
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.ChefSelfBottomBar} component={ChefSelfBottomBar} />
     </Stack.Navigator>
   );
 };

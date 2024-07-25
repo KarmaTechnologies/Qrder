@@ -1,5 +1,5 @@
 import Toast from 'react-native-toast-message';
-import {navigationRef} from '../navigation/mainNavigator';
+import { navigationRef } from '../navigation/mainNavigator';
 import Snackbar from 'react-native-snackbar';
 
 export const emailCheck = (email: string) => {
@@ -42,16 +42,16 @@ export const passwordCheck = (string: string) => {
 export const resetNavigation = (name: string, params?: any) => {
   navigationRef.reset({
     index: 0,
-    routes: [{name: name}],
+    routes: [{ name: name }],
   });
 };
 
 export const successToast = (message: string) => {
-    Snackbar.show({
-        text: message,
-        duration: Snackbar.LENGTH_SHORT,
-        backgroundColor: 'green',
-      });
+  Snackbar.show({
+    text: message,
+    duration: Snackbar.LENGTH_SHORT,
+    backgroundColor: 'green',
+  });
 };
 
 export const errorToast = (message: string) => {
@@ -70,3 +70,14 @@ export const infoToast = (message: string) => {
     backgroundColor: '#000',
   });
 };
+
+export const DropDownData = [
+  {
+    name: "Admin",
+    id: 1,
+  },
+  {
+    name: "Chef",
+    id: 2,
+  },
+];

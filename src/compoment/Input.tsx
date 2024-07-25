@@ -36,6 +36,9 @@ type Props = {
   keyboardType: any;
   multiline?: boolean;
   onFocus?: any;
+  searchData?:any;
+  showListView?:boolean;
+  setShowListView?:any
 };
 
 const Input = ({
@@ -97,7 +100,7 @@ const Input = ({
           </TouchableOpacity>
         ) : null}
       </View>
-      {showListView && value.length > 0 ? (
+      {showListView && value.length >= 3 ? (
         <ScrollView
           nestedScrollEnabled
           keyboardShouldPersistTaps={'handled'}
