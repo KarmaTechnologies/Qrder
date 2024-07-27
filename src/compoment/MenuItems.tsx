@@ -47,7 +47,9 @@ const MenuItems = ({ item, setDelete }: ItemProps) => {
 
     return (
         <View style={styles.boxView}>
-            <View style={styles.subBoxView}>
+            <TouchableOpacity activeOpacity={0.5} onPress={()=>{
+                   navigation.navigate(screenName.FoodDetails, { itemData: item })
+            }} style={styles.subBoxView}>
                 {item.images[0] ? (
                     <Image source={{ uri: item.images[0] }} style={[styles.imageView, { backgroundColor: colors.image_Bg_gray }]} />
                 ) : (
@@ -103,7 +105,7 @@ const MenuItems = ({ item, setDelete }: ItemProps) => {
                         <Text style={styles.pickUpText}> {'Pick UP'}</Text>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         </View>
     )
 }

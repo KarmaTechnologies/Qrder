@@ -24,6 +24,7 @@ import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {addMenuAction} from '../../actions/menuAction';
 import {errorToast} from '../../utils/commonFunction';
 import moment = require('moment');
+import AddFolderModal from '../../compoment/AddFolderModal';
 
 type Props = {};
 
@@ -56,7 +57,8 @@ const AddFoodDetails = (props: Props) => {
   const [quantityValue, setQuantityValue] = useState(0);
   const {getCuisines} = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
-  console.log('quantityValue', quantityValue);
+  const [newFolder, setNewFolder] = useState(false);
+  const [showAddField, setShowAddField] = useState(true);
 
   const selectAndCropImage = () => {
     ImagePicker.openPicker({
@@ -118,14 +120,6 @@ const AddFoodDetails = (props: Props) => {
         type: images[0]?.mime,
         name: images[0]?.name,
       });
-      // images?.map(item => {
-      //   data.append('files', {
-      //     uri: item?.uri,
-      //     type: item?.mime,
-      //     name: item?.name,
-      //   });
-      // });
-
       let obj = {
         data,
         onSuccess: (response: any) => {
@@ -155,11 +149,27 @@ const AddFoodDetails = (props: Props) => {
     setBasicDetails('');
   }
 
+  if(showAddField){
+    return <View style={{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:colors.white}}>
+      <TouchableOpacity onPress={()=>{setNewFolder(true)}} style={styles.boxStyle}>
+        <Text style={styles.boxText}>{strings("addFoodList.add_cuisines")}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={()=>setShowAddField(false)} style={styles.boxStyle}>
+        <Text style={styles.boxText}>{strings("addFoodList.add_menu")}</Text>
+      </TouchableOpacity>
+      <AddFolderModal
+        isVisible={newFolder}
+        onClose={() => setNewFolder(false)}
+      />
+
+    </View>
+  }
+
   return (
     <View style={styles.container}>
       <HomeHeader
         onBackPress={() => {
-          navigation.goBack();
+          setShowAddField(true)
         }}
         onRightPress={onRightPress}
         mainShow={true}
@@ -356,6 +366,18 @@ const getGlobalStyles = (props: any) => {
     },
     spacerView: {
       height: isIos ? hp(210) : hp(170),
+    },
+    boxStyle:{
+      borderWidth:1,
+      height:wp(150),
+      width: wp(200),
+      borderRadius:18,
+      marginBottom:25,
+      justifyContent:'center',
+      alignItems:'center'
+    },
+    boxText: {
+      ...commonFontStyle(400, 18, colors.black),
     },
   });
 };

@@ -74,7 +74,7 @@ const ChefSignUp = (props: Props) => {
       const userDetails = await getAsyncUserInfo()
       console.log("-->>", userDetails?.parent_id)
 
-      data.append('parent_id', 1)
+      data.append('parent_id', userDetails?.id)
       data.append('name', name);
       data.append('email', email);
       data.append('cuisine_id', quantityValue);

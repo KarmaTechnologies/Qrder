@@ -145,6 +145,12 @@ export default {
     price_error: "Please enter your price",
     cuisines_error: "Please select add cuisines",
     basicDetails: "Please enter your basic details",
+    new_Folder: "New Folder",
+    enter_cuisine: "Enter cuisine",
+    add_cuisine: "Save",
+    error_enter: "Please enter your cuisine name",
+    add_cuisines: "Add Cuisine",
+    add_menu: "Add Menu",
   },
   foodDetails: {
     food_Details: 'Food Details',
@@ -168,7 +174,8 @@ export default {
   },
   notifications: {
     notifications: 'Notifications',
-    messages: 'Messages'
+    messages: 'Messages',
+    review: 'Review',
   },
   reviews: {
     reviews: "Reviews"

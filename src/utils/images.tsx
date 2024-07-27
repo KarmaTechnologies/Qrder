@@ -47,4 +47,5 @@ export const Icons = {
   logout: require('../assets/Icons/logout.png'),
   optionIcon: require('../assets/Icons/optionIcon.png'),
   checkIcon: require('../assets/Icons/checkIcon.png'),
+  close: require('../assets/Icons/close.png'),
 };

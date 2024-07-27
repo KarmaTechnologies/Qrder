@@ -18,7 +18,7 @@ import {strings} from '../../i18n/i18n';
 import MenuCardList from '../../compoment/MenuCardList';
 import {getCuisinesAction} from '../../actions/cuisinesAction';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {getCuisinesMenuList, getMenuAction} from '../../actions/menuAction';
+import { getCuisinesMenuListAction, getMenuAction} from '../../actions/menuAction';
 
 type Props = {};
 
@@ -76,7 +76,7 @@ const MyMenuList = (props: Props) => {
         setRefreshing(false);
       },
     };
-    dispatch(getCuisinesMenuList(obj));
+    dispatch(getCuisinesMenuListAction(obj));
   };
 
   return (

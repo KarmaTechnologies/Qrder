@@ -67,7 +67,7 @@ const Notification = (props: Props) => {
                     }}
                     style={styles.tabItemView}>
                     <Text style={[styles.historyText, { color: tabSelection === 'Messages' ? colors.Primary_Orange : colors.gray_200 }]}>
-                        {`${strings('notifications.messages')} (3)`}
+                        {`${strings('notifications.review')} (3)`}
                     </Text>
                     {tabSelection === 'Messages' && <View style={styles.underline} />}
                 </TouchableOpacity>

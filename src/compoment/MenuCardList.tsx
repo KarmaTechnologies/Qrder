@@ -9,12 +9,13 @@ import React, { useState } from 'react';
 import { useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../theme/fonts';
 import NoDataFound from './NoDataFound';
-import { useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import MenuItems from './MenuItems';
 import Spacer from './Spacer';
 import PrimaryButton from './PrimaryButton';
 import CCModal from './CCModal';
 import { strings } from '../i18n/i18n';
+import { deleteMenuAction } from '../actions/menuAction';
 
 type Props = {
   onRefresh?: () => void;
@@ -27,17 +28,19 @@ const MenuCardList = ({ onRefresh, refreshing }: Props) => {
   const [visible, setVisible] = useState(false);
   const [selectItem, setSelectItem] = useState([]);
   const { getMenuData } = useAppSelector(state => state.data);
+  const dispatch = useAppDispatch();
 
+console.log('selectItem',selectItem);
 
   const removeMenuCardList = () => {
-    // let UserInfo = {
-    //   data: selectItem?._id,
-    //   onSuccess: (res: any) => {
-    //     setRefresh(false);
-    //   },
-    //   onFailure: (Err: any) => {},
-    // };
-    // dispatch(ccRemoveDriverAction(UserInfo));
+    let UserInfo = {
+      data: selectItem?.id,
+      onSuccess: (res: any) => {
+        setRefresh(false);
+      },
+      onFailure: (Err: any) => {},
+    };
+    dispatch(deleteMenuAction(UserInfo));
   };
 
   return (

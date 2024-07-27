@@ -1,4 +1,4 @@
-import {GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_MENU_DATA, IS_LOADING, SET_APP_THEME} from '../actionTypes';
+import {DELETE_MENU_DATA, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_MENU_DATA, IS_LOADING, SET_APP_THEME} from '../actionTypes';
 
 const initialState = {
   getCuisines:[],
@@ -16,6 +16,12 @@ export default function (state = initialState, action: any) {
     }
     case GET_CHEFS_DATA: {
       return {...state, getChefsData: action.payload};
+    }
+    case DELETE_MENU_DATA: {
+      const remove = state.getMenuData.filter(
+        item => item?.id !== action.payload,
+      );
+      return { ...state, getMenuData: remove }; 
     }
     default:
       return state;
