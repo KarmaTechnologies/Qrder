@@ -24,7 +24,7 @@ const RoleSelectionScreen = (props: Props) => {
   const onPressRole = () => {
     dispatch(selectRoleAction(selectRole));
     setTimeout(() => {
-      navigation.navigate(screenName.SignInScreen);
+      navigation.navigate(screenName.SignInScreen,{role:selectRole});
     }, 500)
   };
 
@@ -60,7 +60,7 @@ const RoleSelectionScreen = (props: Props) => {
           <PrimaryButton
             extraStyle={styles.signupButton}
             onPress={onPressRole}
-            title={strings('roleSelection.save')}
+            title={strings('roleSelection.continue')}
           />
         </KeyboardAwareScrollView>
       </View>

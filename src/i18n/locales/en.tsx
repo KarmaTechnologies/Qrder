@@ -10,7 +10,8 @@ export default {
   },
   roleSelection:{
     select_role:'Select Role',
-    save:'Save'
+    save:'Save',
+    continue:"continue"
   },
   login: {
     login_in: "Log In",

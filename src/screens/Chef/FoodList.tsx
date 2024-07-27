@@ -9,39 +9,38 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
-import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
+import {commonFontStyle, hp, SCREEN_WIDTH, wp} from '../../theme/fonts';
 import PagerView from 'react-native-pager-view';
-import { strings } from '../../i18n/i18n';
+import {strings} from '../../i18n/i18n';
 import MenuCardList from '../../compoment/MenuCardList';
-import { getCuisinesAction } from '../../actions/cuisinesAction';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { getCuisinesMenuList, getMenuAction } from '../../actions/menuAction';
+import {getCuisinesAction} from '../../actions/cuisinesAction';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {getCuisinesMenuList, getMenuAction} from '../../actions/menuAction';
 
 type Props = {};
 
 const MyMenuList = (props: Props) => {
-  const { colors, isDark } = useTheme();
+  const {colors, isDark} = useTheme();
   const navigation = useNavigation();
-  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [tabSelection, setTabSelection] = useState(strings('myMenuList.all'));
   const [refreshing, setRefreshing] = React.useState(false);
   const [cuisineId, setCuisineId] = React.useState(0);
   const ref = React.createRef(PagerView);
   const dispatch = useAppDispatch();
-  const { getCuisines, getMenuData } = useAppSelector(state => state.data);
+  const {getCuisines, getMenuData} = useAppSelector(state => state.data);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    if(tabSelection === 'All'){
+    if (tabSelection === 'All') {
       getMenuList();
-    }else{
-      getAllCuisinesMenuList(cuisineId)
+    } else {
+      getAllCuisinesMenuList(cuisineId);
     }
-  }, [refreshing,cuisineId]);
-
+  }, [refreshing, cuisineId]);
 
   useEffect(() => {
     getCityList();
@@ -50,8 +49,8 @@ const MyMenuList = (props: Props) => {
 
   const getCityList = () => {
     let obj = {
-      onSuccess: (res: any) => { },
-      onFailure: (Err: any) => { },
+      onSuccess: (res: any) => {},
+      onFailure: (Err: any) => {},
     };
     dispatch(getCuisinesAction(obj));
   };
@@ -59,8 +58,8 @@ const MyMenuList = (props: Props) => {
     let obj = {
       onSuccess: (res: any) => {
         setRefreshing(false);
-       },
-      onFailure: (Err: any) => { 
+      },
+      onFailure: (Err: any) => {
         setRefreshing(false);
       },
     };
@@ -72,10 +71,10 @@ const MyMenuList = (props: Props) => {
       data: id,
       onSuccess: (res: any) => {
         setRefreshing(false);
-       },
+      },
       onFailure: (Err: any) => {
         setRefreshing(false);
-       },
+      },
     };
     dispatch(getCuisinesMenuList(obj));
   };
@@ -95,56 +94,61 @@ const MyMenuList = (props: Props) => {
         extraStyle={styles.headerContainer}
         isShowIcon={false}
       />
-      <View style={styles.tabMainView}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {[
-            { name: 'All', label: strings('myMenuList.all'), page: 0, id: 0 },
-            ...getCuisines,
-          ]?.map((tab, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => {
-                setTabSelection(tab.name);
-                ref.current?.setPage(index);
-                setCuisineId(tab?.id)
-                if (tab.name === 'All') {
-                  getMenuList()
-                } else {
-                  getAllCuisinesMenuList(tab?.id)
-                }
-              }}
-              style={[
-                styles.tabItemView,
-                {
-                  borderBottomWidth: 1,
-                  paddingBottom: hp(16),
-                  borderColor:
-                    tabSelection == tab.name
-                      ? colors.headerText3
-                      : colors.card_bg,
-                },
-              ]}>
-              <Text
+      {getCuisines.length !== 0 && (
+        <View style={styles.tabMainView}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {[
+              {name: 'All', label: strings('myMenuList.all'), page: 0, id: 0},
+              ...getCuisines,
+            ]?.map((tab, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => {
+                  setTabSelection(tab.name);
+                  ref.current?.setPage(index);
+                  setCuisineId(tab?.id);
+                  if (tab.name === 'All') {
+                    getMenuList();
+                  } else {
+                    getAllCuisinesMenuList(tab?.id);
+                  }
+                }}
                 style={[
+                  styles.tabItemView,
                   {
-                    color:
-                      tabSelection === tab.name
+                    borderBottomWidth: 1,
+                    paddingBottom: hp(16),
+                    borderColor:
+                      tabSelection == tab.name
                         ? colors.headerText3
-                        : colors.Title_Text,
+                        : colors.card_bg,
                   },
                 ]}>
-                {tab.name}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-        <View style={styles.underlineAll} />
-      </View>
+                <Text
+                  style={[
+                    {
+                      color:
+                        tabSelection === tab.name
+                          ? colors.headerText3
+                          : colors.Title_Text,
+                    },
+                  ]}>
+                  {tab.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+          <View style={styles.underlineAll} />
+        </View>
+      )}
 
       <View style={styles.boxContainer} key={'1'}>
-        <MenuCardList onRefresh={() => {
-          onRefresh()
-        }} refreshing={refreshing} />
+        <MenuCardList
+          onRefresh={() => {
+            onRefresh();
+          }}
+          refreshing={refreshing}
+        />
       </View>
       {/* <PagerView
         style={{flex: 1}}
@@ -174,7 +178,7 @@ const MyMenuList = (props: Props) => {
 export default MyMenuList;
 
 const getGlobalStyles = (props: any) => {
-  const { colors } = props;
+  const {colors} = props;
   return StyleSheet.create({
     container: {
       flex: 1,

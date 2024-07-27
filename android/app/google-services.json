@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "664452756526",
+    "project_id": "qrder-7f343",
+    "storage_bucket": "qrder-7f343.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664452756526:android:733580703e028ac5a99bbf",
+        "android_client_info": {
+          "package_name": "com.qrder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg9YbIDUrYHGNrGiar1LBWaIzKrSfhS-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

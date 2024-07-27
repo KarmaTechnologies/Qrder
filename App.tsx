@@ -1,4 +1,4 @@
-import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {LogBox, SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import store from './src/redux';
@@ -8,12 +8,17 @@ import {hp, commonFontStyle, SCREEN_WIDTH} from './src/theme/fonts';
 import RootContainer from './src/navigation/mainNavigator';
 // import * as Sentry from '@sentry/react-native';
 import SplashScreen from 'react-native-splash-screen';
+import { requestNotificationUserPermission } from './src/utils/firebaseConfig';
 
 type Props = {};
 
 const App = (props: Props) => {
   useEffect(() => {
-    SplashScreen.hide();
+    requestNotificationUserPermission();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 1100);
+    LogBox.ignoreAllLogs(true);
   }, []);
 
   const toastConfig = {

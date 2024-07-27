@@ -160,7 +160,7 @@ const Profile = (props: Props) => {
             },
           ]}
           onPressCell={() => {
-            clearAsync(), dispatchNavigation(screenName.SignInScreen);
+            clearAsync(), dispatchNavigation(screenName.RoleSelectionScreen);
           }}
           styleProp={styles.boxCotainer}
         />

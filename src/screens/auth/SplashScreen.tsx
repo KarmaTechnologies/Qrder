@@ -14,6 +14,7 @@ import {screenName} from '../../navigation/screenNames';
 import {dispatchNavigation} from '../../utils/globalFunctions';
 import {getAsyncToken} from '../../utils/asyncStorageManager';
 import {Icons} from '../../utils/images';
+import { onBackgroundNotificationPress, onMessage, onNotificationPress, openAppNotifiactionEvent } from '../../utils/notificationHandle';
 
 type Props = {};
 
@@ -22,6 +23,10 @@ const SplashScreen = (props: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
 
   useEffect(() => {
+    onMessage();
+    onNotificationPress();
+    onBackgroundNotificationPress();
+    openAppNotifiactionEvent();
     setTimeout(() => {
       getUserInfo();
     }, 1000);
@@ -30,10 +35,12 @@ const SplashScreen = (props: Props) => {
   const getUserInfo = async () => {
     let isUser = await getAsyncToken();
     // dispatchNavigation(screenName.SignInScreen);
+    console.log('isUser',isUser);
+    
     if (isUser) {
       dispatchNavigation(screenName.BottomTabBar);
     } else {
-      dispatchNavigation(screenName.SignInScreen);
+      dispatchNavigation(screenName.RoleSelectionScreen);
     }
   };
 

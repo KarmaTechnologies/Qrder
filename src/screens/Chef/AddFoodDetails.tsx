@@ -134,7 +134,7 @@ const AddFoodDetails = (props: Props) => {
           setPrice('');
           setQuantityValue(0);
           setBasicDetails('');
-          Keyboard.dismiss()
+          // Keyboard.dismiss()
         },
         onFailure: (Err: any) => {
           if (Err != undefined) {

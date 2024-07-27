@@ -107,7 +107,7 @@ const FoodDetails = ({ route }) => {
           {strings('foodDetails.basic_details')}
         </Text>
         <TextInput
-          value={basicDetails}
+          value={description}
           onChangeText={(t: string) => setBasicDetails(t)}
           placeholder={'Write your basic details here...'}
           style={styles.basicInput}
@@ -116,11 +116,11 @@ const FoodDetails = ({ route }) => {
           placeholderTextColor={colors.gray_400}
         />
 
-        <View style={[styles.underlineAll, { marginTop: hp(36) }]} />
+        {/* <View style={[styles.underlineAll, { marginTop: hp(36) }]} />
         <Text style={styles.descriptionText}>
           {strings('foodDetails.description')}
         </Text>
-        <Text style={styles.descriptionText1}>{description}</Text>
+        <Text style={styles.descriptionText1}>{description}</Text> */}
       </KeyboardAwareScrollView>
     </View>
   );

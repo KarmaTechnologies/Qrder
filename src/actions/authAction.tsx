@@ -21,7 +21,7 @@ export const userLogin =
     })
       .then(async (response: any) => {
         if (response.status === 200 || response.status === 201) {
-          console.log('response?.data?.token',response);
+          console.log('response?.data?.token',response?.data?.data?.token);
 
           await setAsyncToken(response?.data?.data?.token);
           await setAsyncUserInfo(response?.data?.data?.user);
