@@ -176,7 +176,7 @@ const SignInScreen = (props: Props) => {
           </View>
 
           <View style={styles.roundContainer}>
-            <View
+            <TouchableOpacity
               style={[
                 styles.roundView,
                 {
@@ -184,19 +184,19 @@ const SignInScreen = (props: Props) => {
                 },
               ]}>
               <Image style={styles.facebookIcon} source={Icons.facebook} />
-            </View>
-            <View
+            </TouchableOpacity>
+            <TouchableOpacity
               style={[
                 styles.roundView,
                 {
                   backgroundColor: colors.white12,
                   borderWidth: 1,
-                  borderColor: colors.Surface_Tertiary,
+                  // borderColor: colors.Surface_Tertiary,
                 },
               ]}>
               <Image style={styles.twitterIcon} source={Icons.google} />
-            </View>
-            <View
+            </TouchableOpacity>
+            <TouchableOpacity
               style={[
                 styles.roundView,
                 {
@@ -204,7 +204,7 @@ const SignInScreen = (props: Props) => {
                 },
               ]}>
               <Image style={styles.appleIcon} source={Icons.apple} />
-            </View>
+            </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -263,6 +263,7 @@ const getGlobalStyles = (props: any) => {
       width: wp(20),
       height: hp(20),
       resizeMode: 'contain',
+      tintColor:colors.black
     },
     rememberText: {
       ...commonFontStyle(400, 13, colors.Text_gray),
@@ -302,7 +303,7 @@ const getGlobalStyles = (props: any) => {
     roundView: {
       height: wp(60),
       width: wp(60),
-      borderRadius: wp(60),
+      borderRadius: wp(60)/2,
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: hp(10),

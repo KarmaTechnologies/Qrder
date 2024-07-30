@@ -3,6 +3,7 @@ import React from 'react';
 import { commonFontStyle, hp, SCREEN_HEIGHT, SCREEN_WIDTH, statusBarHeight, wp } from '../theme/fonts';
 import { Icons } from '../utils/images';
 import { useTheme } from '@react-navigation/native';
+import { light_theme } from '../theme/colors';
 
 type Props = {
     title?: string,
@@ -36,6 +37,8 @@ export default LoginHeader;
 
 const getGlobalStyles = (props: any) => {
     const { colors } = props;
+    console.log('colors',colors.white);
+    
     return StyleSheet.create({
         topMainView: {
             flex: 1
@@ -72,15 +75,15 @@ const getGlobalStyles = (props: any) => {
             alignItems: 'center',
         },
         loginText: {
-            ...commonFontStyle(700, 30, colors.white),
+            ...commonFontStyle(700, 30, light_theme.white),
         },
         desText: {
-            ...commonFontStyle(400, 16, colors.white),
+            ...commonFontStyle(400, 16, light_theme.white),
             opacity: 0.8,
             marginTop: 3
         },
         emailText:{
-            ...commonFontStyle(700, 16, colors.white),
+            ...commonFontStyle(700, 16, light_theme.white),
         }
     });
 };

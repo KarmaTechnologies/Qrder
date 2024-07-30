@@ -10,6 +10,7 @@ import React from 'react';
 import { useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../theme/fonts';
 import { Icons } from '../utils/images';
+import { light_theme } from '../theme/colors';
 
 type Props = {
     title: string;
@@ -65,7 +66,7 @@ const getGlobalStyles = (props: any) => {
             borderRadius: 12,
         },
         titleText: {
-            ...commonFontStyle(700, 14, colors.white),
+            ...commonFontStyle(700, 14, light_theme.white),
             textAlign: 'center',
             textTransform: 'uppercase'
         },

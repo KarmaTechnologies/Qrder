@@ -58,7 +58,7 @@ export const light_theme = {
 
 export const dark_theme = {
   black: '#ffffff',
-  white: '#000000',
+  white: '#000',
   white12: 'rgba(0, 0, 0, 1)',
   Primary_Btn: '#FF7622',
   Primary_BtnGray: "#646982",
@@ -77,4 +77,14 @@ export const dark_theme = {
   Surface_Quaternary: '#3F4146',
   Border_gray: '#B9BCC1',
   Primary_white: '#ffffff',
+  Text_gray: '#7E8A97',
+  border_line4:"#fff",
+  Primary_Orange: '#FF7622',
+  inputColor: '#1D1E20',
+
+  blue_100: '#395998',
+  white12: 'rgba(255, 255, 255, 0.7)',
+  blue_200: '#1B1F2F',
+  gray_300: 'rgba(255, 255, 255, 0.6)',
+  dropDownText: 'rgba(255, 255, 255, 0.6)',
 };

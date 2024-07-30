@@ -13,6 +13,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { Icons } from '../utils/images';
 import { commonFontStyle, hp, wp } from '../theme/fonts';
 import { useTheme } from '@react-navigation/native';
+import { light_theme } from '../theme/colors';
 
 type InputProps = {
   placeholder: string;
@@ -122,12 +123,13 @@ const getGlobalStyles = (props: any) => {
       height: 20,
     },
     item_style: {
-      ...commonFontStyle(400, 14, colors.black),
+      ...commonFontStyle(400, 14, light_theme.black),
     },
     downIcon: {
       width: 22,
       height: 22,
       resizeMode: 'contain',
+      tintColor:colors.black
     }
   });
 };

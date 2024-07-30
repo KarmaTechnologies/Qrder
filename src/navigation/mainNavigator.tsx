@@ -38,7 +38,7 @@ const RootContainer: FC = () => {
 
   return (
     <NavigationContainer
-      theme={isDarkTheme ? DarkThemeColors : DefaultThemeColor}
+      theme={!isDarkTheme ? DarkThemeColors : DefaultThemeColor}
       ref={navigationRef}>
       {/* <Loader visible={isLoading} /> */}
       <StackNavigator />
