@@ -243,7 +243,7 @@ const AddFoodDetails = (props: Props) => {
             style={styles.basicInput}
             multiline
             maxLength={200}
-            placeholderTextColor={colors.gray_400}
+            placeholderTextColor={colors.gray_300}
           />
           <PrimaryButton
             extraStyle={styles.saveChangeButton}
@@ -354,6 +354,7 @@ const getGlobalStyles = (props: any) => {
       padding: 15,
       textAlignVertical: 'top',
       marginTop: hp(20),
+      color:colors.black
     },
     saveChangeButton: {
       marginTop: hp(49),
@@ -374,7 +375,8 @@ const getGlobalStyles = (props: any) => {
       borderRadius:18,
       marginBottom:25,
       justifyContent:'center',
-      alignItems:'center'
+      alignItems:'center',
+      backgroundColor:colors.card_bg
     },
     boxText: {
       ...commonFontStyle(400, 18, colors.black),

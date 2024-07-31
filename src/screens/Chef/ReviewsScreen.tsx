@@ -103,7 +103,7 @@ const getGlobalStyles = (props: any) => {
             backgroundColor: colors.card_bg,
             paddingVertical: hp(15),
             paddingHorizontal: wp(14),
-            marginLeft: wp(10)
+            marginLeft: wp(10),
         },
         dateView: {
             flexDirection: 'row',

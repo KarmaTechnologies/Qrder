@@ -142,7 +142,7 @@ const getGlobalStyles = (props: any) => {
       marginBottom: isIos ? hp(0) : -hp(15),
     },
     itemFocusContainer: {
-      backgroundColor: 'red',
+      // backgroundColor: 'red',
       paddingHorizontal: wp(10),
       borderTopLeftRadius: 50,
       borderTopRightRadius: 50,

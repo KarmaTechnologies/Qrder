@@ -78,6 +78,7 @@ export default function AddFolderModal({isVisible, onClose, path}: any) {
           value={addText}
           onChangeText={setAddText}
           placeholder={strings("addFoodList.enter_cuisine")}
+          placeholderTextColor={colors.gray_300}
         />
         <PrimaryButton
           extraStyle={styles.signupButton}
@@ -103,7 +104,7 @@ const getGlobalStyles = (props: any) => {
       // padding: wp(14),
       borderRadius: 16,
       // paddingVertical: hp(25),
-      backgroundColor: colors.white,
+      backgroundColor: colors.card_bg,
       // height: SCREEN_HEIGHT * 0.4,
       paddingHorizontal: wp(16),
       paddingVertical: hp(10),
@@ -128,7 +129,7 @@ const getGlobalStyles = (props: any) => {
       ...commonFontStyle(400, 16, colors.black),
       borderWidth: 1,
       borderRadius: 10,
-      borderColor: colors.grayBE,
+      borderColor: colors.gray_300,
       paddingLeft: 12,
       height: hp(50)
     },
@@ -144,6 +145,7 @@ const getGlobalStyles = (props: any) => {
       top: -30,
       position: 'absolute',
       right: 0,
+      tintColor:colors.black
     },
   });
 };

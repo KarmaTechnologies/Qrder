@@ -114,6 +114,7 @@ const getGlobalStyles = (props: any) => {
       width: wp(9),
       height: wp(9),
       resizeMode: 'contain',
+      tintColor:colors.black
     },
     location: {
       marginLeft: 8,

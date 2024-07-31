@@ -48,6 +48,7 @@ const SignInScreen = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const onPressLogin = () => {
+    dispatchNavigation(screenName.BottomTabBar);
     // dispatchNavigation(screenName.ChefSelfBottomBar);
     // return
     if (email.trim().length === 0) {
