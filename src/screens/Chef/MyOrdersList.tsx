@@ -18,6 +18,7 @@ import NoDataFound from '../../compoment/NoDataFound';
 import OngoingCardList from '../../compoment/OngoingCardList';
 import Loader from '../../compoment/Loader';
 import { strings } from '../../i18n/i18n';
+import { useAppSelector } from '../../redux/hooks';
 
 type Props = {};
 
@@ -25,6 +26,7 @@ const MyOrdersList = (props: Props) => {
     const { colors, isDark } = useTheme();
     const navigation = useNavigation();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+    const { isDarkTheme } = useAppSelector(state => state.common);
     const [tabSelection, setTabSelection] = useState('Ongoing');
     const [tabSelectionIndex, setTabSelectionIndex] = useState(0);
     const [isLeftButtonActive, setIsLeftButtonActive] = useState(true);
@@ -45,10 +47,7 @@ const MyOrdersList = (props: Props) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar
-                barStyle={'dark-content'}
-                backgroundColor={colors.white}
-            />
+            <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
             <HomeHeader
                 onBackPress={() => { navigation.goBack() }}
                 onRightPress={() => { console.log('dee') }}
@@ -99,7 +98,7 @@ const MyOrdersList = (props: Props) => {
                             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                         }
                         onEndReachedThreshold={0.3}
-                        data={[1, 2, 3, 4,5,6]}
+                        data={[1, 2, 3, 4, 5, 6]}
                         ListEmptyComponent={<NoDataFound />}
                         renderItem={({ item, index }) => {
                             return (
@@ -110,7 +109,7 @@ const MyOrdersList = (props: Props) => {
                         ListFooterComponent={() => {
                             return (
                                 <View>
-                                    {true && <Loader  size={'small'}/>}
+                                    {true && <Loader size={'small'} />}
                                     <View style={{ height: 70 }} />
                                 </View>
                             )

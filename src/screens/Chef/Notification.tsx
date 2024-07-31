@@ -15,6 +15,7 @@ import PagerView from 'react-native-pager-view';
 import { strings } from '../../i18n/i18n';
 import MessagesListCard from '../../compoment/MessagesListCard';
 import NotificationListCard from '../../compoment/NotificationListCard';
+import { useAppSelector } from '../../redux/hooks';
 
 type Props = {};
 
@@ -22,6 +23,7 @@ const Notification = (props: Props) => {
     const { colors, isDark } = useTheme();
     const navigation = useNavigation();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+    const { isDarkTheme } = useAppSelector(state => state.common);
     const [tabSelection, setTabSelection] = useState('Notifications');
     const [tabSelectionIndex, setTabSelectionIndex] = useState(0);
     const [isLeftButtonActive, setIsLeftButtonActive] = useState(true);
@@ -34,10 +36,7 @@ const Notification = (props: Props) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar
-                barStyle={'dark-content'}
-                backgroundColor={colors.white}
-            />
+          <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
             <HomeHeader
                 onBackPress={() => { navigation.goBack() }}
                 onRightPress={() => { console.log('dee') }}

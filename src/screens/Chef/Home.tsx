@@ -26,7 +26,7 @@ import { Icons } from '../../utils/images';
 import OrderModal from '../../compoment/OrderModal';
 import { screenName } from '../../navigation/screenNames';
 import { strings } from '../../i18n/i18n';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getCuisinesAction } from '../../actions/cuisinesAction';
 import { getChefsAction } from '../../actions/chefsAction';
 
@@ -36,6 +36,7 @@ const Home = (props: Props) => {
   const { colors, isDark } = useTheme();
   const navigation = useNavigation();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const { isDarkTheme } = useAppSelector(state => state.common);
   const [value, setValue] = useState('');
   const [runningOrderModal, setRunninOrderModal] = useState(false);
   const [orderRequestModal, setOrderRequestModal] = useState(false);
@@ -84,16 +85,16 @@ const Home = (props: Props) => {
 
   const getCuisinesList = () => {
     let obj = {
-      onSuccess: (res: any) => {},
-      onFailure: (Err: any) => {},
+      onSuccess: (res: any) => { },
+      onFailure: (Err: any) => { },
     };
     dispatch(getCuisinesAction(obj));
   };
 
   const getChefsList = () => {
     let obj = {
-      onSuccess: (res: any) => {},
-      onFailure: (Err: any) => {},
+      onSuccess: (res: any) => { },
+      onFailure: (Err: any) => { },
     };
     dispatch(getChefsAction(obj));
   };
@@ -106,10 +107,7 @@ const Home = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar
-        barStyle={'dark-content'}
-        backgroundColor={colors.Primary_BG}
-      />
+      <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
       <HomeHeader
         onPressProfile={() => { }}
         onPressCart={() => { }}
@@ -163,10 +161,10 @@ const Home = (props: Props) => {
         <View style={{ height: 100 }} />
 
         {runningOrderModal &&
-          <OrderModal 
-          isVisible={runningOrderModal} 
-          onPressCancel={() => setRunninOrderModal(false)}
-          isRunning={true}
+          <OrderModal
+            isVisible={runningOrderModal}
+            onPressCancel={() => setRunninOrderModal(false)}
+            isRunning={true}
           />
         }
 
@@ -245,7 +243,8 @@ const getGlobalStyles = (props: any) => {
       marginTop: 20,
       marginBottom: 8,
       marginLeft: 16,
-      borderRadius: 8
+      borderRadius: 8,
+      borderColor: colors.black
     },
   });
 };

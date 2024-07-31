@@ -51,7 +51,7 @@ const getGlobalStyles = (props: any) => {
   return StyleSheet.create({
     contain: {
       width: '90%',
-      backgroundColor: colors.white,
+      backgroundColor: colors.card_bg,
       paddingHorizontal: wp(20),
       paddingVertical: hp(24),
       justifyContent: 'center',

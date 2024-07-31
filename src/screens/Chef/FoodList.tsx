@@ -32,6 +32,7 @@ const MyMenuList = (props: Props) => {
   const ref = React.createRef(PagerView);
   const dispatch = useAppDispatch();
   const {getCuisines, getMenuData} = useAppSelector(state => state.data);
+  const { isDarkTheme } = useAppSelector(state => state.common);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -81,7 +82,7 @@ const MyMenuList = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle={'dark-content'} backgroundColor={colors.white} />
+    <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
       <HomeHeader
         onBackPress={() => {
           navigation.goBack();

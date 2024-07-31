@@ -52,6 +52,8 @@ const HomeDropDown = ({value, onChangeText}: Props) => {
             style={styles.downIcon}
           />
         )}
+        containerStyle={{ backgroundColor: colors.card_bg, }}
+        activeColor={colors.card_bg}
       />
     </View>
   );
@@ -88,7 +90,7 @@ const getGlobalStyles = (props: any) => {
       resizeMode: 'contain',
     },
     rederItemStyle: {
-      ...commonFontStyle(400, 12, colors.btnText),
+      ...commonFontStyle(400, 12, colors.black),
     },
     itemContainer: {
       width: 180,

@@ -184,59 +184,8 @@ const getGlobalStyles = (props: any) => {
             flexDirection: 'column',
             justifyContent: 'space-between',
         },
-        middleContainer: {
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-        },
-        more: {
-            width: wp(20),
-            height: wp(20),
-            right: wp(8),
-        },
         menuTextStyle: {
             ...commonFontStyle(400, 16, colors.black),
-        },
-        imgContainer: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: wp(5),
-        },
-        icon: {
-            width: wp(15),
-            height: wp(15),
-            top: 3,
-            tintColor: colors.black27,
-        },
-        dote: {
-            width: 10,
-            height: 10,
-            backgroundColor: colors.green0D,
-            borderRadius: 100,
-            top: 2,
-        },
-        statusContainer: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: wp(3),
-            left: 5,
-        },
-        button: {
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-            borderRadius: 20,
-            borderWidth: 2,
-            borderColor: '#333',
-        },
-        activeButton: {
-            backgroundColor: '#4CAF50',
-        },
-        inactiveButton: {
-            backgroundColor: '#f44336',
-        },
-        buttonText: {
-            color: '#FFF',
-            fontWeight: 'bold',
-            fontSize: 16,
         },
     });
 };

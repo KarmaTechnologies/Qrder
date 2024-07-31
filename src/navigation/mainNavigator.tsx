@@ -9,6 +9,8 @@ import StackNavigator from './StackNavigator';
 import {SafeAreaView, StatusBar, useColorScheme, View} from 'react-native';
 import {dark_theme, light_theme} from '../theme/colors';
 import {setDarkTheme} from '../utils/commonActions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { asyncKeys } from '../utils/asyncStorageManager';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -33,8 +35,20 @@ const RootContainer: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setDarkTheme(theme == 'dark' ? true : false));
+    getData().then((data) => {
+      dispatch(setDarkTheme(data));
+    });
+    
   }, [theme]);
+
+  const getData = async() => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(asyncKeys.is_dark_theme);
+      return jsonValue != null ? JSON.parse(jsonValue) : false;
+    } catch (e) {
+      console.error("Failed to fetch the data from storage", e);
+    }
+  };
 
   return (
     <NavigationContainer

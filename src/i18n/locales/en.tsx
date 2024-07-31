@@ -191,5 +191,16 @@ export default {
   PersonalInfo:{
     personal_Info:'Personal Info',
     edit:'Edit'
+  },
+  Settings:{
+    settings:'Settings',
+    general_settings:'General Settings',
+    language:'Language',
+    theme:'Theme',
+    account_setting:'Account setting',
+    deactivate_account:'Deactivate account',
+    deleteText:' Are you sure you want to delete your account on Qrder?',
+    no:'No',
+    yes:'Yes'
   }
 };

@@ -23,6 +23,7 @@ export const screenName = {
   ProfileMessages:'ProfileMessages',
   ReviewsScreen:'ReviewsScreen',
   PersonalInfo:'PersonalInfo',
+  Settings:'Settings',
 
   //chefSignUp
 

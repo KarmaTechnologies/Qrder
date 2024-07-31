@@ -130,12 +130,12 @@ const getGlobalStyles = (props: any) => {
             height: hp(38),
             width: wp(139),
             backgroundColor: colors.white,
-            borderColor: colors.btn_red,
+            borderColor: colors.Primary_Orange,
             borderWidth: 1,
             borderRadius: 9,
         },
         cancelText: {
-            ...commonFontStyle(700, 12, colors?.btn_red),
+            ...commonFontStyle(700, 12, colors?.Primary_Orange),
             textTransform: 'none',
         },
     });

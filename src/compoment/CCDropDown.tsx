@@ -84,6 +84,8 @@ const CCDropDown = ({
             style={styles.downIcon}
           />
         )}
+        containerStyle={{ backgroundColor: colors.card_bg, top: 10 }}
+        activeColor={colors.card_bg}
       />
     </View>
   );
@@ -123,7 +125,7 @@ const getGlobalStyles = (props: any) => {
       height: 20,
     },
     item_style: {
-      ...commonFontStyle(400, 14, light_theme.black),
+      ...commonFontStyle(400, 14, colors.black),
     },
     downIcon: {
       width: 22,

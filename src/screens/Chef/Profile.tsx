@@ -7,27 +7,29 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import React, { useState } from 'react';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
-import {strings} from '../../i18n/i18n';
-import {commonFontStyle, hp, wp} from '../../theme/fonts';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Icons} from '../../utils/images';
+import { strings } from '../../i18n/i18n';
+import { commonFontStyle, hp, wp } from '../../theme/fonts';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Icons } from '../../utils/images';
 import TitleList from '../../compoment/TitleListComponent';
 import Spacer from '../../compoment/Spacer';
 import ImagePicker from 'react-native-image-crop-picker';
 import Loader from '../../compoment/Loader';
-import {screenName} from '../../navigation/screenNames';
-import {clearAsync} from '../../utils/asyncStorageManager';
-import {dispatchNavigation} from '../../utils/globalFunctions';
+import { screenName } from '../../navigation/screenNames';
+import { clearAsync } from '../../utils/asyncStorageManager';
+import { dispatchNavigation } from '../../utils/globalFunctions';
+import { useAppSelector } from '../../redux/hooks';
 
 type Props = {};
 
 const Profile = (props: Props) => {
-  const {colors, isDark} = useTheme();
+  const { colors, isDark } = useTheme();
   const navigation = useNavigation();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const { isDarkTheme } = useAppSelector(state => state.common);
   const [photoUri, setPhotoUri] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -56,12 +58,15 @@ const Profile = (props: Props) => {
       case 'Chef':
         navigation.navigate(screenName.ChefSignUp);
         break;
-        case 'Notifications':
-          navigation.navigate(screenName.ProfileNotification);
-          break;
-          case 'CRM':
-          navigation.navigate(screenName.ProfileMessages);
-          break;
+      case 'Notifications':
+        navigation.navigate(screenName.ProfileNotification);
+        break;
+      case 'CRM':
+        navigation.navigate(screenName.ProfileMessages);
+        break;
+      case 'Settings':
+        navigation.navigate(screenName.Settings);
+        break;
       default:
         break;
     }
@@ -69,6 +74,7 @@ const Profile = (props: Props) => {
 
   return (
     <View style={styles.container}>
+       <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
       <HomeHeader
         onBackPress={() => {
           navigation.goBack();
@@ -92,7 +98,7 @@ const Profile = (props: Props) => {
               </View>
             ) : (
               <Image
-                source={photoUri ? {uri: photoUri} : Icons.profileImage}
+                source={photoUri ? { uri: photoUri } : Icons.profileImage}
                 style={styles.profilImage}
               />
             )}
@@ -173,7 +179,7 @@ const Profile = (props: Props) => {
 export default Profile;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,

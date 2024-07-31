@@ -30,13 +30,14 @@ import ChefSignUp from '../screens/ChefAuth/ChefSignUp';
 import MyOrdersList from '../screens/Chef/MyOrdersList';
 import Notification from '../screens/Chef/Notification';
 import NotificationListCard from '../screens/Chef/NotificationListCard';
-import ProfileNotification from '../screens/Settings/ProfileNotification';
-import ProfileMessages from '../screens/Settings/ProfileMessages';
+import ProfileNotification from '../screens/ChefSettings/ProfileNotification';
+import ProfileMessages from '../screens/ChefSettings/ProfileMessages';
 import ReviewsScreen from '../screens/Chef/ReviewsScreen';
-import PersonalInfo from '../screens/Settings/PersonalInfo';
+import PersonalInfo from '../screens/ChefSettings/PersonalInfo';
 import RoleSelectionScreen from '../screens/auth/RoleSelectionScreen';
 import ChefSellBottomBar from './ChefSelfBottomBar';
 import ChefSelfBottomBar from './ChefSelfBottomBar';
+import Settings from '../screens/ChefSettings/Settings';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -209,6 +210,11 @@ const StackNavigator: FC = () => {
         headerShown: false,
         headerTitle: '',
       })} name={screenName.PersonalInfo} component={PersonalInfo} />
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.Settings} component={Settings} />
 
       {/* // chefSell */}
 

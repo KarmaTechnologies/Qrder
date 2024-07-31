@@ -100,4 +100,8 @@ export const dark_theme = {
   headerText2: 'rgba(255, 255, 255, 0.6)',
   headerText1: '#ffffff',
   headerText3: '#FB6D3A',
+  gray_400: '#4A4E5A',
+  btn_red: '#FF3326',
+  border_line3: '#4A4E5A',
+  orange_bg: 'rgba(255, 118, 34, 0.2)'
 };

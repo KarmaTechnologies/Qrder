@@ -12,10 +12,9 @@ import NoDataFound from './NoDataFound';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import MenuItems from './MenuItems';
 import Spacer from './Spacer';
-import PrimaryButton from './PrimaryButton';
-import CCModal from './CCModal';
 import { strings } from '../i18n/i18n';
 import { deleteMenuAction } from '../actions/menuAction';
+import DleleteModal from './DeleteModal';
 
 type Props = {
   onRefresh?: () => void;
@@ -30,18 +29,25 @@ const MenuCardList = ({ onRefresh, refreshing }: Props) => {
   const { getMenuData } = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
 
-console.log('selectItem',selectItem);
-
   const removeMenuCardList = () => {
     let UserInfo = {
       data: selectItem?.id,
       onSuccess: (res: any) => {
         setRefresh(false);
       },
-      onFailure: (Err: any) => {},
+      onFailure: (Err: any) => { },
     };
     dispatch(deleteMenuAction(UserInfo));
   };
+
+
+  const closeModal = () => {
+    setVisible(false)
+  }
+  const onPressDelete = () => {
+    setVisible(false)
+    removeMenuCardList();
+  }
 
   return (
     <View>
@@ -76,56 +82,13 @@ console.log('selectItem',selectItem);
           );
         }}
       />
-      <CCModal
-        visible={visible}
-        close={setVisible}
-        containStyle={{ alignItems: 'center' }}
-        contain={
-          <View>
-            <Text style={styles.containerContain}>
-              {strings('myMenuList.are_you_sure')}  
-            </Text>
-            <View
-              style={[
-                styles.btnContainer,
-                { marginTop: hp(10), gap: wp(20), justifyContent: 'center' },
-              ]}>
-              <PrimaryButton
-                title={strings('myMenuList.no')}
-                onPress={() => {
-                  setVisible(!visible);
-                }}
-                extraStyle={{
-                  backgroundColor: colors.Primary_Orange,
-                  alignSelf: 'center',
-                  marginTop: 10,
-                  width: wp(80),
-                  height: hp(40),
-                }}
-                titleStyle={{
-                  ...commonFontStyle(400, 15, colors.white),
-                }}
-              />
-              <PrimaryButton
-                title={strings('myMenuList.yes')}
-                onPress={() => {
-                  setVisible(!visible);
-                  removeMenuCardList();
-                }}
-                extraStyle={{
-                  backgroundColor: colors.Primary_Orange,
-                  alignSelf: 'center',
-                  marginTop: 10,
-                  width: wp(80),
-                  height: hp(40),
-                }}
-                titleStyle={{
-                  ...commonFontStyle(400, 15, colors.white),
-                }}
-              />
-            </View>
-          </View>
-        }
+
+      <DleleteModal
+        title={strings('myMenuList.are_you_sure')}
+        rightText={strings('myMenuList.yes')}
+        leftText={strings('myMenuList.no')}
+        visible={visible} closeModal={() => closeModal()}
+        onPressDelete={() => onPressDelete()}
       />
     </View>
   );

@@ -16,7 +16,7 @@ const getGlobalStyles = (props: any) => {
     const { colors } = props;
     return StyleSheet.create({
         noDataFound: {
-            ...commonFontStyle(700, 14, colors.gray_200),
+            ...commonFontStyle(700, 14, colors.black),
             textAlign: 'center',
             marginTop: 100
         },
