@@ -145,7 +145,7 @@ const Home = (props: Props) => {
         <CardView containerStyle={styles.reviewView}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={styles.reviewStyle}>{strings("home.populer_items_this_weeks")}</Text>
-            <TouchableOpacity onPress={() => navigation.navigate(screenName.FoodDetails)}>
+            <TouchableOpacity onPress={() =>{}}>
               <Text style={styles.seeAllText}>{strings("home.see_all")}</Text>
             </TouchableOpacity>
           </View>

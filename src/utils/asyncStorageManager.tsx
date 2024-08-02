@@ -6,6 +6,7 @@ export const asyncKeys = {
   user_info: "@user_info",
   driver_info: "@user_info",
   is_dark_theme:"@is_dark_theme",
+  is_language:'@is_language',
   location: "@location",
 
   // no clear in logout time

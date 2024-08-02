@@ -66,6 +66,7 @@ const MenuItems = ({ item, setDelete }: ItemProps) => {
                         <View style={styles.rightContainers}>
                             <Menu
                                 visible={visible}
+                                style={styles.boxMenu}
                                 anchor={
                                     <TouchableOpacity onPress={showMenu}>
                                         <Image source={Icons.optionIcon} style={styles.optionIcon} />
@@ -187,5 +188,8 @@ const getGlobalStyles = (props: any) => {
         menuTextStyle: {
             ...commonFontStyle(400, 16, colors.black),
         },
+        boxMenu:{
+            backgroundColor:colors.card_bg
+        }
     });
 };

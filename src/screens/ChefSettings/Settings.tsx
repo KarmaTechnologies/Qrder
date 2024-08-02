@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
-import { Image, StatusBar, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StatusBar, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
-import { strings } from '../../i18n/i18n';
+import  { strings } from '../../i18n/i18n';
 import { Dropdown } from 'react-native-element-dropdown';
 import HomeHeader from '../../compoment/HomeHeader';
 import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
-import { Icons } from '../../utils/images';
-import PrimaryButton from '../../compoment/PrimaryButton';
-import CCModal from '../../compoment/CCModal';
 import DleleteModal from '../../compoment/DeleteModal';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setDarkTheme } from '../../utils/commonActions';
+import { setDarkTheme, setLanguage } from '../../utils/commonActions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { asyncKeys } from '../../utils/asyncStorageManager';
 
 const languages = [
     { label: 'English', value: 'en' },
     { label: 'Gujarati', value: 'gj' },
     { label: 'Hindi', value: 'hi' },
-    { label: 'Tamil', value: 'Tm' },
 ];
 
 const Settings = () => {
@@ -26,7 +24,23 @@ const Settings = () => {
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const [selectedLanguage, setSelectedLanguage] = useState('en');
     const [visible, setVisible] = useState(false);
-    const { isDarkTheme } = useAppSelector(state => state.common);
+    const { isDarkTheme, isLanguage } = useAppSelector(state => state.common);
+
+
+    useEffect(() => {
+        const loadLanguage = async () => {
+            try {
+                const storedLanguage = await AsyncStorage.getItem(asyncKeys.is_language);
+                if (storedLanguage) {
+                    setSelectedLanguage(storedLanguage)
+                }
+            } catch (error) {
+                console.error('Failed to load language:', error);
+            }
+        };
+
+        loadLanguage();
+    }, [isLanguage]);
 
     const closeModal = () => {
         setVisible(false)
@@ -37,6 +51,10 @@ const Settings = () => {
 
     const changeValue = () => {
         dispatch(setDarkTheme(!isDarkTheme));
+    };
+
+    const changeLanguage = async (lang: string) => {
+        dispatch(setLanguage(lang));
     };
 
     return (
@@ -61,7 +79,7 @@ const Settings = () => {
                         valueField="value"
                         placeholder=""
                         value={selectedLanguage}
-                        onChange={(item) => setSelectedLanguage(item.value)}
+                        onChange={(item) => changeLanguage(item.value)}
                         iconStyle={styles.downIcon}
                         containerStyle={{ backgroundColor: colors.card_bg, top: 10 }}
                         activeColor={colors.card_bg}

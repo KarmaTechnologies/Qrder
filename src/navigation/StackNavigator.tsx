@@ -38,6 +38,7 @@ import RoleSelectionScreen from '../screens/auth/RoleSelectionScreen';
 import ChefSellBottomBar from './ChefSelfBottomBar';
 import ChefSelfBottomBar from './ChefSelfBottomBar';
 import Settings from '../screens/ChefSettings/Settings';
+import EditProfile from '../screens/ChefSettings/EditProfile';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -210,6 +211,11 @@ const StackNavigator: FC = () => {
         headerShown: false,
         headerTitle: '',
       })} name={screenName.PersonalInfo} component={PersonalInfo} />
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.EditProfile} component={EditProfile} />
       <Stack.Screen options={({ navigation }) => ({
         ...headerStyleTransparent,
         headerShown: false,

@@ -11,7 +11,9 @@ export default {
   roleSelection: {
     select_role: 'भूमिका चुनें',
     save: 'बचाना',
-    continue: "जारी रखना"
+    continue: "जारी रखना",
+    admin: 'व्यवस्थापक',
+    chef: 'शेफ'
   },
   login: {
     login_in: "में प्रवेश करें",
@@ -91,7 +93,7 @@ export default {
     verify: "सत्यापित करें"
   },
   otp_verification: {
-   enter_otp_code: "ओटीपी कोड दर्ज करें",
+    enter_otp_code: "ओटीपी कोड दर्ज करें",
     otp_code_text: "हम आपके फोन नंबर को सत्यापित करने के लिए आपको ओटीपी भेज रहे हैं"
   },
   home: {
@@ -103,7 +105,11 @@ export default {
     see_details: "विवरण देखें",
     total_revenue: "कुल राजस्व",
     populer_items_this_weeks: "इस सप्ताह के लोकप्रिय आइटम",
-    see_all: "सभी देखें"
+    see_all: "सभी देखें",
+    "daily": "दैनिक",
+    "week": "साप्ताहिक",
+    "monthly": "मासिक",
+    "yearly": "वार्षिक"
   },
   myMenuList: {
     my_menu: "मेरा मेनू",
@@ -120,7 +126,9 @@ export default {
   orderModal: {
     done: "समाप्त",
     cancel: "रद्द करें",
-    select_chef: "शेफ चुनें"
+    select_chef: "शेफ चुनें",
+    "running_orders": "चल रहे ऑर्डर",
+    "order_request": "ऑर्डर अनुरोध"
   },
   ordersList: {
     myOrders: "मेरे आदेश",
@@ -150,13 +158,15 @@ export default {
     add_cuisine: "सहेजें",
     error_enter: "कृपया अपना व्यंजन नाम दर्ज करें",
     add_cuisines: "व्यंजन जोड़ें",
-    add_menu: "मेनू जोड़ें"
+    add_menu: "मेनू जोड़ें",
+    add_basic: 'अपना मूल विवरण यहां लिखें...'
   },
   foodDetails: {
     food_Details: "भोजन का विवरण",
     edit: "संपादित करें",
     basic_details: "मूल विवरण",
-    description: "विवरण"
+    description: "विवरण",
+    no_data_found: 'डाटा प्राप्त नहीं हुआ'
   },
   profileScreen: {
     profile: "प्रोफ़ाइल",
@@ -190,7 +200,14 @@ export default {
   },
   PersonalInfo: {
     personal_Info: "व्यक्तिगत जानकारी",
-    edit: "संपादित करें"
+    edit: "संपादित करें",
+    full_name: 'पूरा नाम',
+    email: 'ईमेल',
+    phone_number: 'फ़ोन नंबर',
+    editProfile: 'प्रोफ़ाइल संपादित करें',
+    upload_Image: 'छवि अपलोड करें',
+    save: 'सहेजें',
+    i_love_fast_food: 'मुझे फास्ट फूड बहुत पसंद है'
   },
   Settings: {
     settings: "सेटिंग्स",

@@ -7,28 +7,33 @@ import {
   ViewStyle,
 } from 'react-native';
 import React from 'react';
-import {useTheme} from '@react-navigation/native';
-import {commonFontStyle, hp, wp} from '../theme/fonts';
-import {Icons} from '../utils/images';
+import { useTheme } from '@react-navigation/native';
+import { commonFontStyle, hp, wp } from '../theme/fonts';
+import { Icons } from '../utils/images';
 
 export interface ListObj {
   title: string;
   iconName?: any;
+  screens: string;
+  title1: string
 }
 
 interface TitleListComponentProps {
   arr_list: ListObj[];
   onPressCell?: (value: any, index?: any) => void;
   styleProp?: ViewStyle;
+  screens: string;
+  isSecondText: boolean
 }
 
 const TitleListComponent = ({
   arr_list,
   onPressCell,
   styleProp,
+  isSecondText = false
 }: TitleListComponentProps) => {
-  const {colors} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { colors } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
 
   const leftIcon = (value: ListObj) => {
     return (
@@ -44,15 +49,22 @@ const TitleListComponent = ({
         return (
           <View key={index}>
             <TouchableOpacity
-              onPress={() => (onPressCell ? onPressCell(value, index) : null)}
+              disabled={isSecondText}
+              onPress={() => (onPressCell ? onPressCell(value.screens) : null)}
               style={[
                 index === 0 ? styles.topSpaceInBoxSmall : styles.topSpaceInBox,
               ]}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {leftIcon(value)}
-                <Text style={styles.titleText}>{value.title}</Text>
+                <View>
+                  <Text style={styles.titleText}>{value.title}</Text>
+                  {isSecondText ?
+                    <Text style={styles.titleText1}>{value.title1}</Text> : null}
+                </View>
+
               </View>
-              <Image style={styles.rightIcon} source={Icons.rightBack} />
+              {isSecondText ?
+                null : <Image style={styles.rightIcon} source={Icons.rightBack} />}
             </TouchableOpacity>
           </View>
         );
@@ -64,7 +76,7 @@ const TitleListComponent = ({
 export default TitleListComponent;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -83,6 +95,9 @@ const getGlobalStyles = (props: any) => {
     },
     titleText: {
       ...commonFontStyle(400, 15, colors.Title_Text),
+    },
+    titleText1: {
+      ...commonFontStyle(400, 14, colors.gray_300),
     },
     topSpaceInBoxSmall: {
       height: hp(80),

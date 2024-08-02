@@ -36,21 +36,6 @@ const OrderModal = ({
   const onPressDone = () => {};
   const onCancelBtn = () => {};
 
-  const DropDownData = [
-    {
-      key: 'Rahul',
-      label: 'Rahul',
-      value: '1',
-    },
-    {
-      label: 'Ravi',
-      value: '2',
-    },
-    {
-      label: 'Sanjay',
-      value: '3',
-    },
-  ];
 
   const handleChefSelection = (value: string, index: number) => {
     setSelectedChefs(prevState => ({
@@ -73,7 +58,7 @@ const OrderModal = ({
         <View style={styles.lineStyle} />
         <View style={styles.headerView}>
           <Text style={styles.titleText}>
-            {isRunning ? `${20} Running Orders` : `${5} Order Request`}
+            {isRunning ? `${20} ${strings('orderModal.running_orders')}` : `${5} ${strings('orderModal.order_request')}`}
           </Text>
 
           <ScrollView showsVerticalScrollIndicator={false}>

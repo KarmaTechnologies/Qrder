@@ -11,6 +11,7 @@ import {dark_theme, light_theme} from '../theme/colors';
 import {setDarkTheme} from '../utils/commonActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { asyncKeys } from '../utils/asyncStorageManager';
+import I18n from '../i18n/i18n';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -30,7 +31,7 @@ let DefaultThemeColor = {
 
 const RootContainer: FC = () => {
   const {isLoading} = useAppSelector(state => state.common);
-  const {isDarkTheme} = useAppSelector(state => state.common);
+  const {isDarkTheme,isLanguage} = useAppSelector(state => state.common);
   const theme = useColorScheme();
   const dispatch = useAppDispatch();
 
@@ -49,6 +50,21 @@ const RootContainer: FC = () => {
       console.error("Failed to fetch the data from storage", e);
     }
   };
+
+    useEffect(() => {
+    const loadLanguage = async () => {
+      try {
+        const storedLanguage = await AsyncStorage.getItem(asyncKeys.is_language);
+        if (storedLanguage) {
+            I18n.locale = storedLanguage;
+        }
+      } catch (error) {
+        console.error('Failed to load language:', error);
+      }
+    };
+
+    loadLanguage();
+  }, [isLanguage]);
 
   return (
     <NavigationContainer

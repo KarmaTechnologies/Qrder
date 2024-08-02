@@ -1,10 +1,11 @@
-import {GET_CITY_DATA, IS_LOADING, SEARCH_CITY, SELECT_ROLE, SET_APP_THEME} from '../actionTypes';
+import {GET_CITY_DATA, IS_LOADING, SEARCH_CITY, SELECT_ROLE, SET_APP_LANGUAGE, SET_APP_THEME} from '../actionTypes';
 
 const initialState = {
   isLoading: false,
   isDarkTheme: false,
   searchCity:[],
   selectedRole:'',
+  isLanguage:'en',
   getCity: [
     {
       id: 1041,
@@ -69,6 +70,9 @@ export default function (state = initialState, action: any) {
     }
     case SELECT_ROLE: {
       return {...state, selectedRole: action.payload};
+    }
+    case SET_APP_LANGUAGE: {
+      return {...state, isLanguage: action.payload};
     }
     default:
       return state;

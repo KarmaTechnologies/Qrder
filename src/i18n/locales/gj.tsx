@@ -11,7 +11,9 @@ export default {
   roleSelection: {
     select_role: "ભૂમિકા પસંદ કરો",
     save: "સાચવો",
-    continue: "ચાલુ રાખો"
+    continue: "ચાલુ રાખો",
+    admin: 'એડમિન',
+    chef: 'શેફ'
   },
   login: {
     login_in: "લૉગ ઈન",
@@ -102,7 +104,11 @@ export default {
     see_details: "વિગતો જુઓ",
     total_revenue: "કુલ આવક",
     populer_items_this_weeks: "આ અઠવાડિયાના લોકપ્રિય આઇટમ્સ",
-    see_all: "બધું જુઓ"
+    see_all: "બધું જુઓ",
+    "daily": "દૈનિક",
+    "week": "અઠવાડિયું",
+    "monthly": "માસિક",
+    "yearly": "વાર્ષિક"
   },
   myMenuList: {
     my_menu: "મારું મેનૂ",
@@ -119,7 +125,9 @@ export default {
   orderModal: {
     done: "થઈ ગયું",
     cancel: "રદ્દ કરો",
-    select_chef: "શેફ પસંદ કરો"
+    select_chef: "શેફ પસંદ કરો",
+    "running_orders": "ચાલતા ઓર્ડર",
+    "order_request": "ઓર્ડર વિનંતી"
   },
   ordersList: {
     myOrders: "મારા ઓર્ડર",
@@ -149,13 +157,15 @@ export default {
     add_cuisine: "સાચવો",
     error_enter: "કૃપા કરીને તમારું વ્યંજન નામ દાખલ કરો",
     add_cuisines: "વ્યંજન ઉમેરો",
-    add_menu: "મેનૂ ઉમેરો"
+    add_menu: "મેનૂ ઉમેરો",
+    add_basic: 'તમારી મૂળભૂત વિગતો અહીં લખો...'
   },
   foodDetails: {
     food_Details: "ખોરાકની વિગતો",
     edit: "સંપાદિત કરો",
     basic_details: "મૂળ વિગતો",
-    description: "વર્ણન"
+    description: "વર્ણન",
+    no_data_found: 'કોઈ ડેટા મળ્યો નથી'
   },
   profileScreen: {
     profile: "પ્રોફાઇલ",
@@ -173,9 +183,7 @@ export default {
   },
   notifications: {
     notifications: "સૂચનાઓ",
-    messages: "સંદેશ
-
-ા",
+    messages: "સંદેશા",
     review: "સમીક્ષા"
   },
   reviews: {
@@ -191,7 +199,14 @@ export default {
   },
   PersonalInfo: {
     personal_Info: "વ્યક્તિગત માહિતી",
-    edit: "સંપાદિત કરો"
+    edit: "સંપાદિત કરો",
+    full_name: 'પૂર્ણ નામ',
+    email: 'ઈમેઈલ',
+    phone_number: 'ફોન નંબર',
+    editProfile: 'પ્રોફાઇલ સંપાદિત કરો',
+    upload_Image: 'છબી અપલોડ કરો',
+    save: 'સેવ',
+    i_love_fast_food: 'મને ફાસ્ટ ફૂડ ગમે છે'
   },
   Settings: {
     settings: "સેટિંગ્સ",

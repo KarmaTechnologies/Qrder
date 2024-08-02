@@ -239,7 +239,7 @@ const AddFoodDetails = (props: Props) => {
           <TextInput
             value={basicDetails}
             onChangeText={(t: string) => setBasicDetails(t)}
-            placeholder={'Write your basic details here...'}
+            placeholder={strings('addFoodList.add_basic')}
             style={styles.basicInput}
             multiline
             maxLength={200}

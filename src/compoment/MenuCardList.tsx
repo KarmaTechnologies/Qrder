@@ -15,6 +15,7 @@ import Spacer from './Spacer';
 import { strings } from '../i18n/i18n';
 import { deleteMenuAction } from '../actions/menuAction';
 import DleleteModal from './DeleteModal';
+import Loader from './Loader';
 
 type Props = {
   onRefresh?: () => void;
@@ -60,7 +61,7 @@ const MenuCardList = ({ onRefresh, refreshing }: Props) => {
         }
         onEndReachedThreshold={0.3}
         data={getMenuData}
-        ListEmptyComponent={<NoDataFound />}
+        ListEmptyComponent={getMenuData?.length === 0 ? <Loader/> : <NoDataFound />}
         renderItem={({ item, index }) => {
           return (
             <MenuItems

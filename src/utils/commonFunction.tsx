@@ -1,6 +1,7 @@
 import Toast from 'react-native-toast-message';
 import { navigationRef } from '../navigation/mainNavigator';
 import Snackbar from 'react-native-snackbar';
+import { strings } from '../i18n/i18n';
 
 export const emailCheck = (email: string) => {
   let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -73,11 +74,13 @@ export const infoToast = (message: string) => {
 
 export const DropDownData = [
   {
-    name: "Admin",
+    name: strings('roleSelection.admin'),
+    value:'Admin',
     id: 1,
   },
   {
-    name: "Chef",
+    name: strings('roleSelection.chef'),
+    value:'Chef',
     id: 2,
   },
 ];

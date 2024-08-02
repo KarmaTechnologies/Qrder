@@ -48,4 +48,6 @@ export const Icons = {
   optionIcon: require('../assets/Icons/optionIcon.png'),
   checkIcon: require('../assets/Icons/checkIcon.png'),
   close: require('../assets/Icons/close.png'),
+  email: require('../assets/Icons/email.png'),
+  phone: require('../assets/Icons/phone.png'),
 };

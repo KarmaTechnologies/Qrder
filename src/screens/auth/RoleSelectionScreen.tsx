@@ -49,7 +49,7 @@ const RoleSelectionScreen = (props: Props) => {
             data={DropDownData}
             label={strings('login.select_role')}
             labelField={'name'}
-            valueField={'name'}
+            valueField={'value'}
             placeholder={strings('login.role')}
             DropDownStyle={styles.dropDownStyle}
             value={selectRole}

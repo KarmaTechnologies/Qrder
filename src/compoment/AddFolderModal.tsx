@@ -68,7 +68,7 @@ export default function AddFolderModal({isVisible, onClose, path}: any) {
       style={{margin: 0, justifyContent: 'center'}}>
       <View style={styles.container}>
         <View style={styles.rowStyle}>
-          <Text style={styles.itemText}>{strings("addFoodList.new_Folder")}</Text>
+          <Text style={styles.itemText}>{strings("addFoodList.add_cuisines")}</Text>
           <TouchableOpacity onPress={onClose}>
             <Image source={Icons.close} style={styles.close} />
           </TouchableOpacity>

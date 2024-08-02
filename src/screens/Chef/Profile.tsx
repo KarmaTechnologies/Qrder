@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
@@ -19,7 +19,7 @@ import Spacer from '../../compoment/Spacer';
 import ImagePicker from 'react-native-image-crop-picker';
 import Loader from '../../compoment/Loader';
 import { screenName } from '../../navigation/screenNames';
-import { clearAsync } from '../../utils/asyncStorageManager';
+import { clearAsync, getAsyncUserInfo } from '../../utils/asyncStorageManager';
 import { dispatchNavigation } from '../../utils/globalFunctions';
 import { useAppSelector } from '../../redux/hooks';
 
@@ -32,6 +32,16 @@ const Profile = (props: Props) => {
   const { isDarkTheme } = useAppSelector(state => state.common);
   const [photoUri, setPhotoUri] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [name, setName] = useState('');
+
+  
+  useEffect(() => {
+    const getUserInfo = async() => {
+        const userList = await getAsyncUserInfo()
+        setName(userList.name)
+    }
+    getUserInfo()
+}, [])
 
   const selectImage = () => {
     setLoading(true);
@@ -50,26 +60,8 @@ const Profile = (props: Props) => {
       });
   };
 
-  const onPressNavigation = (list: any) => {
-    switch (list.title) {
-      case 'Personal Info':
-        navigation.navigate(screenName.PersonalInfo);
-        break;
-      case 'Chef':
-        navigation.navigate(screenName.ChefSignUp);
-        break;
-      case 'Notifications':
-        navigation.navigate(screenName.ProfileNotification);
-        break;
-      case 'CRM':
-        navigation.navigate(screenName.ProfileMessages);
-        break;
-      case 'Settings':
-        navigation.navigate(screenName.Settings);
-        break;
-      default:
-        break;
-    }
+  const onPressNavigation = (list: string) => {
+    navigation.navigate(list);
   };
 
   return (
@@ -104,8 +96,8 @@ const Profile = (props: Props) => {
             )}
           </TouchableOpacity>
           <View style={styles.userNameView}>
-            <Text style={styles.nameText}>Vishal Khadok</Text>
-            <Text style={styles.desText}>I love fast food</Text>
+            <Text style={styles.nameText}>{name}</Text>
+            <Text style={styles.desText}>{strings('PersonalInfo.i_love_fast_food')}</Text>
           </View>
         </View>
 
@@ -114,6 +106,7 @@ const Profile = (props: Props) => {
             {
               title: strings('profileScreen.personal_info'),
               iconName: Icons.profileIcon,
+              screens:screenName.PersonalInfo
             },
           ]}
           onPressCell={onPressNavigation}
@@ -131,14 +124,17 @@ const Profile = (props: Props) => {
             {
               title: strings('profileScreen.crm'),
               iconName: Icons.crmIcon,
+              screens:screenName.ProfileMessages
             },
             {
               title: strings('profileScreen.notifications'),
               iconName: Icons.bellIcon,
+              screens:screenName.ProfileNotification
             },
             {
               title: strings('profileScreen.chef'),
               iconName: Icons.chefIcon,
+              screens:screenName.ChefSignUp
             },
           ]}
           onPressCell={onPressNavigation}
@@ -153,6 +149,7 @@ const Profile = (props: Props) => {
             {
               title: strings('profileScreen.settings'),
               iconName: Icons.settingsIcon,
+              screens:screenName.Settings
             },
           ]}
           onPressCell={onPressNavigation}

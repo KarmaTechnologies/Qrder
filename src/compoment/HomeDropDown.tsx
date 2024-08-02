@@ -16,6 +16,7 @@ import {useFocusEffect, useIsFocused, useTheme} from '@react-navigation/native';
 import {commonFontStyle, hp, wp} from '../theme/fonts';
 import {Icons} from '../utils/images';
 import {Dropdown} from 'react-native-element-dropdown';
+import { strings } from '../i18n/i18n';
 
 type Props = {
   value: any;
@@ -30,10 +31,10 @@ const HomeDropDown = ({value, onChangeText}: Props) => {
       <Dropdown
         style={[styles.dropdown]}
         data={[
-          {label: 'Daily', value: 'Daily'},
-          {label: 'Week', value: 'Week'},
-          {label: 'Monthly', value: 'Monthly'},
-          {label: 'Yearly', value: 'Yearly'},
+          {label: strings("home.daily"), value:  strings("home.daily")},
+          {label:  strings("home.week"), value: strings("home.week")},
+          {label: strings("home.monthly"), value: strings("home.monthly")},
+          {label: strings("home.yearly"), value: strings("home.yearly")},
         ]}
         placeholder=""
         labelField={'label'}

@@ -20,6 +20,7 @@ import { strings } from '../../i18n/i18n';
 import HomeHeader from '../../compoment/HomeHeader';
 import Swiper from 'react-native-swiper';
 import { Icons } from '../../utils/images';
+import { useAppSelector } from '../../redux/hooks';
 
 type Props = {};
 
@@ -28,12 +29,13 @@ const FoodDetails = ({ route }) => {
   const { colors, isDark } = useTheme();
   const navigation = useNavigation();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const { isDarkTheme } = useAppSelector(state => state.common);
   const [basicDetails, setBasicDetails] = useState('');
-  const { name, price,cuisine_name ,description } = itemData
+  const { name, price, cuisine_name, description } = itemData
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle={'dark-content'} backgroundColor={colors.white} />
+      <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
       <HomeHeader
         onBackPress={() => {
           navigation.goBack();
@@ -109,11 +111,12 @@ const FoodDetails = ({ route }) => {
         <TextInput
           value={description}
           onChangeText={(t: string) => setBasicDetails(t)}
-          placeholder={'Write your basic details here...'}
+          placeholder={strings('addFoodList.add_basic')}
           style={styles.basicInput}
           multiline
           maxLength={200}
-          placeholderTextColor={colors.gray_400}
+          editable={false}
+          placeholderTextColor={colors.white}
         />
 
         {/* <View style={[styles.underlineAll, { marginTop: hp(36) }]} />
@@ -201,6 +204,8 @@ const getGlobalStyles = (props: any) => {
       padding: 15,
       textAlignVertical: 'top',
       marginTop: hp(20),
+      color:colors.black,
+      backgroundColor:colors.card_bg
     },
     descriptionText: {
       marginTop: 15,

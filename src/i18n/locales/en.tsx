@@ -11,7 +11,9 @@ export default {
   roleSelection:{
     select_role:'Select Role',
     save:'Save',
-    continue:"continue"
+    continue:"continue",
+    admin:'Admin',
+    chef:'Chef'
   },
   login: {
     login_in: "Log In",
@@ -103,7 +105,11 @@ export default {
     see_details: 'See Details',
     total_revenue: 'Total Revenue',
     populer_items_this_weeks: 'Populer Items This Weeks',
-    see_all: 'See All'
+    see_all: 'See All',
+    daily:'Daily',
+    week:'Week',
+    monthly:'Monthly',
+    yearly:'Yearly'
   },
   myMenuList: {
     my_menu: 'My Menu',
@@ -120,7 +126,9 @@ export default {
   orderModal: {
     done: 'Done',
     cancel: 'Cancel',
-    select_chef: 'Select Chef'
+    select_chef: 'Select Chef',
+    running_orders:'Running Orders',
+    order_request:'Order Request'
   },
   ordersList: {
     myOrders: "My Orders",
@@ -151,12 +159,14 @@ export default {
     error_enter: "Please enter your cuisine name",
     add_cuisines: "Add Cuisine",
     add_menu: "Add Menu",
+    add_basic:'Write your basic details here...'
   },
   foodDetails: {
     food_Details: 'Food Details',
     edit: 'EDIT',
     basic_details: 'Basic Details',
-    description: 'Description'
+    description: 'Description',
+    no_data_found:'No Data Found'
   },
   profileScreen: {
     profile: 'Profile',
@@ -190,7 +200,14 @@ export default {
   },
   PersonalInfo:{
     personal_Info:'Personal Info',
-    edit:'Edit'
+    edit:'Edit',
+    full_name:'FULL NAME',
+    email:'EMAIL',
+    phone_number:'PHONE NUMBER',
+    editProfile:'Edit Profile',
+    upload_Image:'Upload Image',
+    save:'SAVE',
+    i_love_fast_food:'I love fast food'
   },
   Settings:{
     settings:'Settings',
@@ -202,5 +219,5 @@ export default {
     deleteText:' Are you sure you want to delete your account on Qrder?',
     no:'No',
     yes:'Yes'
-  }
+  },
 };

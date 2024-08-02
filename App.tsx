@@ -57,7 +57,6 @@ const App = (props: Props) => {
   return (
     <Provider store={store}>
       <View style={{flex: 1, backgroundColor: light_theme.white}}>
-     
         <RootContainer />
         <Toast
           // ref={ref => Toast.setRef(ref)}
