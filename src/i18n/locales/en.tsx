@@ -8,12 +8,13 @@ export default {
     get_started: "Get Started",
     skip: "skip",
   },
-  roleSelection:{
-    select_role:'Select Role',
-    save:'Save',
-    continue:"continue",
-    admin:'Admin',
-    chef:'Chef'
+  roleSelection: {
+    select_role: 'Select Role',
+    save: 'Save',
+    continue: "continue",
+    admin: 'Admin',
+    chef: 'Chef',
+    student: 'Student'
   },
   login: {
     login_in: "Log In",
@@ -49,8 +50,8 @@ export default {
     error_re_tyre: "Please enter your re-tyre password",
     error_restaurantName: "Please enter your Restaurant Name",
     error_re_tyre_match: "Your password and confirm password do not match.",
-    role:'Role',
-    select_role:'SELECT ROLE'
+    role: 'Role',
+    select_role: 'SELECT ROLE'
   },
   sign_up: {
     sign_up: "Sign Up",
@@ -106,10 +107,10 @@ export default {
     total_revenue: 'Total Revenue',
     populer_items_this_weeks: 'Populer Items This Weeks',
     see_all: 'See All',
-    daily:'Daily',
-    week:'Week',
-    monthly:'Monthly',
-    yearly:'Yearly'
+    daily: 'Daily',
+    week: 'Week',
+    monthly: 'Monthly',
+    yearly: 'Yearly'
   },
   myMenuList: {
     my_menu: 'My Menu',
@@ -120,15 +121,15 @@ export default {
     edit: 'Edit',
     delete: 'Delete',
     are_you_sure: 'Are you sure you want to delete ?',
-    no:'No',
-    yes:'Yes'
+    no: 'No',
+    yes: 'Yes'
   },
   orderModal: {
     done: 'Done',
     cancel: 'Cancel',
     select_chef: 'Select Chef',
-    running_orders:'Running Orders',
-    order_request:'Order Request'
+    running_orders: 'Running Orders',
+    order_request: 'Order Request'
   },
   ordersList: {
     myOrders: "My Orders",
@@ -159,14 +160,14 @@ export default {
     error_enter: "Please enter your cuisine name",
     add_cuisines: "Add Cuisine",
     add_menu: "Add Menu",
-    add_basic:'Write your basic details here...'
+    add_basic: 'Write your basic details here...'
   },
   foodDetails: {
     food_Details: 'Food Details',
     edit: 'EDIT',
     basic_details: 'Basic Details',
     description: 'Description',
-    no_data_found:'No Data Found'
+    no_data_found: 'No Data Found'
   },
   profileScreen: {
     profile: 'Profile',
@@ -191,33 +192,51 @@ export default {
     reviews: "Reviews"
   },
   chefSignUp: {
-    chef_register:'Chef Register',
+    chef_register: 'Chef Register',
     select_cusine: 'SELECT CUSINE',
     phone_Number: 'Phone Number',
     select_cusine_error: "Please select your cusine",
     salary: "Salary",
     p_salary: "Please enter salary",
   },
-  PersonalInfo:{
-    personal_Info:'Personal Info',
-    edit:'Edit',
-    full_name:'FULL NAME',
-    email:'EMAIL',
-    phone_number:'PHONE NUMBER',
-    editProfile:'Edit Profile',
-    upload_Image:'Upload Image',
-    save:'SAVE',
-    i_love_fast_food:'I love fast food'
+  PersonalInfo: {
+    personal_Info: 'Personal Info',
+    edit: 'Edit',
+    full_name: 'FULL NAME',
+    email: 'EMAIL',
+    phone_number: 'PHONE NUMBER',
+    editProfile: 'Edit Profile',
+    upload_Image: 'Upload Image',
+    save: 'SAVE',
+    i_love_fast_food: 'I love fast food'
   },
-  Settings:{
-    settings:'Settings',
-    general_settings:'General Settings',
-    language:'Language',
-    theme:'Theme',
-    account_setting:'Account setting',
-    deactivate_account:'Deactivate account',
-    deleteText:' Are you sure you want to delete your account on Qrder?',
-    no:'No',
-    yes:'Yes'
+  Settings: {
+    settings: 'Settings',
+    general_settings: 'General Settings',
+    language: 'Language',
+    theme: 'Theme',
+    account_setting: 'Account setting',
+    deactivate_account: 'Deactivate account',
+    deleteText: ' Are you sure you want to delete your account on Qrder?',
+    no: 'No',
+    yes: 'Yes'
   },
+  StudentSignUp: {
+    student_register: 'Student Register',
+    college_name: 'College Name',
+    enter_college: 'Enter Collage Name',
+    university_name: 'UNIVERSITY NAME',
+    select_university_name: 'Select University Name',
+    hostel_name: 'Hostel Name',
+    enter_name: 'Enter Hostel Name',
+    hostel_address: 'Hostel Address',
+    enter_hostel_address: 'Enter Hostel Address',
+    error_colleg_name: 'Please enter college name',
+    error_university: 'Please select university',
+    error_hostel: 'Please enter hostel name',
+    error_hostel_address: 'Please enter hostel address',
+    select_university: 'Select University',
+    university: 'University',
+    orders_history: 'Orders History'
+  }
 };

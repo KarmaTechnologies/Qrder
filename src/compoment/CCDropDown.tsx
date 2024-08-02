@@ -84,7 +84,7 @@ const CCDropDown = ({
             style={styles.downIcon}
           />
         )}
-        containerStyle={{ backgroundColor: colors.card_bg, top: 10 }}
+        containerStyle={{ backgroundColor: colors.card_bg, }}
         activeColor={colors.card_bg}
       />
     </View>

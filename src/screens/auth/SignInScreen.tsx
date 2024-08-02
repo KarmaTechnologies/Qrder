@@ -48,6 +48,7 @@ const SignInScreen = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const onPressLogin = () => {
+    dispatchNavigation(screenName.StudentSelect);
     // dispatchNavigation(screenName.BottomTabBar);
     // dispatchNavigation(screenName.ChefSelfBottomBar);
     // return
@@ -93,7 +94,9 @@ const SignInScreen = (props: Props) => {
   const onPressSignUp = () => {
     if (selectedRole === 'Admin') {
       navigation.navigate(screenName.SignUpScreen);
-    } else {
+    } if (selectedRole === 'Student')  {
+      navigation.navigate(screenName.StudentSignUp);
+    }else {
       navigation.navigate(screenName.ChefSignUp);
     }
   };
@@ -158,7 +161,7 @@ const SignInScreen = (props: Props) => {
             onPress={onPressLogin}
             title={strings('login.login_in')}
           />
-          {params?.role == 'Admin' ? (
+          {params?.role == 'Admin' || params?.role == 'Student' ? (
             <TouchableOpacity onPress={onPressSignUp}>
               <Text style={styles.bottomText}>
                 {strings('login.dont_have_account')}

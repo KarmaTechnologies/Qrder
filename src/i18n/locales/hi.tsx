@@ -13,7 +13,8 @@ export default {
     save: 'बचाना',
     continue: "जारी रखना",
     admin: 'व्यवस्थापक',
-    chef: 'शेफ'
+    chef: 'शेफ',
+    student: 'विद्यार्थी'
   },
   login: {
     login_in: "में प्रवेश करें",
@@ -219,5 +220,23 @@ export default {
     deleteText: "क्या आप वाकई Qrder पर अपना खाता हटाना चाहते हैं?",
     no: "नहीं",
     yes: "हाँ"
+  },
+  StudentSignUp: {
+    "student_register": "छात्र पंजीकरण",
+    "college_name": "कॉलेज का नाम",
+    "enter_college": "कॉलेज का नाम दर्ज करें",
+    "university_name": "विश्वविद्यालय का नाम",
+    "select_university_name": "विश्वविद्यालय का नाम चुनें",
+    "hostel_name": "छात्रावास का नाम",
+    "enter_name": "छात्रावास का नाम दर्ज करें",
+    "hostel_address": "छात्रावास का पता",
+    "enter_hostel_address": "छात्रावास का पता दर्ज करें",
+    "error_colleg_name": "कृपया कॉलेज का नाम दर्ज करें",
+    "error_university": "कृपया विश्वविद्यालय चुनें",
+    "error_hostel": "कृपया छात्रावास का नाम दर्ज करें",
+    "error_hostel_address": "कृपया छात्रावास का पता दर्ज करें",
+    "select_university": "विश्वविद्यालय चुनें",
+    "university": "विश्वविद्यालय",
+    "orders_history": "आदेश इतिहास"
   }
 };

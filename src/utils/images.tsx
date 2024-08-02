@@ -50,4 +50,5 @@ export const Icons = {
   close: require('../assets/Icons/close.png'),
   email: require('../assets/Icons/email.png'),
   phone: require('../assets/Icons/phone.png'),
+  studentHome: require('../assets/Icons/studentHome.png'),
 };

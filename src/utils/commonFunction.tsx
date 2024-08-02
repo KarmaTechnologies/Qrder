@@ -83,4 +83,28 @@ export const DropDownData = [
     value:'Chef',
     id: 2,
   },
+  {
+    name: strings('roleSelection.student'),
+    value:'Student',
+    id: 2,
+  },
+];
+
+export const DropDownDatas = [
+  {
+      name: 'Nirma University of Science and Technology',
+      id: 1,
+  },
+  {
+      name: 'Gujarat University',
+      id: 2,
+  },
+  {
+      name: 'Sardar Patel University',
+      id: 3,
+  },
+  {
+      name: 'Saurashtra University',
+      id: 4,
+  },
 ];

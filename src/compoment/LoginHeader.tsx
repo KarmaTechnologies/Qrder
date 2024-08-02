@@ -13,7 +13,7 @@ type Props = {
     email?:string
 };
 
-const LoginHeader = ({ title, description, isBack = false, onPress = undefined ,email=''}: Props) => {
+const LoginHeader = ({ title, description = '', isBack = false, onPress = undefined ,email=''}: Props) => {
     const { colors, isDark } = useTheme();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     return (

@@ -26,7 +26,6 @@ import VerificationCode from '../screens/auth/VerificationCode';
 import LocationScreen from '../screens/auth/LocationScreen';
 import MyTabs from "../navigation/BottomTabBar";
 import FoodDetails from '../screens/Chef/FoodDetails';
-import ChefSignUp from '../screens/ChefAuth/ChefSignUp';
 import MyOrdersList from '../screens/Chef/MyOrdersList';
 import Notification from '../screens/Chef/Notification';
 import NotificationListCard from '../screens/Chef/NotificationListCard';
@@ -39,6 +38,11 @@ import ChefSellBottomBar from './ChefSelfBottomBar';
 import ChefSelfBottomBar from './ChefSelfBottomBar';
 import Settings from '../screens/ChefSettings/Settings';
 import EditProfile from '../screens/ChefSettings/EditProfile';
+import ChefSignUp from '../screens/ChefSelf/ChefSignUp';
+import StudentSignUp from '../screens/StudentAuth/StudentSignUp';
+import StudentSelect from '../screens/StudentAuth/StudentSelect';
+import StudentHome from '../screens/StudentAuth/StudentHome';
+import StudentBottomBar from './StudentBottomBar';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -229,6 +233,25 @@ const StackNavigator: FC = () => {
         headerShown: false,
         headerTitle: '',
       })} name={screenName.ChefSelfBottomBar} component={ChefSelfBottomBar} />
+
+      {/* // student */}
+
+      
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.StudentSignUp} component={StudentSignUp} />
+        <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.StudentSelect} component={StudentSelect} />
+         <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.StudentBottomBar} component={StudentBottomBar} />
     </Stack.Navigator>
   );
 };

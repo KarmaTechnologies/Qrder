@@ -40,4 +40,16 @@ export const screenName = {
     ChefNotification: "ChefNotification",
     ChefProfile: "ChefProfile",
   },
+
+  // student
+
+  StudentSignUp:'StudentSignUp',
+  StudentSelect:'StudentSelect',
+  StudentBottomBar:'StudentBottomBar',
+  student_tab_bar: {
+    StudentHome:"StudentHome",
+    StudentProfile:'StudentProfile',
+    StudentNotification:'StudentNotification',
+    StudentOrderHistory:'StudentOrderHistory'
+  },
 }
