@@ -9,6 +9,7 @@ import { Icons } from '../../utils/images';
 import Input from '../../compoment/Input';
 import { emailCheck, errorToast } from '../../utils/commonFunction';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import PrimaryButton from '../../compoment/PrimaryButton';
 
 type Props = {};
 
@@ -84,25 +85,27 @@ const EditProfile = (props: Props) => {
                 onBackPress={() => {
                     navigation.goBack();
                 }}
-                onRightPress={() => onPressEditDone()}
                 mainShow={true}
                 title={strings('PersonalInfo.editProfile')}
-                rightText={strings('PersonalInfo.save')}
+                isShowIcon={false}
                 extraStyle={styles.headerContainer}
                 isHideIcon={true}
                 rightTextStyle={styles.rightTextStyle}
             />
             <View style={styles.subContainer}>
                 <View style={styles.profileContainer}>
-                    <Image
-                        source={photoUri ? { uri: photoUri } : Icons.profileImage}
-                        style={styles.profilImage}
-                    />
-                    <TouchableOpacity onPress={selectImage}>
-                        <Text style={styles.uploadText}>{strings('PersonalInfo.upload_Image')}</Text>
-                    </TouchableOpacity>
+                    <View>
+                        <Image
+                            source={photoUri ? { uri: photoUri } : Icons.profileImage}
+                            style={styles.profilImage}
+                        />
+                        <TouchableOpacity activeOpacity={0.9} onPress={selectImage} style={styles.editImage}>
+                            <Image source={Icons.editPencial} style={styles.profileIcon} />
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
-                <View>
+                <View style={styles.inputView}>
                     <Input
                         value={names}
                         placeholder={strings('sign_up.p_name')}
@@ -125,6 +128,11 @@ const EditProfile = (props: Props) => {
                         maxLength={10}
                     />
                 </View>
+                <PrimaryButton
+                    extraStyle={styles.signupButton}
+                    onPress={onPressEditDone}
+                    title={strings('PersonalInfo.save')}
+                />
             </View>
         </View>
     );
@@ -152,14 +160,31 @@ const getGlobalStyles = (props: any) => {
         },
         profileContainer: {
             justifyContent: "center",
-            alignItems: 'center'
+            alignItems: 'center',
         },
         profilImage: {
-            width: wp(100),
-            height: wp(100),
+            width: wp(130),
+            height: wp(130),
             borderRadius: wp(50),
-            // backgroundColor: '#F88222',
-            // opacity: 0.5
+        },
+        editImage: {
+            width: wp(41),
+            height: wp(41),
+            borderRadius: wp(40),
+            backgroundColor: colors.Primary_Orange,
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            bottom: 0,
+            right: 0
+        },
+        profileIcon: {
+            width: 16,
+            height: 16,
+            resizeMode: 'contain',
+        },
+        inputView: {
+            marginTop: hp(6)
         },
         loader: {
             alignItems: 'center',
@@ -169,6 +194,12 @@ const getGlobalStyles = (props: any) => {
         uploadText: {
             paddingTop: hp(12),
             ...commonFontStyle(700, 20, colors.Title_Text),
+        },
+        signupButton: {
+            marginTop: hp(47),
+            borderRadius: 12,
+            alignItems: 'center',
+            justifyContent: 'center',
         },
     });
 };

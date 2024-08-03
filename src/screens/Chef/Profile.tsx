@@ -134,7 +134,7 @@ const Profile = (props: Props) => {
             {
               title: strings('profileScreen.chef'),
               iconName: Icons.chefIcon,
-              screens:screenName.ChefSignUp
+              screens:screenName.ChefNameList
             },
           ]}
           onPressCell={onPressNavigation}

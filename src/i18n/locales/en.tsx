@@ -238,5 +238,10 @@ export default {
     select_university: 'Select University',
     university: 'University',
     orders_history: 'Orders History'
+  },
+  ChefNameList:{
+    chef_list:'Chef List',
+    edit_Chef_name:'Edit Chef',
+    error_v_salary:'Please enter your salary'
   }
 };

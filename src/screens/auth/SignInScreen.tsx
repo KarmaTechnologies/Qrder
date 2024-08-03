@@ -13,13 +13,11 @@ import {Icons} from '../../utils/images';
 import {commonFontStyle, h, hp, wp} from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import {
-  DropDownData,
   UpperCaseCheck,
   emailCheck,
   errorToast,
   numberCheck,
   specialCarCheck,
-  successToast,
 } from '../../utils/commonFunction';
 import PrimaryButton from '../../compoment/PrimaryButton';
 import {screenName} from '../../navigation/screenNames';
@@ -89,6 +87,7 @@ const SignInScreen = (props: Props) => {
       dispatch(userLogin(obj));
     }
   };
+  console.log("==>",selectedRole)
 
   const onPressSignUp = () => {
     if (selectedRole === 'Admin') {
@@ -96,8 +95,6 @@ const SignInScreen = (props: Props) => {
     }
     if (selectedRole === 'Student') {
       navigation.navigate(screenName.StudentSignUp);
-    } else {
-      navigation.navigate(screenName.ChefSignUp);
     }
   };
 

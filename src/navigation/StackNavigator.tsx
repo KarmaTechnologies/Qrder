@@ -43,6 +43,8 @@ import StudentSignUp from '../screens/StudentAuth/StudentSignUp';
 import StudentSelect from '../screens/StudentAuth/StudentSelect';
 import StudentHome from '../screens/StudentAuth/StudentHome';
 import StudentBottomBar from './StudentBottomBar';
+import ChefNameList from '../screens/ChefSelf/ChefNameList';
+import ChefEditName from '../screens/ChefSelf/ChefEditName';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -234,20 +236,31 @@ const StackNavigator: FC = () => {
         headerTitle: '',
       })} name={screenName.ChefSelfBottomBar} component={ChefSelfBottomBar} />
 
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.ChefNameList} component={ChefNameList} />
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.ChefEditName} component={ChefEditName} />
+
       {/* // student */}
 
-      
+
       <Stack.Screen options={({ navigation }) => ({
         ...headerStyleTransparent,
         headerShown: false,
         headerTitle: '',
       })} name={screenName.StudentSignUp} component={StudentSignUp} />
-        <Stack.Screen options={({ navigation }) => ({
+      <Stack.Screen options={({ navigation }) => ({
         ...headerStyleTransparent,
         headerShown: false,
         headerTitle: '',
       })} name={screenName.StudentSelect} component={StudentSelect} />
-         <Stack.Screen options={({ navigation }) => ({
+      <Stack.Screen options={({ navigation }) => ({
         ...headerStyleTransparent,
         headerShown: false,
         headerTitle: '',

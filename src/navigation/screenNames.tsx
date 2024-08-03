@@ -1,7 +1,7 @@
 export const screenName = {
   SplashScreen: 'SplashScreen',
   OnboardingScreen: 'OnboardingScreen',
-  RoleSelectionScreen:'RoleSelectionScreen',
+  RoleSelectionScreen: 'RoleSelectionScreen',
   HomeScreen: 'HomeScreen',
   LoginSignupScreen: 'LoginSignupScreen',
   SignInScreen: 'SignInScreen',
@@ -18,22 +18,23 @@ export const screenName = {
     Profile: "Profile",
   },
   FoodDetails: 'FoodDetails',
-  MyOrdersList:'MyOrdersList',
-  ProfileNotification:'ProfileNotification',
-  ProfileMessages:'ProfileMessages',
-  ReviewsScreen:'ReviewsScreen',
-  PersonalInfo:'PersonalInfo',
-  EditProfile:'EditProfile',
-  Settings:'Settings',
+  MyOrdersList: 'MyOrdersList',
+  ProfileNotification: 'ProfileNotification',
+  ProfileMessages: 'ProfileMessages',
+  ReviewsScreen: 'ReviewsScreen',
+  PersonalInfo: 'PersonalInfo',
+  EditProfile: 'EditProfile',
+  Settings: 'Settings',
 
   //chefSignUp
 
-  ChefSignUp:'ChefSignUp',
+  ChefSignUp: 'ChefSignUp',
 
 
   //chefSell
-
-  ChefSelfBottomBar:'ChefSelfBottomBar',
+  ChefNameList: 'ChefNameList',
+  ChefEditName:'ChefEditName',
+  ChefSelfBottomBar: 'ChefSelfBottomBar',
   chef_tab_bar: {
     ChefHome: "ChefHome",
     ChefMenuList: "ChefMenuList",
@@ -43,13 +44,13 @@ export const screenName = {
 
   // student
 
-  StudentSignUp:'StudentSignUp',
-  StudentSelect:'StudentSelect',
-  StudentBottomBar:'StudentBottomBar',
+  StudentSignUp: 'StudentSignUp',
+  StudentSelect: 'StudentSelect',
+  StudentBottomBar: 'StudentBottomBar',
   student_tab_bar: {
-    StudentHome:"StudentHome",
-    StudentProfile:'StudentProfile',
-    StudentNotification:'StudentNotification',
-    StudentOrderHistory:'StudentOrderHistory'
+    StudentHome: "StudentHome",
+    StudentProfile: 'StudentProfile',
+    StudentNotification: 'StudentNotification',
+    StudentOrderHistory: 'StudentOrderHistory'
   },
 }

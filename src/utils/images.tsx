@@ -51,4 +51,6 @@ export const Icons = {
   email: require('../assets/Icons/email.png'),
   phone: require('../assets/Icons/phone.png'),
   studentHome: require('../assets/Icons/studentHome.png'),
+  editPencial: require('../assets/Icons/editPencial.png'),
+  search: require('../assets/Icons/search.png'),
 };
