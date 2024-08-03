@@ -12,6 +12,7 @@ export const light_theme = {
   Text_Tertiary: '#646982',
   inputColor: '#F0F5FA',
   Primary_Bg: '#121223',
+  Primary_Bg1: '#ffffff',
   Border_gray: '#E3EBF2',
   Text_gray: '#7E8A97',
   blue_100: '#395998',
@@ -64,6 +65,7 @@ export const dark_theme = {
   Title_Text: '#ffffff',
   Text_Tertiary: '#8E9299',
   Primary_Bg: '#121223',
+  Primary_Bg1: '#121223',
 
   Surface_Secondary: '#303236',
   Surface_Secondary1: '#303236',

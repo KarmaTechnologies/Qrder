@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
-import { Icons } from '../../utils/images';
-import { commonFontStyle, h, hp, wp } from '../../theme/fonts';
+import React, {useState} from 'react';
+import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
+import {Icons} from '../../utils/images';
+import {commonFontStyle, h, hp, wp} from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import {
   DropDownData,
@@ -22,35 +22,32 @@ import {
   successToast,
 } from '../../utils/commonFunction';
 import PrimaryButton from '../../compoment/PrimaryButton';
-import { screenName } from '../../navigation/screenNames';
-import { dispatchNavigation } from '../../utils/globalFunctions';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { userLogin } from '../../actions/authAction';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {screenName} from '../../navigation/screenNames';
+import {dispatchNavigation} from '../../utils/globalFunctions';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {userLogin} from '../../actions/authAction';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
-import { strings } from '../../i18n/i18n';
+import {strings} from '../../i18n/i18n';
 import CCDropDown from '../../compoment/CCDropDown';
 
 type Props = {};
 
 const SignInScreen = (props: Props) => {
-  const { colors, isDark } = useTheme();
-  const { params } = useRoute();
-  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const {colors, isDark} = useTheme();
+  const {params} = useRoute();
+  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [email, setEmail] = useState(__DEV__ ? '' : '');
   const [password, setPassword] = useState(__DEV__ ? '' : '');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
   const [selectRole, setSelectRole] = useState('');
   const [isSelect, setIsSelect] = useState<boolean>(false);
-  const { selectedRole } = useAppSelector(state => state.common);
+  const {selectedRole} = useAppSelector(state => state.common);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   const onPressLogin = () => {
-    dispatchNavigation(screenName.StudentSelect);
-    // dispatchNavigation(screenName.BottomTabBar);
-    // dispatchNavigation(screenName.ChefSelfBottomBar);
     // return
     if (email.trim().length === 0) {
       errorToast(strings('login.error_email'));
@@ -75,8 +72,10 @@ const SignInScreen = (props: Props) => {
         onSuccess: (response: any) => {
           if (params?.role == 'Admin') {
             dispatchNavigation(screenName.BottomTabBar);
-          } else {
+          } else if (params?.role == 'Chef') {
             dispatchNavigation(screenName.ChefSelfBottomBar);
+          } else {
+            dispatchNavigation(screenName.StudentSelect);
           }
           setEmail('');
           setPassword('');
@@ -94,9 +93,10 @@ const SignInScreen = (props: Props) => {
   const onPressSignUp = () => {
     if (selectedRole === 'Admin') {
       navigation.navigate(screenName.SignUpScreen);
-    } if (selectedRole === 'Student')  {
+    }
+    if (selectedRole === 'Student') {
       navigation.navigate(screenName.StudentSignUp);
-    }else {
+    } else {
       navigation.navigate(screenName.ChefSignUp);
     }
   };
@@ -146,7 +146,7 @@ const SignInScreen = (props: Props) => {
                 {strings('login.remember_me')}
               </Text>
             </View>
-            {params?.role == 'Admin' && (
+            {params?.role == 'Admin' || params?.role == 'Student' && (
               <TouchableOpacity
                 onPress={() => navigation.navigate(screenName.ForgotScreen)}>
                 <Text style={styles.forgotText}>
@@ -219,7 +219,7 @@ const SignInScreen = (props: Props) => {
 export default SignInScreen;
 
 const getGlobalStyles = (props: any) => {
-  const { colors } = props;
+  const {colors} = props;
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -267,7 +267,7 @@ const getGlobalStyles = (props: any) => {
       width: wp(20),
       height: hp(20),
       resizeMode: 'contain',
-      tintColor: colors.black
+      tintColor: colors.black,
     },
     rememberText: {
       ...commonFontStyle(400, 13, colors.Text_gray),

@@ -101,14 +101,14 @@ const StudentProfile = (props: Props) => {
         <TitleList
           arr_list={[
             {
-              title: strings('profileScreen.menu'),
+              title: strings('StudentSignUp.orders_history'),
               iconName: Icons.menuIcon,
               screens:screenName.MyOrdersList
             },
-            {
-              title: strings('profileScreen.salary'),
-              iconName: Icons.inventory,
-            },
+            // {
+            //   title: strings('profileScreen.salary'),
+            //   iconName: Icons.inventory,
+            // },
             {
               title: strings('profileScreen.settings'),
               iconName: Icons.crmIcon,
@@ -126,7 +126,7 @@ const StudentProfile = (props: Props) => {
             },
           ]}
           onPressCell={() => {
-            clearAsync(), dispatchNavigation(screenName.SignInScreen);
+            clearAsync(), dispatchNavigation(screenName.RoleSelectionScreen);
           }}
           styleProp={styles.boxCotainer}
         />

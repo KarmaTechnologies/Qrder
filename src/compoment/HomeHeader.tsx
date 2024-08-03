@@ -97,7 +97,7 @@ const getGlobalStyles = (props: any) => {
   const { colors } = props;
   return StyleSheet.create({
     container: {
-      backgroundColor: colors?.Primary_BG,
+      backgroundColor: colors?.white,
       paddingVertical: hp(8),
       paddingBottom: hp(10),
       paddingHorizontal: wp(16),

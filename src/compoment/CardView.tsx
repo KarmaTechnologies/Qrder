@@ -36,7 +36,7 @@ const getGlobalStyles = (props: any) => {
   return StyleSheet.create({
     container: {
      elevation:2,
-     backgroundColor:colors.white,
+     backgroundColor: colors.Primary_Bg1,
      marginHorizontal:wp(16),
      borderRadius:15
     },

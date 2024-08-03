@@ -1,6 +1,7 @@
 import {
   FlatList,
   Image,
+  Platform,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -8,8 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect, useNavigation, useTheme } from '@react-navigation/native';
 import {
   getAddress,
   requestLocationPermission,
@@ -103,7 +104,7 @@ const Home = (props: Props) => {
     // @ts-ignore
     // navigate(screenName.Map_Location);
     // navigate(screenName.SelectLocation);
-  };
+  };  
 
   return (
     <View style={styles.container}>
@@ -185,7 +186,7 @@ const getGlobalStyles = (props: any) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.Primary_BG,
+      backgroundColor: colors.white,
     },
     headerCard: {
       flexDirection: 'row',
@@ -200,6 +201,7 @@ const getGlobalStyles = (props: any) => {
       height: hp(110),
       marginHorizontal: 0,
       justifyContent: 'center',
+      backgroundColor: colors.Primary_BG,
     },
     headerText: {
       alignSelf: 'center',
