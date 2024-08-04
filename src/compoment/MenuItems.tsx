@@ -18,10 +18,11 @@ export interface ListObj {
 type ItemProps = {
     item: ListObj;
     setDelete?: any
+    showChef:any
 };
 
 
-const MenuItems = ({ item, setDelete }: ItemProps) => {
+const MenuItems = ({ item, setDelete ,showChef}: ItemProps) => {
     const { colors } = useTheme();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const navigation = useNavigation();
@@ -48,7 +49,7 @@ const MenuItems = ({ item, setDelete }: ItemProps) => {
     return (
         <View style={styles.boxView}>
             <TouchableOpacity activeOpacity={0.5} onPress={()=>{
-                   navigation.navigate(screenName.FoodDetails, { itemData: item })
+                   navigation.navigate(screenName.FoodDetails, { itemData: item,showChef:showChef })
             }} style={styles.subBoxView}>
                 {item.images[0] ? (
                     <Image source={{ uri: item.images[0] }} style={[styles.imageView, { backgroundColor: colors.image_Bg_gray }]} />
@@ -63,7 +64,7 @@ const MenuItems = ({ item, setDelete }: ItemProps) => {
                 <View style={styles.container}>
                     <View style={styles.leftView}>
                         <Text style={styles.titleText}> {item?.name}</Text>
-                        <View style={styles.rightContainers}>
+                       {!showChef && <View style={styles.rightContainers}>
                             <Menu
                                 visible={visible}
                                 style={styles.boxMenu}
@@ -88,7 +89,7 @@ const MenuItems = ({ item, setDelete }: ItemProps) => {
                                     {strings('myMenuList.delete')}
                                 </MenuItem>
                             </Menu>
-                        </View>
+                        </View>}
                     </View>
                     <View style={styles.rateView}>
                         <View style={styles.breakfastView}>

@@ -18,24 +18,16 @@ export interface ListObj {
 type ItemProps = {
     item: ListObj;
     setDelete?: any
+    onPressEdit?: any
 };
 
 
-const ChefNameCardList = ({ item, setDelete }: ItemProps) => {
+const CuisinesNameCardList = ({ item, setDelete,onPressEdit }: ItemProps) => {
     const { colors } = useTheme();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const navigation = useNavigation();
     const [visible, setVisible] = useState(false);
 
-    const onPressedit = () => {
-        hideMenu();
-        const clear = setTimeout(() => {
-            navigation.navigate(screenName.ChefEditName)
-        }, 500);
-        return () => {
-            clearTimeout(clear);
-        };
-    };
 
     const hideMenu = () => setVisible(false);
 
@@ -47,14 +39,7 @@ const ChefNameCardList = ({ item, setDelete }: ItemProps) => {
 
     return (
         <View style={styles.boxView}>
-            <TouchableOpacity activeOpacity={0.5} style={styles.subBoxView}>
-                {!item?.profile_image ? <Image source={item?.profile_image} style={styles.imageView}/> : <View
-                    style={[
-                        styles.imageView,
-                        { backgroundColor: colors.image_Bg_gray },
-                    ]}
-                />}
-               
+            <TouchableOpacity activeOpacity={0.5} style={styles.subBoxView}>   
                 <View style={styles.container}>
                     <View style={styles.leftView}>
                         <Text style={styles.titleText}> {item?.name}</Text>
@@ -68,7 +53,10 @@ const ChefNameCardList = ({ item, setDelete }: ItemProps) => {
                                     </TouchableOpacity>
                                 }
                                 onRequestClose={hideMenu}>
-                                <MenuItem textStyle={styles.menuTextStyle} onPress={onPressedit}>
+                                <MenuItem textStyle={styles.menuTextStyle} onPress={()=>{
+                                    hideMenu()
+                                    onPressEdit()
+                                    }}>
                                     {strings('myMenuList.edit')}
                                 </MenuItem>
                                 <MenuDivider />
@@ -85,13 +73,12 @@ const ChefNameCardList = ({ item, setDelete }: ItemProps) => {
                             </Menu>
                         </View>
                     </View>
-                    <Text style={styles.breakfastText}> {item?.salary}</Text>
                 </View>
             </TouchableOpacity>
         </View>
     )
 }
-export default ChefNameCardList
+export default CuisinesNameCardList
 
 const getGlobalStyles = (props: any) => {
     const { colors } = props;
@@ -118,7 +105,7 @@ const getGlobalStyles = (props: any) => {
             alignItems: 'center',
         },
         titleText: {
-            ...commonFontStyle(700, 16, colors.headerText),
+            ...commonFontStyle(600, 16, colors.headerText),
         },
         optionIcon: {
             width: wp(24),

@@ -155,7 +155,7 @@ const ChefSignUp = (props: Props) => {
           <Input
             value={phone}
             returnKeyType="next"
-            placeholder={'123456789'}
+            placeholder={strings('chefSignUp.phone_Number')}
             label={strings('chefSignUp.phone_Number')}
             keyboardType="number-pad"
             maxLength={10}

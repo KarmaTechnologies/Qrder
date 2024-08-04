@@ -136,6 +136,11 @@ const Profile = (props: Props) => {
               iconName: Icons.chefIcon,
               screens:screenName.ChefNameList
             },
+            {
+              title: strings('profileScreen.cuisines'),
+              iconName: Icons.chefIcon,
+              screens:screenName.CuisinesNameList
+            },
           ]}
           onPressCell={onPressNavigation}
           styleProp={styles.boxCotainer}

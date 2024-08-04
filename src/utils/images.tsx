@@ -53,4 +53,7 @@ export const Icons = {
   studentHome: require('../assets/Icons/studentHome.png'),
   editPencial: require('../assets/Icons/editPencial.png'),
   search: require('../assets/Icons/search.png'),
+  plus: require('../assets/Icons/plus.png'),
+  minus: require('../assets/Icons/minus.png'),
+  cart1: require('../assets/Icons/cart1.png'),
 };

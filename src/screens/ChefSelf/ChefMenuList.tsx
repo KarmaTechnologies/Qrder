@@ -142,7 +142,7 @@ const ChefMenuList = (props: Props) => {
       </View>
 
       <View style={styles.boxContainer} key={'1'}>
-        <MenuCardList onRefresh={() => {
+        <MenuCardList showChef={true} onRefresh={() => {
           onRefresh()
         }} refreshing={refreshing} />
       </View>

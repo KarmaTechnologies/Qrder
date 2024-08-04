@@ -38,7 +38,7 @@ const SplashScreen = (props: Props) => {
     console.log('isUser',isUser);
     
     if (isUser) {
-      dispatchNavigation(screenName.BottomTabBar);
+      dispatchNavigation(screenName.StudentBottomBar);
     } else {
       dispatchNavigation(screenName.RoleSelectionScreen);
     }

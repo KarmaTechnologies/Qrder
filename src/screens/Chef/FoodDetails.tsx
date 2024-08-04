@@ -25,7 +25,7 @@ import { useAppSelector } from '../../redux/hooks';
 type Props = {};
 
 const FoodDetails = ({ route }) => {
-  const { itemData } = route?.params;
+  const { itemData,showChef } = route?.params;
   const { colors, isDark } = useTheme();
   const navigation = useNavigation();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
@@ -47,7 +47,7 @@ const FoodDetails = ({ route }) => {
         title={strings('foodDetails.food_Details')}
         extraStyle={styles.headerContainer}
         isHideIcon={true}
-        rightText={strings('foodDetails.edit')}
+        rightText={!showChef ? strings('foodDetails.edit') :""}
       />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={'handled'}

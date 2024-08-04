@@ -1,8 +1,8 @@
 import { FlatList, Image, StatusBar, StyleSheet, TextInput, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../../theme/fonts';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
 import NoDataFound from '../../compoment/NoDataFound';
@@ -11,6 +11,7 @@ import ChefNameCardList from '../../compoment/ChefNameCardList';
 import DleleteModal from '../../compoment/DeleteModal';
 import { screenName } from '../../navigation/screenNames';
 import { Icons } from '../../utils/images';
+import { getChefsAction } from '../../actions/chefsAction';
 
 type Props = {};
 
@@ -21,6 +22,8 @@ const ChefNameList = (props: Props) => {
     const { isDarkTheme } = useAppSelector(state => state.common);
     const [visible, setVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const {getChefsData} = useAppSelector(state => state.data);
+    const dispatch = useAppDispatch();
 
 
     const closeModal = () => {
@@ -30,6 +33,18 @@ const ChefNameList = (props: Props) => {
         setVisible(false)
         // removeMenuCardList();
     }
+
+    useEffect(() => {
+        getChefsList()
+      }, []);
+
+    const getChefsList = () => {
+        let obj = {
+          onSuccess: (res: any) => { },
+          onFailure: (Err: any) => { },
+        };
+        dispatch(getChefsAction(obj));
+      };
 
     return (
         <View style={styles.container}>
@@ -45,7 +60,7 @@ const ChefNameList = (props: Props) => {
                 mainShow={true}
                 title={strings('ChefNameList.chef_list')}
                 extraStyle={styles.headerContainer}
-                rightText={'Chef SignUp'}
+                rightText={strings("ChefNameList.Chef_SignUp")}
                 isHideIcon={true}
                 rightTextStyle={styles.rightTextStyle}
             />
@@ -53,7 +68,7 @@ const ChefNameList = (props: Props) => {
                 <View style={styles.searchInputContainer}>
                     <TextInput
                         style={styles.searchInput}
-                        placeholder="Search..."
+                        placeholder={strings("ChefNameList.Search")}
                         value={searchQuery}
                         onChangeText={text => setSearchQuery(text)}
                         placeholderTextColor={colors.gray_300}
@@ -63,12 +78,12 @@ const ChefNameList = (props: Props) => {
 
                 <FlatList
                     onEndReachedThreshold={0.3}
-                    data={[1, 2, 3, 1, 1, 1, 11, 1, 1, 1]}
+                    data={getChefsData}
                     ListEmptyComponent={<NoDataFound />}
                     renderItem={({ item, index }) => {
                         return (
                             <ChefNameCardList
-                                // item={item}
+                                item={item}
                                 setDelete={() => {
                                     setVisible(true);
                                     // setSelectItem(item);

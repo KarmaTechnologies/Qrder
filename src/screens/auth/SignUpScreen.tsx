@@ -4,17 +4,18 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
-import { hp, wp } from '../../theme/fonts';
+import React, {useEffect, useState} from 'react';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import {commonFontStyle, hp, wp} from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import PrimaryButton from '../../compoment/PrimaryButton';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
-import { screenName } from '../../navigation/screenNames';
-import { strings } from '../../i18n/i18n';
+import {screenName} from '../../navigation/screenNames';
+import {strings} from '../../i18n/i18n';
 import Spacer from '../../compoment/Spacer';
 import {
   emailCheck,
@@ -23,17 +24,17 @@ import {
   specialCarCheck,
   UpperCaseCheck,
 } from '../../utils/commonFunction';
-import { dispatchNavigation } from '../../utils/globalFunctions';
-import { userSignUp } from '../../actions/authAction';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { getCityAction, searchCities } from '../../actions/commonAction';
+import {dispatchNavigation} from '../../utils/globalFunctions';
+import {userSignUp} from '../../actions/authAction';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {getCityAction, searchCities} from '../../actions/commonAction';
 import debounce from 'lodash/debounce';
 
 type Props = {};
 
 const SignUpScreen = (props: Props) => {
-  const { colors, isDark } = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const {colors, isDark} = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,16 +43,28 @@ const SignUpScreen = (props: Props) => {
   const [isShowRePassword, setisShowRePassword] = useState<boolean>(true);
   const [number, setNumber] = useState('');
   const [restaurantName, setRestaurantName] = useState('');
+  const [universityName, setUniversityName] = useState('');
+  const [canteenName, setCanteenName] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
   const [pincode, setPincode] = useState('');
   const [quantityValue, setQuantityValue] = useState('');
   const [showListView, setShowListView] = useState(false);
-  const { getCity, searchCity } = useAppSelector(state => state.common);
+  const {getCity, searchCity} = useAppSelector(state => state.common);
   const [filteredData, setFilteredData] = useState([]);
   const [addressList, setAddressList] = useState([]);
   const [area, setArea] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('Restaurant');
+
+  const options = [
+    {label: strings('sign_up.restaurant'), value: 'Restaurant'},
+    {label: strings('sign_up.canteen'), value: 'Canteen'},
+  ];
+
+  const handlePress = value => {
+    setSelectedOption(value);
+  };
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
@@ -134,22 +147,22 @@ const SignUpScreen = (props: Props) => {
 
   const getCityList = () => {
     let obj = {
-      onSuccess: (res: any) => { },
-      onFailure: (Err: any) => { },
+      onSuccess: (res: any) => {},
+      onFailure: (Err: any) => {},
     };
     dispatch(getCityAction(obj));
   };
 
   const debouncedFilterSearch = React.useCallback(
-    debounce((searchText) => {
+    debounce(searchText => {
       let UserInfo = {
         data: searchText,
-        onSuccess: (res) => { },
-        onFailure: (Err) => { },
+        onSuccess: res => {},
+        onFailure: Err => {},
       };
       dispatch(searchCities(UserInfo));
     }, 300),
-    []
+    [],
   );
   const FilterSearch = (searchText: any) => {
     setCity(searchText);
@@ -184,6 +197,38 @@ const SignUpScreen = (props: Props) => {
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled
           contentContainerStyle={styles.contentContainerStyle}>
+          <View
+            style={styles.radioView}>
+            {options.map(option => (
+              <TouchableOpacity
+                key={option.value}
+                style={styles.radioContainer}
+                onPress={() => handlePress(option.value)}>
+                <View
+                  style={[
+                    styles.radioButton,
+                    selectedOption === option.value &&
+                      styles.selectedRadioButton,
+                  ]}>
+                  {selectedOption === option.value && (
+                    <View style={styles.radioButtonInner} />
+                  )}
+                </View>
+                <Text
+                  style={[
+                    styles.radioText,
+                    {
+                      color:
+                        selectedOption === option.value
+                          ? colors.Primary_Orange
+                          : colors.Title_Text,
+                    },
+                  ]}>
+                  {option.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
           <Input
             value={name}
             placeholder={strings('sign_up.p_name')}
@@ -205,12 +250,29 @@ const SignUpScreen = (props: Props) => {
             onChangeText={(t: string) => setNumber(t)}
             maxLength={10}
           />
-          <Input
-            value={restaurantName}
-            placeholder={strings('sign_up.restaurantName')}
-            label={strings('sign_up.restaurantName')}
-            onChangeText={(t: string) => setRestaurantName(t)}
-          />
+          {selectedOption === 'Restaurant' ? (
+            <Input
+              value={restaurantName}
+              placeholder={strings('sign_up.restaurantName')}
+              label={strings('sign_up.restaurantName')}
+              onChangeText={(t: string) => setRestaurantName(t)}
+            />
+          ) : (
+            <>
+              <Input
+                value={universityName}
+                placeholder={strings('sign_up.university_name')}
+                label={strings('StudentSignUp.university_name')}
+                onChangeText={(t: string) => setUniversityName(t)}
+              />
+              <Input
+                value={canteenName}
+                placeholder={strings('sign_up.p_enter_canteen')}
+                label={strings('sign_up.canteen_name')}
+                onChangeText={(t: string) => setCanteenName(t)}
+              />
+            </>
+          )}
           <Input
             value={area}
             placeholder={strings('sign_up.p_enter_area')}
@@ -229,7 +291,7 @@ const SignUpScreen = (props: Props) => {
               setCity(item.name);
               setState(item?.state?.name);
               setCountry(item?.state?.country?.name);
-              setAddressList(item)
+              setAddressList(item);
             }}
             onFocus={() => {
               setShowListView(true);
@@ -248,14 +310,14 @@ const SignUpScreen = (props: Props) => {
               label={strings('sign_up.state')}
               onChangeText={(t: string) => setState(t)}
               showListView={false}
-              extraStyle={{ zIndex: -1, width: '48.9%' }}
+              extraStyle={{zIndex: -1, width: '48.9%'}}
             />
             <Input
               value={country}
               placeholder={strings('sign_up.p_enter_country')}
               label={strings('sign_up.country')}
               onChangeText={(t: string) => setCountry(t)}
-              extraStyle={{ zIndex: -1, width: '49%' }}
+              extraStyle={{zIndex: -1, width: '49%'}}
             />
           </View>
           <Input
@@ -264,7 +326,7 @@ const SignUpScreen = (props: Props) => {
             keyboardType="number-pad"
             label={strings('sign_up.pincode')}
             onChangeText={(t: string) => setPincode(t)}
-            extraStyle={{ zIndex: -1 }}
+            extraStyle={{zIndex: -1}}
           />
           <Input
             value={password}
@@ -275,7 +337,7 @@ const SignUpScreen = (props: Props) => {
             label={strings('sign_up.password')}
             onChangeText={(t: string) => setPassword(t)}
             onPressEye={() => setIsShowPassword(!isShowPassword)}
-            extraStyle={{ zIndex: -1 }}
+            extraStyle={{zIndex: -1}}
           />
           <Input
             value={rePassword}
@@ -302,7 +364,7 @@ const SignUpScreen = (props: Props) => {
 export default SignUpScreen;
 
 const getGlobalStyles = (props: any) => {
-  const { colors } = props;
+  const {colors} = props;
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -323,6 +385,37 @@ const getGlobalStyles = (props: any) => {
       borderRadius: 12,
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    radioView:{
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      paddingTop: hp(15),
+    },
+    radioContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    radioButton: {
+      height: 20,
+      width: 20,
+      borderRadius: 10,
+      borderWidth: 2,
+      borderColor: colors.black,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    selectedRadioButton: {
+      borderColor: colors.Primary_Orange,
+    },
+    radioButtonInner: {
+      height: 10,
+      width: 10,
+      borderRadius: 5,
+      backgroundColor: colors.Primary_Orange,
+    },
+    radioText: {
+      marginLeft: 10,
+      ...commonFontStyle(400, 14, colors.Title_Text),
     },
   });
 };
