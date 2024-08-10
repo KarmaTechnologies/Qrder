@@ -3,7 +3,7 @@ import { RootState } from '../redux/hooks';
 import { AnyAction } from 'redux';
 import { makeAPIRequest } from '../utils/apiGlobal';
 import { GET, POST, api } from '../utils/apiConstants';
-import { GET_CITY_DATA, IS_LOADING, SEARCH_CITY, SELECT_ROLE, USER_INFO } from '../redux/actionTypes';
+import { DECREMENT, DECREMENT_ITEM, GET_CITY_DATA, INCREMENT, INCREMENT_ITEM, IS_LOADING, SEARCH_CITY, SELECT_ROLE, USER_INFO } from '../redux/actionTypes';
 import { setAsyncToken, setAsyncUserInfo } from '../utils/asyncStorageManager';
 
 export const getCityAction =
@@ -93,3 +93,11 @@ export const selectRoleAction =
         payload: data,
       });
     };
+
+    export const increment = () => ({
+      type: INCREMENT,
+  });
+  
+  export const decrement = () => ({
+      type: DECREMENT,
+  });

@@ -2,8 +2,9 @@ import {ThunkAction} from 'redux-thunk';
 import {RootState} from '../redux/hooks';
 import {AnyAction} from 'redux';
 import {makeAPIRequest} from '../utils/apiGlobal';
-import {GET, POST, api} from '../utils/apiConstants';
+import {DELETE, GET, PATCH, POST, PUT, api} from '../utils/apiConstants';
 import {
+  DELETE_CHEF_DATA,
   GET_CHEFS_DATA,
   GET_CITY_DATA,
   GET_CUISINES_DATA,
@@ -56,6 +57,57 @@ export const getChefsAction =
         if (response.status === 200 || response.status === 201) {
           dispatch({type: IS_LOADING, payload: false});
           successToast(response?.data?.message)
+          if (request.onSuccess) request.onSuccess(response.data);
+        }
+      })
+      .catch(error => {
+        dispatch({type: IS_LOADING, payload: false});
+        if (request.onFailure) request.onFailure(error.response);
+      });
+  };
+  export const chefsNameEdit =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async dispatch => {
+    let headers = {
+      Authorization: await getAsyncToken(),
+    };
+    dispatch({type: IS_LOADING, payload: true});
+    return makeAPIRequest({
+      method: PATCH,
+      url: `${api.chefsRegister}/${request.params}`,
+      headers: headers,
+      data: request.data,
+    })
+      .then(async (response: any) => {
+        if (response.status === 200 || response.status === 201) {
+          dispatch({type: IS_LOADING, payload: false});
+          successToast(response?.data?.message)
+          if (request.onSuccess) request.onSuccess(response.data);
+        }
+      })
+      .catch(error => {
+        dispatch({type: IS_LOADING, payload: false});
+        if (request.onFailure) request.onFailure(error.response);
+      });
+  };
+
+  export const deleteChefAction =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async dispatch => {
+    let headers = {
+      Authorization: await getAsyncToken(),
+    };
+    dispatch({type: IS_LOADING, payload: true});
+    return makeAPIRequest({
+      method: DELETE,
+      url: `${api.chefsRegister}/${request.params}`,
+      headers: headers,
+    })
+      .then(async (response: any) => {
+        if (response.status === 200 || response.status === 201) {
+          console.log('response?.data?.token', response);
+          dispatch({type: DELETE_CHEF_DATA, payload: request.data});
+          dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);
         }
       })

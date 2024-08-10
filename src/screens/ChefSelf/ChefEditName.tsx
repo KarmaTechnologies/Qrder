@@ -1,10 +1,10 @@
 import { Alert, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../../theme/fonts';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Icons } from '../../utils/images';
 import Input from '../../compoment/Input';
 import { emailCheck, errorToast } from '../../utils/commonFunction';
@@ -13,24 +13,35 @@ import PrimaryButton from '../../compoment/PrimaryButton';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CCDropDown from '../../compoment/CCDropDown';
 import Spacer from '../../compoment/Spacer';
+import { getAsyncUserInfo } from '../../utils/asyncStorageManager';
+import { chefsNameEdit } from '../../actions/chefsAction';
 
 type Props = {};
 
 const ChefEditName = (props: Props) => {
     const route = useRoute();
-    // const { name, email, number } = route.params;
+    const { itemData } = route.params;
     const { colors, isDark } = useTheme();
     const navigation = useNavigation();
+    const dispatch = useAppDispatch();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const { isDarkTheme } = useAppSelector(state => state.common);
     const { getCuisines } = useAppSelector(state => state.data);
-    const [name, setName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
+    const [name, setName] = useState<string>(itemData?.name);
+    const [email, setEmail] = useState<string>(itemData.email);
     const [quantityValue, setQuantityValue] = useState(0);
-    const [number, setNumber] = useState<string>('');
-    const [salary, setSalary] = useState(0);
+    const [number, setNumber] = useState<string>(itemData.number);
+    const [salary, setSalary] = useState(itemData.salary.toString());
     const [photoUri, setPhotoUri] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const filteredItem = getCuisines.find((item: any) => item.name === itemData.cuisine_name);
+        if (filteredItem) {
+            setQuantityValue(filteredItem.id);
+        }
+    
+    }, [getCuisines, itemData.cuisine_name]);
 
     const selectImage = () => {
         setLoading(true);
@@ -51,50 +62,49 @@ const ChefEditName = (props: Props) => {
 
     const onPressEditDone = async () => {
         if (name.trim().length === 0) {
-          errorToast(strings('login.error_name'));
+            errorToast(strings('login.error_name'));
         } else if (email.trim().length === 0) {
-          errorToast(strings('login.error_email'));
+            errorToast(strings('login.error_email'));
         } else if (!emailCheck(email)) {
-          errorToast(strings('login.error_v_email'));
+            errorToast(strings('login.error_v_email'));
         } else if (quantityValue == 0) {
-          errorToast(strings('chefSignUp.select_cusine_error'));
+            errorToast(strings('chefSignUp.select_cusine_error'));
         } else if (number.trim().length === 0) {
-          errorToast(strings('login.error_phone'));
+            errorToast(strings('login.error_phone'));
         } else if (number.trim().length !== 10) {
-          errorToast(strings('login.error_v_phone'));
-        } else if (salary == 0) {
-          errorToast(strings('ChefNameList.error_v_salary'));
+            errorToast(strings('login.error_v_phone'));
+        } else if (salary === 0) {
+            errorToast(strings('ChefNameList.error_v_salary'));
         } else {
-          var data = new FormData();
-        //   const userDetails = await getAsyncUserInfo()
-        //   console.log("-->>", userDetails?.parent_id)
-    
-          data.append('parent_id', userDetails?.id)
-          data.append('name', name);
-          data.append('email', email);
-          data.append('cuisine_id', quantityValue);
-          data.append('number', number);
-          data.append('salary', salary);
-    
-          let obj = {
-            data,
-            onSuccess: (response: any) => {
-              setName('');
-              setEmail('');
-              setQuantityValue(0);
-              setNumber('');
-              setSalary(0)
-    
-            },
-            onFailure: (Err: any) => {
-              if (Err != undefined) {
-                Alert.alert(Err?.message);
-              }
-            },
-          };
-        //   dispatch(chefsSignUp(obj));
+            const userDetails = await getAsyncUserInfo()
+
+            let obj = {
+                data: {
+                    name: name,
+                    email: email,
+                    number: number,
+                    cuisine_id: quantityValue,
+                    parent_id: userDetails?.id,
+                    salary: salary,
+                },
+                params: itemData?.id,
+                onSuccess: (response: any) => {
+                    navigation.goBack();
+                    setName('');
+                    setEmail('');
+                    setQuantityValue(0);
+                    setNumber('');
+                    setSalary(0)
+                },
+                onFailure: (Err: any) => {
+                    if (Err != undefined) {
+                        Alert.alert(Err?.message);
+                    }
+                },
+            };
+            dispatch(chefsNameEdit(obj));
         }
-      };
+    };
 
     return (
         <View style={styles.container}>
@@ -161,12 +171,10 @@ const ChefEditName = (props: Props) => {
                         />
                         <Input
                             value={salary}
-                            returnKeyType="next"
                             placeholder={strings('chefSignUp.p_salary')}
                             label={strings('chefSignUp.salary')}
                             keyboardType="number-pad"
-                            maxLength={10}
-                            onChangeText={(t: string) => setSalary(t.trim())}
+                            onChangeText={(t: string) => setSalary(t)}
                         />
                     </View>
                     <PrimaryButton
@@ -175,7 +183,7 @@ const ChefEditName = (props: Props) => {
                         title={strings('PersonalInfo.save')}
                     />
                 </View>
-                <Spacer height={10}/>
+                <Spacer height={10} />
             </KeyboardAwareScrollView>
         </View>
     );

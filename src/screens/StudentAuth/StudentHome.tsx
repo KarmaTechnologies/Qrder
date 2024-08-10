@@ -8,6 +8,7 @@ import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
 import Spacer from '../../compoment/Spacer';
 import NoDataFound from '../../compoment/NoDataFound';
 import Loader from '../../compoment/Loader';
+import { screenName } from '../../navigation/screenNames';
 
 type Props = {};
 
@@ -25,6 +26,9 @@ const StudentHome = (props: Props) => {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
+        onPress={()=>{
+          navigation.navigate(screenName.StudentMenuList)
+        }}
         style={{
           width: containerWidth,
           marginLeft: xPosition,

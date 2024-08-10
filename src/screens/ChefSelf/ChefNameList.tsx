@@ -1,8 +1,8 @@
 import { FlatList, Image, StatusBar, StyleSheet, TextInput, View } from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { useFocusEffect, useNavigation, useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../../theme/fonts';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
 import NoDataFound from '../../compoment/NoDataFound';
@@ -11,16 +11,37 @@ import ChefNameCardList from '../../compoment/ChefNameCardList';
 import DleleteModal from '../../compoment/DeleteModal';
 import { screenName } from '../../navigation/screenNames';
 import { Icons } from '../../utils/images';
+import { getChefsAction } from '../../actions/chefsAction';
+import Loader from '../../compoment/Loader';
 
 type Props = {};
 
 const ChefNameList = (props: Props) => {
     const { colors, isDark } = useTheme();
     const navigation = useNavigation();
+    const dispatch = useAppDispatch();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const { isDarkTheme } = useAppSelector(state => state.common);
+    const { getChefsData } = useAppSelector(state => state.data);
     const [visible, setVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectItem, setSelectItem] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            getChefsList();
+        }, [])
+    );
+
+    const removeChef = () => {
+        let UserInfo = {
+            params: selectItem?.id,
+            onSuccess: (res: any) => { },
+            onFailure: (Err: any) => { },
+        };
+        dispatch(deleteChefAction(UserInfo));
+    };
 
 
     const closeModal = () => {
@@ -28,8 +49,22 @@ const ChefNameList = (props: Props) => {
     }
     const onPressDelete = () => {
         setVisible(false)
-        // removeMenuCardList();
+        removeChef();
     }
+
+
+    const getChefsList = () => {
+        setLoading(true);
+        let obj = {
+            onSuccess: (res: any) => {
+                setLoading(false);
+            },
+            onFailure: (Err: any) => {
+                setLoading(false);
+            },
+        };
+        dispatch(getChefsAction(obj));
+    };
 
     return (
         <View style={styles.container}>
@@ -61,31 +96,34 @@ const ChefNameList = (props: Props) => {
                     <Image source={Icons.search} style={styles.searchIcon} />
                 </View>
 
-                <FlatList
-                    onEndReachedThreshold={0.3}
-                    data={[1, 2, 3, 1, 1, 1, 11, 1, 1, 1]}
-                    ListEmptyComponent={<NoDataFound />}
-                    renderItem={({ item, index }) => {
-                        return (
-                            <ChefNameCardList
-                                // item={item}
-                                setDelete={() => {
-                                    setVisible(true);
-                                    // setSelectItem(item);
-                                }}
-                            />
-                        );
-                    }}
-                    showsVerticalScrollIndicator={false}
-                    ListFooterComponent={() => {
-                        return (
-                            <View>
-                                {/* {true && <Loader size={'small'} />} */}
-                                <Spacer height={90} />
-                            </View>
-                        );
-                    }}
-                />
+                {loading ? (
+                    <Loader size={'small'} />
+                ) : (
+                    <FlatList
+                        onEndReachedThreshold={0.3}
+                        data={getChefsData}
+                        ListEmptyComponent={<NoDataFound />}
+                        renderItem={({ item, index }) => {
+                            return (
+                                <ChefNameCardList
+                                    item={item}
+                                    setDelete={() => {
+                                        setVisible(true);
+                                        setSelectItem(item);
+                                    }}
+                                />
+                            );
+                        }}
+                        showsVerticalScrollIndicator={false}
+                        ListFooterComponent={() => {
+                            return (
+                                <View>
+                                    <Spacer height={90} />
+                                </View>
+                            );
+                        }}
+                    />
+                )}
             </View>
             <DleleteModal
                 title={strings('myMenuList.are_you_sure')}
@@ -133,7 +171,7 @@ const getGlobalStyles = (props: any) => {
             width: 14,
             height: 14,
             marginLeft: 10,
-            tintColor:colors.black
+            tintColor: colors.black
         },
     });
 };

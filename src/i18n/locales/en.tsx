@@ -14,7 +14,8 @@ export default {
     continue: "continue",
     admin: 'Admin',
     chef: 'Chef',
-    student: 'Student'
+    student: 'Student',
+    error_role:"Please Select Role"
   },
   login: {
     login_in: "Log In",
@@ -243,5 +244,8 @@ export default {
     chef_list:'Chef List',
     edit_Chef_name:'Edit Chef',
     error_v_salary:'Please enter your salary'
+  },
+  CardMenuList:{
+    add:'Add'
   }
 };

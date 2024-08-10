@@ -14,7 +14,8 @@ export default {
     continue: "ચાલુ રાખો",
     admin: 'એડમિન',
     chef: 'શેફ',
-    student: 'વિદ્યાર્થી'
+    student: 'વિદ્યાર્થી',
+    error_role: "કૃપા કરીને ભૂમિકા પસંદ કરો"
   },
   login: {
     login_in: "લૉગ ઈન",

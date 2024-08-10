@@ -34,6 +34,7 @@ const ChefSignUp = (props: Props) => {
   const [salary, setSalary] = useState(0);
   const [rePassword, setRePassword] = useState('');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
+  const [reShowPassword, setReShowPassword] = useState<boolean>(true);
   const [quantityValue, setQuantityValue] = useState(0);
   const { getCuisines } = useAppSelector(state => state.data);
 
@@ -72,7 +73,6 @@ const ChefSignUp = (props: Props) => {
     } else {
       var data = new FormData();
       const userDetails = await getAsyncUserInfo()
-      console.log("-->>", userDetails?.parent_id)
 
       data.append('parent_id', userDetails?.id)
       data.append('name', name);
@@ -86,7 +86,7 @@ const ChefSignUp = (props: Props) => {
       let obj = {
         data,
         onSuccess: (response: any) => {
-          dispatchNavigation(screenName.SignInScreen);
+           navigation.goBack();
           setName('');
           setEmail('');
           setQuantityValue(0);
@@ -185,10 +185,10 @@ const ChefSignUp = (props: Props) => {
             autoCorrect={false}
             isShowEyeIcon={true}
             placeholder="* * * * * * *"
-            secureTextEntry={isShowPassword}
+            secureTextEntry={reShowPassword}
             label={strings('sign_up.re_type_password')}
             onChangeText={(t: string) => setRePassword(t)}
-            onPressEye={() => setIsShowPassword(!isShowPassword)}
+            onPressEye={() => setReShowPassword(!reShowPassword)}
           />
 
           <PrimaryButton

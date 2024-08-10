@@ -47,6 +47,7 @@ export const screenName = {
   StudentSignUp: 'StudentSignUp',
   StudentSelect: 'StudentSelect',
   StudentBottomBar: 'StudentBottomBar',
+  StudentMenuList: 'StudentMenuList',
   student_tab_bar: {
     StudentHome: "StudentHome",
     StudentProfile: 'StudentProfile',

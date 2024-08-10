@@ -11,3 +11,6 @@ export const GET_MENU_DATA = 'GET_MENU_DATA'
 export const SEARCH_CITY = 'SEARCH_CITY'
 export const SELECT_ROLE = 'SELECT_ROLE'
 export const SET_APP_LANGUAGE = 'SET_APP_LANGUAGE'
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
+export const DELETE_CHEF_DATA = 'DELETE_CHEF_DATA'

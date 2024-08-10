@@ -30,7 +30,7 @@ const ChefNameCardList = ({ item, setDelete }: ItemProps) => {
     const onPressedit = () => {
         hideMenu();
         const clear = setTimeout(() => {
-            navigation.navigate(screenName.ChefEditName)
+            navigation.navigate(screenName.ChefEditName, { itemData: item })
         }, 500);
         return () => {
             clearTimeout(clear);
@@ -47,7 +47,7 @@ const ChefNameCardList = ({ item, setDelete }: ItemProps) => {
 
     return (
         <View style={styles.boxView}>
-            <TouchableOpacity activeOpacity={0.5} style={styles.subBoxView}>
+            <View style={styles.subBoxView}>
                 <View
                     style={[
                         styles.imageView,
@@ -56,8 +56,11 @@ const ChefNameCardList = ({ item, setDelete }: ItemProps) => {
                 />
                 <View style={styles.container}>
                     <View style={styles.leftView}>
-                        <Text style={styles.titleText}> {'sdsdsd'}</Text>
-                        <View style={styles.rightContainers}>
+                        <View>
+                            <Text style={styles.titleText}> {item.name}</Text>
+                            <Text style={styles.breakfastText}> {item?.cuisine_name}</Text>
+                        </View>
+                        <View>
                             <Menu
                                 visible={visible}
                                 style={styles.boxMenu}
@@ -84,9 +87,8 @@ const ChefNameCardList = ({ item, setDelete }: ItemProps) => {
                             </Menu>
                         </View>
                     </View>
-                    <Text style={styles.breakfastText}> {'sss'}</Text>
                 </View>
-            </TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -102,19 +104,18 @@ const getGlobalStyles = (props: any) => {
             flexDirection: 'row',
         },
         imageView: {
-            width: wp(100),
-            height: wp(100),
-            borderRadius: wp(50),
+            width: wp(50),
+            height: wp(50),
+            borderRadius: wp(25),
+            resizeMode: 'contain',
         },
         container: {
-            flex: 1,
             marginLeft: wp(12),
-            paddingTop: hp(11),
+            flex: 1
         },
         leftView: {
             flexDirection: 'row',
             justifyContent: 'space-between',
-            alignItems: 'center',
         },
         titleText: {
             ...commonFontStyle(700, 16, colors.headerText),
@@ -125,11 +126,6 @@ const getGlobalStyles = (props: any) => {
         },
         breakfastText: {
             ...commonFontStyle(400, 14, colors.Primary_Orange),
-        },
-        rightContainers: {
-            alignItems: 'flex-end',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
         },
         menuTextStyle: {
             ...commonFontStyle(400, 16, colors.black),

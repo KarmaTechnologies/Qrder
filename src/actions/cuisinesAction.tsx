@@ -27,6 +27,9 @@ export const getCuisinesAction =
         }
       })
       .catch(error => {
+        console.log('====================================');
+        console.log('error',error);
+        console.log('====================================');
         dispatch({type: IS_LOADING, payload: false});
         if (request.onFailure) request.onFailure(error.response);
       });

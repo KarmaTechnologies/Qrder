@@ -1,16 +1,17 @@
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
-import { hp, wp } from '../../theme/fonts';
+import { commonFontStyle, hp, wp } from '../../theme/fonts';
 import PrimaryButton from '../../compoment/PrimaryButton';
 import { screenName } from '../../navigation/screenNames';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
 import { strings } from '../../i18n/i18n';
 import CCDropDown from '../../compoment/CCDropDown';
-import { DropDownData } from '../../utils/commonFunction';
+import { DropDownData, errorToast } from '../../utils/commonFunction';
 import { useAppDispatch } from '../../redux/hooks';
 import { selectRoleAction } from '../../actions/commonAction';
+import { Icons } from '../../utils/images';
 
 type Props = {};
 
@@ -21,11 +22,16 @@ const RoleSelectionScreen = (props: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [selectRole, setSelectRole] = useState('');
 
+
   const onPressRole = () => {
-    dispatch(selectRoleAction(selectRole));
-    setTimeout(() => {
-      navigation.navigate(screenName.SignInScreen,{role:selectRole});
-    }, 500)
+    if (selectRole.trim().length === 0) {
+      errorToast(strings('roleSelection.error_role'));
+    } else {
+      dispatch(selectRoleAction(selectRole));
+      setTimeout(() => {
+        navigation.navigate(screenName.SignInScreen, { role: selectRole });
+      }, 500)
+    }
   };
 
   return (
@@ -102,5 +108,23 @@ const getGlobalStyles = (props: any) => {
       alignItems: 'center',
       justifyContent: 'center',
     },
+    roundView: {
+      backgroundColor: colors.Primary_Orange,
+      borderRadius: 12,
+      width: wp(24),
+      height: wp(24),
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    rightIcon: {
+      width: wp(12),
+      height: hp(12),
+      resizeMode: 'contain',
+      tintColor: colors.white
+    },
+    countText:{
+      paddingHorizontal: wp(10),
+      ...commonFontStyle(400, 16, colors.black),
+    }
   });
 };

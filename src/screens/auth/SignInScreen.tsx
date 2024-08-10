@@ -35,8 +35,8 @@ const SignInScreen = (props: Props) => {
   const {colors, isDark} = useTheme();
   const {params} = useRoute();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
-  const [email, setEmail] = useState(__DEV__ ? '' : '');
-  const [password, setPassword] = useState(__DEV__ ? '' : '');
+  const [email, setEmail] = useState(__DEV__ ? 'admin@gmail.com' : '');
+  const [password, setPassword] = useState(__DEV__ ? 'Test!@123' : '');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
   const [selectRole, setSelectRole] = useState('');
   const [isSelect, setIsSelect] = useState<boolean>(false);

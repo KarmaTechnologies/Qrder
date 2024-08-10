@@ -45,6 +45,7 @@ import StudentHome from '../screens/StudentAuth/StudentHome';
 import StudentBottomBar from './StudentBottomBar';
 import ChefNameList from '../screens/ChefSelf/ChefNameList';
 import ChefEditName from '../screens/ChefSelf/ChefEditName';
+import StudentMenuList from '../screens/StudentAuth/StudentMenuList';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -265,6 +266,11 @@ const StackNavigator: FC = () => {
         headerShown: false,
         headerTitle: '',
       })} name={screenName.StudentBottomBar} component={StudentBottomBar} />
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.StudentMenuList} component={StudentMenuList} />
     </Stack.Navigator>
   );
 };

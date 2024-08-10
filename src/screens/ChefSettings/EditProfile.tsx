@@ -80,7 +80,6 @@ const EditProfile = (props: Props) => {
     return (
         <View style={styles.container}>
             <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
-
             <HomeHeader
                 onBackPress={() => {
                     navigation.goBack();
