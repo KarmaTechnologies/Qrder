@@ -49,16 +49,7 @@ const ChefProfile = (props: Props) => {
   };
 
   const onPressNavigation = (list: any) => {
-    switch (list.title) {
-      case 'Personal Info':
-        navigation.navigate(screenName.PersonalInfo);
-        break;
-        case 'Menu':
-        navigation.navigate(screenName.MyOrdersList);
-        break;
-      default:
-        break;
-    }
+    list !== '' && navigation.navigate(list);
   };
 
   return (
@@ -102,6 +93,7 @@ const ChefProfile = (props: Props) => {
             {
               title: strings('profileScreen.personal_info'),
               iconName: Icons.profileIcon,
+              screens: '',
             },
           ]}
           onPressCell={onPressNavigation}
@@ -111,14 +103,17 @@ const ChefProfile = (props: Props) => {
             {
               title: strings('profileScreen.menu'),
               iconName: Icons.menuIcon,
+              screens: '',
             },
             {
               title: strings('profileScreen.salary'),
               iconName: Icons.inventory,
+              screens: '',
             },
             {
               title: strings('profileScreen.settings'),
               iconName: Icons.crmIcon,
+              screens:screenName.Settings
             },
           ]}
           onPressCell={onPressNavigation}
@@ -129,6 +124,7 @@ const ChefProfile = (props: Props) => {
             {
               title: strings('profileScreen.log_out'),
               iconName: Icons.logout,
+
             },
           ]}
           onPressCell={() => {

@@ -47,6 +47,7 @@ import ChefNameList from '../screens/ChefSelf/ChefNameList';
 import ChefEditName from '../screens/ChefSelf/ChefEditName';
 import StudentMenuList from '../screens/StudentAuth/StudentMenuList';
 import CuisinesNameList from '../screens/ChefSelf/CuisinesNameList';
+import StudentCheckOut from '../screens/StudentAuth/StudentCheckOut';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -277,6 +278,11 @@ const StackNavigator: FC = () => {
         headerShown: false,
         headerTitle: '',
       })} name={screenName.StudentMenuList} component={StudentMenuList} />
+      <Stack.Screen options={({ navigation }) => ({
+        ...headerStyleTransparent,
+        headerShown: false,
+        headerTitle: '',
+      })} name={screenName.StudentCheckOut} component={StudentCheckOut} />
     </Stack.Navigator>
   );
 };

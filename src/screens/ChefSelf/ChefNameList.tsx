@@ -27,6 +27,8 @@ const ChefNameList = (props: Props) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectItem, setSelectItem] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [getAllData,setGetAllData]=useState(getChefsData)
+
 
     useFocusEffect(
         React.useCallback(() => {
@@ -58,6 +60,7 @@ const ChefNameList = (props: Props) => {
         let obj = {
             onSuccess: (res: any) => {
                 setLoading(false);
+                setGetAllData(res.data)
             },
             onFailure: (Err: any) => {
                 setLoading(false);
@@ -66,6 +69,15 @@ const ChefNameList = (props: Props) => {
         dispatch(getChefsAction(obj));
     };
 
+    const onSearchBar=(text)=>{
+        setSearchQuery(text)
+        const filteredItems = getChefsData?.filter((f: any) =>
+          f?.name?.toLowerCase()?.match(text?.toLowerCase()),
+        )
+        setGetAllData(filteredItems)
+      }
+
+      
     return (
         <View style={styles.container}>
             <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
@@ -90,7 +102,7 @@ const ChefNameList = (props: Props) => {
                         style={styles.searchInput}
                         placeholder={strings("ChefNameList.Search")}
                         value={searchQuery}
-                        onChangeText={text => setSearchQuery(text)}
+                        onChangeText={text => onSearchBar(text)}
                         placeholderTextColor={colors.gray_300}
                     />
                     <Image source={Icons.search} style={styles.searchIcon} />
@@ -101,7 +113,7 @@ const ChefNameList = (props: Props) => {
                 ) : (
                     <FlatList
                         onEndReachedThreshold={0.3}
-                        data={getChefsData}
+                        data={getAllData}
                         ListEmptyComponent={<NoDataFound />}
                         renderItem={({ item, index }) => {
                             return (

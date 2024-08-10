@@ -61,7 +61,7 @@ const Profile = (props: Props) => {
   };
 
   const onPressNavigation = (list: string) => {
-    navigation.navigate(list);
+    list !== "" && navigation.navigate(list);
   };
 
   return (
@@ -116,10 +116,12 @@ const Profile = (props: Props) => {
             {
               title: strings('profileScreen.menu'),
               iconName: Icons.menuIcon,
+                  screens:""
             },
             {
               title: strings('profileScreen.inventory'),
               iconName: Icons.inventory,
+                  screens:""
             },
             {
               title: strings('profileScreen.crm'),
@@ -150,6 +152,7 @@ const Profile = (props: Props) => {
             {
               title: strings('profileScreen.fAQs'),
               iconName: Icons.faqsIcon,
+              screens:""
             },
             {
               title: strings('profileScreen.settings'),

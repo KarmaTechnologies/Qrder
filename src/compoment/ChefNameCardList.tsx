@@ -85,9 +85,9 @@ const ChefNameCardList = ({ item, setDelete }: ItemProps) => {
                             </Menu>
                         </View>
                     </View>
-                    <Text style={styles.breakfastText}> {item?.salary}</Text>
+                    <Text style={styles.breakfastText}> {item?.cuisine_name}</Text>
                 </View>
-            </View>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -101,14 +101,15 @@ const getGlobalStyles = (props: any) => {
         },
         subBoxView: {
             flexDirection: 'row',
+            alignItems:'center'
         },
         imageView: {
-            width: wp(70),
-            height: wp(70),
-            borderRadius: wp(70)/2,
+            width: wp(50),
+            height: wp(50),
+            borderRadius: wp(50)/2,
         },
         container: {
-            marginLeft: wp(12),
+            marginLeft: wp(8),
             flex: 1
         },
         leftView: {

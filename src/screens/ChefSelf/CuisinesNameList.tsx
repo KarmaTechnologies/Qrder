@@ -34,6 +34,7 @@ const CuisinesNameList = (props: Props) => {
   const [visible, setVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const {getCuisines} = useAppSelector(state => state.data);
+  const [getAllData,setGetAllData]=useState(getCuisines)
   const [newFolder, setNewFolder] = useState(false);
   const [editFolder, setEditFolder] = useState(false);
   const [selectItem, setSelectItem] = useState({});
@@ -61,15 +62,25 @@ const CuisinesNameList = (props: Props) => {
 
   useEffect(() => {
     getCuisinesList();
-  }, []);
+  }, [newFolder,editFolder]);
 
   const getCuisinesList = () => {
     let obj = {
-      onSuccess: (res: any) => {},
+      onSuccess: (res: any) => {
+        setGetAllData(res?.data)
+      },
       onFailure: (Err: any) => {},
     };
     dispatch(getCuisinesAction(obj));
   };
+
+  const onSearchBar=(text)=>{
+    setSearchQuery(text)
+    const filteredItems = getCuisines?.filter((f: any) =>
+      f?.name?.toLowerCase()?.match(text?.toLowerCase()),
+    )
+    setGetAllData(filteredItems)
+  }
 
   return (
     <View style={styles.container}>
@@ -83,7 +94,7 @@ const CuisinesNameList = (props: Props) => {
           navigation.goBack();
         }}
         onRightPress={() => {
-          navigation.navigate(screenName.ChefSignUp);
+          setNewFolder(true)
         }}
         mainShow={true}
         title={strings('CuisinesNameList.cuisines_list')}
@@ -98,7 +109,7 @@ const CuisinesNameList = (props: Props) => {
             style={styles.searchInput}
             placeholder={strings('CuisinesNameList.Search')}
             value={searchQuery}
-            onChangeText={text => setSearchQuery(text)}
+            onChangeText={text => onSearchBar(text)}
             placeholderTextColor={colors.gray_300}
           />
           <Image source={Icons.search} style={styles.searchIcon} />
@@ -106,7 +117,7 @@ const CuisinesNameList = (props: Props) => {
 
         <FlatList
           onEndReachedThreshold={0.3}
-          data={getCuisines}
+          data={getAllData}
           ListEmptyComponent={<NoDataFound />}
           renderItem={({item, index}) => {
             return (

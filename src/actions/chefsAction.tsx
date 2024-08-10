@@ -27,6 +27,8 @@ export const getChefsAction =
       headers: headers,
     })
       .then(async (response: any) => {
+        console.log('response',response);
+        
         if (response.status === 200 || response.status === 201) {
           dispatch({type: GET_CHEFS_DATA, payload: response?.data?.data});
           dispatch({type: IS_LOADING, payload: false});

@@ -264,12 +264,11 @@ export default {
     new_add: 'New Add',
     Search: 'Search...',
   },
-  ChefNameList:{
-    chef_list:'Chef List',
-    edit_Chef_name:'Edit Chef',
-    error_v_salary:'Please enter your salary'
-  },
   CardMenuList:{
     add:'Add'
+  },
+  Cart:{
+    CheckOut:"Checkout",
+    Cart:"Cart",
   }
 };

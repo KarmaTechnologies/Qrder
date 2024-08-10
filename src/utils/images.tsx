@@ -56,4 +56,5 @@ export const Icons = {
   plus: require('../assets/Icons/plus.png'),
   minus: require('../assets/Icons/minus.png'),
   cart1: require('../assets/Icons/cart1.png'),
+  delete: require('../assets/Icons/delete.png'),
 };

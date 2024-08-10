@@ -49,7 +49,7 @@ const StudentProfile = (props: Props) => {
   };
 
   const onPressNavigation = (list: string) => {
-    navigation.navigate(list);
+    ist !== '' && navigation.navigate(list);
   };
 
   return (

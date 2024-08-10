@@ -29,7 +29,7 @@ type ItemProps = {
   setDelete?: any;
 };
 
-const CartMenuItems = ({item, setDelete}: ItemProps) => {
+const CartItems = ({item, setDelete}: ItemProps) => {
   const {colors} = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const navigation = useNavigation();
@@ -49,24 +49,12 @@ const CartMenuItems = ({item, setDelete}: ItemProps) => {
     };
   };
 
-
-  const onPressDelete = () => {
-    setDelete(true);
-  };
-
-
-
   return (
     <View style={styles.boxView}>
-      <TouchableOpacity
-        activeOpacity={0.5}
-        onPress={() => {
-          navigation.navigate(screenName.FoodDetails, {itemData: item,showChef:true});
-        }}
-        style={styles.subBoxView}>
-        {item.images[0] ? (
+      <View activeOpacity={0.5} style={styles.subBoxView}>
+        {item?.images[0] ? (
           <Image
-            source={{uri: item.images[0]}}
+            source={{uri: item?.images[0]}}
             style={[styles.imageView, {backgroundColor: colors.image_Bg_gray}]}
           />
         ) : (
@@ -76,77 +64,62 @@ const CartMenuItems = ({item, setDelete}: ItemProps) => {
         )}
         <View style={styles.container}>
           <View style={styles.leftView}>
-            <Text style={styles.titleText}> {item?.name}</Text>
-            <Text style={styles.priceText}> {`$${item.price}`}</Text>
+            <Text style={styles.titleText}> {'item?.name'}</Text>
+            <Text style={styles.priceText}> {`$${10}`}</Text>
           </View>
           <View style={styles.rateView}>
             <View style={styles.breakfastView}>
-              <Text style={styles.breakfastText}> {item.cuisine_name}</Text>
+              <Text style={styles.breakfastText}> {'item.cuisine_name'}</Text>
             </View>
-            <Text style={styles.pickUpText}> {'Pick UP'}</Text>
-          </View>
-          <View style={styles.rateView}>
-            <View style={{flexDirection: 'row'}}>
-              <Image source={Icons.star} style={styles.starStyle} />
-              <Text style={styles.rateText}>4.9</Text>
-              <Text style={styles.rateText1}>{`${'(10 Reviews)'}`}</Text>
-            </View>
-            {!addItem ? (
-              <PrimaryButton
-                extraStyle={styles.doneBtn}
-                title={strings('CardMenuList.add')}
-                titleStyle={styles.doneText}
-                onPress={() => setAddItem(true)}
-              />
-            ) : (
-              <View style={styles.rightContainers}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <TouchableOpacity
-                    style={styles.roundView}
-                    onPress={() => {
-                      if (count > 1) {
-                        dispatch(decrement());
-                      } else {
-                        setAddItem(false);
-                      }
-                    }}>
-                    <Image style={styles.minusIcon} source={Icons.minus} />
-                  </TouchableOpacity>
-                  <Text style={styles.countText}>{count}</Text>
-                  <TouchableOpacity
-                    style={styles.roundView}
-                    onPress={() => dispatch(increment())}>
-                    <Image style={styles.rightIcon} source={Icons.plus} />
-                  </TouchableOpacity>
-                </View>
+            <View style={styles.rightContainers}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <TouchableOpacity
+                  style={styles.roundView}
+                  onPress={() => {
+                    if (count > 1) {
+                      dispatch(decrement());
+                    } else {
+                      setAddItem(false);
+                    }
+                  }}>
+                  <Image style={styles.minusIcon} source={Icons.minus} />
+                </TouchableOpacity>
+                <Text style={styles.countText}>{count}</Text>
+                <TouchableOpacity
+                  style={styles.roundView}
+                  onPress={() => dispatch(increment())}>
+                  <Image style={styles.rightIcon} source={Icons.plus} />
+                </TouchableOpacity>
               </View>
-            )}
+            </View>
           </View>
+          <Text style={styles.priceText1}> {`$${10}`}</Text>
         </View>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 };
-export default CartMenuItems;
+export default CartItems;
 
 const getGlobalStyles = (props: any) => {
   const {colors} = props;
   return StyleSheet.create({
     boxView: {
       marginTop: hp(20),
+      marginHorizontal: wp(20),
     },
     subBoxView: {
       flexDirection: 'row',
     },
     imageView: {
-      width: wp(102),
-      height: wp(102),
+      width: wp(85),
+      height: wp(85),
       borderRadius: 20,
     },
     container: {
       flex: 1,
-      marginLeft: wp(12),
-      paddingTop: hp(11),
+      marginLeft: wp(10),
+      paddingTop: hp(8),
     },
     leftView: {
       flexDirection: 'row',
@@ -155,10 +128,6 @@ const getGlobalStyles = (props: any) => {
     },
     titleText: {
       ...commonFontStyle(700, 14, colors.headerText),
-    },
-    optionIcon: {
-      width: wp(24),
-      height: hp(24),
     },
     pickUpText: {
       ...commonFontStyle(400, 14, colors.tabBar),
@@ -169,13 +138,16 @@ const getGlobalStyles = (props: any) => {
       paddingHorizontal: wp(12),
       paddingVertical: hp(2),
       borderRadius: 29,
-      marginVertical: hp(11),
     },
     priceText: {
       ...commonFontStyle(700, 18, colors.Title_Text),
     },
+    priceText1: {
+      ...commonFontStyle(600, 16, colors.Title_Text),
+      marginTop: 2,
+    },
     breakfastText: {
-      ...commonFontStyle(400, 14, colors.Primary_Orange),
+      ...commonFontStyle(400, 12, colors.Primary_Orange),
     },
     itemsText: {
       ...commonFontStyle(400, 14, colors.gray_400),
@@ -184,6 +156,7 @@ const getGlobalStyles = (props: any) => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
+      marginTop: hp(7),
     },
     starStyle: {
       width: 17,
@@ -210,36 +183,27 @@ const getGlobalStyles = (props: any) => {
     },
     roundView: {
       backgroundColor: colors.Primary_Orange,
-      borderRadius: wp(24),
-      width: wp(24),
-      height: wp(24),
+      borderRadius: wp(20),
+      width: wp(20),
+      height: wp(20),
       alignItems: 'center',
       justifyContent: 'center',
     },
     minusIcon: {
-      width: wp(16),
-      height: hp(16),
-      resizeMode: 'contain',
-      tintColor: colors.white,
-    },
-    rightIcon: {
       width: wp(12),
       height: hp(12),
       resizeMode: 'contain',
       tintColor: colors.white,
     },
+    rightIcon: {
+      width: wp(10),
+      height: hp(10),
+      resizeMode: 'contain',
+      tintColor: colors.white,
+    },
     countText: {
-      paddingHorizontal: wp(10),
-      ...commonFontStyle(400, 16, colors.black),
-    },
-    doneBtn: {
-      height: hp(26),
-      paddingHorizontal: wp(13),
-      borderRadius: 8,
-    },
-    doneText: {
-      ...commonFontStyle(400, 14, colors?.white),
-      textTransform: 'none',
+      paddingHorizontal: wp(4),
+      ...commonFontStyle(500, 16, colors.black),
     },
   });
 };
