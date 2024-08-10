@@ -108,7 +108,7 @@ export const getChefsAction =
       .then(async (response: any) => {
         if (response.status === 200 || response.status === 201) {
           console.log('response?.data?.token', response);
-          dispatch({type: DELETE_CHEF_DATA, payload: request.data});
+          dispatch({type: DELETE_CHEF_DATA, payload: request.params});
           dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);
         }

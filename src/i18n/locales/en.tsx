@@ -46,6 +46,8 @@ export default {
     error_v_email: 'Please enter your valid email address',
     error_phone: 'Please enter your phone number',
     error_v_phone: 'Please enter valid phone number',
+    error_v_university: 'Please select university',
+    error_v_canteen: 'Please enter your canteen name',
     error_country: 'Please enter your country',
     error_city: 'Please enter your city',
     error_state: 'Please enter your state',

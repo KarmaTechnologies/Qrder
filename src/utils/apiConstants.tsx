@@ -1,5 +1,5 @@
 export const api = {
-  BASE_URL: "https://df3d-2405-201-201f-9802-547f-c471-339c-9c58.ngrok-free.app/api/",
+  BASE_URL: "https://4a77-2405-201-201f-9802-547f-c471-339c-9c58.ngrok-free.app/api/",
 
   // Auth
   login: 'login',
@@ -14,6 +14,13 @@ export const api = {
   chefsRegister:"chefs",
   search_cities:'cities/search',
   getCuisinesMenuList:'cuisine-menu',
+
+  //student
+  studentRegister:"student-register",
+  canteenRegister:"canteen-register",
+  universities:"universities",
+  university:"university",
+  cuisineMenu:"cuisine-menu"
 };
 
 export const POST = "POST";

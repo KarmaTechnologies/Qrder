@@ -18,6 +18,7 @@ import {screenName} from '../../navigation/screenNames';
 import {strings} from '../../i18n/i18n';
 import Spacer from '../../compoment/Spacer';
 import {
+  DropDownDatas,
   emailCheck,
   errorToast,
   numberCheck,
@@ -25,10 +26,11 @@ import {
   UpperCaseCheck,
 } from '../../utils/commonFunction';
 import {dispatchNavigation} from '../../utils/globalFunctions';
-import {userSignUp} from '../../actions/authAction';
+import {canteenRegisterSignUp, userSignUp} from '../../actions/authAction';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {getCityAction, searchCities} from '../../actions/commonAction';
 import debounce from 'lodash/debounce';
+import CCDropDown from '../../compoment/CCDropDown';
 
 type Props = {};
 
@@ -49,12 +51,11 @@ const SignUpScreen = (props: Props) => {
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
   const [pincode, setPincode] = useState('');
-  const [quantityValue, setQuantityValue] = useState('');
   const [showListView, setShowListView] = useState(false);
   const {getCity, searchCity} = useAppSelector(state => state.common);
   const [filteredData, setFilteredData] = useState([]);
   const [addressList, setAddressList] = useState([]);
-  const [area, setArea] = useState([]);
+  const [area, setArea] = useState('');
   const [selectedOption, setSelectedOption] = useState('Restaurant');
 
   const options = [
@@ -64,6 +65,7 @@ const SignUpScreen = (props: Props) => {
 
   const handlePress = value => {
     setSelectedOption(value);
+    emptyFiled();
   };
 
   const navigation = useNavigation();
@@ -73,12 +75,30 @@ const SignUpScreen = (props: Props) => {
     // getCityList()
   }, []);
 
+  const emptyFiled = () => {
+    setName('');
+    setEmail('');
+    setPassword('');
+    setRePassword('');
+    setNumber('');
+    setRestaurantName('');
+    setUniversityName('');
+    setCanteenName('');
+    setCity('');
+    setState('');
+    setCountry('');
+    setPincode('');
+    setShowListView(false);
+    setFilteredData([]);
+    setAddressList([]);
+    setArea('');
+  };
+
   const onPressBack = () => {
     navigation.goBack();
   };
   const onPressLogin = () => {
     if (name.trim().length === 0) {
-      errorToast('');
       errorToast(strings('login.error_name'));
     } else if (email.trim().length === 0) {
       errorToast(strings('login.error_email'));
@@ -119,21 +139,17 @@ const SignUpScreen = (props: Props) => {
       data.append('password', password);
       data.append('confirmed', rePassword);
       data.append('restaurant_name', restaurantName);
-      data.append('slug', 'swad-tests');
       data.append('number', number);
       data.append('address', area);
       data.append('city_id', addressList?.id);
       data.append('state_id', addressList?.state?.id);
       data.append('country_id', addressList?.state?.country?.id);
-      data.append('address', 'test');
       data.append('role', 'admin');
       data.append('status', '1');
       let obj = {
         data,
         onSuccess: (response: any) => {
           dispatchNavigation(screenName.BottomTabBar);
-          setEmail('');
-          setPassword('');
         },
         onFailure: (Err: any) => {
           if (Err != undefined) {
@@ -141,7 +157,75 @@ const SignUpScreen = (props: Props) => {
           }
         },
       };
-      dispatch(userSignUp(obj));
+      dispatch(canteenRegisterSignUp(obj));
+    }
+  };
+
+  const onPressCanteenRegister = () => {
+    if (name.trim().length === 0) {
+      errorToast(strings('login.error_name'));
+    } else if (email.trim().length === 0) {
+      errorToast(strings('login.error_email'));
+    } else if (!emailCheck(email)) {
+      errorToast(strings('login.error_v_email'));
+    } else if (number.trim().length === 0) {
+      errorToast(strings('login.error_phone'));
+    } else if (number.trim().length !== 10) {
+      errorToast(strings('login.error_v_phone'));
+    } else if (universityName.trim().length == 0) {
+      errorToast(strings('login.error_v_university'));
+    } else if (canteenName.trim().length == 0) {
+      errorToast(strings('login.error_v_canteen'));
+    } else if (city.trim().length === 0) {
+      errorToast(strings('login.error_city'));
+    } else if (state.trim().length === 0) {
+      errorToast(strings('login.error_state'));
+    } else if (country.trim().length === 0) {
+      errorToast(strings('login.error_country'));
+    } else if (pincode.trim().length === 0) {
+      errorToast(strings('login.error_pincode'));
+    } else if (password.trim().length === 0) {
+      errorToast(strings('login.error_password'));
+    } else if (password.trim().length < 9) {
+      errorToast(strings('login.error_v_password'));
+    } else if (!numberCheck(password)) {
+      errorToast(strings('login.error_number_password'));
+    } else if (!specialCarCheck(password)) {
+      errorToast(strings('login.error_character_password'));
+    } else if (!UpperCaseCheck(password)) {
+      errorToast(strings('login.error_uppercase_password'));
+    } else if (rePassword.trim().length === 0) {
+      errorToast(strings('login.error_re_tyre'));
+    } else if (rePassword.trim() !== password.trim()) {
+      errorToast(strings('login.error_re_tyre_match'));
+    } else {
+
+      var data = new FormData();
+      data.append('name', name);
+      data.append('email', email);
+      data.append('password', password);
+      data.append('confirmed', rePassword);
+      data.append('restaurant_name', canteenName);
+      data.append('number', number);
+      data.append('address', area);
+      data.append('city_id', addressList?.id);
+      data.append('state_id', addressList?.state?.id);
+      data.append('country_id', addressList?.state?.country?.id);
+      data.append('role', 'canteen');
+      data.append('status', '1');
+      data.append('university_id', 2);
+      let obj = {
+        data,
+        onSuccess: (response: any) => {
+          dispatchNavigation(screenName.BottomTabBar);
+        },
+        onFailure: (Err: any) => {
+          if (Err != undefined) {
+            Alert.alert(Err?.message);
+          }
+        },
+      };
+      dispatch(canteenRegisterSignUp(obj));
     }
   };
 
@@ -197,8 +281,7 @@ const SignUpScreen = (props: Props) => {
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled
           contentContainerStyle={styles.contentContainerStyle}>
-          <View
-            style={styles.radioView}>
+          <View style={styles.radioView}>
             {options.map(option => (
               <TouchableOpacity
                 key={option.value}
@@ -259,11 +342,16 @@ const SignUpScreen = (props: Props) => {
             />
           ) : (
             <>
-              <Input
+              <CCDropDown
+                data={DropDownDatas}
+                label={strings('sign_up.university_name')}
+                labelField={'name'}
+                valueField={'name'}
+                placeholder={strings('StudentSignUp.university_name')}
+                DropDownStyle={styles.dropDownStyle}
                 value={universityName}
-                placeholder={strings('sign_up.university_name')}
-                label={strings('StudentSignUp.university_name')}
-                onChangeText={(t: string) => setUniversityName(t)}
+                setValue={setUniversityName}
+                extraStyle={styles.extraStyle}
               />
               <Input
                 value={canteenName}
@@ -351,7 +439,11 @@ const SignUpScreen = (props: Props) => {
           />
           <PrimaryButton
             extraStyle={styles.signupButton}
-            onPress={onPressLogin}
+            onPress={() => {
+              selectedOption == 'Restaurant'
+                ? onPressLogin()
+                : onPressCanteenRegister();
+            }}
             title={strings('sign_up.sign_up')}
           />
           <Spacer height={20} />
@@ -386,7 +478,7 @@ const getGlobalStyles = (props: any) => {
       alignItems: 'center',
       justifyContent: 'center',
     },
-    radioView:{
+    radioView: {
       flexDirection: 'row',
       justifyContent: 'space-evenly',
       paddingTop: hp(15),
@@ -416,6 +508,12 @@ const getGlobalStyles = (props: any) => {
     radioText: {
       marginLeft: 10,
       ...commonFontStyle(400, 14, colors.Title_Text),
+    },
+    dropDownStyle: {
+      borderColor: colors.inputColor,
+      backgroundColor: colors.inputColor,
+      height: hp(60),
+      borderRadius: 10,
     },
   });
 };

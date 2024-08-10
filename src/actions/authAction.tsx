@@ -20,19 +20,18 @@ export const userLogin =
       data: request.data,
     })
       .then(async (response: any) => {
-        if (response.status === 200 || response.status === 201) {
-          console.log('response?.data?.token',response?.data?.data?.token);
-
+        if (response?.data?.data) {
+          dispatch({type: IS_LOADING, payload: false});
           await setAsyncToken(response?.data?.data?.token);
           await setAsyncUserInfo(response?.data?.data?.user);
-          dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);
+        }else{
+          if (request.onFailure) request.onFailure(response.data);
         }
       })
       .catch(error => {
         dispatch({type: IS_LOADING, payload: false});
-        if (request.onFailure) request.onFailure(error.response);
-        // errorToast('your account has been logged in on another device.');
+        if (request.onFailure) request.onFailure(error?.response?.data);
       });
   };
 
@@ -60,5 +59,63 @@ export const userSignUp =
       .catch(error => {
         dispatch({type: IS_LOADING, payload: false});
         if (request.onFailure) request.onFailure(error.response);
+      });
+  };
+
+  export const studentUserSignUp =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async dispatch => {
+    let headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+    dispatch({type: IS_LOADING, payload: true});
+    return makeAPIRequest({
+      method: POST,
+      url: api.studentRegister,
+      headers: headers,
+      data: request.data,
+    })
+    .then(async (response: any) => {        
+      if (response?.data?.success) {
+        dispatch({type: IS_LOADING, payload: false});
+        await setAsyncToken(response?.data?.data?.token);
+        await setAsyncUserInfo(response?.data?.data?.user);
+        if (request.onSuccess) request.onSuccess(response.data);
+      }else{
+        if (request.onFailure) request.onFailure(response.data);
+      }
+    })
+    .catch(error => {
+      dispatch({type: IS_LOADING, payload: false});        
+      if (request.onFailure) request.onFailure(error?.response?.data);
+    });
+  };
+
+  export const canteenRegisterSignUp =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async dispatch => {
+    let headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+    dispatch({type: IS_LOADING, payload: true});
+    return makeAPIRequest({
+      method: POST,
+      url: api.canteenRegister,
+      headers: headers,
+      data: request.data,
+    })
+      .then(async (response: any) => {        
+        if (response?.data?.success) {
+          dispatch({type: IS_LOADING, payload: false});
+          await setAsyncToken(response?.data?.data?.token);
+          await setAsyncUserInfo(response?.data?.data?.user);
+          if (request.onSuccess) request.onSuccess(response.data);
+        }else{
+          if (request.onFailure) request.onFailure(response.data);
+        }
+      })
+      .catch(error => {
+        dispatch({type: IS_LOADING, payload: false});        
+        if (request.onFailure) request.onFailure(error?.response?.data);
       });
   };

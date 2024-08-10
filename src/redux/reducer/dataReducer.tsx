@@ -24,10 +24,12 @@ export default function (state = initialState, action: any) {
       return { ...state, getMenuData: remove }; 
     }
     case DELETE_CHEF_DATA: {
-      const remove = state.getMenuData.filter(
+      const removeChef = state.getChefsData.filter(
         item => item?.id !== action.payload,
       );
-      return { ...state, getChefsData: remove }; 
+      console.log('getChefsData',removeChef);
+      
+      return { ...state, getChefsData: removeChef }; 
     }
     case DELETE_CUISINES_DATA: {
       const remove = state.getCuisines.filter(

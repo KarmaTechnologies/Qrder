@@ -44,6 +44,10 @@ const CuisinesNameList = (props: Props) => {
     setVisible(false);
   };
 
+  useEffect(()=>{
+    setGetAllData(getCuisines)
+  },[getCuisines?.length])
+
   const removeMenuCardList = () => {
     let UserInfo = {
       data: selectItem?.id,
