@@ -143,7 +143,7 @@ const SignInScreen = (props: Props) => {
                 {strings('login.remember_me')}
               </Text>
             </View>
-            {params?.role == 'Admin' || params?.role == 'Student' && (
+            {(params?.role == 'Admin' || params?.role == 'Student') && (
               <TouchableOpacity
                 onPress={() => navigation.navigate(screenName.ForgotScreen)}>
                 <Text style={styles.forgotText}>

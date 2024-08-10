@@ -55,4 +55,5 @@ export const Icons = {
   search: require('../assets/Icons/search.png'),
   plus: require('../assets/Icons/plus.png'),
   minus: require('../assets/Icons/minus.png'),
+  cart1: require('../assets/Icons/cart1.png'),
 };

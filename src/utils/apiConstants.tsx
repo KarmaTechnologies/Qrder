@@ -1,5 +1,5 @@
 export const api = {
-  BASE_URL: "https://2c62-2405-201-201f-9802-38af-a385-edd8-6140.ngrok-free.app/api/",
+  BASE_URL: "https://5852-2405-201-201f-9802-4d00-c08f-481d-557b.ngrok-free.app/api/",
 
   // Auth
   login: 'login',
@@ -18,6 +18,7 @@ export const api = {
 
 export const POST = "POST";
 export const GET = "GET";
+export const PUT = "PUT";
 export const DELETE = "DELETE";
 export const PATCH = "PATCH";
 

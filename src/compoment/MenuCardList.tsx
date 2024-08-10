@@ -22,7 +22,7 @@ type Props = {
   refreshing: boolean
 };
 
-const MenuCardList = ({ onRefresh, refreshing }: Props) => {
+const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
   const { colors, isDark } = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [visible, setVisible] = useState(false);
@@ -66,6 +66,7 @@ const MenuCardList = ({ onRefresh, refreshing }: Props) => {
           return (
             <MenuItems
               item={item}
+              showChef={showChef}
               setDelete={() => {
                 setVisible(true);
                 setSelectItem(item);

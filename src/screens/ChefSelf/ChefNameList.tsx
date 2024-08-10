@@ -11,7 +11,7 @@ import ChefNameCardList from '../../compoment/ChefNameCardList';
 import DleleteModal from '../../compoment/DeleteModal';
 import { screenName } from '../../navigation/screenNames';
 import { Icons } from '../../utils/images';
-import { getChefsAction } from '../../actions/chefsAction';
+import { deleteChefAction, getChefsAction } from '../../actions/chefsAction';
 import Loader from '../../compoment/Loader';
 
 type Props = {};
@@ -80,7 +80,7 @@ const ChefNameList = (props: Props) => {
                 mainShow={true}
                 title={strings('ChefNameList.chef_list')}
                 extraStyle={styles.headerContainer}
-                rightText={'Chef SignUp'}
+                rightText={strings("ChefNameList.Chef_SignUp")}
                 isHideIcon={true}
                 rightTextStyle={styles.rightTextStyle}
             />
@@ -88,7 +88,7 @@ const ChefNameList = (props: Props) => {
                 <View style={styles.searchInputContainer}>
                     <TextInput
                         style={styles.searchInput}
-                        placeholder="Search..."
+                        placeholder={strings("ChefNameList.Search")}
                         value={searchQuery}
                         onChangeText={text => setSearchQuery(text)}
                         placeholderTextColor={colors.gray_300}
