@@ -77,7 +77,7 @@ const Profile = (props: Props) => {
         mainShow={true}
         title={strings('profileScreen.profile')}
         extraStyle={styles.headerContainer}
-        isHideIcon={false}
+        isHideIcon={true}
       />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={'handled'}
@@ -135,12 +135,12 @@ const Profile = (props: Props) => {
             },
             {
               title: strings('profileScreen.chef'),
-              iconName: Icons.chefIcon,
+              iconName: Icons.chef,
               screens:screenName.ChefNameList
             },
             {
               title: strings('profileScreen.cuisines'),
-              iconName: Icons.chefIcon,
+              iconName: Icons.cuisine,
               screens:screenName.CuisinesNameList
             },
           ]}

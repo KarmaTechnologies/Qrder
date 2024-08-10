@@ -1,15 +1,21 @@
-import {DELETE_CHEF_DATA, DELETE_CUISINES_DATA, DELETE_MENU_DATA, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_MENU_DATA, IS_LOADING, SET_APP_THEME} from '../actionTypes';
+import {DELETE_CHEF_DATA, DELETE_CUISINES_DATA, DELETE_MENU_DATA, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_MENU_DATA, GET_UNIVERSITIES_LIST, IS_LOADING, SET_APP_THEME} from '../actionTypes';
 
 const initialState = {
   getCuisines:[],
   getMenuData:[],
   getChefsData:[],
+  getUniversitiesData:[],
 };
 
 export default function (state = initialState, action: any) {
   switch (action.type) {
     case GET_CUISINES_DATA: {
       return {...state, getCuisines: action.payload};
+    }
+    case GET_UNIVERSITIES_LIST: {
+      console.log(action.payload);
+      
+      return {...state, getUniversitiesData: action.payload};
     }
     case GET_MENU_DATA: {
       return {...state, getMenuData: action.payload};

@@ -84,7 +84,6 @@ const ChefEditName = (props: Props) => {
                     email: email,
                     number: number,
                     cuisine_id: quantityValue,
-                    parent_id: userDetails?.id,
                     salary: salary,
                 },
                 params: itemData?.id,

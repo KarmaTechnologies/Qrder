@@ -52,14 +52,16 @@ export const addCuisinesAction =
       data:request.data
     })
       .then(async (response: any) => {
-        if (response.status === 200 || response.status === 201) {                    
+        if (response?.data?.success) {                    
           dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);
+        }else{
+          if (request.onFailure) request.onFailure(response.data);
         }
       })
       .catch(error => {
         dispatch({type: IS_LOADING, payload: false});
-        if (request.onFailure) request.onFailure(error.response);
+        if (request.onFailure) request.onFailure(error?.response?.data);
       });
   };
 
@@ -78,14 +80,16 @@ export const addCuisinesAction =
       data:request.data
     })
       .then(async (response: any) => {
-        if (response.status === 200 || response.status === 201) {                    
+        if (response?.data?.success) {                    
           dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);
+        }else{
+          if (request.onFailure) request.onFailure(response.data);
         }
       })
       .catch(error => {
         dispatch({type: IS_LOADING, payload: false});
-        if (request.onFailure) request.onFailure(error.response);
+        if (request.onFailure) request.onFailure(error?.response?.data);
       });
   };
 

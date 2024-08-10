@@ -28,7 +28,7 @@ import {
 import {dispatchNavigation} from '../../utils/globalFunctions';
 import {canteenRegisterSignUp, userSignUp} from '../../actions/authAction';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {getCityAction, searchCities} from '../../actions/commonAction';
+import {getCityAction, getUniversitiesDataAction, searchCities} from '../../actions/commonAction';
 import debounce from 'lodash/debounce';
 import CCDropDown from '../../compoment/CCDropDown';
 
@@ -53,6 +53,7 @@ const SignUpScreen = (props: Props) => {
   const [pincode, setPincode] = useState('');
   const [showListView, setShowListView] = useState(false);
   const {getCity, searchCity} = useAppSelector(state => state.common);
+  const {getUniversitiesData} = useAppSelector(state => state.data);
   const [filteredData, setFilteredData] = useState([]);
   const [addressList, setAddressList] = useState([]);
   const [area, setArea] = useState('');
@@ -65,7 +66,7 @@ const SignUpScreen = (props: Props) => {
 
   const handlePress = value => {
     setSelectedOption(value);
-    emptyFiled();
+    // emptyFiled();
   };
 
   const navigation = useNavigation();
@@ -73,7 +74,19 @@ const SignUpScreen = (props: Props) => {
 
   useEffect(() => {
     // getCityList()
+    getUniversitiesDataPress()
   }, []);
+
+  console.log('getUniversitiesData',getUniversitiesData);
+
+
+  const getUniversitiesDataPress = () => {
+    let obj = {
+      onSuccess: (res: any) => {},
+      onFailure: (Err: any) => {},
+    };
+    dispatch(getUniversitiesDataAction(obj));
+  };
 
   const emptyFiled = () => {
     setName('');
@@ -97,6 +110,7 @@ const SignUpScreen = (props: Props) => {
   const onPressBack = () => {
     navigation.goBack();
   };
+
   const onPressLogin = () => {
     if (name.trim().length === 0) {
       errorToast(strings('login.error_name'));
@@ -343,10 +357,10 @@ const SignUpScreen = (props: Props) => {
           ) : (
             <>
               <CCDropDown
-                data={DropDownDatas}
+                data={getUniversitiesData}
                 label={strings('sign_up.university_name')}
                 labelField={'name'}
-                valueField={'name'}
+                valueField={'id'}
                 placeholder={strings('StudentSignUp.university_name')}
                 DropDownStyle={styles.dropDownStyle}
                 value={universityName}

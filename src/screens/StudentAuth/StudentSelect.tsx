@@ -1,5 +1,5 @@
 import { StatusBar, StyleSheet, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { hp, wp } from '../../theme/fonts';
 import PrimaryButton from '../../compoment/PrimaryButton';
@@ -9,8 +9,8 @@ import LoginHeader from '../../compoment/LoginHeader';
 import { strings } from '../../i18n/i18n';
 import CCDropDown from '../../compoment/CCDropDown';
 import { DropDownData, DropDownDatas } from '../../utils/commonFunction';
-import { useAppDispatch } from '../../redux/hooks';
-import { selectRoleAction } from '../../actions/commonAction';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { getUniversitiesDataAction, selectRoleAction } from '../../actions/commonAction';
 
 type Props = {};
 
@@ -20,9 +20,26 @@ const StudentSelect = (props: Props) => {
   const dispatch = useAppDispatch();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [selectRole, setSelectRole] = useState('');
+  const {getUniversitiesData} = useAppSelector(state => state.data);
 
   const onPressSelect = () => {
     navigation.navigate(screenName.StudentBottomBar)
+  };
+
+
+  console.log('getUniversitiesData',getUniversitiesData);
+  
+
+  useEffect(() => {
+    getUniversitiesDataPress()
+  }, []);
+
+  const getUniversitiesDataPress = () => {
+    let obj = {
+      onSuccess: (res: any) => {},
+      onFailure: (Err: any) => {},
+    };
+    dispatch(getUniversitiesDataAction(obj));
   };
 
   return (
@@ -42,10 +59,10 @@ const StudentSelect = (props: Props) => {
           keyboardShouldPersistTaps={'handled'}
           contentContainerStyle={styles.contentContainerStyle}>
           <CCDropDown
-            data={DropDownDatas}
+            data={getUniversitiesData}
             label={strings('StudentSignUp.university_name')}
             labelField={'name'}
-            valueField={'value'}
+            valueField={'id'}
             placeholder={strings('StudentSignUp.select_university_name')}
             DropDownStyle={styles.dropDownStyle}
             value={selectRole}

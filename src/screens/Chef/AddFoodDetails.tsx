@@ -152,9 +152,12 @@ const AddFoodDetails = (props: Props) => {
   if(showAddField){
     return <View style={{flex:1,justifyContent:'center',alignItems:'center',backgroundColor:colors.white}}>
       <TouchableOpacity onPress={()=>{setNewFolder(true)}} style={styles.boxStyle}>
+        <Image source={Icons.cuisine}  style={styles.imageStyle}/>
         <Text style={styles.boxText}>{strings("addFoodList.add_cuisines")}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={()=>setShowAddField(false)} style={styles.boxStyle}>
+      <Image source={Icons.addMenu1}  style={styles.imageStyle}/>
+
         <Text style={styles.boxText}>{strings("addFoodList.add_menu")}</Text>
       </TouchableOpacity>
       <AddFolderModal
@@ -381,5 +384,10 @@ const getGlobalStyles = (props: any) => {
     boxText: {
       ...commonFontStyle(400, 18, colors.black),
     },
+    imageStyle:{
+      height:wp(30),
+      width: wp(30),
+      marginBottom:12
+    }
   });
 };

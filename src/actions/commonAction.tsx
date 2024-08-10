@@ -3,7 +3,7 @@ import { RootState } from '../redux/hooks';
 import { AnyAction } from 'redux';
 import { makeAPIRequest } from '../utils/apiGlobal';
 import { GET, POST, api } from '../utils/apiConstants';
-import { DECREMENT, DECREMENT_ITEM, GET_CITY_DATA, INCREMENT, INCREMENT_ITEM, IS_LOADING, SEARCH_CITY, SELECT_ROLE, USER_INFO } from '../redux/actionTypes';
+import { DECREMENT, DECREMENT_ITEM, GET_CITY_DATA, GET_UNIVERSITIES_LIST, INCREMENT, INCREMENT_ITEM, IS_LOADING, SEARCH_CITY, SELECT_ROLE, USER_INFO } from '../redux/actionTypes';
 import { setAsyncToken, setAsyncUserInfo } from '../utils/asyncStorageManager';
 
 export const getCityAction =
@@ -29,6 +29,31 @@ export const getCityAction =
           dispatch({ type: IS_LOADING, payload: false });
           if (request.onFailure) request.onFailure(error.response);
           // errorToast('your account has been logged in on another device.');
+        });
+    };
+
+export const getUniversitiesDataAction =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+    async dispatch => {
+      let headers = {};
+      dispatch({ type: IS_LOADING, payload: true });
+      return makeAPIRequest({
+        method: GET,
+        url: api.universities,
+        headers: headers,
+      })
+        .then(async (response: any) => {
+          console.log('response',response);
+          
+          if (response.status === 200 || response.status === 201) {
+            dispatch({ type: GET_UNIVERSITIES_LIST, payload: response?.data?.data });
+            dispatch({ type: IS_LOADING, payload: false });
+            if (request.onSuccess) request.onSuccess(response.data);
+          }
+        })
+        .catch(error => {
+          dispatch({ type: IS_LOADING, payload: false });
+          if (request.onFailure) request.onFailure(error.response);
         });
     };
 
