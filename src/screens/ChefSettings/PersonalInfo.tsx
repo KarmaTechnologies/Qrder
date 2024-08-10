@@ -1,6 +1,6 @@
 import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../../theme/fonts';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
@@ -17,6 +17,8 @@ type Props = {};
 const PersonalInfo = (props: Props) => {
     const { colors, isDark } = useTheme();
     const navigation = useNavigation();
+    const { params } = useRoute();
+
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const { isDarkTheme } = useAppSelector(state => state.common);
     const [name, setName] = useState<string>('');
@@ -37,6 +39,9 @@ const PersonalInfo = (props: Props) => {
         navigation.navigate(screenName.EditProfile, { name, email, number });
     };
 
+    console.log('hideEdit',params?.hideEdit);
+    
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
@@ -50,17 +55,18 @@ const PersonalInfo = (props: Props) => {
                 title={strings('PersonalInfo.personal_Info')}
                 extraStyle={styles.headerContainer}
                 isHideIcon={true}
+                isShowIcon={params?.hideEdit ? false: true}
                 rightText={strings('PersonalInfo.edit')}
                 rightTextStyle={styles.rightTextStyle}
             />
             <View style={{ marginHorizontal: wp(16), marginTop: hp(6) }}>
                 <View style={styles.profileContainer}>
-                    <TouchableOpacity>
+                    <View>
                         <Image
                             source={Icons.profileImage}
                             style={styles.profilImage}
                         />
-                    </TouchableOpacity>
+                    </View>
                     <View style={styles.userNameView}>
                         <Text style={styles.nameText}>{name}</Text>
                         <Text style={styles.desText}>{strings('PersonalInfo.i_love_fast_food')}</Text>

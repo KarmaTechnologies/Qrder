@@ -1,7 +1,7 @@
 import { FlatList, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
 import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
@@ -9,6 +9,7 @@ import Spacer from '../../compoment/Spacer';
 import NoDataFound from '../../compoment/NoDataFound';
 import Loader from '../../compoment/Loader';
 import { screenName } from '../../navigation/screenNames';
+import { getCanteenMenuAction } from '../../actions/commonAction';
 
 type Props = {};
 
@@ -17,22 +18,33 @@ const StudentHome = (props: Props) => {
   const navigation = useNavigation();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const { isDarkTheme } = useAppSelector(state => state.common);
+  const {getUniversityCanteenData} = useAppSelector(state => state.data);
+  const dispatch = useAppDispatch();
 
-  const renderItem = ({ item, index }: any) => {
+  const onPressCanteen=(item)=>{
+    console.log('item?.id',item?.id);
+    navigation.navigate(screenName.StudentMenuList,{selectID:item?.id})
+  }
+
+  
+
+
+  const renderItem = ({ item, index, }: any) => {
     const containerWidth = (SCREEN_WIDTH - 40) / 2;
     const containerHeight = 120;
     const xPosition = index % 2 === 0 ? 0 : 10;
+
 
     return (
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={()=>{
-          navigation.navigate(screenName.StudentMenuList)
+          onPressCanteen(item)
         }}
         style={{
           width: containerWidth,
           marginLeft: xPosition,
-          marginTop:10
+          marginTop:10,
         }}
       >
         <Image
@@ -44,7 +56,7 @@ const StudentHome = (props: Props) => {
             },
           ]}>
         </Image>
-          <Text style={styles.textStyle}>{'Nirma University of Science and Technology'}</Text>
+          <Text style={styles.textStyle}>{item?.restaurant_name}</Text>
       </TouchableOpacity>
     );
   };
@@ -70,7 +82,7 @@ const StudentHome = (props: Props) => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           columnWrapperStyle={styles.columnWrapperStyle}
-          data={[1,1,1,1,1,1,1,1,1,1,1,1]}
+          data={getUniversityCanteenData}
           initialNumToRender={10}
           onEndReachedThreshold={0.1}
           nestedScrollEnabled={true}
@@ -79,7 +91,7 @@ const StudentHome = (props: Props) => {
           ListFooterComponent={() => {
             return (
               <View>
-                {true && <Loader size={'small'} />}
+                {/* {true && <Loader size={'small'} />} */}
                 <Spacer height={150} />
               </View>
             );
@@ -103,7 +115,7 @@ const getGlobalStyles = (props: any) => {
       backgroundColor: colors.white,
     },
     columnWrapperStyle: {
-      justifyContent: 'center',
+      justifyContent: 'space-between',
     },
     renderContainer: {
       borderRadius: 16,

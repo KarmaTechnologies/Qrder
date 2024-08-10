@@ -36,7 +36,7 @@ const SignInScreen = (props: Props) => {
   const {params} = useRoute();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [email, setEmail] = useState(__DEV__ ? 'adminstudent@gmail.com' : '');
-  // const [email, setEmail] = useState(__DEV__ ? 'adminchef1@gmail.com' : '');
+  // const [email, setEmail] = useState(__DEV__ ? 'ssss@gmail.com' : '');
   // const [email, setEmail] = useState(__DEV__ ? 'admin@gmail.com' : '');
   const [password, setPassword] = useState(__DEV__ ? 'Test!@123' : '');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
@@ -82,7 +82,7 @@ const SignInScreen = (props: Props) => {
         },
         onFailure: (Err: any) => {
           if (Err != undefined) {
-            Alert.alert(Err?.data?.message);
+            Alert.alert(Err?.message);
           }
         },
       };

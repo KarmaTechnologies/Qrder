@@ -45,7 +45,6 @@ const EditProfile = (props: Props) => {
 
     const onPressEditDone = () => {
         if (names.trim().length === 0) {
-            errorToast('');
             errorToast(strings('login.error_name'));
         } else if (emails.trim().length === 0) {
             errorToast(strings('login.error_email'));

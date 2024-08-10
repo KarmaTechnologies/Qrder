@@ -8,9 +8,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import LoginHeader from '../../compoment/LoginHeader';
 import { strings } from '../../i18n/i18n';
 import CCDropDown from '../../compoment/CCDropDown';
-import { DropDownData, DropDownDatas } from '../../utils/commonFunction';
+import { DropDownData, DropDownDatas, errorToast } from '../../utils/commonFunction';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { getUniversitiesDataAction, selectRoleAction } from '../../actions/commonAction';
+import { getUniversitiesDataAction, getUniversityDataAction, selectRoleAction } from '../../actions/commonAction';
 
 type Props = {};
 
@@ -21,13 +21,22 @@ const StudentSelect = (props: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [selectRole, setSelectRole] = useState('');
   const {getUniversitiesData} = useAppSelector(state => state.data);
-
+  
   const onPressSelect = () => {
-    navigation.navigate(screenName.StudentBottomBar)
+    if(selectRole == ''){
+      errorToast(strings('StudentSignUp.error_university'));
+    }else{
+      let obj = {
+        params:selectRole,
+        onSuccess: (res: any) => {
+          navigation.navigate(screenName.StudentBottomBar)
+        },
+        onFailure: (Err: any) => {},
+      };
+      dispatch(getUniversityDataAction(obj));
+    }
+   
   };
-
-
-  console.log('getUniversitiesData',getUniversitiesData);
   
 
   useEffect(() => {

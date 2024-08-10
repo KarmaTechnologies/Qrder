@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
 import {strings} from '../../i18n/i18n';
@@ -19,7 +19,7 @@ import Spacer from '../../compoment/Spacer';
 import ImagePicker from 'react-native-image-crop-picker';
 import Loader from '../../compoment/Loader';
 import {screenName} from '../../navigation/screenNames';
-import {clearAsync} from '../../utils/asyncStorageManager';
+import {clearAsync, getAsyncUserInfo} from '../../utils/asyncStorageManager';
 import {dispatchNavigation} from '../../utils/globalFunctions';
 
 type Props = {};
@@ -30,6 +30,7 @@ const StudentProfile = (props: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [photoUri, setPhotoUri] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [name, setName] = useState('');
 
   const selectImage = () => {
     setLoading(true);
@@ -48,8 +49,21 @@ const StudentProfile = (props: Props) => {
       });
   };
 
+
+  useEffect(() => {
+    const getUserInfo = async() => {
+        const userList = await getAsyncUserInfo()
+        setName(userList.name)
+    }
+    getUserInfo()
+}, [])
+
   const onPressNavigation = (list: string) => {
-    ist !== '' && navigation.navigate(list);
+    if(list == screenName.PersonalInfo){
+      navigation.navigate(list,{hideEdit:false});
+    }else{
+     list !== '' && navigation.navigate(list);
+    }
   };
 
   return (
@@ -64,7 +78,7 @@ const StudentProfile = (props: Props) => {
         mainShow={true}
         title={strings('profileScreen.profile')}
         extraStyle={styles.headerContainer}
-        isHideIcon={false}
+        isHideIcon={true}
       />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={'handled'}
@@ -83,7 +97,7 @@ const StudentProfile = (props: Props) => {
             )}
           </TouchableOpacity>
           <View style={styles.userNameView}>
-            <Text style={styles.nameText}>Vishal Khadok</Text>
+            <Text style={styles.nameText}>{name}</Text>
             <Text style={styles.desText}>I love fast food</Text>
           </View>
         </View>

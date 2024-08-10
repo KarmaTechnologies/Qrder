@@ -38,6 +38,7 @@ const StudentSignUp = (props: Props) => {
   const [rePassword, setRePassword] = useState('');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
   const [isShowRePassword, setisShowRePassword] = useState<boolean>(true);
+  const {getUniversitiesData} = useAppSelector(state => state.data);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
@@ -58,7 +59,7 @@ const StudentSignUp = (props: Props) => {
       errorToast(strings('login.error_v_phone'));
     } else if (collegeName.trim().length == 0) {
       errorToast(strings('StudentSignUp.error_colleg_name'));
-    } else if (selectUniversity.trim().length === 0) {
+    } else if (selectUniversity === "") {
       errorToast(strings('StudentSignUp.error_university'));
     } else if (hostelName.trim().length === 0) {
       errorToast(strings('StudentSignUp.error_hostel'));
@@ -86,7 +87,7 @@ const StudentSignUp = (props: Props) => {
       data.append('password', password);
       data.append('confirmed', rePassword);
       data.append('role', 'student');
-      data.append('university_id', 2);
+      data.append('university_id', selectUniversity);
       data.append('status', '1');
       data.append('college_name', collegeName);
       data.append('hostel_name', hostelName);
@@ -155,10 +156,10 @@ const StudentSignUp = (props: Props) => {
             onChangeText={(t: string) => setCollegeName(t)}
           />
           <CCDropDown
-            data={DropDownDatas}
+            data={getUniversitiesData}
             label={strings('StudentSignUp.university_name')}
             labelField={'name'}
-            valueField={'name'}
+            valueField={'id'}
             placeholder={strings('StudentSignUp.select_university_name')}
             DropDownStyle={styles.dropDownStyle}
             value={selectUniversity}

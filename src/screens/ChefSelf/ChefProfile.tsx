@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
 import {strings} from '../../i18n/i18n';
@@ -19,7 +19,7 @@ import Spacer from '../../compoment/Spacer';
 import ImagePicker from 'react-native-image-crop-picker';
 import Loader from '../../compoment/Loader';
 import {screenName} from '../../navigation/screenNames';
-import {clearAsync} from '../../utils/asyncStorageManager';
+import {clearAsync, getAsyncUserInfo} from '../../utils/asyncStorageManager';
 import {dispatchNavigation} from '../../utils/globalFunctions';
 
 type Props = {};
@@ -30,6 +30,15 @@ const ChefProfile = (props: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [photoUri, setPhotoUri] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    const getUserInfo = async() => {
+        const userList = await getAsyncUserInfo()
+        setName(userList.name)
+    }
+    getUserInfo()
+}, [])
 
   const selectImage = () => {
     setLoading(true);
@@ -49,7 +58,11 @@ const ChefProfile = (props: Props) => {
   };
 
   const onPressNavigation = (list: any) => {
-    list !== '' && navigation.navigate(list);
+    if(list == screenName.PersonalInfo){
+      navigation.navigate(list,{hideEdit:true});
+    }else{
+     list !== '' && navigation.navigate(list);
+    }
   };
 
   return (
@@ -64,13 +77,13 @@ const ChefProfile = (props: Props) => {
         mainShow={true}
         title={strings('profileScreen.profile')}
         extraStyle={styles.headerContainer}
-        isHideIcon={false}
+        isHideIcon={true}
       />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={'handled'}
         contentContainerStyle={styles.contentContainerStyle}>
         <View style={styles.profileContainer}>
-          <TouchableOpacity onPress={selectImage}>
+          <View>
             {loading ? (
               <View style={[styles.loader, styles.profilImage]}>
                 <Loader />
@@ -81,9 +94,9 @@ const ChefProfile = (props: Props) => {
                 style={styles.profilImage}
               />
             )}
-          </TouchableOpacity>
+          </View>
           <View style={styles.userNameView}>
-            <Text style={styles.nameText}>Vishal Khadok</Text>
+            <Text style={styles.nameText}>{name}</Text>
             <Text style={styles.desText}>I love fast food</Text>
           </View>
         </View>
@@ -93,7 +106,7 @@ const ChefProfile = (props: Props) => {
             {
               title: strings('profileScreen.personal_info'),
               iconName: Icons.profileIcon,
-              screens: '',
+              screens:screenName.PersonalInfo
             },
           ]}
           onPressCell={onPressNavigation}

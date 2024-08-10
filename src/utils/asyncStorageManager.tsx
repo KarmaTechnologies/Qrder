@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const asyncKeys = {
   // clear in logout time
   token: "@token",
+  role: "@role",
   user_info: "@user_info",
   driver_info: "@user_info",
   is_dark_theme:"@is_dark_theme",
@@ -18,11 +19,25 @@ export const clearAsync = async () => {
   await AsyncStorage.multiRemove([
     asyncKeys.token,
     asyncKeys.user_info,
+    asyncKeys.role
   ]);
 };
 
 export const setAsyncToken = async (token: string) => {
   await AsyncStorage.setItem(asyncKeys.token, JSON.stringify(token));
+};
+
+export const setAsyncRole = async (token: string) => {
+  await AsyncStorage.setItem(asyncKeys.role, JSON.stringify(token));
+};
+
+export const getAsyncRole = async () => {
+  const token = await AsyncStorage.getItem(asyncKeys.role);
+  if (token) {
+    return JSON.parse(token)
+  } else {
+    return null;
+  }
 };
 
 export const getAsyncToken = async () => {

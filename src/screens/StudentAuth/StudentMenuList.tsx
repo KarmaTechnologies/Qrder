@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
 import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
 import PagerView from 'react-native-pager-view';
@@ -20,19 +20,21 @@ import { getCuisinesAction } from '../../actions/cuisinesAction';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getCuisinesMenuListAction, getMenuAction } from '../../actions/menuAction';
 import CartMenuCardList from '../../compoment/CartMenuCardList';
+import { getCanteenMenuAction } from '../../actions/commonAction';
 
 type Props = {};
 
 const StudentMenuList = (props: Props) => {
   const { colors, isDark } = useTheme();
   const navigation = useNavigation();
+  const {params} = useRoute();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [tabSelection, setTabSelection] = useState(strings('myMenuList.all'));
   const [refreshing, setRefreshing] = React.useState(false);
   const [cuisineId, setCuisineId] = React.useState(0);
   const ref = React.createRef(PagerView);
   const dispatch = useAppDispatch();
-  const { getCuisines, getMenuData } = useAppSelector(state => state.data);
+  const { getCuisines, getCanteenMenuData } = useAppSelector(state => state.data);
   const { isDarkTheme } = useAppSelector(state => state.common);
 
   const onRefresh = React.useCallback(() => {
@@ -57,16 +59,15 @@ const StudentMenuList = (props: Props) => {
     };
     dispatch(getCuisinesAction(obj));
   };
+
   const getMenuList = () => {
     let obj = {
+      params:params?.selectID,
       onSuccess: (res: any) => {
-        setRefreshing(false);
-       },
-      onFailure: (Err: any) => { 
-        setRefreshing(false);
       },
+      onFailure: (Err: any) => {},
     };
-    dispatch(getMenuAction(obj));
+    dispatch(getCanteenMenuAction(obj));
   };
 
   const getAllCuisinesMenuList = (id: number) => {

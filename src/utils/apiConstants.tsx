@@ -20,7 +20,7 @@ export const api = {
   canteenRegister:"canteen-register",
   universities:"universities",
   university:"university",
-  cuisineMenu:"cuisine-menu"
+  cuisineMenu:"canteen-menu"
 };
 
 export const POST = "POST";

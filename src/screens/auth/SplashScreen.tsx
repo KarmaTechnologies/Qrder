@@ -12,7 +12,7 @@ import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../theme/fonts';
 import {AppStyles} from '../../theme/appStyles';
 import {screenName} from '../../navigation/screenNames';
 import {dispatchNavigation} from '../../utils/globalFunctions';
-import {getAsyncToken} from '../../utils/asyncStorageManager';
+import {getAsyncRole, getAsyncToken} from '../../utils/asyncStorageManager';
 import {Icons} from '../../utils/images';
 import { onBackgroundNotificationPress, onMessage, onNotificationPress, openAppNotifiactionEvent } from '../../utils/notificationHandle';
 
@@ -34,11 +34,18 @@ const SplashScreen = (props: Props) => {
 
   const getUserInfo = async () => {
     let isUser = await getAsyncToken();
+    let isRole = await getAsyncRole();
     // dispatchNavigation(screenName.SignInScreen);
     console.log('isUser',isUser);
     
     if (isUser) {
-      dispatchNavigation(screenName.BottomTabBar);
+      if (isRole == 'Admin') {
+        dispatchNavigation(screenName.BottomTabBar);
+      } else if (isRole == 'Chef') {
+        dispatchNavigation(screenName.ChefSelfBottomBar);
+      } else {
+        dispatchNavigation(screenName.StudentSelect);
+      }
     } else {
       dispatchNavigation(screenName.RoleSelectionScreen);
     }

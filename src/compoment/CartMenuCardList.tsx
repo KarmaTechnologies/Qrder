@@ -28,7 +28,7 @@ const CartMenuCardList = ({ onRefresh, refreshing }: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [visible, setVisible] = useState(false);
   const [selectItem, setSelectItem] = useState([]);
-  const { getMenuData } = useAppSelector(state => state.data);
+  const { getCanteenMenuData } = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
 
   const removeMenuCardList = () => {
@@ -54,15 +54,15 @@ const CartMenuCardList = ({ onRefresh, refreshing }: Props) => {
   return (
     <View>
       <Text style={styles.itemsText}>
-        {getMenuData?.length ? `Total ${getMenuData?.length} items` : null}
+        {getCanteenMenuData?.length ? `Total ${getCanteenMenuData?.length} items` : null}
       </Text>
       <FlatList
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         onEndReachedThreshold={0.3}
-        data={getMenuData}
-        ListEmptyComponent={getMenuData?.length === 0 ? <Loader/> : <NoDataFound />}
+        data={getCanteenMenuData}
+        ListEmptyComponent={getCanteenMenuData?.length === 0 ? <NoDataFound/> : <NoDataFound />}
         renderItem={({ item, index }) => {
           return (
             <CartMenuItems

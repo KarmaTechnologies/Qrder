@@ -12,6 +12,7 @@ import { DropDownData, errorToast } from '../../utils/commonFunction';
 import { useAppDispatch } from '../../redux/hooks';
 import { selectRoleAction } from '../../actions/commonAction';
 import { Icons } from '../../utils/images';
+import { setAsyncRole, setAsyncToken } from '../../utils/asyncStorageManager';
 
 type Props = {};
 
@@ -23,10 +24,11 @@ const RoleSelectionScreen = (props: Props) => {
   const [selectRole, setSelectRole] = useState('');
 
 
-  const onPressRole = () => {
+  const onPressRole = async() => {
     if (selectRole.trim().length === 0) {
       errorToast(strings('roleSelection.error_role'));
     } else {
+      await setAsyncRole(selectRole);
       dispatch(selectRoleAction(selectRole));
       setTimeout(() => {
         navigation.navigate(screenName.SignInScreen, { role: selectRole });

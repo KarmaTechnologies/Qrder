@@ -186,7 +186,7 @@ const SignUpScreen = (props: Props) => {
       errorToast(strings('login.error_phone'));
     } else if (number.trim().length !== 10) {
       errorToast(strings('login.error_v_phone'));
-    } else if (universityName.trim().length == 0) {
+    } else if (universityName == "") {
       errorToast(strings('login.error_v_university'));
     } else if (canteenName.trim().length == 0) {
       errorToast(strings('login.error_v_canteen'));
@@ -231,6 +231,7 @@ const SignUpScreen = (props: Props) => {
       let obj = {
         data,
         onSuccess: (response: any) => {
+          console.log('response data',response);
           dispatchNavigation(screenName.BottomTabBar);
         },
         onFailure: (Err: any) => {

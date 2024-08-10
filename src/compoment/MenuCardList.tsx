@@ -36,7 +36,9 @@ const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
       onSuccess: (res: any) => {
         setRefresh(false);
       },
-      onFailure: (Err: any) => { },
+      onFailure: (Err: any) => { 
+        setRefresh(false);
+      },
     };
     dispatch(deleteMenuAction(UserInfo));
   };
@@ -61,7 +63,7 @@ const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
         }
         onEndReachedThreshold={0.3}
         data={getMenuData}
-        ListEmptyComponent={getMenuData?.length === 0 ? <Loader/> : <NoDataFound />}
+        ListEmptyComponent={getMenuData?.length === 0 ? <NoDataFound /> : <NoDataFound />}
         renderItem={({ item, index }) => {
           return (
             <MenuItems

@@ -61,7 +61,11 @@ const Profile = (props: Props) => {
   };
 
   const onPressNavigation = (list: string) => {
-    list !== "" && navigation.navigate(list);
+    if(list == screenName.PersonalInfo){
+      navigation.navigate(list,{hideEdit:false});
+    }else{
+     list !== '' && navigation.navigate(list);
+    }
   };
 
   return (
