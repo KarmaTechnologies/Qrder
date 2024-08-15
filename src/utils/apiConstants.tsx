@@ -30,3 +30,6 @@ export const DELETE = "DELETE";
 export const PATCH = "PATCH";
 
 export const GOOGLE_API_KEY = "AIzaSyDEjeEjROHSLP3YfRln7Sk1GxUQSTGOGCI";
+
+export const GOOGLE_WEB_CLINET_ID =
+  "664452756526-me5g021moorbt53hghlcvlekjv5btuno.apps.googleusercontent.com";

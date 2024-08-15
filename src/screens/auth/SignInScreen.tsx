@@ -16,6 +16,7 @@ import {
   UpperCaseCheck,
   emailCheck,
   errorToast,
+  infoToast,
   numberCheck,
   specialCarCheck,
 } from '../../utils/commonFunction';
@@ -29,6 +30,7 @@ import LoginHeader from '../../compoment/LoginHeader';
 import {strings} from '../../i18n/i18n';
 import CCDropDown from '../../compoment/CCDropDown';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { GOOGLE_WEB_CLINET_ID } from '../../utils/apiConstants';
 
 
 type Props = {};
@@ -106,19 +108,29 @@ const SignInScreen = (props: Props) => {
   },[])
 
   const googlesignIn = async () => {
+    console.log('sad');
+    GoogleSignin.configure({
+      webClientId: GOOGLE_WEB_CLINET_ID,
+      offlineAccess: false, // Set to true if you need offline access
+    });
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log("-------",userInfo)
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log("------->>>>>",error)
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (f.e. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      console.log("GoogleSignin userInfo", userInfo);
+      if (onSucess) onSucess(userInfo);
+    } catch (error: any) {
+      console.log("error", error);
+      if (error?.code === statusCodes?.SIGN_IN_CANCELLED) {
+        infoToast("user cancelled the login flow");
+      } else if (error?.code === statusCodes?.IN_PROGRESS) {
+        infoToast("operation (e.g. sign in) is in progress already");
+        // operation (e.g. sign in) is in progress already
+      } else if (error?.code === statusCodes?.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
+        infoToast("play services not available or outdated");
       } else {
         // some other error happened
+        infoToast("Something went wrong, please try again");
       }
     }
   };
