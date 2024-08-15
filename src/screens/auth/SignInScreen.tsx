@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
 import {Icons} from '../../utils/images';
 import {commonFontStyle, h, hp, wp} from '../../theme/fonts';
@@ -28,6 +28,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
 import {strings} from '../../i18n/i18n';
 import CCDropDown from '../../compoment/CCDropDown';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+
 
 type Props = {};
 
@@ -99,6 +101,27 @@ const SignInScreen = (props: Props) => {
     }
   };
 
+  useEffect(()=>{
+    GoogleSignin.configure()
+  },[])
+
+  const googlesignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log("-------",userInfo)
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log("------->>>>>",error)
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (f.e. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
   return (
     <View style={styles.container}>
       <StatusBar
@@ -188,6 +211,7 @@ const SignInScreen = (props: Props) => {
               <Image style={styles.facebookIcon} source={Icons.facebook} />
             </TouchableOpacity>
             <TouchableOpacity
+            onPress={googlesignIn}
               style={[
                 styles.roundView,
                 {

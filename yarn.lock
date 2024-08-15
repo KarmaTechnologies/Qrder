@@ -3166,6 +3166,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-firebase/auth@npm:^20.4.0":
+  version: 20.4.0
+  resolution: "@react-native-firebase/auth@npm:20.4.0"
+  dependencies:
+    plist: ^3.1.0
+  peerDependencies:
+    "@react-native-firebase/app": 20.4.0
+    expo: ">=47.0.0"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+  checksum: 98702a22a8e83773f0b2552b0899ab8650912956db7f15b81bb86481e81d95d6838b22b47b6ff0ffe4fd77b1e6f0aad12c5a6b5692b2a812b17d6e2a05499862
+  languageName: node
+  linkType: hard
+
 "@react-native-firebase/messaging@npm:^20.3.0":
   version: 20.3.0
   resolution: "@react-native-firebase/messaging@npm:20.3.0"
@@ -3176,6 +3191,23 @@ __metadata:
     expo:
       optional: true
   checksum: 1fa5691bda665a4ee7aa6645d979297d37dadc1c0543e66b5eb45af8687b8580aa9b1b54ea9f4937d3356d2de3ec23c9608d8a8b88c021be9e833b108728a64a
+  languageName: node
+  linkType: hard
+
+"@react-native-google-signin/google-signin@npm:^12.2.1":
+  version: 12.2.1
+  resolution: "@react-native-google-signin/google-signin@npm:12.2.1"
+  peerDependencies:
+    expo: ">=50.0.0"
+    react: "*"
+    react-dom: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    expo:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 214a51d4b98a74b3f8f26aaf2882d95d37592aebfc59f2c65619234f64aa545a72a7ba3b2cb19eebf02312758ec0f6c12c5fe801bb3da613bf79d9914f247dac
   languageName: node
   linkType: hard
 
@@ -4145,6 +4177,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xmldom/xmldom@npm:^0.8.8":
+  version: 0.8.10
+  resolution: "@xmldom/xmldom@npm:0.8.10"
+  checksum: 4c136aec31fb3b49aaa53b6fcbfe524d02a1dc0d8e17ee35bd3bf35e9ce1344560481cd1efd086ad1a4821541482528672306d5e37cdbd187f33d7fadd3e2cf0
+  languageName: node
+  linkType: hard
+
 "Qrder@workspace:.":
   version: 0.0.0-use.local
   resolution: "Qrder@workspace:."
@@ -4157,7 +4196,9 @@ __metadata:
     "@react-native-community/blur": ^4.4.0
     "@react-native-community/geolocation": ^3.2.1
     "@react-native-firebase/app": ^20.3.0
+    "@react-native-firebase/auth": ^20.4.0
     "@react-native-firebase/messaging": ^20.3.0
+    "@react-native-google-signin/google-signin": ^12.2.1
     "@react-native/babel-preset": 0.74.85
     "@react-native/eslint-config": 0.74.85
     "@react-native/metro-config": 0.74.85
@@ -9507,6 +9548,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"plist@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "plist@npm:3.1.0"
+  dependencies:
+    "@xmldom/xmldom": ^0.8.8
+    base64-js: ^1.5.1
+    xmlbuilder: ^15.1.1
+  checksum: c8ea013da8646d4c50dff82f9be39488054621cc229957621bb00add42b5d4ce3657cf58d4b10c50f7dea1a81118f825838f838baeb4e6f17fab453ecf91d424
+  languageName: node
+  linkType: hard
+
 "possible-typed-array-names@npm:^1.0.0":
   version: 1.0.0
   resolution: "possible-typed-array-names@npm:1.0.0"
@@ -11952,6 +12004,13 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: f9bb062abf54cc8f02d94ca86dcd349c3945d63851f5d07a3a61c2fcb755b15a88e943a63cf580cbdb5b74436d67ef6b67f745b8f7c0814e411379138e1863cb
+  languageName: node
+  linkType: hard
+
+"xmlbuilder@npm:^15.1.1":
+  version: 15.1.1
+  resolution: "xmlbuilder@npm:15.1.1"
+  checksum: 14f7302402e28d1f32823583d121594a9dca36408d40320b33f598bd589ca5163a352d076489c9c64d2dc1da19a790926a07bf4191275330d4de2b0d85bb1843
   languageName: node
   linkType: hard
 

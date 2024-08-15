@@ -12,7 +12,20 @@
           "package_name": "com.qrder"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "664452756526-5frmpr11s6jkmbh4ac1a6lip6na3dbku.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qrder",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "664452756526-me5g021moorbt53hghlcvlekjv5btuno.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAg9YbIDUrYHGNrGiar1LBWaIzKrSfhS-w"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "664452756526-me5g021moorbt53hghlcvlekjv5btuno.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "664452756526-am4q3v0r4upq81v78h3m6h0v6dkis2a6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.qrder.app"
+              }
+            }
+          ]
         }
       }
     }
