@@ -57,6 +57,8 @@ export default {
     error_re_tyre_match: 'તમારો પાસવર્ડ અને પુનઃપ્રમાણિત પાસવર્ડ મેલ ખાતા નથી.',
     role: 'ભૂમિકા',
     select_role: 'ભૂમિકા પસંદ કરો',
+    "error_v_confirm": "કૃપા કરીને તમારો પુષ્ટિ પાસવર્ડ દાખલ કરો",
+    "error_new_password": "કૃપા કરીને તમારો નવો પાસવર્ડ દાખલ કરો"
   },
   sign_up: {
     sign_up: 'સાઇન અપ',

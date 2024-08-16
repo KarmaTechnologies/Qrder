@@ -62,7 +62,7 @@ const CartMenuCardList = ({ onRefresh, refreshing }: Props) => {
         }
         onEndReachedThreshold={0.3}
         data={getCanteenMenuData}
-        ListEmptyComponent={getCanteenMenuData?.length === 0 ? <NoDataFound/> : <NoDataFound />}
+        // ListEmptyComponent={getCanteenMenuData?.length === 0 ? <NoDataFound/> : <NoDataFound />}
         renderItem={({ item, index }) => {
           return (
             <CartMenuItems

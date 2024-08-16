@@ -8,21 +8,45 @@ import {screenName} from '../../navigation/screenNames';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
 import {strings} from '../../i18n/i18n';
+import { emailCheck, errorToast, infoToast } from '../../utils/commonFunction';
+import { useAppDispatch } from '../../redux/hooks';
+import { sendForgotEmail } from '../../actions/authAction';
 
 type Props = {};
 
 const ForgotScreen = (props: Props) => {
   const {colors, isDark} = useTheme();
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
-  const [email, setEmail] = useState('example1232@gmail.com');
-
-  const onPresSendCode = () => {
-    navigation.navigate(screenName.VerificationCode, {email: email});
-  };
+  const [email, setEmail] = useState('');
 
   const onPressBack = () => {
     navigation.goBack();
+  };
+
+  const onPresSendCode = () => {
+    if (email.trim().length === 0) {
+      infoToast('Please enter your email address');
+    } else if (!emailCheck(email)) {
+      infoToast('Please enter your valid email address');
+    } else {
+      let userInfo = {
+        data: {
+          email: email,
+        },
+        onSuccess: (res: any) => {
+          setEmail('');
+          navigation.navigate(screenName.VerificationCode, { email: email});
+        },
+        onFailure: (Err: any) => {
+          if (Err != undefined) {
+            errorToast(Err?.data?.message);
+          }
+        },
+      };
+      dispatch(sendForgotEmail(userInfo));
+    }
   };
 
   return (

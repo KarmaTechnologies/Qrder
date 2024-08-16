@@ -1,9 +1,11 @@
 export const api = {
-  BASE_URL: "https://4a77-2405-201-201f-9802-547f-c471-339c-9c58.ngrok-free.app/api/",
+  BASE_URL: "https://6ff4-2405-201-201f-9802-44cc-4916-498d-cb78.ngrok-free.app/api/",
 
   // Auth
   login: 'login',
   register: 'register',
+  forgotEmail:'forgot-password/send-otp',
+  sendEmailOtp:'forgot-password/login-with-otp',
 
   get_cities:"get-cities",
   getCountry:"get-selected-country",
@@ -20,7 +22,9 @@ export const api = {
   canteenRegister:"canteen-register",
   universities:"universities",
   university:"university",
-  cuisineMenu:"canteen-menu"
+  cuisineMenu:"canteen-menu",
+  canteenCuisine:'canteen-cuisine',
+  getStudentMenu:"cuisine-menu",
 };
 
 export const POST = "POST";

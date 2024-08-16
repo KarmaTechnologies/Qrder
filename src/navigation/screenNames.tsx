@@ -26,6 +26,7 @@ export const screenName = {
   EditProfile: 'EditProfile',
   Settings: 'Settings',
   CuisinesNameList: 'CuisinesNameList',
+  NewPassword:'NewPassword',
 
 
   //chefSignUp

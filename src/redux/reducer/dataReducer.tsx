@@ -1,4 +1,4 @@
-import {DELETE_CHEF_DATA, DELETE_CUISINES_DATA, DELETE_MENU_DATA, GET_CANTEEN_MENU_LIST, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_MENU_DATA, GET_UNIVERSITIES_CANTEEN_LIST, GET_UNIVERSITIES_LIST, IS_LOADING, SET_APP_THEME} from '../actionTypes';
+import {DELETE_CHEF_DATA, DELETE_CUISINES_DATA, DELETE_MENU_DATA, GET_CANTEEN_CUISINE_LIST, GET_CANTEEN_MENU_LIST, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_MENU_DATA, GET_UNIVERSITIES_CANTEEN_LIST, GET_UNIVERSITIES_LIST, IS_LOADING, SET_APP_THEME} from '../actionTypes';
 
 const initialState = {
   getCuisines:[],
@@ -7,6 +7,7 @@ const initialState = {
   getUniversitiesData:[],
   getUniversityCanteenData:[],
   getCanteenMenuData:[],
+  getCanteenCuisines:[]
 };
 
 export default function (state = initialState, action: any) {
@@ -48,6 +49,9 @@ export default function (state = initialState, action: any) {
         item => item?.id !== action.payload,
       );
       return { ...state, getCuisines: remove }; 
+    }
+    case GET_CANTEEN_CUISINE_LIST: {
+      return {...state, getCanteenCuisines: action.payload};
     }
     default:
       return state;

@@ -13,7 +13,7 @@ import {
     hp,
 } from '../../theme/fonts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { infoToast } from '../../utils/commonFunction';
+import { errorToast, infoToast } from '../../utils/commonFunction';
 import {
     CodeField,
     Cursor,
@@ -24,17 +24,21 @@ import Login_Input from '../../compoment/Login_Input';
 import PrimaryButton from '../../compoment/PrimaryButton';
 import LoginHeader from '../../compoment/LoginHeader';
 import { strings } from '../../i18n/i18n';
+import { useAppDispatch } from '../../redux/hooks';
+import { sendEmailOtp } from '../../actions/authAction';
+import { screenName } from '../../navigation/screenNames';
 
 type Props = {};
 const CELL_COUNT = 4;
 
 const VerificationCode = ({ route }) => {
-    const { email } = route.params;
+    const { email ,otpNumber} = route.params;
     const { colors } = useTheme();
     const { params } = useRoute<any>();
     const navigation = useNavigation();
+    const dispatch = useAppDispatch();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
-    const [otpValue, setOtpValue] = useState<string>(params?.otpNumber);
+    const [otpValue, setOtpValue] = useState<string>(otpNumber);
     const [value, setValue] = useState<string>('');
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -43,29 +47,31 @@ const VerificationCode = ({ route }) => {
     });
 
     useEffect(() => {
-        setOtpValue(params?.otpNumber)
-    }, [params?.otpNumber]);
+        setOtpValue(otpNumber)
+    }, [otpNumber]);
 
     const onSubmitPress = () => {
         if (value.trim().length !== 4) {
-            infoToast('Please enter valid OTP');
+            errorToast('Please enter valid OTP');
         } else {
-            let data = {
-                data: {
-                    mobile: params?.listData,
-                    otp: value,
-                    deviceToken: 'jdjdakak',
-                },
-                onSuccess: (response: any) => {
-                    // dispatchNavigation(screenName.drawerNavigator);
-                },
-                onFailure: (response: any) => {
-                    console.log('Error', response);
-                },
-            };
-            // dispatch(VerifyPhoneCode(data));
+          let data = {
+            data: {
+              email: email,
+              otp: value,
+            },
+            onSuccess: (response: {message:string,success:boolean}) => {
+              setValue('')
+              setOtpValue('')
+              navigation.navigate(screenName.NewPassword, { emailId: email });
+            },
+            onFailure: (response: any) => {
+              console.log('Error', response);
+            },
+          };
+          dispatch(sendEmailOtp(data));
         }
-    };
+      };
+    
 
     const onResendUpPress = () => {
         let number = {
@@ -150,7 +156,7 @@ const VerificationCode = ({ route }) => {
                     />
                     <PrimaryButton
                         extraStyle={styles.signupButton}
-                        onPress={onPressVerify}
+                        onPress={onSubmitPress}
                         title={strings('Phone_number_verification.verify')}
                     />
                     <Text style={styles.otpText}>{otpValue}</Text>

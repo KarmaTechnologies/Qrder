@@ -107,7 +107,7 @@ const ChefMenuList = (props: Props) => {
                 setTabSelection(tab.name);
                 ref.current?.setPage(index);
                 setCuisineId(tab?.id)
-                if (tab.name === 'All') {
+                if (tab?.name === 'All') {
                   getMenuList()
                 } else {
                   getAllCuisinesMenuList(tab?.id)
@@ -133,7 +133,7 @@ const ChefMenuList = (props: Props) => {
                         : colors.Title_Text,
                   },
                 ]}>
-                {tab.name}
+                {tab?.name}
               </Text>
             </TouchableOpacity>
           ))}

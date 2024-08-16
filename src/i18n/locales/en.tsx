@@ -57,6 +57,8 @@ export default {
     error_re_tyre_match: 'Your password and confirm password do not match.',
     role: 'Role',
     select_role: 'SELECT ROLE',
+    error_v_confirm:'Please enter your confirm password',
+    error_new_password:'Please enter your new password'
   },
   sign_up: {
     sign_up: 'Sign Up',

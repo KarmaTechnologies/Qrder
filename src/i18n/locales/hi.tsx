@@ -56,6 +56,8 @@ export default {
     error_re_tyre_match: 'आपका पासवर्ड और पुष्टि पासवर्ड मेल नहीं खाते.',
     role: 'भूमिका',
     select_role: 'भूमिका चुनें',
+    "error_v_confirm": "कृपया अपना पुष्टि पासवर्ड दर्ज करें",
+    "error_new_password": "कृपया अपना नया पासवर्ड दर्ज करें"
   },
   sign_up: {
     sign_up: 'साइन अप करें',

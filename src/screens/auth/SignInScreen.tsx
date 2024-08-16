@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useNavigation, useRoute, useTheme} from '@react-navigation/native';
-import {Icons} from '../../utils/images';
-import {commonFontStyle, h, hp, wp} from '../../theme/fonts';
+import React, { useEffect, useState } from 'react';
+import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
+import { Icons } from '../../utils/images';
+import { commonFontStyle, h, hp, wp } from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import {
   UpperCaseCheck,
@@ -21,13 +21,13 @@ import {
   specialCarCheck,
 } from '../../utils/commonFunction';
 import PrimaryButton from '../../compoment/PrimaryButton';
-import {screenName} from '../../navigation/screenNames';
-import {dispatchNavigation} from '../../utils/globalFunctions';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {userLogin} from '../../actions/authAction';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { screenName } from '../../navigation/screenNames';
+import { dispatchNavigation } from '../../utils/globalFunctions';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { userLogin } from '../../actions/authAction';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
-import {strings} from '../../i18n/i18n';
+import { strings } from '../../i18n/i18n';
 import CCDropDown from '../../compoment/CCDropDown';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLINET_ID } from '../../utils/apiConstants';
@@ -36,9 +36,9 @@ import { GOOGLE_WEB_CLINET_ID } from '../../utils/apiConstants';
 type Props = {};
 
 const SignInScreen = (props: Props) => {
-  const {colors, isDark} = useTheme();
-  const {params} = useRoute();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { colors, isDark } = useTheme();
+  const { params } = useRoute();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [email, setEmail] = useState(__DEV__ ? 'adminstudent@gmail.com' : '');
   // const [email, setEmail] = useState(__DEV__ ? 'ssss@gmail.com' : '');
   // const [email, setEmail] = useState(__DEV__ ? 'admin@gmail.com' : '');
@@ -46,11 +46,10 @@ const SignInScreen = (props: Props) => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
   const [selectRole, setSelectRole] = useState('');
   const [isSelect, setIsSelect] = useState<boolean>(false);
-  const {selectedRole} = useAppSelector(state => state.common);
+  const { selectedRole } = useAppSelector(state => state.common);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-
   const onPressLogin = () => {
     // return
     if (email.trim().length === 0) {
@@ -71,6 +70,7 @@ const SignInScreen = (props: Props) => {
       var data = new FormData();
       data.append('email', email);
       data.append('password', password);
+      data.append('role', params?.role.toLowerCase());
       let obj = {
         data,
         onSuccess: (response: any) => {
@@ -103,9 +103,9 @@ const SignInScreen = (props: Props) => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     GoogleSignin.configure()
-  },[])
+  }, [])
 
   const googlesignIn = async () => {
     console.log('sad');
@@ -124,12 +124,9 @@ const SignInScreen = (props: Props) => {
         infoToast("user cancelled the login flow");
       } else if (error?.code === statusCodes?.IN_PROGRESS) {
         infoToast("operation (e.g. sign in) is in progress already");
-        // operation (e.g. sign in) is in progress already
       } else if (error?.code === statusCodes?.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
         infoToast("play services not available or outdated");
       } else {
-        // some other error happened
         infoToast("Something went wrong, please try again");
       }
     }
@@ -223,7 +220,7 @@ const SignInScreen = (props: Props) => {
               <Image style={styles.facebookIcon} source={Icons.facebook} />
             </TouchableOpacity>
             <TouchableOpacity
-            onPress={googlesignIn}
+              onPress={googlesignIn}
               style={[
                 styles.roundView,
                 {
@@ -253,7 +250,7 @@ const SignInScreen = (props: Props) => {
 export default SignInScreen;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,
