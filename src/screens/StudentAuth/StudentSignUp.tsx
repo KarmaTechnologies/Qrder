@@ -21,6 +21,7 @@ import {dispatchNavigation} from '../../utils/globalFunctions';
 import {studentUserSignUp, userSignUp} from '../../actions/authAction';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import CCDropDown from '../../compoment/CCDropDown';
+import { getUniversitiesDataAction } from '../../actions/commonAction';
 
 type Props = {};
 
@@ -42,6 +43,19 @@ const StudentSignUp = (props: Props) => {
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
+  
+  useEffect(() => {
+    getUniversitiesDataPress()
+  }, []);
+
+  const getUniversitiesDataPress = () => {
+    let obj = {
+      onSuccess: (res: any) => {},
+      onFailure: (Err: any) => {},
+    };
+    dispatch(getUniversitiesDataAction(obj));
+  };
+
 
   const onPressBack = () => {
     navigation.goBack();
