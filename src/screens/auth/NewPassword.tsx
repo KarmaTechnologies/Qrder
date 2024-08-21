@@ -18,6 +18,8 @@ import { strings } from '../../i18n/i18n';
 import { useAppDispatch } from '../../redux/hooks';
 import Input from '../../compoment/Input';
 import { screenName } from '../../navigation/screenNames';
+import { updatePassword } from '../../actions/authAction';
+import { getAsyncRole } from '../../utils/asyncStorageManager';
 
 type Props = {};
 
@@ -51,16 +53,21 @@ const NewPassword = () => {
         } else if (confirmPassword.trim() !== password.trim()) {
             errorToast(strings('login.error_re_tyre_match'));
         } else {
-            let data = {
-                data: {
-                    email: params?.emailId,
-                    newPassword: password,
-                    confirmPassword: confirmPassword,
-                },
-                onSuccess: () => {
+            var data = new FormData();
+            data.append('email', params?.emailId);
+            data.append('password', password);
+            data.append('password_confirmation', confirmPassword);
+            
+
+            let obj = {
+                data,
+                onSuccess: async() => {
+                    let isRole = await getAsyncRole();
                     setConfirmPassword('');
                     setPassword('');
-                    navigation.navigate(screenName.SignInScreen);
+                    setTimeout(()=>{
+                        navigation.navigate(screenName.SignInScreen, { role: isRole });
+                    },1000)
                 },
                 onFailure: (Err: any) => {
                     if (Err != undefined) {
@@ -68,8 +75,7 @@ const NewPassword = () => {
                     }
                 },
             };
-            //   dispatch(resetPassword(data));
-            // navigate(screenName.successScreen,{text:"Thanks your Email have been Send"});
+              dispatch(updatePassword(obj));
         }
     };
 
@@ -81,7 +87,7 @@ const NewPassword = () => {
         <View style={styles.container}>
             <StatusBar barStyle={'light-content'} backgroundColor={colors.Primary_Bg} />
             <LoginHeader
-                title={strings('Phone_number_verification.verification')}
+                title={strings('login.ressetPassword')}
                 description={strings('Phone_number_verification.verification_dec')}
                 email={params?.emailId}
                 isBack={true}

@@ -3,6 +3,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert, PermissionsAndroid, Platform } from "react-native";
 import { asyncKeys } from "./asyncStorageManager";
 import { infoToast } from "./commonFunction";
+import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
+import { GOOGLE_WEB_CLINET_ID } from "./apiConstants";
 // import {
 //   GoogleSignin,
 //   statusCodes,
@@ -77,6 +79,7 @@ const getFirebaseToken = async () => {
 // export const onGoogleLogin = async (onSucess: (res: any) => void) => {
 //   GoogleSignin.configure({
 //     webClientId: GOOGLE_WEB_CLINET_ID,
+//        offlineAccess: false, 
 //   });
 //   try {
 //     await GoogleSignin.hasPlayServices();

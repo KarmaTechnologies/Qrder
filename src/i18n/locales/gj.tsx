@@ -58,7 +58,8 @@ export default {
     role: 'ભૂમિકા',
     select_role: 'ભૂમિકા પસંદ કરો',
     "error_v_confirm": "કૃપા કરીને તમારો પુષ્ટિ પાસવર્ડ દાખલ કરો",
-    "error_new_password": "કૃપા કરીને તમારો નવો પાસવર્ડ દાખલ કરો"
+    "error_new_password": "કૃપા કરીને તમારો નવો પાસવર્ડ દાખલ કરો",
+    ressetPassword: 'પાસવર્ડ રીસેટ કરો'
   },
   sign_up: {
     sign_up: 'સાઇન અપ',
@@ -111,6 +112,7 @@ export default {
     enter_otp_code: 'OTP કોડ દાખલ કરો',
     otp_code_text:
       'અમે તમારા ફોન નંબરની પુષ્ટિ કરવા માટે તમને OTP મોકલી રહ્યા છીએ',
+    error_otp: 'કૃપા કરી માન્ય OTP દાખલ કરો',
   },
   home: {
     location: 'સ્થાન',
@@ -269,4 +271,17 @@ export default {
     new_add: 'નવી ઉમેરો',
     Search: 'શોધો...',
   },
+  CardMenuList: {
+    add: 'ઉમેરો'
+  },
+  Cart: {
+    CheckOut: "ચેકઆઉટ",
+    Cart: "કાર્ટ"
+  },
+  googleSignIn: {
+    user_cancelled: 'વપરાશકર્તાએ લૉગિન પ્રવાહ રદ કર્યો',
+    error_text: "સંચાલન (જેમ કે સાઇન ઇન) પહેલેથી જ પ્રગતિમાં છે",
+    play_services: 'પ્લે સેવાઓ ઉપલબ્ધ નથી અથવા જૂની છે',
+    something_went: 'કઈક ખોટું થયું, કૃપા કરીને ફરીથી પ્રયાસ કરો'
+  }
 };

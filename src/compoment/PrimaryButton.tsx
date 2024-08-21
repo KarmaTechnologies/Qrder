@@ -5,6 +5,8 @@ import {
     TouchableOpacity,
     TextStyle,
     Image,
+    ActivityIndicator,
+    View
 } from 'react-native';
 import React from 'react';
 import { useTheme } from '@react-navigation/native';
@@ -18,7 +20,8 @@ type Props = {
     isYellow?: boolean;
     extraStyle?: ViewStyle;
     titleStyle?: TextStyle;
-    isIconShow?: boolean
+    isIconShow?: boolean;
+    isLoading?: boolean;
 };
 
 const PrimaryButton = ({
@@ -26,30 +29,37 @@ const PrimaryButton = ({
     onPress = undefined,
     extraStyle = {},
     titleStyle,
-    isIconShow = false
+    isIconShow = false,
+    isLoading = false
 }: Props) => {
     const { colors } = useTheme();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
 
     return (
         <TouchableOpacity
-            onPress={() => onPress()}
+            onPress={() => !isLoading && onPress?.()}
             style={[
                 styles.buttonView,
-                {
-                    backgroundColor: colors.Primary_Orange
-                },
+                { backgroundColor: colors.Primary_Orange },
                 extraStyle,
-            ]}>
-            <Text
-                style={[
-                    styles.titleText,
-                    titleStyle,
-                ]}>
-                {title}
-            </Text>
-            {isIconShow && <Image style={styles.locationIcon} source={Icons.mapPin} />}
-
+            ]}
+            disabled={isLoading}
+        >
+            {isLoading ? (
+                <ActivityIndicator size="small" color={light_theme.white} />
+            ) : (
+                <View style={styles.contentContainer}>
+                    <Text
+                        style={[
+                            styles.titleText,
+                            titleStyle,
+                        ]}
+                    >
+                        {title}
+                    </Text>
+                    {isIconShow && <Image style={styles.locationIcon} source={Icons.mapPin} />}
+                </View>
+            )}
         </TouchableOpacity>
     );
 };
@@ -63,17 +73,24 @@ const getGlobalStyles = (props: any) => {
             backgroundColor: colors.Primary_Orange,
             height: hp(62),
             justifyContent: 'center',
+            alignItems: 'center',
             borderRadius: 12,
+            flexDirection: 'row',
+        },
+        contentContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
         },
         titleText: {
             ...commonFontStyle(700, 14, light_theme.white),
             textAlign: 'center',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
         },
         locationIcon: {
             width: wp(32),
             height: wp(32),
             marginLeft: wp(24),
-        }
+        },
     });
 };

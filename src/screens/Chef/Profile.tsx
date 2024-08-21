@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect, useNavigation, useTheme } from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
 import { commonFontStyle, hp, wp } from '../../theme/fonts';
@@ -22,6 +22,7 @@ import { screenName } from '../../navigation/screenNames';
 import { clearAsync, getAsyncUserInfo } from '../../utils/asyncStorageManager';
 import { dispatchNavigation } from '../../utils/globalFunctions';
 import { useAppSelector } from '../../redux/hooks';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 type Props = {};
 
@@ -34,15 +35,22 @@ const Profile = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
 
-  
-  useEffect(() => {
-    const getUserInfo = async() => {
-        const userList = await getAsyncUserInfo()
-        setName(userList.name)
-    }
-    getUserInfo()
-}, [])
 
+  const fetchUserInfo = async () => {
+    try {
+      const userList = await getAsyncUserInfo();
+      setName(userList.name || '');
+    } catch (error) {
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserInfo();
+    }, [])
+  );
+
+console.log(name)
   const selectImage = () => {
     setLoading(true);
     ImagePicker.openPicker({
@@ -61,16 +69,16 @@ const Profile = (props: Props) => {
   };
 
   const onPressNavigation = (list: string) => {
-    if(list == screenName.PersonalInfo){
-      navigation.navigate(list,{hideEdit:false});
-    }else{
-     list !== '' && navigation.navigate(list);
+    if (list == screenName.PersonalInfo) {
+      navigation.navigate(list, { hideEdit: false });
+    } else {
+      list !== '' && navigation.navigate(list);
     }
   };
 
   return (
     <View style={styles.container}>
-       <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
+      <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
       <HomeHeader
         onBackPress={() => {
           navigation.goBack();
@@ -110,7 +118,7 @@ const Profile = (props: Props) => {
             {
               title: strings('profileScreen.personal_info'),
               iconName: Icons.profileIcon,
-              screens:screenName.PersonalInfo
+              screens: screenName.PersonalInfo
             },
           ]}
           onPressCell={onPressNavigation}
@@ -120,32 +128,32 @@ const Profile = (props: Props) => {
             {
               title: strings('profileScreen.menu'),
               iconName: Icons.menuIcon,
-                  screens:""
+              screens: ""
             },
             {
               title: strings('profileScreen.inventory'),
               iconName: Icons.inventory,
-                  screens:""
+              screens: ""
             },
             {
               title: strings('profileScreen.crm'),
               iconName: Icons.crmIcon,
-              screens:screenName.ProfileMessages
+              screens: screenName.ProfileMessages
             },
             {
               title: strings('profileScreen.notifications'),
               iconName: Icons.bellIcon,
-              screens:screenName.ProfileNotification
+              screens: screenName.ProfileNotification
             },
             {
               title: strings('profileScreen.chef'),
               iconName: Icons.chef,
-              screens:screenName.ChefNameList
+              screens: screenName.ChefNameList
             },
             {
               title: strings('profileScreen.cuisines'),
               iconName: Icons.cuisine,
-              screens:screenName.CuisinesNameList
+              screens: screenName.CuisinesNameList
             },
           ]}
           onPressCell={onPressNavigation}
@@ -156,12 +164,12 @@ const Profile = (props: Props) => {
             {
               title: strings('profileScreen.fAQs'),
               iconName: Icons.faqsIcon,
-              screens:""
+              screens: ""
             },
             {
               title: strings('profileScreen.settings'),
               iconName: Icons.settingsIcon,
-              screens:screenName.Settings
+              screens: screenName.Settings
             },
           ]}
           onPressCell={onPressNavigation}
@@ -174,8 +182,9 @@ const Profile = (props: Props) => {
               iconName: Icons.logout,
             },
           ]}
-          onPressCell={() => {
+          onPressCell={async () => {
             clearAsync(), dispatchNavigation(screenName.RoleSelectionScreen);
+            await GoogleSignin.signOut();
           }}
           styleProp={styles.boxCotainer}
         />

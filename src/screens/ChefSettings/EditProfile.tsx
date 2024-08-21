@@ -4,25 +4,29 @@ import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../../theme/fonts';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Icons } from '../../utils/images';
 import Input from '../../compoment/Input';
 import { emailCheck, errorToast } from '../../utils/commonFunction';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import PrimaryButton from '../../compoment/PrimaryButton';
+import { updateLocale } from 'moment';
+import { updateProfile } from '../../actions/authAction';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 type Props = {};
 
 const EditProfile = (props: Props) => {
     const route = useRoute();
-    const { name, email, number } = route.params;
+    const { userData } = route.params;
     const { colors, isDark } = useTheme();
     const navigation = useNavigation();
+    const dispatch = useAppDispatch();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const { isDarkTheme } = useAppSelector(state => state.common);
-    const [names, setName] = useState<string>(name);
-    const [emails, setEmail] = useState<string>(email);
-    const [numbers, setNumber] = useState<string>(number);
+    const [names, setName] = useState<string>(userData?.name);
+    const [emails, setEmail] = useState<string>(userData.email);
+    const [numbers, setNumber] = useState<string>(userData.number);
     const [photoUri, setPhotoUri] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -73,6 +77,7 @@ const EditProfile = (props: Props) => {
                     }
                 },
             };
+            dispatch(updateProfile(obj));
         }
     };
 
@@ -90,49 +95,54 @@ const EditProfile = (props: Props) => {
                 isHideIcon={true}
                 rightTextStyle={styles.rightTextStyle}
             />
-            <View style={styles.subContainer}>
-                <View style={styles.profileContainer}>
-                    <View>
-                        <Image
-                            source={photoUri ? { uri: photoUri } : Icons.profileImage}
-                            style={styles.profilImage}
-                        />
-                        <TouchableOpacity activeOpacity={0.9} onPress={selectImage} style={styles.editImage}>
-                            <Image source={Icons.editPencial} style={styles.profileIcon} />
-                        </TouchableOpacity>
+            <KeyboardAwareScrollView
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps={'handled'}>
+                <View style={styles.subContainer}>
+                    <View style={styles.profileContainer}>
+                        <View>
+                            <Image
+                                source={photoUri ? { uri: photoUri } : Icons.profileImage}
+                                style={styles.profilImage}
+                            />
+                            <TouchableOpacity activeOpacity={0.9} onPress={selectImage} style={styles.editImage}>
+                                <Image source={Icons.editPencial} style={styles.profileIcon} />
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
+                    <View style={styles.inputView}>
+                        <Input
+                            value={names}
+                            placeholder={strings('sign_up.p_name')}
+                            label={strings('sign_up.name')}
+                            onChangeText={(t: string) => setName(t)}
+                        />
+                        <Input
+                            value={emails}
+                            placeholder={strings('sign_up.p_email')}
+                            label={strings('sign_up.email')}
+                            onChangeText={(t: string) => setEmail(t)}
+                        />
+
+                        <Input
+                            value={numbers}
+                            placeholder={strings('sign_up.p_enter_number')}
+                            keyboardType="number-pad"
+                            label={strings('PersonalInfo.phone_number')}
+                            onChangeText={(t: string) => setNumber(t)}
+                            maxLength={10}
+                        />
+                    </View>
+                    <PrimaryButton
+                        extraStyle={styles.signupButton}
+                        onPress={onPressEditDone}
+                        title={strings('PersonalInfo.save')}
+                    />
 
                 </View>
-                <View style={styles.inputView}>
-                    <Input
-                        value={names}
-                        placeholder={strings('sign_up.p_name')}
-                        label={strings('sign_up.name')}
-                        onChangeText={(t: string) => setName(t)}
-                    />
-                    <Input
-                        value={emails}
-                        placeholder={strings('sign_up.p_email')}
-                        label={strings('sign_up.email')}
-                        onChangeText={(t: string) => setEmail(t)}
-                    />
-
-                    <Input
-                        value={numbers}
-                        placeholder={strings('sign_up.p_enter_number')}
-                        keyboardType="number-pad"
-                        label={strings('PersonalInfo.phone_number')}
-                        onChangeText={(t: string) => setNumber(t)}
-                        maxLength={10}
-                    />
-                </View>
-                <PrimaryButton
-                    extraStyle={styles.signupButton}
-                    onPress={onPressEditDone}
-                    title={strings('PersonalInfo.save')}
-                />
-            </View>
-        </View>
+            </KeyboardAwareScrollView>
+        </View >
     );
 };
 
@@ -198,6 +208,9 @@ const getGlobalStyles = (props: any) => {
             borderRadius: 12,
             alignItems: 'center',
             justifyContent: 'center',
+        },
+        contentContainerStyle: {
+            paddingHorizontal: wp(24),
         },
     });
 };

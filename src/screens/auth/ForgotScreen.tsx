@@ -1,52 +1,61 @@
-import {StatusBar, StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
-import {hp, wp} from '../../theme/fonts';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { hp, wp } from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import PrimaryButton from '../../compoment/PrimaryButton';
-import {screenName} from '../../navigation/screenNames';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { screenName } from '../../navigation/screenNames';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
-import {strings} from '../../i18n/i18n';
-import { emailCheck, errorToast, infoToast } from '../../utils/commonFunction';
+import { strings } from '../../i18n/i18n';
+import { emailCheck, errorToast } from '../../utils/commonFunction';
 import { useAppDispatch } from '../../redux/hooks';
 import { sendForgotEmail } from '../../actions/authAction';
 
 type Props = {};
 
 const ForgotScreen = (props: Props) => {
-  const {colors, isDark} = useTheme();
+  const { colors, isDark } = useTheme();
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onPressBack = () => {
     navigation.goBack();
   };
 
   const onPresSendCode = () => {
-    if (email.trim().length === 0) {
-      infoToast('Please enter your email address');
-    } else if (!emailCheck(email)) {
-      infoToast('Please enter your valid email address');
-    } else {
-      let userInfo = {
-        data: {
-          email: email,
-        },
-        onSuccess: (res: any) => {
-          setEmail('');
-          navigation.navigate(screenName.VerificationCode, { email: email});
-        },
-        onFailure: (Err: any) => {
-          if (Err != undefined) {
-            errorToast(Err?.data?.message);
-          }
-        },
-      };
-      dispatch(sendForgotEmail(userInfo));
+    try {
+      if (email.trim().length === 0) {
+        errorToast(strings('login.error_email'));
+      } else if (!emailCheck(email)) {
+        errorToast(strings('login.error_v_email'));
+      } else {
+        setLoading(true)
+        let userInfo = {
+          data: {
+            email: email,
+          },
+          onSuccess: () => {
+            setEmail('');
+            setLoading(false)
+            navigation.navigate(screenName.VerificationCode, { email: email });
+          },
+          onFailure: (Err: any) => {
+            if (Err != undefined) {
+              setLoading(false)
+              errorToast(Err?.data?.message);
+            }
+          },
+        };
+        dispatch(sendForgotEmail(userInfo));
+      }
+    } catch {
+      setLoading(false)
     }
+
   };
 
   return (
@@ -77,6 +86,7 @@ const ForgotScreen = (props: Props) => {
             extraStyle={styles.signupButton}
             onPress={onPresSendCode}
             title={strings('login.send_code')}
+            isLoading={loading}
           />
         </KeyboardAwareScrollView>
       </View>
@@ -87,7 +97,7 @@ const ForgotScreen = (props: Props) => {
 export default ForgotScreen;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,

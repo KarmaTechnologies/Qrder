@@ -24,13 +24,14 @@ import PrimaryButton from '../../compoment/PrimaryButton';
 import { screenName } from '../../navigation/screenNames';
 import { dispatchNavigation } from '../../utils/globalFunctions';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { userLogin } from '../../actions/authAction';
+import { googleEmailAction, userLogin } from '../../actions/authAction';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
 import { strings } from '../../i18n/i18n';
 import CCDropDown from '../../compoment/CCDropDown';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLINET_ID } from '../../utils/apiConstants';
+import { red } from 'react-native-reanimated/lib/typescript/Colors';
 
 
 type Props = {};
@@ -103,31 +104,52 @@ const SignInScreen = (props: Props) => {
     }
   };
 
-  useEffect(() => {
-    GoogleSignin.configure()
-  }, [])
 
   const googlesignIn = async () => {
-    console.log('sad');
     GoogleSignin.configure({
       webClientId: GOOGLE_WEB_CLINET_ID,
-      offlineAccess: false, // Set to true if you need offline access
+      offlineAccess: false,
     });
     try {
       await GoogleSignin.hasPlayServices();
+      await GoogleSignin.signOut();
       const userInfo = await GoogleSignin.signIn();
       console.log("GoogleSignin userInfo", userInfo);
-      if (onSucess) onSucess(userInfo);
-    } catch (error: any) {
-      console.log("error", error);
-      if (error?.code === statusCodes?.SIGN_IN_CANCELLED) {
-        infoToast("user cancelled the login flow");
-      } else if (error?.code === statusCodes?.IN_PROGRESS) {
-        infoToast("operation (e.g. sign in) is in progress already");
-      } else if (error?.code === statusCodes?.PLAY_SERVICES_NOT_AVAILABLE) {
-        infoToast("play services not available or outdated");
+
+      let googleUser = {
+        ...userInfo,
+        user:{
+          ...userInfo.user,
+          role: params?.role.toLowerCase(),
+        }
+      };
+      let userObj  = {
+        data: googleUser,
+        onSuccess: (res: any) => {
+      if (params?.role == 'Admin') {
+        dispatchNavigation(screenName.BottomTabBar);
+      } else if (params?.role == 'Chef') {
+        dispatchNavigation(screenName.ChefSelfBottomBar);
       } else {
-        infoToast("Something went wrong, please try again");
+        dispatchNavigation(screenName.StudentSelect);
+      }
+        },
+        onFailure: (Err: any) => {
+          if (Err != undefined) {
+            errorToast(Err?.message);
+          }
+        },
+      };
+      dispatch(googleEmailAction(userObj));
+    } catch (error: any) {
+      if (error?.code === statusCodes?.SIGN_IN_CANCELLED) {
+        errorToast(strings('googleSignIn.user_cancelled'));
+      } else if (error?.code === statusCodes?.IN_PROGRESS) {
+        errorToast(strings('googleSignIn.error_text'));
+      } else if (error?.code === statusCodes?.PLAY_SERVICES_NOT_AVAILABLE) {
+        errorToast(strings('googleSignIn.play_services'));
+      } else {
+        errorToast(strings('googleSignIn.something_went'));
       }
     }
   };

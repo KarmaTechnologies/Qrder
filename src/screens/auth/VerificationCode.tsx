@@ -1,4 +1,4 @@
- import {
+import {
     StatusBar,
     StyleSheet,
     Text,
@@ -7,11 +7,7 @@
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
-import {
-    commonFontStyle,
-    wp,
-    hp,
-} from '../../theme/fonts';
+import { commonFontStyle, wp, hp } from '../../theme/fonts';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { errorToast, infoToast } from '../../utils/commonFunction';
 import {
@@ -20,146 +16,133 @@ import {
     useBlurOnFulfill,
     useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import Login_Input from '../../compoment/Login_Input';
 import PrimaryButton from '../../compoment/PrimaryButton';
 import LoginHeader from '../../compoment/LoginHeader';
 import { strings } from '../../i18n/i18n';
 import { useAppDispatch } from '../../redux/hooks';
-import { sendEmailOtp } from '../../actions/authAction';
+import { sendEmailOtp, sendForgotEmail } from '../../actions/authAction';
 import { screenName } from '../../navigation/screenNames';
 
 type Props = {};
-const CELL_COUNT = 4;
+const CELL_COUNT = 6;
 
 const VerificationCode = ({ route }) => {
-    const { email ,otpNumber} = route.params;
+    const { email, otpNumber } = route.params;
     const { colors } = useTheme();
-    const { params } = useRoute<any>();
     const navigation = useNavigation();
     const dispatch = useAppDispatch();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
-    const [otpValue, setOtpValue] = useState<string>(otpNumber);
     const [value, setValue] = useState<string>('');
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
         value,
         setValue,
     });
+    const [timer, setTimer] = useState<number>(50);
+    const [isResendDisabled, setIsResendDisabled] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        setOtpValue(otpNumber)
-    }, [otpNumber]);
+        if (timer > 0) {
+            const countdown = setInterval(() => setTimer((prev) => prev - 1), 1000);
+            return () => clearInterval(countdown);
+        } else {
+            setIsResendDisabled(false);
+        }
+    }, [timer]);
 
     const onSubmitPress = () => {
-        if (value.trim().length !== 4) {
-            errorToast('Please enter valid OTP');
+        if (value.trim().length !== 6) {
+            errorToast(strings('otp_verification.error_otp'));
         } else {
-          let data = {
-            data: {
-              email: email,
-              otp: value,
-            },
-            onSuccess: (response: {message:string,success:boolean}) => {
-              setValue('')
-              setOtpValue('')
-              navigation.navigate(screenName.NewPassword, { emailId: email });
-            },
-            onFailure: (response: any) => {
-              console.log('Error', response);
-            },
-          };
-          dispatch(sendEmailOtp(data));
+            setLoading(true);
+            let data = {
+                data: { email, otp: value },
+                onSuccess: () => {
+                    setValue('');
+                    setLoading(false);
+                    navigation.navigate(screenName.NewPassword, { emailId: email });
+                },
+                onFailure: () => {
+                    setLoading(false);
+                },
+            };
+            dispatch(sendEmailOtp(data));
         }
-      };
-    
-
-    const onResendUpPress = () => {
-        let number = {
-            data: {
-                mobile: params?.listData,
-            },
-            onSuccess: (res: any) => {
-                setOtpValue(res?.data?.otp)
-                // Alert.alert('', 'OTP have been sent');
-            },
-            onFailure: (Err: any) => { },
-        };
-        //   dispatch(phoneLogin(number));
     };
 
-    const onPressVerify = () => { };
-
-    const onPressBack = () => {
-        navigation.goBack()
-    }
+    const onResendPress = () => {
+        let userInfo = {
+            data: { email },
+            onSuccess: () => {
+                setTimer(50);
+                setIsResendDisabled(true);
+            },
+            onFailure: () => {},
+        };
+        dispatch(sendForgotEmail(userInfo));
+    };
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle={'light-content'} backgroundColor={colors.Primary_Bg} />
+            <StatusBar barStyle="light-content" backgroundColor={colors.Primary_Bg} />
 
             <LoginHeader
                 title={strings('Phone_number_verification.verification')}
                 description={strings('Phone_number_verification.verification_dec')}
                 email={email}
                 isBack={true}
-                onPress={() => onPressBack()}
+                onPress={navigation.goBack}
             />
             <View style={styles.bottomContainer}>
                 <KeyboardAwareScrollView
-                    keyboardShouldPersistTaps={'handled'}
+                    keyboardShouldPersistTaps="handled"
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.contentContainerStyle}>
                     <View style={styles.bottomView}>
                         <Text style={styles.codeText}>{strings('Phone_number_verification.code')}</Text>
-                        <TouchableOpacity style={styles.resendContainer}>
-                            <Text style={styles.resendText}>
-                                {strings('Phone_number_verification.resend')}
-                            </Text>
-                            <Text style={styles.secText}>
-                                {' '}
-                                {strings('Phone_number_verification.in')}{50}{strings('Phone_number_verification.sec')}
-                            </Text>
+                        <TouchableOpacity
+                            style={styles.resendContainer}
+                            onPress={onResendPress}
+                            disabled={isResendDisabled}>
+                            <Text style={styles.resendText}>{strings('Phone_number_verification.resend')}</Text>
+                            {isResendDisabled && (
+                                <Text style={styles.secText}>
+                                    {strings('Phone_number_verification.in')} {timer}{' '}
+                                    {strings('Phone_number_verification.sec')}
+                                </Text>
+                            )}
                         </TouchableOpacity>
                     </View>
-                    <Login_Input
-                        input_container_style={styles.input_con_style}
-                        placeholder=""
-                        custom_component={
-                            <CodeField
-                                ref={ref}
-                                {...props}
-                                value={value}
-                                onChangeText={setValue}
-                                cellCount={CELL_COUNT}
-                                keyboardType="number-pad"
-                                textContentType="oneTimeCode"
-                                rootStyle={{ justifyContent: 'space-between' }}
-                                renderCell={({ index, symbol, isFocused }) => (
-                                    <View
-                                        style={{
-                                            marginRight: wp(25),
-                                            borderRadius: 10,
-                                            alignSelf: 'center',
-                                        }}>
-                                        <Text
-                                            key={index}
-                                            style={[
-                                                styles.cell,
-                                            ]}
-                                            onLayout={getCellOnLayoutHandler(index)}>
-                                            {symbol || (isFocused ? <Cursor /> : '')}
-                                        </Text>
-                                    </View>
-                                )}
-                            />
-                        }
+                    <CodeField
+                        ref={ref}
+                        {...props}
+                        value={value}
+                        onChangeText={setValue}
+                        cellCount={CELL_COUNT}
+                        keyboardType="number-pad"
+                        textContentType="oneTimeCode"
+                        rootStyle={styles.codeFieldRoot}
+                        renderCell={({ index, symbol, isFocused }) => (
+                            <View
+                                key={index}
+                                style={[
+                                    styles.cellRoot,
+                                    isFocused && styles.focusedCell,
+                                ]}
+                                onLayout={getCellOnLayoutHandler(index)}>
+                                <Text style={styles.cellText}>
+                                    {symbol || (isFocused ? <Cursor /> : '')}
+                                </Text>
+                            </View>
+                        )}
                     />
                     <PrimaryButton
                         extraStyle={styles.signupButton}
                         onPress={onSubmitPress}
                         title={strings('Phone_number_verification.verify')}
+                        isLoading={loading}
                     />
-                    <Text style={styles.otpText}>{otpValue}</Text>
                 </KeyboardAwareScrollView>
             </View>
         </View>
@@ -167,7 +150,6 @@ const VerificationCode = ({ route }) => {
 };
 
 export default VerificationCode;
-
 
 const getGlobalStyles = (props: any) => {
     const { colors } = props;
@@ -181,23 +163,23 @@ const getGlobalStyles = (props: any) => {
             flex: 2.5,
             backgroundColor: colors.white,
             borderTopLeftRadius: 24,
-            borderTopRightRadius: 24
+            borderTopRightRadius: 24,
         },
         contentContainerStyle: {
             paddingHorizontal: wp(24),
         },
         bottomView: {
-            justifyContent: 'space-between',
             flexDirection: 'row',
-            marginTop: hp(24)
+            justifyContent: 'space-between',
+            marginTop: hp(24),
         },
         codeText: {
-            textTransform:'uppercase',
+            textTransform: 'uppercase',
             ...commonFontStyle(400, 13, colors.Title_Text),
         },
         resendContainer: {
             flexDirection: 'row',
-            alignItems: 'center'
+            alignItems: 'center',
         },
         resendText: {
             ...commonFontStyle(400, 14, colors.Title_Text),
@@ -206,32 +188,33 @@ const getGlobalStyles = (props: any) => {
         secText: {
             ...commonFontStyle(700, 14, colors.Title_Text),
         },
-        btnStyle: {
-            marginTop: hp(28),
+        codeFieldRoot: {
+            marginTop: hp(16),
+            width: '100%',
+            justifyContent: 'space-between',
         },
-        input_con_style: {
-            marginLeft: wp(25),
-            marginTop: hp(8),
-        },
-        cell: {
-            lineHeight: hp(55),
+        cellRoot: {
+            width: wp(45),
+            height: wp(55),
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 8,
             backgroundColor: colors.inputColor,
+        },
+        focusedCell: {
+            borderWidth: 2,
+            borderColor: colors.Primary_Orange,
+        },
+        cellText: {
+            fontSize: 20,
+            color: colors.Title_Text,
             textAlign: 'center',
-            width: wp(62),
-            height: hp(62),
-            borderRadius: 10,
-            ...commonFontStyle(700, 16, colors.Title_Text),
         },
         signupButton: {
             marginTop: hp(30),
             borderRadius: 12,
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
         },
-
-        otpText: {
-            textAlign: 'center',
-            ...commonFontStyle(500, 20, colors.black),
-        }
     });
 };

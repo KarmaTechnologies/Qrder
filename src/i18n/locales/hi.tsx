@@ -57,7 +57,8 @@ export default {
     role: 'भूमिका',
     select_role: 'भूमिका चुनें',
     "error_v_confirm": "कृपया अपना पुष्टि पासवर्ड दर्ज करें",
-    "error_new_password": "कृपया अपना नया पासवर्ड दर्ज करें"
+    "error_new_password": "कृपया अपना नया पासवर्ड दर्ज करें",
+    ressetPassword: 'पासवर्ड रीसेट'
   },
   sign_up: {
     sign_up: 'साइन अप करें',
@@ -110,6 +111,7 @@ export default {
     enter_otp_code: 'ओटीपी कोड दर्ज करें',
     otp_code_text:
       'हम आपके फोन नंबर को सत्यापित करने के लिए आपको ओटीपी भेज रहे हैं',
+      error_otp:'कृपया मान्य OTP दर्ज करें',
   },
   home: {
     location: 'स्थान',
@@ -267,5 +269,18 @@ export default {
     edit_Cuisines_name: 'व्यंजन संपादित करें',
     new_add: 'नया जोड़ें',
     Search: 'खोजें...'
+  },
+  CardMenuList: {
+    add: 'जोड़ें'
+  },
+  Cart: {
+    CheckOut: "चेकआउट",
+    Cart: "कार्ट"
+  },
+  googleSignIn: {
+    user_cancelled: 'उपयोगकर्ता ने लॉगिन प्रक्रिया रद्द कर दी',
+    error_text: "ऑपरेशन (जैसे साइन इन) पहले से ही प्रगति पर है",
+    play_services: 'प्ले सेवाएँ उपलब्ध नहीं हैं या पुरानी हैं',
+    something_went: 'कुछ गलत हो गया, कृपया पुनः प्रयास करें'
   }
 };

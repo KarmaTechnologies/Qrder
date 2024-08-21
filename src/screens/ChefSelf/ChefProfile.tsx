@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useFocusEffect, useNavigation, useTheme} from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
 import {strings} from '../../i18n/i18n';
 import {commonFontStyle, hp, wp} from '../../theme/fonts';
@@ -32,13 +32,19 @@ const ChefProfile = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
 
-  useEffect(() => {
-    const getUserInfo = async() => {
-        const userList = await getAsyncUserInfo()
-        setName(userList.name)
+  const fetchUserInfo = async () => {
+    try {
+      const userList = await getAsyncUserInfo();
+      setName(userList.name || '');
+    } catch (error) {
     }
-    getUserInfo()
-}, [])
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchUserInfo();
+    }, [])
+  );
 
   const selectImage = () => {
     setLoading(true);

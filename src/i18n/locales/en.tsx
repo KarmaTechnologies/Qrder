@@ -16,7 +16,7 @@ export default {
     admin: 'Admin',
     chef: 'Chef',
     student: 'Student',
-    error_role:"Please Select Role"
+    error_role: "Please Select Role"
   },
   login: {
     login_in: 'Log In',
@@ -57,8 +57,9 @@ export default {
     error_re_tyre_match: 'Your password and confirm password do not match.',
     role: 'Role',
     select_role: 'SELECT ROLE',
-    error_v_confirm:'Please enter your confirm password',
-    error_new_password:'Please enter your new password'
+    error_v_confirm: 'Please enter your confirm password',
+    error_new_password: 'Please enter your new password',
+    ressetPassword: 'Reset Password'
   },
   sign_up: {
     sign_up: 'Sign Up',
@@ -93,9 +94,9 @@ export default {
     canteen: 'Canteen',
     canteen_name: 'CANTEEN NAME',
     p_enter_canteen: 'Enter Canteen Name',
-    error_canteen:'Please enter canteen name',
-    university_name:'Enter University Name',
-    error_university_name:'Please enter university name'
+    error_canteen: 'Please enter canteen name',
+    university_name: 'Enter University Name',
+    error_university_name: 'Please enter university name'
   },
   Phone_number_verification: {
     verification: 'Verification',
@@ -110,6 +111,7 @@ export default {
   otp_verification: {
     enter_otp_code: 'Enter OTP Code',
     otp_code_text: 'We are sending you an OTP verify your phone number',
+    error_otp:'Please enter valid OTP',
   },
   home: {
     location: 'Location',
@@ -268,11 +270,17 @@ export default {
     new_add: 'New Add',
     Search: 'Search...',
   },
-  CardMenuList:{
-    add:'Add'
+  CardMenuList: {
+    add: 'Add'
   },
-  Cart:{
-    CheckOut:"Checkout",
-    Cart:"Cart",
+  Cart: {
+    CheckOut: "Checkout",
+    Cart: "Cart",
+  },
+  googleSignIn: {
+    user_cancelled: 'user cancelled the login flow',
+    error_text: "operation (e.g. sign in) is in progress already",
+    play_services:'play services not available or outdated',
+    something_went:'Something went wrong, please try again',
   }
 };

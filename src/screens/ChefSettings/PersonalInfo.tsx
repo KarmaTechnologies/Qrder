@@ -1,6 +1,6 @@
 import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect, useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../../theme/fonts';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
@@ -8,7 +8,6 @@ import { useAppSelector } from '../../redux/hooks';
 import TitleList from '../../compoment/TitleListComponent';
 import { Icons } from '../../utils/images';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { dispatchNavigation } from '../../utils/globalFunctions';
 import { screenName } from '../../navigation/screenNames';
 import { getAsyncUserInfo } from '../../utils/asyncStorageManager';
 
@@ -21,26 +20,29 @@ const PersonalInfo = (props: Props) => {
 
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const { isDarkTheme } = useAppSelector(state => state.common);
-    const [name, setName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [number, setNumber] = useState<string>('');
+    const [userData, setUserData] = useState<any>({});
 
-    useEffect(() => {
-        const getUserInfo = async() => {
-            const userList = await getAsyncUserInfo()
-            setName(userList.name)
-            setEmail(userList.email)
-            setNumber(userList.number)
+    const fetchUserInfo = async () => {
+        try {
+            const userList = await getAsyncUserInfo();
+            setUserData(userList)
+        } catch (error) {
+
         }
-        getUserInfo()
-    }, [])
-
-    const onRightPress = () => {
-        navigation.navigate(screenName.EditProfile, { name, email, number });
     };
 
-    console.log('hideEdit',params?.hideEdit);
-    
+    useFocusEffect(
+        useCallback(() => {
+            fetchUserInfo();
+        }, [])
+    );
+
+    const onRightPress = () => {
+        navigation.navigate(screenName.EditProfile, { userData: userData });
+    };
+
+    console.log('hideEdit', params?.hideEdit);
+
 
     return (
         <View style={styles.container}>
@@ -55,7 +57,7 @@ const PersonalInfo = (props: Props) => {
                 title={strings('PersonalInfo.personal_Info')}
                 extraStyle={styles.headerContainer}
                 isHideIcon={true}
-                isShowIcon={params?.hideEdit ? false: true}
+                isShowIcon={params?.hideEdit ? false : true}
                 rightText={strings('PersonalInfo.edit')}
                 rightTextStyle={styles.rightTextStyle}
             />
@@ -68,7 +70,7 @@ const PersonalInfo = (props: Props) => {
                         />
                     </View>
                     <View style={styles.userNameView}>
-                        <Text style={styles.nameText}>{name}</Text>
+                        <Text style={styles.nameText}>{userData?.name}</Text>
                         <Text style={styles.desText}>{strings('PersonalInfo.i_love_fast_food')}</Text>
                     </View>
                 </View>
@@ -81,17 +83,17 @@ const PersonalInfo = (props: Props) => {
                     arr_list={[
                         {
                             title: strings('PersonalInfo.full_name'),
-                            title1: name,
+                            title1: userData.name,
                             iconName: Icons.profileIcon,
                         },
                         {
                             title: strings('PersonalInfo.email'),
-                            title1: email,
+                            title1: userData?.email,
                             iconName: Icons.email,
                         },
                         {
                             title: strings('PersonalInfo.phone_number'),
-                            title1: number,
+                            title1: userData?.number,
                             iconName: Icons.phone,
                         },
                     ]}
