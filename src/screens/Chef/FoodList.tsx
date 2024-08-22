@@ -57,6 +57,10 @@ const MyMenuList = (props: Props) => {
   };
   const getMenuList = () => {
     let obj = {
+      data: {
+        page: 1,
+        limit: 15,
+      },
       onSuccess: (res: any) => {
         setRefreshing(false);
       },

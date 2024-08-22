@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   RefreshControl,
   StyleSheet,
@@ -13,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import MenuItems from './MenuItems';
 import Spacer from './Spacer';
 import { strings } from '../i18n/i18n';
-import { deleteMenuAction } from '../actions/menuAction';
+import { deleteMenuAction, getMenuAction } from '../actions/menuAction';
 import DleleteModal from './DeleteModal';
 import Loader from './Loader';
 
@@ -27,8 +28,9 @@ const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [visible, setVisible] = useState(false);
   const [selectItem, setSelectItem] = useState([]);
-  const { getMenuData } = useAppSelector(state => state.data);
+  const { getMenuData,allMenuCount } = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
+  const [loading, setloading] = useState(false);
 
   const removeMenuCardList = () => {
     let UserInfo = {
@@ -44,6 +46,25 @@ const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
   };
 
 
+  const getPostList = page => {
+    let obj = {
+      data: {
+        page: page,
+        limit: 10,
+      },
+      onSuccess: (res: any) => {
+        setRefreshing(false);
+        setloading(false)
+      },
+      onFailure: (Err: any) => {
+        setRefreshing(false);
+        setloading(false)
+      },
+    };
+    dispatch(getMenuAction(obj));
+  };
+
+
   const closeModal = () => {
     setVisible(false)
   }
@@ -52,18 +73,39 @@ const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
     removeMenuCardList();
   }
 
+
+  const fetchMoreData = () => {
+      if (getMenuData) {
+        if (getMenuData.length < allMenuCount) {
+          setloading(true);
+          getPostList(page + 1);
+        }
+      }
+    
+  };
+
   return (
     <View>
       <Text style={styles.itemsText}>
         {getMenuData?.length ? `Total ${getMenuData?.length} items` : null}
       </Text>
-      <FlatList
+     {getMenuData&& <FlatList
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         onEndReachedThreshold={0.3}
         data={getMenuData}
-        ListEmptyComponent={getMenuData?.length === 0 ? <NoDataFound /> : <NoDataFound />}
+        ListFooterComponent={() => {
+          return (
+            <View>
+              {getMenuData && loading && (
+                <ActivityIndicator size={'large'} color={colors.black} />
+              )}
+              <View style={{ height: 50 }} />
+            </View>
+          );
+        }}
+        ListEmptyComponent={<NoDataFound />}
         renderItem={({ item, index }) => {
           return (
             <MenuItems
@@ -77,6 +119,8 @@ const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
           );
         }}
         showsVerticalScrollIndicator={false}
+        onEndReached={fetchMoreData}
+        onEndReachedThreshold={0.5}
         ListFooterComponent={() => {
           return (
             <View>
@@ -85,7 +129,7 @@ const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
             </View>
           );
         }}
-      />
+      />}
 
       <DleleteModal
         title={strings('myMenuList.are_you_sure')}

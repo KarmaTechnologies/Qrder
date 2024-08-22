@@ -7,7 +7,8 @@ const initialState = {
   getUniversitiesData:[],
   getUniversityCanteenData:[],
   getCanteenMenuData:[],
-  getCanteenCuisines:[]
+  getCanteenCuisines:[],
+  allMenuCount: 0,
 };
 
 export default function (state = initialState, action: any) {
@@ -25,7 +26,15 @@ export default function (state = initialState, action: any) {
       return {...state, getCanteenMenuData: action.payload};
     }
     case GET_MENU_DATA: {
-      return {...state, getMenuData: action.payload};
+      return {
+        ...state,
+        getMenuData:
+          action.payload.current_page == 1
+            ? action.payload.data
+            : [...state.getMenuData, ...action.payload.data],
+         allMenuCount: action.payload.totalCount,
+      };
+      // return {...state, getMenuData: action.payload};
     }
     case GET_CHEFS_DATA: {
       return {...state, getChefsData: action.payload};
