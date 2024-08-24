@@ -3,7 +3,7 @@ import {RootState} from '../redux/hooks';
 import {AnyAction} from 'redux';
 import {makeAPIRequest} from '../utils/apiGlobal';
 import {DELETE, GET, POST, api} from '../utils/apiConstants';
-import {DELETE_MENU_DATA, GET_MENU_DATA, IS_LOADING, USER_INFO} from '../redux/actionTypes';
+import {DELETE_MENU_DATA, GET_EMPTY_MENU_LIST, GET_MENU_DATA, IS_LOADING, USER_INFO} from '../redux/actionTypes';
 import {
   getAsyncToken,
   setAsyncToken,
@@ -18,9 +18,6 @@ export const getMenuAction =
       Authorization: await getAsyncToken(),
     };
     dispatch({type: IS_LOADING, payload: true});
-    console.log('====================================');
-    console.log('request.data',request.data);
-    console.log('====================================');
     return makeAPIRequest({
       method: GET,
       url: api.getMenu,
@@ -30,8 +27,8 @@ export const getMenuAction =
       .then(async (response: any) => {
         if (response.status === 200 || response.status === 201) {
           console.log('response?.data', response?.data);
-          // dispatch({type: GET_MENU_DATA, payload: response?.data?.data});
-          dispatch({type: GET_MENU_DATA, payload:{...response?.data?.data, current_page: request?.data?.page}});
+          let Data = {...response?.data?.data, current_page: request?.data?.page}
+          dispatch({type: GET_MENU_DATA, payload:Data});
 
           dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);
@@ -81,14 +78,15 @@ export const getCuisinesMenuListAction =
     dispatch({type: IS_LOADING, payload: true});
     return makeAPIRequest({
       method: GET,
-      url: `${api.getCuisinesMenuList}/${request.data}`,
+      url: `${api.getCuisinesMenuList}/${request.id}`,
       headers: headers,
+      params:request?.data
     })
       .then(async (response: any) => {
         if (response.status === 200 || response.status === 201) {
-          console.log("=-=+++",response)
-          // dispatch({type: GET_MENU_DATA, payload: ...response?.data?.data, current_page: request?.data?.page});
-          
+          console.log("getCuisinesMenuListAction=-=+++",response?.data?.data)
+          dispatch({type: GET_MENU_DATA, payload:{...response?.data?.data, current_page: request?.data?.page}});
+
           dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);
         }

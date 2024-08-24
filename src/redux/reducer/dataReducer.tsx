@@ -1,4 +1,4 @@
-import { DELETE_CHEF_DATA, DELETE_CUISINES_DATA, DELETE_MENU_DATA, GET_CANTEEN_CUISINE_LIST, GET_CANTEEN_MENU_LIST, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_MENU_DATA, GET_UNIVERSITIES_CANTEEN_LIST, GET_UNIVERSITIES_LIST, IS_LOADING, SET_APP_THEME } from '../actionTypes';
+import { DELETE_CHEF_DATA, DELETE_CUISINES_DATA, DELETE_MENU_DATA, GET_CANTEEN_CUISINE_LIST, GET_CANTEEN_MENU_LIST, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_EMPTY_MENU_LIST, GET_MENU_DATA, GET_UNIVERSITIES_CANTEEN_LIST, GET_UNIVERSITIES_LIST, IS_LOADING, SET_APP_THEME } from '../actionTypes';
 
 const initialState = {
   getCuisines: [],
@@ -23,7 +23,6 @@ export default function (state = initialState, action: any) {
             : [...state.getCuisines, ...action.payload.data],
         cuisinesCount: action.payload.total_count,
       };
-      // return {...state, getCuisines: action.payload};
     }
     case GET_UNIVERSITIES_LIST: {
       return { ...state, getUniversitiesData: action.payload };
@@ -34,18 +33,24 @@ export default function (state = initialState, action: any) {
     case GET_CANTEEN_MENU_LIST: {
       return { ...state, getCanteenMenuData: action.payload };
     }
+    case GET_EMPTY_MENU_LIST: {      
+      return { ...state, getMenuData: [],allMenuCount:0 };
+    }
     case GET_MENU_DATA: {
-      console.log('action.payload.current_page', action.payload.current_page);
-
+     console.log('action.payload.data',action.payload.data);
+     if(action.payload.current_page == 1){
       return {
         ...state,
-        getMenuData:
-          action.payload.current_page == 1
-            ? action.payload.data
-            : [...state.getMenuData, ...action.payload.data],
+        getMenuData:action.payload.data,
         allMenuCount: action.payload.total_count,
       };
-      // return {...state, getMenuData: action.payload};
+     }else{
+       return {
+         ...state,
+         getMenuData: [...state.getMenuData, ...action.payload.data],
+         allMenuCount: action.payload.total_count,
+       };
+     }
     }
     case GET_CHEFS_DATA: {
       return { ...state, getChefsData: action.payload };

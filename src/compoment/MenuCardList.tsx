@@ -6,15 +6,15 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
-import { useTheme } from '@react-navigation/native';
-import { commonFontStyle, hp, wp } from '../theme/fonts';
+import React, {useRef, useState} from 'react';
+import {useTheme} from '@react-navigation/native';
+import {commonFontStyle, hp, wp} from '../theme/fonts';
 import NoDataFound from './NoDataFound';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import {useAppDispatch, useAppSelector} from '../redux/hooks';
 import MenuItems from './MenuItems';
 import Spacer from './Spacer';
-import { strings } from '../i18n/i18n';
-import { deleteMenuAction, getMenuAction } from '../actions/menuAction';
+import {strings} from '../i18n/i18n';
+import {deleteMenuAction, getMenuAction} from '../actions/menuAction';
 import DleleteModal from './DeleteModal';
 import Loader from './Loader';
 
@@ -23,19 +23,31 @@ type Props = {
   refreshing: boolean;
   setRefreshing: (value: boolean) => void;
   loadMoreData: () => void;
-  loadingMore:boolean
+  loadingMore: boolean;
 };
 
-const MenuCardList = ({ onRefresh, refreshing, showChef, setRefreshing, loadMoreData, loadingMore }: Props) => {
-  const { colors, isDark } = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+const MenuCardList = ({
+  onRefresh,
+  refreshing,
+  showChef,
+  setRefreshing,
+  loadMoreData,
+  loadingMore,
+  refFlatList,
+  onMomentumScrollBegin,
+  loading,
+}: Props) => {
+  const {colors, isDark} = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [visible, setVisible] = useState(false);
   const [selectItem, setSelectItem] = useState([]);
-  const { getMenuData, allMenuCount } = useAppSelector(state => state.data);
+  const {getMenuData, allMenuCount} = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
+
+  const currentData = useRef();
+  currentData.current = getMenuData;
   // const [page, setPage] = useState(1);
   // const [loadingMore, setLoadingMore] = useState(false);
-
 
   const removeMenuCardList = () => {
     let UserInfo = {
@@ -49,7 +61,6 @@ const MenuCardList = ({ onRefresh, refreshing, showChef, setRefreshing, loadMore
     };
     dispatch(deleteMenuAction(UserInfo));
   };
-
 
   // const getPostList = (pages: number) => {
   //   let obj = {
@@ -69,15 +80,13 @@ const MenuCardList = ({ onRefresh, refreshing, showChef, setRefreshing, loadMore
   //   dispatch(getMenuAction(obj));
   // };
 
-
   const closeModal = () => {
-    setVisible(false)
-  }
+    setVisible(false);
+  };
   const onPressDelete = () => {
-    setVisible(false)
+    setVisible(false);
     removeMenuCardList();
-  }
-
+  };
 
   // const loadMoreData = () => {
   //   console.log('hereeee>>>>>>>')
@@ -91,60 +100,70 @@ const MenuCardList = ({ onRefresh, refreshing, showChef, setRefreshing, loadMore
   //   }
   // };
 
-
   return (
-    <View>
+    <>
       <Text style={styles.itemsText}>
-        {getMenuData?.length ? `Total ${getMenuData?.length} items` : null}
+        {currentData.current?.length
+          ? `Total ${currentData.current?.length} items`
+          : null}
       </Text>
-      {getMenuData && <FlatList
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        onEndReachedThreshold={0.1}
-        data={getMenuData}
-        ListFooterComponent={() => {
-          return (
-            <View>
-              {loadingMore && (
-                <ActivityIndicator size={'small'} color={colors.black} />
-              )}
-              <View style={{ height: 110 }} />
-            </View>
-          );
-        }}
-        ListEmptyComponent={<NoDataFound />}
-        renderItem={({ item, index }) => {
-          return (
-            <MenuItems
-              item={item}
-              showChef={showChef}
-              setDelete={() => {
-                setVisible(true);
-                setSelectItem(item);
-              }}
-            />
-          );
-        }}
-        showsVerticalScrollIndicator={false}
-        onEndReached={loadMoreData}
-      />}
+      {currentData.current && (
+        <FlatList
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          data={currentData.current}
+          onMomentumScrollBegin={onMomentumScrollBegin}
+          ListFooterComponent={() => {
+            return (
+              <View>
+                {loadingMore && (
+                  <ActivityIndicator size={'small'} color={colors.black} />
+                )}
+                <View style={{height: 110}} />
+              </View>
+            );
+          }}
+          ListEmptyComponent={
+            loading ? (
+              <ActivityIndicator size={'large'} color={colors.black} />
+            ) : (
+              <NoDataFound />
+            )
+          }
+          renderItem={({item, index}) => {
+            return (
+              <MenuItems
+                item={item}
+                showChef={showChef}
+                setDelete={() => {
+                  setVisible(true);
+                  setSelectItem(item);
+                }}
+              />
+            );
+          }}
+          showsVerticalScrollIndicator={false}
+          onEndReached={loadMoreData}
+        />
+      )}
 
       <DleleteModal
         title={strings('myMenuList.are_you_sure')}
         rightText={strings('myMenuList.yes')}
         leftText={strings('myMenuList.no')}
-        visible={visible} closeModal={() => closeModal()}
+        visible={visible}
+        closeModal={() => closeModal()}
         onPressDelete={() => onPressDelete()}
       />
-    </View>
+    </>
   );
 };
 
 export default MenuCardList;
 
 const getGlobalStyles = (props: any) => {
-  const { colors } = props;
+  const {colors} = props;
   return StyleSheet.create({
     itemsText: {
       ...commonFontStyle(400, 14, colors.gray_400),

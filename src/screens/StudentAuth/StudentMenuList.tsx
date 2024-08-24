@@ -16,7 +16,6 @@ import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
 import PagerView from 'react-native-pager-view';
 import { strings } from '../../i18n/i18n';
 import MenuCardList from '../../compoment/MenuCardList';
-import { getCuisinesAction } from '../../actions/cuisinesAction';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import CartMenuCardList from '../../compoment/CartMenuCardList';
 import { getCanteenCuisineAction, getCanteenMenuAction, getStudentMenuListAction } from '../../actions/commonAction';

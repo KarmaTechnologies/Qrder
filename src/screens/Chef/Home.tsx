@@ -86,6 +86,11 @@ const Home = (props: Props) => {
 
   const getCuisinesList = () => {
     let obj = {
+      data: {
+        page: 1,
+        limit: 15,
+        pagination:false
+      },
       onSuccess: (res: any) => { },
       onFailure: (Err: any) => { },
     };

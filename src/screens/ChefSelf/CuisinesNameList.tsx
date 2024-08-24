@@ -76,7 +76,8 @@ const CuisinesNameList = (props: Props) => {
     let obj = {
       data: {
         page: pages,
-        limit: 15
+        limit: 15,
+        pagination:false
       },
       onSuccess: (res: any) => {
         setPage(page + 1)

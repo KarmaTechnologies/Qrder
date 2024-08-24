@@ -70,9 +70,13 @@ const ChefNameList = (props: Props) => {
   const getChefsList = () => {
     // setLoading(true);
     let obj = {
+      data: {
+        page: 1,
+        limit: 5
+      },
       onSuccess: (res: any) => {
         setLoading(false);
-        setGetAllData(res.data);
+        setGetAllData(res.data?.data);
       },
       onFailure: (Err: any) => {
         setLoading(false);

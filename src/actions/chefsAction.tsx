@@ -25,12 +25,13 @@ export const getChefsAction =
       method: GET,
       url: api.getChefs,
       headers: headers,
+      params:request.data
     })
       .then(async (response: any) => {
-        console.log('response',response);
+        console.log('getChefsActionresponse',response?.data?.data?.data);
         
         if (response.status === 200 || response.status === 201) {
-          dispatch({type: GET_CHEFS_DATA, payload: response?.data?.data});
+          dispatch({type: GET_CHEFS_DATA, payload: response?.data?.data?.data});
           dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);
         }

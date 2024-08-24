@@ -76,6 +76,11 @@ const ChefHome = (props: Props) => {
 
   const getCuisinesList = () => {
     let obj = {
+      data: {
+        page: pages,
+        limit: 15,
+        pagination:false
+      },
       onSuccess: (res: any) => {},
       onFailure: (Err: any) => {},
     };
