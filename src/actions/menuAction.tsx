@@ -18,15 +18,21 @@ export const getMenuAction =
       Authorization: await getAsyncToken(),
     };
     dispatch({type: IS_LOADING, payload: true});
+    console.log('====================================');
+    console.log('request.data',request.data);
+    console.log('====================================');
     return makeAPIRequest({
       method: GET,
       url: api.getMenu,
       headers: headers,
+      params:request.data
     })
       .then(async (response: any) => {
         if (response.status === 200 || response.status === 201) {
-          console.log('response?.data', response?.data?.data);
-          dispatch({type: GET_MENU_DATA, payload: response?.data?.data});
+          console.log('response?.data', response?.data);
+          // dispatch({type: GET_MENU_DATA, payload: response?.data?.data});
+          dispatch({type: GET_MENU_DATA, payload:{...response?.data?.data, current_page: request?.data?.page}});
+
           dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);
         }
@@ -80,7 +86,8 @@ export const getCuisinesMenuListAction =
     })
       .then(async (response: any) => {
         if (response.status === 200 || response.status === 201) {
-          dispatch({type: GET_MENU_DATA, payload: ...response?.data?.data, current_page: request?.data?.page});
+          console.log("=-=+++",response)
+          // dispatch({type: GET_MENU_DATA, payload: ...response?.data?.data, current_page: request?.data?.page});
           
           dispatch({type: IS_LOADING, payload: false});
           if (request.onSuccess) request.onSuccess(response.data);

@@ -29,6 +29,8 @@ export const makeAPIRequest = ({
       headers,
       params,
     };
+    console.log("option",option);
+    
     axios(option)
       .then((response) => {
         // console.log("response-->", response);

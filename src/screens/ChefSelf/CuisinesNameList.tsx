@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   StatusBar,
@@ -6,47 +7,50 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
-import {commonFontStyle, hp, wp} from '../../theme/fonts';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import React, { useEffect, useState } from 'react';
+import { useIsFocused, useNavigation, useTheme } from '@react-navigation/native';
+import { commonFontStyle, hp, wp } from '../../theme/fonts';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import HomeHeader from '../../compoment/HomeHeader';
-import {strings} from '../../i18n/i18n';
+import { strings } from '../../i18n/i18n';
 import NoDataFound from '../../compoment/NoDataFound';
 import Spacer from '../../compoment/Spacer';
 import ChefNameCardList from '../../compoment/ChefNameCardList';
 import DleleteModal from '../../compoment/DeleteModal';
-import {screenName} from '../../navigation/screenNames';
-import {Icons} from '../../utils/images';
-import {getChefsAction} from '../../actions/chefsAction';
+import { screenName } from '../../navigation/screenNames';
+import { Icons } from '../../utils/images';
+import { getChefsAction } from '../../actions/chefsAction';
 import CuisinesNameCardList from '../../compoment/CuisinesNameCardList';
-import {deleteCuisinesAction, getCuisinesAction} from '../../actions/cuisinesAction';
+import { deleteCuisinesAction, getCuisinesAction } from '../../actions/cuisinesAction';
 import AddFolderModal from '../../compoment/AddFolderModal';
 import EditFolderModal from '../../compoment/EditFolderModal';
 
 type Props = {};
 
 const CuisinesNameList = (props: Props) => {
-  const {colors, isDark} = useTheme();
+  const { colors, isDark } = useTheme();
   const navigation = useNavigation();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
-  const {isDarkTheme} = useAppSelector(state => state.common);
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const { isDarkTheme } = useAppSelector(state => state.common);
   const [visible, setVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const {getCuisines} = useAppSelector(state => state.data);
-  const [getAllData,setGetAllData]=useState(getCuisines)
+  const { getCuisines, cuisinesCount } = useAppSelector(state => state.data);
+  const [getAllData, setGetAllData] = useState(getCuisines)
   const [newFolder, setNewFolder] = useState(false);
   const [editFolder, setEditFolder] = useState(false);
   const [selectItem, setSelectItem] = useState({});
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
   const dispatch = useAppDispatch();
+  const isFocused = useIsFocused()
 
   const closeModal = () => {
     setVisible(false);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setGetAllData(getCuisines)
-  },[getCuisines?.length])
+  }, [getCuisines?.length, isFocused])
 
   const removeMenuCardList = () => {
     let UserInfo = {
@@ -54,7 +58,7 @@ const CuisinesNameList = (props: Props) => {
       onSuccess: (res: any) => {
         closeModal()
       },
-      onFailure: (Err: any) => {},
+      onFailure: (Err: any) => { },
     };
     dispatch(deleteCuisinesAction(UserInfo));
   };
@@ -65,25 +69,43 @@ const CuisinesNameList = (props: Props) => {
   };
 
   useEffect(() => {
-    getCuisinesList();
-  }, [newFolder,editFolder]);
+    getCuisinesList(1);
+  }, [newFolder, editFolder]);
 
-  const getCuisinesList = () => {
+  const getCuisinesList = (pages: number) => {
     let obj = {
-      onSuccess: (res: any) => {
-        setGetAllData(res?.data)
+      data: {
+        page: pages,
+        limit: 15
       },
-      onFailure: (Err: any) => {},
+      onSuccess: (res: any) => {
+        setPage(page + 1)
+        setGetAllData(res?.data)
+        setLoadingMore(false)
+      },
+      onFailure: (Err: any) => {
+        setLoadingMore(false)
+      },
     };
     dispatch(getCuisinesAction(obj));
   };
 
-  const onSearchBar=(text)=>{
+  const onSearchBar = (text) => {
     setSearchQuery(text)
     const filteredItems = getCuisines?.filter((f: any) =>
       f?.name?.toLowerCase()?.match(text?.toLowerCase()),
     )
     setGetAllData(filteredItems)
+  }
+
+  const loadMoreCuisineData = () => {
+    if (cuisinesCount && getCuisines) {
+      if (getCuisines.length < cuisinesCount) {
+        setLoadingMore(true)
+        console.log("____1122323+======")
+        getCuisinesList(1);
+      }
+    }
   }
 
   return (
@@ -107,7 +129,7 @@ const CuisinesNameList = (props: Props) => {
         isHideIcon={true}
         rightTextStyle={styles.rightTextStyle}
       />
-      <View style={{marginHorizontal: wp(16)}}>
+      <View style={{ marginHorizontal: wp(16) }}>
         <View style={styles.searchInputContainer}>
           <TextInput
             style={styles.searchInput}
@@ -120,10 +142,10 @@ const CuisinesNameList = (props: Props) => {
         </View>
 
         <FlatList
-          onEndReachedThreshold={0.3}
+          onEndReachedThreshold={0.5}
           data={getAllData}
           ListEmptyComponent={<NoDataFound />}
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             return (
               <CuisinesNameCardList
                 item={item}
@@ -139,11 +161,17 @@ const CuisinesNameList = (props: Props) => {
             );
           }}
           showsVerticalScrollIndicator={false}
+          onEndReached={loadMoreCuisineData}
           ListFooterComponent={() => {
             return (
               <View>
-                {/* {true && <Loader size={'small'} />} */}
-                <Spacer height={90} />
+                {loadingMore && (
+                  <View>
+                    <ActivityIndicator size={'small'} color={colors.black} />
+                  </View>
+
+                )}
+                <View style={{ height: 150 }} />
               </View>
             );
           }}
@@ -173,7 +201,7 @@ const CuisinesNameList = (props: Props) => {
 export default CuisinesNameList;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,

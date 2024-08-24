@@ -20,49 +20,54 @@ import Loader from './Loader';
 
 type Props = {
   onRefresh?: () => void;
-  refreshing: boolean
+  refreshing: boolean;
+  setRefreshing: (value: boolean) => void;
+  loadMoreData: () => void;
+  loadingMore:boolean
 };
 
-const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
+const MenuCardList = ({ onRefresh, refreshing, showChef, setRefreshing, loadMoreData, loadingMore }: Props) => {
   const { colors, isDark } = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [visible, setVisible] = useState(false);
   const [selectItem, setSelectItem] = useState([]);
-  const { getMenuData,allMenuCount } = useAppSelector(state => state.data);
+  const { getMenuData, allMenuCount } = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
-  const [loading, setloading] = useState(false);
+  // const [page, setPage] = useState(1);
+  // const [loadingMore, setLoadingMore] = useState(false);
+
 
   const removeMenuCardList = () => {
     let UserInfo = {
       data: selectItem?.id,
       onSuccess: (res: any) => {
-        setRefresh(false);
+        setRefreshing(false);
       },
-      onFailure: (Err: any) => { 
-        setRefresh(false);
+      onFailure: (Err: any) => {
+        setRefreshing(false);
       },
     };
     dispatch(deleteMenuAction(UserInfo));
   };
 
 
-  const getPostList = page => {
-    let obj = {
-      data: {
-        page: page,
-        limit: 10,
-      },
-      onSuccess: (res: any) => {
-        setRefreshing(false);
-        setloading(false)
-      },
-      onFailure: (Err: any) => {
-        setRefreshing(false);
-        setloading(false)
-      },
-    };
-    dispatch(getMenuAction(obj));
-  };
+  // const getPostList = (pages: number) => {
+  //   let obj = {
+  //     data: {
+  //       page: pages,
+  //       limit: 6,
+  //     },
+  //     onSuccess: (res: any) => {
+  //       setRefreshing(false);
+  //       setLoadingMore(false);
+  //     },
+  //     onFailure: (Err: any) => {
+  //       setRefreshing(false);
+  //       setLoadingMore(false);
+  //     },
+  //   };
+  //   dispatch(getMenuAction(obj));
+  // };
 
 
   const closeModal = () => {
@@ -74,34 +79,37 @@ const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
   }
 
 
-  const fetchMoreData = () => {
-      if (getMenuData) {
-        if (getMenuData.length < allMenuCount) {
-          setloading(true);
-          getPostList(page + 1);
-        }
-      }
-    
-  };
+  // const loadMoreData = () => {
+  //   console.log('hereeee>>>>>>>')
+  //   if (allMenuCount && getMenuData) {
+  //     if (getMenuData.length < allMenuCount) {
+  //       console.log('+++++++++++')
+  //       setLoadingMore(true);
+  //       setPage(page + 1);
+  //       getPostList(page);
+  //     }
+  //   }
+  // };
+
 
   return (
     <View>
       <Text style={styles.itemsText}>
         {getMenuData?.length ? `Total ${getMenuData?.length} items` : null}
       </Text>
-     {getMenuData&& <FlatList
+      {getMenuData && <FlatList
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        onEndReachedThreshold={0.3}
+        onEndReachedThreshold={0.1}
         data={getMenuData}
         ListFooterComponent={() => {
           return (
             <View>
-              {getMenuData && loading && (
-                <ActivityIndicator size={'large'} color={colors.black} />
+              {loadingMore && (
+                <ActivityIndicator size={'small'} color={colors.black} />
               )}
-              <View style={{ height: 50 }} />
+              <View style={{ height: 110 }} />
             </View>
           );
         }}
@@ -119,16 +127,7 @@ const MenuCardList = ({ onRefresh, refreshing,showChef }: Props) => {
           );
         }}
         showsVerticalScrollIndicator={false}
-        onEndReached={fetchMoreData}
-        onEndReachedThreshold={0.5}
-        ListFooterComponent={() => {
-          return (
-            <View>
-              {/* {true && <Loader size={'small'} />} */}
-              <Spacer height={90} />
-            </View>
-          );
-        }}
+        onEndReached={loadMoreData}
       />}
 
       <DleleteModal
