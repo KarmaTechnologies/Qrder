@@ -148,6 +148,7 @@ const StudentMenuList = (props: Props) => {
         title={strings('myMenuList.my_menu')}
         extraStyle={styles.headerContainer}
         isShowIcon={false}
+        isCardIcon = {true}
       />
       {getCanteenCuisines?.length === 0 ? null :
         <View style={styles.tabMainView}>

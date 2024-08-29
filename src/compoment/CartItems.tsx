@@ -1,20 +1,14 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
-import {commonFontStyle, hp, wp} from '../theme/fonts';
-import {Icons} from '../utils/images';
-import {Menu, MenuDivider, MenuItem} from 'react-native-material-menu';
-import {strings} from '../i18n/i18n';
-import {screenName} from '../navigation/screenNames';
-import PrimaryButton from './PrimaryButton';
-import {useAppDispatch, useAppSelector} from '../redux/hooks';
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { useTheme } from '@react-navigation/native';
+import { commonFontStyle, hp, wp } from '../theme/fonts';
+import { Icons } from '../utils/images';
+import { useAppDispatch } from '../redux/hooks';
 import {
   decrement,
-  decrementItem,
   increment,
-  incrementItem,
 } from '../actions/commonAction';
-import {useSelector} from 'react-redux';
+import { deleteCardAction, getCardAction, updateQuantityAction } from '../actions/cardAction';
 
 export interface ListObj {
   title: string;
@@ -23,77 +17,139 @@ export interface ListObj {
   name?: string;
   cuisine_name?: string;
   price?: number;
+  quantity: number;
+  id: number;
+  menu_id?: number
 }
 type ItemProps = {
   item: ListObj;
   setDelete?: any;
 };
 
-const CartItems = ({item, setDelete}: ItemProps) => {
-  const {colors} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
-  const navigation = useNavigation();
+const CartItems = ({ item, setDelete }: ItemProps) => {
+  const { colors } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const dispatch = useAppDispatch();
-  const {count} = useAppSelector(state => state.common);
-  const [visible, setVisible] = useState(false);
-  const [addItem, setAddItem] = useState(false);
-  const {getMenuData} = useAppSelector(state => state.data);
-  const [addItemData, setAddItemData] = useState([]);
 
-  const onPressedit = () => {
-    const clear = setTimeout(() => {
-      navigation.navigate(screenName.FoodDetails, {itemData: item});
-    }, 500);
-    return () => {
-      clearTimeout(clear);
+  useEffect(() => {
+    cardData()
+  }, [])
+
+  const cardData = () => {
+    let obj = {
+      onSuccess: (res: any) => {
+      },
+      onFailure: (Err: any) => {
+      },
     };
-  };
+    dispatch(getCardAction(obj));
+  }
+
+  const deleteCardItem = (id: any) => {
+    let cardInfo = {
+      data: id,
+      onSuccess: (res: any) => {
+        let obj = {
+          onSuccess: (res: any) => {
+          },
+          onFailure: (Err: any) => {
+          },
+        };
+        dispatch(getCardAction(obj));
+      },
+      onFailure: (Err: any) => {
+        if (Err != undefined) {
+          Alert.alert('Warning', Err?.message);
+        }
+      },
+    };
+    dispatch(deleteCardAction(cardInfo));
+  }
+
+  const incrementQuenty = (cardId: number) => {
+    let updateObj = {
+      data: {
+        quantity: item?.quantity + 1
+      },
+      params: cardId,
+      onSuccess: (res: any) => {
+        dispatch(increment(res.data?.menu_id))
+      },
+      onFailure: (Err: any) => {
+        if (Err != undefined) {
+          Alert.alert('Warning', Err?.message);
+        }
+      },
+    };
+    dispatch(updateQuantityAction(updateObj));
+  }
+
+  const decrementQuenty = (cardId: number) => {
+    let updateObj = {
+      data: {
+        quantity: item?.quantity - 1
+      },
+      params: cardId,
+      onSuccess: (res: any) => {
+        dispatch(decrement(res.data?.menu_id));
+
+      },
+      onFailure: (Err: any) => {
+        if (Err != undefined) {
+          Alert.alert('Warning', Err?.message);
+        }
+      },
+    };
+    dispatch(updateQuantityAction(updateObj));
+  }
 
   return (
     <View style={styles.boxView}>
-      <View activeOpacity={0.5} style={styles.subBoxView}>
-        {item?.images[0] ? (
+      <View style={styles.subBoxView}>
+        {/* {item?.images[0] ? (
           <Image
             source={{uri: item?.images[0]}}
             style={[styles.imageView, {backgroundColor: colors.image_Bg_gray}]}
           />
-        ) : (
-          <View
-            style={[styles.imageView, {backgroundColor: colors.image_Bg_gray}]}
-          />
-        )}
+        ) : ( */}
+        <View
+          style={[styles.imageView, { backgroundColor: colors.image_Bg_gray }]}
+        />
+        {/* )} */}
         <View style={styles.container}>
           <View style={styles.leftView}>
-            <Text style={styles.titleText}> {'item?.name'}</Text>
-            <Text style={styles.priceText}> {`$${10}`}</Text>
+            <Text style={styles.titleText}> {item?.name}</Text>
+            <Text style={styles.priceText}> {`$${item?.price}`}</Text>
           </View>
           <View style={styles.rateView}>
             <View style={styles.breakfastView}>
-              <Text style={styles.breakfastText}> {'item.cuisine_name'}</Text>
+              <Text style={styles.breakfastText}> {item.cuisine_name}</Text>
             </View>
             <View style={styles.rightContainers}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TouchableOpacity
                   style={styles.roundView}
                   onPress={() => {
-                    if (count > 1) {
-                      dispatch(decrement());
+                    if (item?.quantity > 1) {
+                      decrementQuenty(item?.id)
                     } else {
-                      setAddItem(false);
+                      deleteCardItem(item?.id);
                     }
                   }}>
                   <Image style={styles.minusIcon} source={Icons.minus} />
                 </TouchableOpacity>
-                <Text style={styles.countText}>{count}</Text>
+                <Text style={styles.countText}>{item?.quantity}</Text>
                 <TouchableOpacity
                   style={styles.roundView}
-                  onPress={() => dispatch(increment())}>
+                  onPress={() => {
+                    incrementQuenty(item?.id)
+                  }}>
                   <Image style={styles.rightIcon} source={Icons.plus} />
                 </TouchableOpacity>
               </View>
             </View>
           </View>
-          <Text style={styles.priceText1}> {`$${10}`}</Text>
+          <Text style={styles.priceText1}> {`$${item?.price}`}</Text>
         </View>
       </View>
     </View>
@@ -102,7 +158,7 @@ const CartItems = ({item, setDelete}: ItemProps) => {
 export default CartItems;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     boxView: {
       marginTop: hp(20),

@@ -1,4 +1,4 @@
-import { DELETE_CHEF_DATA, DELETE_CUISINES_DATA, DELETE_MENU_DATA, GET_CANTEEN_CUISINE_LIST, GET_CANTEEN_MENU_LIST, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_EMPTY_CANTEEN_LIST, GET_EMPTY_MENU_LIST, GET_MENU_DATA, GET_UNIVERSITIES_CANTEEN_LIST, GET_UNIVERSITIES_LIST, IS_LOADING, SET_APP_THEME } from '../actionTypes';
+import { DECREMENT, DELETE_CARD_LIST, DELETE_CHEF_DATA, DELETE_CUISINES_DATA, DELETE_MENU_DATA, GET_CANTEEN_CUISINE_LIST, GET_CANTEEN_MENU_LIST, GET_CARD_LIST, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_EMPTY_CANTEEN_LIST, GET_EMPTY_MENU_LIST, GET_MENU_DATA, GET_UNIVERSITIES_CANTEEN_LIST, GET_UNIVERSITIES_LIST, INCREMENT, IS_LOADING, SET_APP_THEME } from '../actionTypes';
 
 const initialState = {
   getCuisines: [],
@@ -8,6 +8,7 @@ const initialState = {
   getUniversityCanteenData: [],
   getCanteenMenuData: [],
   getCanteenCuisines: [],
+  getCardData: [],
   allMenuCount: 0,
   cuisinesCount: 0,
   canteenMenuCount: 0
@@ -53,7 +54,6 @@ export default function (state = initialState, action: any) {
       return { ...state, getMenuData: [], allMenuCount: 0 };
     }
     case GET_MENU_DATA: {
-      console.log('action.payload.data', action.payload.data);
       if (action.payload.current_page == 1) {
         return {
           ...state,
@@ -81,8 +81,6 @@ export default function (state = initialState, action: any) {
       const removeChef = state.getChefsData.filter(
         item => item?.id !== action.payload,
       );
-      console.log('getChefsData', removeChef);
-
       return { ...state, getChefsData: removeChef };
     }
     case DELETE_CUISINES_DATA: {
@@ -93,6 +91,39 @@ export default function (state = initialState, action: any) {
     }
     case GET_CANTEEN_CUISINE_LIST: {
       return { ...state, getCanteenCuisines: action.payload };
+    }
+    case GET_CARD_LIST: {
+      return { ...state, getCardData: action.payload };
+    }
+    case DELETE_CARD_LIST: {
+      const removeCard = state.getCardData.filter(
+        item => item?.id !== action.payload,
+      );
+      return { ...state, getCardData: removeCard };
+    }
+    case INCREMENT: {
+      const updatedCardData = state.getCardData.map((item: any) => {
+        return (
+          item.menu_id === action.payload
+            ? { ...item, quantity: item.quantity + 1, price: item.price * (item.quantity + 1) }
+            : item
+        )
+      });
+      return {
+        ...state,
+        getCardData: updatedCardData,
+      };
+    }
+    case DECREMENT: {
+      const updatedCardData = state.getCardData.map((item: any) =>
+        item.menu_id === action.payload && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1, price: item.price * (item.quantity - 1) }
+          : item
+      );
+      return {
+        ...state,
+        getCardData: updatedCardData,
+      };
     }
     default:
       return state;

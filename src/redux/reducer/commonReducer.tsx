@@ -6,7 +6,6 @@ const initialState = {
   searchCity:[],
   selectedRole:'',
   isLanguage:'en',
-  count: 1,
   getCity: [
     {
       id: 1041,
@@ -75,16 +74,6 @@ export default function (state = initialState, action: any) {
     case SET_APP_LANGUAGE: {
       return {...state, isLanguage: action.payload};
     }
-    case INCREMENT:
-      return {
-          ...state,
-          count: state.count + 1,
-      };
-  case DECREMENT:
-      return {
-          ...state,
-          count: state.count - 1,
-      };
     default:
       return state;
   }

@@ -6,6 +6,7 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../theme/fonts';
 import { Icons } from '../utils/images';
 import { strings } from '../i18n/i18n';
+import { useAppSelector } from '../redux/hooks';
 
 type HomeProps = {
   onPressLocation?: () => void;
@@ -21,7 +22,8 @@ type HomeProps = {
   isHideIcon?: boolean
   rightText?: string
   isShowIcon?: boolean;
-  rightTextStyle:any
+  rightTextStyle: any;
+  isCardIcon?: boolean
 };
 
 const HomeHeader = ({
@@ -37,12 +39,15 @@ const HomeHeader = ({
   isHideIcon = false,
   rightText,
   isShowIcon = true,
-  rightTextStyle
+  rightTextStyle,
+  isCardIcon = false
 }: HomeProps) => {
   const { navigate } = useNavigation();
   const { colors } = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const { getCardData } = useAppSelector(state => state.data);
 
+  
   const onPressBell = () => {
     // @ts-ignore
     navigate(screenName.Notifications);
@@ -61,8 +66,22 @@ const HomeHeader = ({
         </View>
         {isShowIcon ?
           <TouchableOpacity onPress={onRightPress}>
-            {isHideIcon ? <Text style={[styles.resetText,rightTextStyle]}>{rightText}</Text> : <Image source={Icons?.option} style={styles?.header_logo} />}
+            {isHideIcon ? <Text style={[styles.resetText, rightTextStyle]}>{rightText}</Text> : <Image source={Icons?.option} style={styles?.header_logo} />}
           </TouchableOpacity> : null}
+        {isCardIcon ?
+          <View>
+            <Image
+              source={Icons.cart1}
+              style={styles.cardIcon}
+            />
+            <View
+              style={styles.cardCount}>
+              <Text
+                style={styles.cardText}>
+                {getCardData?.length}
+              </Text>
+            </View>
+          </View> : null}
       </SafeAreaView>
     );
   }
@@ -114,7 +133,7 @@ const getGlobalStyles = (props: any) => {
       width: wp(9),
       height: wp(9),
       resizeMode: 'contain',
-      tintColor:colors.black
+      tintColor: colors.black
     },
     location: {
       marginLeft: 8,
@@ -151,6 +170,25 @@ const getGlobalStyles = (props: any) => {
     },
     resetText: {
       ...commonFontStyle(400, 14, colors.headerText3),
+    },
+    cardIcon: {
+      width: 24,
+      height: 24,
+      tintColor: colors.Primary_Orange,
+    },
+    cardCount: {
+      position: 'absolute',
+      backgroundColor: colors.Primary_Orange,
+      width: 16,
+      height: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 16 / 2,
+      right: -4,
+      top: -5
+    },
+    cardText: {
+      ...commonFontStyle(700, 10, colors.white),
     }
   });
 };

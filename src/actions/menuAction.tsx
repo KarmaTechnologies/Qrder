@@ -123,3 +123,30 @@ export const deleteMenuAction =
         if (request.onFailure) request.onFailure(error.response);
       });
   };
+
+  export const updateManuAction =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async dispatch => {
+    
+    let headers = {
+      "Authorization":await getAsyncToken(),
+      'Content-Type': 'multipart/form-data',
+    };
+    return makeAPIRequest({
+      method: POST,
+      url: `${api.updateMenu}/${request.params}`,
+      headers: headers,
+      data:request.data
+    })
+      .then(async (response: any) => {
+        if (response?.data?.success) {    
+          successToast(response?.data?.message);               
+          if (request.onSuccess) request.onSuccess(response.data);
+        }else{
+          if (request.onFailure) request.onFailure(response.data);
+        }
+      })
+      .catch(error => {
+        if (request.onFailure) request.onFailure(error?.response?.data);
+      });
+  };

@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { useIsFocused, useNavigation, useTheme } from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
 import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
 import { strings } from '../../i18n/i18n';
@@ -28,6 +28,7 @@ type Props = {};
 const MyMenuList = (props: Props) => {
   const { colors } = useTheme();
   const navigation = useNavigation();
+  const isFocuse = useIsFocused();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [tabSelection, setTabSelection] = useState(strings('myMenuList.all'));
   const [refreshing, setRefreshing] = React.useState(false);
@@ -55,7 +56,7 @@ const MyMenuList = (props: Props) => {
   useEffect(() => {
     getCuisinesList(1);
     getMenuList(1);
-  }, []);
+  }, [isFocuse]);
 
   const getCuisinesList = (pages: number) => {
     let obj = {

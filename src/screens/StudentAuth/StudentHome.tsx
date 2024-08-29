@@ -1,6 +1,6 @@
 import { FlatList, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { useIsFocused, useNavigation, useTheme } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
@@ -10,12 +10,14 @@ import NoDataFound from '../../compoment/NoDataFound';
 import Loader from '../../compoment/Loader';
 import { screenName } from '../../navigation/screenNames';
 import { getCanteenMenuAction } from '../../actions/commonAction';
+import { getCardAction } from '../../actions/cardAction';
 
 type Props = {};
 
 const StudentHome = (props: Props) => {
   const { colors, isDark } = useTheme();
   const navigation = useNavigation();
+  const isFocuse = useIsFocused();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const { isDarkTheme } = useAppSelector(state => state.common);
   const {getUniversityCanteenData} = useAppSelector(state => state.data);
@@ -28,6 +30,20 @@ const StudentHome = (props: Props) => {
 
   
 
+  useEffect(() => {
+    getCardDatas()
+  }, [isFocuse])
+
+  const getCardDatas = () => {
+    let obj = {
+      onSuccess: (res: any) => {
+      },
+      onFailure: (Err: any) => {
+      },
+    };
+    dispatch(getCardAction(obj));
+
+  }
 
   const renderItem = ({ item, index, }: any) => {
     const containerWidth = (SCREEN_WIDTH - 40) / 2;

@@ -1,18 +1,14 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React  from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {commonFontStyle, hp, wp} from '../theme/fonts';
 import {Icons} from '../utils/images';
 import {strings} from '../i18n/i18n';
 import {screenName} from '../navigation/screenNames';
 import PrimaryButton from './PrimaryButton';
-import {useAppDispatch, useAppSelector} from '../redux/hooks';
-import {
-  decrement,
-  decrementItem,
-  increment,
-  incrementItem,
-} from '../actions/commonAction';
+import {useAppDispatch} from '../redux/hooks';
+
+import { addCardAction } from '../actions/cardAction';
 
 export interface ListObj {
   title: string;
@@ -31,8 +27,24 @@ const CartMenuItems = ({item}: ItemProps) => {
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  const {count} = useAppSelector(state => state.common);
-  const [addItem, setAddItem] = useState(false);
+
+  const addToCard = (card:any) =>{
+    let obj = {
+      data: {
+        menu_id: card?.id,
+        quantity: 1
+      },
+      onSuccess: (res: any) => {
+      },
+      onFailure: (Err: any) => {
+        if (Err != undefined) {
+          Alert.alert('Warning', Err?.message);
+        }
+      },
+    };
+    dispatch(addCardAction(obj));
+
+  }
 
   return (
     <View style={styles.boxView}>
@@ -69,36 +81,13 @@ const CartMenuItems = ({item}: ItemProps) => {
               <Text style={styles.rateText}>4.9</Text>
               <Text style={styles.rateText1}>{`${'(10 Reviews)'}`}</Text>
             </View>
-            {!addItem ? (
+            {/* {!addItem ? ( */}
               <PrimaryButton
                 extraStyle={styles.doneBtn}
                 title={strings('CardMenuList.add')}
                 titleStyle={styles.doneText}
-                onPress={() => setAddItem(true)}
+                onPress={()=>addToCard(item)}
               />
-            ) : (
-              <View style={styles.rightContainers}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <TouchableOpacity
-                    style={styles.roundView}
-                    onPress={() => {
-                      if (count > 1) {
-                        dispatch(decrement());
-                      } else {
-                        setAddItem(false);
-                      }
-                    }}>
-                    <Image style={styles.minusIcon} source={Icons.minus} />
-                  </TouchableOpacity>
-                  <Text style={styles.countText}>{count}</Text>
-                  <TouchableOpacity
-                    style={styles.roundView}
-                    onPress={() => dispatch(increment())}>
-                    <Image style={styles.rightIcon} source={Icons.plus} />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )}
           </View>
         </View>
       </TouchableOpacity>
@@ -193,22 +182,6 @@ const getGlobalStyles = (props: any) => {
       height: wp(24),
       alignItems: 'center',
       justifyContent: 'center',
-    },
-    minusIcon: {
-      width: wp(16),
-      height: hp(16),
-      resizeMode: 'contain',
-      tintColor: colors.white,
-    },
-    rightIcon: {
-      width: wp(12),
-      height: hp(12),
-      resizeMode: 'contain',
-      tintColor: colors.white,
-    },
-    countText: {
-      paddingHorizontal: wp(10),
-      ...commonFontStyle(400, 16, colors.black),
     },
     doneBtn: {
       height: hp(26),

@@ -18,12 +18,15 @@ import StudentHome from '../screens/StudentAuth/StudentHome';
 import StudentProfile from '../screens/StudentAuth/StudentProfile';
 import StudentNotification from '../screens/StudentAuth/StudentNotification';
 import StudentOrderHistory from '../screens/StudentAuth/StudentOrderHistory';
+import { useAppSelector } from '../redux/hooks';
+
 
 const Tab = createBottomTabNavigator();
 
 const TabBarItem = ({state, navigation}: BottomTabBarProps) => {
   const {colors} = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { getCardData } = useAppSelector(state => state.data);
 
   const getIcons = (key: number, isFocused: boolean) => {
     switch (key) {
@@ -65,7 +68,7 @@ const TabBarItem = ({state, navigation}: BottomTabBarProps) => {
                 style={{
                   ...commonFontStyle(700, 10, colors.white),
                 }}>
-                2
+                {getCardData?.length}
               </Text>
             </View>
           </View>

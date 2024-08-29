@@ -21,10 +21,11 @@ import CCDropDown from '../../compoment/CCDropDown';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PrimaryButton from '../../compoment/PrimaryButton';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { addMenuAction } from '../../actions/menuAction';
+import { addMenuAction, updateManuAction } from '../../actions/menuAction';
 import { errorToast } from '../../utils/commonFunction';
 import moment = require('moment');
 import AddFolderModal from '../../compoment/AddFolderModal';
+import { screenName } from '../../navigation/screenNames';
 
 type Props = {};
 
@@ -42,6 +43,7 @@ const EditFoodDetails = (props: Props) => {
     const [quantityValue, setQuantityValue] = useState(0);
     const { getCuisines } = useAppSelector(state => state.data);
     const dispatch = useAppDispatch();
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         const filteredItem = getCuisines.find((item: any) => item.name === itemData.cuisine_name);
@@ -51,7 +53,7 @@ const EditFoodDetails = (props: Props) => {
 
     }, [getCuisines, itemData.cuisine_name]);
 
-console.log("+===",itemName)
+    console.log("+===", itemData.id)
     const selectAndCropImage = () => {
         ImagePicker.openPicker({
             multiple: true,
@@ -102,19 +104,23 @@ console.log("+===",itemName)
         } else if (basicDetails.trim().length === 0) {
             errorToast(strings('addFoodList.basicDetails'));
         } else {
+            setLoading(true)
             let data = new FormData();
             data.append('name', itemName);
             data.append('cuisine_id', quantityValue);
             data.append('price', price);
             data.append('description', basicDetails);
-            data.append('files', {
-                uri: images[0]?.uri,
-                type: images[0]?.mime,
-                name: images[0]?.name,
-            });
+            // data.append('files', {
+            //     uri: images[0]?.uri,
+            //     type: images[0]?.mime,
+            //     name: images[0]?.name,
+            // });
             let obj = {
+                params: itemData?.id,
                 data,
                 onSuccess: (response: any) => {
+                    navigation.navigate(screenName.tab_bar_name.FoodList)
+                    setLoading(false)
                     setImages([]);
                     setItemName('');
                     setPrice('');
@@ -123,12 +129,13 @@ console.log("+===",itemName)
                     // Keyboard.dismiss()
                 },
                 onFailure: (Err: any) => {
+                    setLoading(false)
                     if (Err != undefined) {
                         Alert.alert(Err?.data?.message);
                     }
                 },
             };
-            dispatch(addMenuAction(obj));
+            dispatch(updateManuAction(obj));
         }
     };
 
@@ -226,6 +233,7 @@ console.log("+===",itemName)
                         onPress={onPressEditItem}
                         title={strings('addFoodList.save_changes')}
                         titleStyle={styles.saveText}
+                        isLoading={loading}
                     />
                     <View style={styles.spacerView} />
                 </KeyboardAwareScrollView>
