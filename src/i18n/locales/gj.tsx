@@ -272,7 +272,9 @@ export default {
     Search: 'શોધો...',
   },
   CardMenuList: {
-    add: 'ઉમેરો'
+    add: 'ઉમેરો',
+    total: 'કુલ',
+    items: 'વસ્તુઓ'
   },
   Cart: {
     CheckOut: "ચેકઆઉટ",

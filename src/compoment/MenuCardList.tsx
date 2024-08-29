@@ -6,17 +6,15 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
-import {useTheme} from '@react-navigation/native';
-import {commonFontStyle, hp, wp} from '../theme/fonts';
+import React, { useRef, useState } from 'react';
+import { useTheme } from '@react-navigation/native';
+import { commonFontStyle } from '../theme/fonts';
 import NoDataFound from './NoDataFound';
-import {useAppDispatch, useAppSelector} from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import MenuItems from './MenuItems';
-import Spacer from './Spacer';
-import {strings} from '../i18n/i18n';
-import {deleteMenuAction, getMenuAction} from '../actions/menuAction';
+import { strings } from '../i18n/i18n';
+import { deleteMenuAction } from '../actions/menuAction';
 import DleleteModal from './DeleteModal';
-import Loader from './Loader';
 
 type Props = {
   onRefresh?: () => void;
@@ -24,6 +22,9 @@ type Props = {
   setRefreshing: (value: boolean) => void;
   loadMoreData: () => void;
   loadingMore: boolean;
+  loading: boolean;
+  onMomentumScrollBegin: () => void;
+  showChef: any
 };
 
 const MenuCardList = ({
@@ -33,21 +34,18 @@ const MenuCardList = ({
   setRefreshing,
   loadMoreData,
   loadingMore,
-  refFlatList,
   onMomentumScrollBegin,
   loading,
 }: Props) => {
-  const {colors, isDark} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { colors } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [visible, setVisible] = useState(false);
   const [selectItem, setSelectItem] = useState([]);
-  const {getMenuData, allMenuCount} = useAppSelector(state => state.data);
+  const { getMenuData } = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
 
   const currentData = useRef();
   currentData.current = getMenuData;
-  // const [page, setPage] = useState(1);
-  // const [loadingMore, setLoadingMore] = useState(false);
 
   const removeMenuCardList = () => {
     let UserInfo = {
@@ -62,24 +60,6 @@ const MenuCardList = ({
     dispatch(deleteMenuAction(UserInfo));
   };
 
-  // const getPostList = (pages: number) => {
-  //   let obj = {
-  //     data: {
-  //       page: pages,
-  //       limit: 6,
-  //     },
-  //     onSuccess: (res: any) => {
-  //       setRefreshing(false);
-  //       setLoadingMore(false);
-  //     },
-  //     onFailure: (Err: any) => {
-  //       setRefreshing(false);
-  //       setLoadingMore(false);
-  //     },
-  //   };
-  //   dispatch(getMenuAction(obj));
-  // };
-
   const closeModal = () => {
     setVisible(false);
   };
@@ -87,18 +67,6 @@ const MenuCardList = ({
     setVisible(false);
     removeMenuCardList();
   };
-
-  // const loadMoreData = () => {
-  //   console.log('hereeee>>>>>>>')
-  //   if (allMenuCount && getMenuData) {
-  //     if (getMenuData.length < allMenuCount) {
-  //       console.log('+++++++++++')
-  //       setLoadingMore(true);
-  //       setPage(page + 1);
-  //       getPostList(page);
-  //     }
-  //   }
-  // };
 
   return (
     <>
@@ -120,18 +88,18 @@ const MenuCardList = ({
                 {loadingMore && (
                   <ActivityIndicator size={'small'} color={colors.black} />
                 )}
-                <View style={{height: 110}} />
+                <View style={{ height: 110 }} />
               </View>
             );
           }}
           ListEmptyComponent={
             loading ? (
-              <ActivityIndicator size={'large'} color={colors.black} />
+              <ActivityIndicator size={'small'} color={colors.black} />
             ) : (
               <NoDataFound />
             )
           }
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             return (
               <MenuItems
                 item={item}
@@ -163,7 +131,7 @@ const MenuCardList = ({
 export default MenuCardList;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     itemsText: {
       ...commonFontStyle(400, 14, colors.gray_400),

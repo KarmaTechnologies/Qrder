@@ -111,7 +111,7 @@ export default {
   otp_verification: {
     enter_otp_code: 'Enter OTP Code',
     otp_code_text: 'We are sending you an OTP verify your phone number',
-    error_otp:'Please enter valid OTP',
+    error_otp: 'Please enter valid OTP',
   },
   home: {
     location: 'Location',
@@ -271,7 +271,9 @@ export default {
     Search: 'Search...',
   },
   CardMenuList: {
-    add: 'Add'
+    add: 'Add',
+    total: 'Total',
+    items: 'items'
   },
   Cart: {
     CheckOut: "Checkout",
@@ -280,7 +282,10 @@ export default {
   googleSignIn: {
     user_cancelled: 'user cancelled the login flow',
     error_text: "operation (e.g. sign in) is in progress already",
-    play_services:'play services not available or outdated',
-    something_went:'Something went wrong, please try again',
+    play_services: 'play services not available or outdated',
+    something_went: 'Something went wrong, please try again',
+  },
+  editFoodDetails: {
+    editItems: 'Edit Items'
   }
 };

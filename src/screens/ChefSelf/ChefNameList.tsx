@@ -72,7 +72,8 @@ const ChefNameList = (props: Props) => {
     let obj = {
       data: {
         page: 1,
-        limit: 5
+        limit: 5,
+        pagination: false
       },
       onSuccess: (res: any) => {
         setLoading(false);
@@ -85,7 +86,7 @@ const ChefNameList = (props: Props) => {
     dispatch(getChefsAction(obj));
   };
 
-  const onSearchBar = text => {
+  const onSearchBar = (text:string) => {
     setSearchQuery(text);
     const filteredItems = getChefsData?.filter((f: any) =>
       f?.name?.toLowerCase()?.match(text?.toLowerCase()),
@@ -148,7 +149,7 @@ const ChefNameList = (props: Props) => {
             ListFooterComponent={() => {
               return (
                 <View>
-                  <Spacer height={90} />
+                  <Spacer height={140} />
                 </View>
               );
             }}

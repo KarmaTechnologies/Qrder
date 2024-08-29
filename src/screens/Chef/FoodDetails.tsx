@@ -21,6 +21,7 @@ import HomeHeader from '../../compoment/HomeHeader';
 import Swiper from 'react-native-swiper';
 import { Icons } from '../../utils/images';
 import { useAppSelector } from '../../redux/hooks';
+import { screenName } from '../../navigation/screenNames';
 
 type Props = {};
 
@@ -41,7 +42,7 @@ const FoodDetails = ({ route }) => {
           navigation.goBack();
         }}
         onRightPress={() => {
-          console.log('dee');
+          navigation.navigate(screenName.EditFoodDetails, { itemData: itemData })
         }}
         mainShow={true}
         title={strings('foodDetails.food_Details')}

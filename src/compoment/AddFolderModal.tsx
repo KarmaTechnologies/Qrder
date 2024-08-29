@@ -28,12 +28,14 @@ export default function AddFolderModal({isVisible, onClose, path}: any) {
   const {colors} = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const [addText, setAddText] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   const onPressNewAdd = async() => {
     if (addText == '') {
       infoToast(strings("addFoodList.error_enter"))
     } else {
+      setLoading(true)
       const userDetails = await getAsyncUserInfo()
 
       let data = new FormData();
@@ -45,11 +47,13 @@ export default function AddFolderModal({isVisible, onClose, path}: any) {
         onSuccess: (response: any) => {
           onClose();
           setAddText("")
+          setLoading(false)
         },
         onFailure: (Err: any) => {
           if (Err != undefined) {
             Alert.alert('Warning', Err?.message);
           }
+          setLoading(false)
         },
       };
       dispatch(addCuisinesAction(obj));
@@ -59,12 +63,13 @@ export default function AddFolderModal({isVisible, onClose, path}: any) {
   return (
     <ReactNativeModal
       isVisible={isVisible}
-      statusBarTranslucent
+      // statusBarTranslucent
       animationIn={'fadeInUpBig'}
       animationInTiming={1000}
       animationOutTiming={1000}
       onBackdropPress={onClose}
       onBackButtonPress={onClose}
+       backdropColor="rgba(0, 0, 0, 0.8)"
       style={{margin: 0, justifyContent: 'center'}}>
       <View style={styles.container}>
         <View style={styles.rowStyle}>
@@ -84,6 +89,7 @@ export default function AddFolderModal({isVisible, onClose, path}: any) {
           extraStyle={styles.signupButton}
           onPress={onPressNewAdd}
           title={strings("addFoodList.add_cuisine")}
+          isLoading={loading}
         />
       </View>
     </ReactNativeModal>

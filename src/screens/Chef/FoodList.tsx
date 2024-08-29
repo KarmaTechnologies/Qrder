@@ -9,43 +9,40 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
-import {commonFontStyle, hp, SCREEN_WIDTH, wp} from '../../theme/fonts';
-import PagerView from 'react-native-pager-view';
-import {strings} from '../../i18n/i18n';
+import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
+import { strings } from '../../i18n/i18n';
 import MenuCardList from '../../compoment/MenuCardList';
-import {getCuisinesAction} from '../../actions/cuisinesAction';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import { getCuisinesAction } from '../../actions/cuisinesAction';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
   getCuisinesMenuListAction,
   getMenuAction,
 } from '../../actions/menuAction';
-import {GET_EMPTY_MENU_LIST} from '../../redux/actionTypes';
+import { GET_EMPTY_MENU_LIST } from '../../redux/actionTypes';
 
 type Props = {};
 
 const MyMenuList = (props: Props) => {
-  const {colors, isDark} = useTheme();
+  const { colors } = useTheme();
   const navigation = useNavigation();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [tabSelection, setTabSelection] = useState(strings('myMenuList.all'));
   const [refreshing, setRefreshing] = React.useState(false);
   const [cuisineId, setCuisineId] = React.useState(0);
-  const ref = React.createRef(PagerView);
   const dispatch = useAppDispatch();
-  const {getCuisines, getMenuData, allMenuCount, cuisinesCount} =
+  const { getCuisines, getMenuData, allMenuCount } =
     useAppSelector(state => state.data);
-  const {isDarkTheme} = useAppSelector(state => state.common);
+  const { isDarkTheme } = useAppSelector(state => state.common);
   const [page, setPage] = useState(1);
-  const [pageCuisine, setPageCuisine] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [onEndReached, setOnEndReached] = useState(true);
   console.log('page', page);
   const refFlatList = useRef();
-  
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     if (tabSelection === 'All') {
@@ -53,7 +50,7 @@ const MyMenuList = (props: Props) => {
     } else {
       getAllCuisinesMenuList(cuisineId, 1);
     }
-  }, [refreshing,tabSelection]);
+  }, [refreshing, tabSelection]);
 
   useEffect(() => {
     getCuisinesList(1);
@@ -67,20 +64,10 @@ const MyMenuList = (props: Props) => {
         limit: 5,
         pagination: false,
       },
-      onSuccess: (res: any) => {},
-      onFailure: (Err: any) => {},
+      onSuccess: (res: any) => { },
+      onFailure: (Err: any) => { },
     };
     dispatch(getCuisinesAction(obj));
-  };
-
-  const loadMoreCuisineData = () => {
-    if (cuisinesCount && getCuisines) {
-      if (getCuisines.length < cuisinesCount) {
-        console.log('____1122323+======');
-        setPageCuisine(pageCuisine + 1);
-        getCuisinesList(pageCuisine);
-      }
-    }
   };
 
   const getMenuList = (pages: number) => {
@@ -94,18 +81,18 @@ const MyMenuList = (props: Props) => {
         setRefreshing(false);
         setLoadingMore(false);
         setPage(pages);
+        setLoading(false);
       },
       onFailure: (Err: any) => {
         setRefreshing(false);
         setLoadingMore(false);
+        setLoading(false);
       },
     };
-    console.log('getMenuListdata',obj.data);
-    
     dispatch(getMenuAction(obj));
   };
 
-  const getAllCuisinesMenuList = (id: number, pages) => {
+  const getAllCuisinesMenuList = (id: number, pages: number) => {
     let obj = {
       id: id,
       data: {
@@ -129,7 +116,7 @@ const MyMenuList = (props: Props) => {
   };
 
   const loadMoreData = () => {
-    if (!onEndReached && getMenuData?.length >=7 ) {
+    if (!onEndReached && getMenuData?.length >= 7) {
       if (getMenuData && getMenuData?.length < allMenuCount) {
         setLoadingMore(true);
         if (tabSelection === 'All') {
@@ -141,6 +128,20 @@ const MyMenuList = (props: Props) => {
     }
   };
 
+  const onTabChange = (item: any) => {
+    setPage(1);
+    setTabSelection(item.name);
+    setCuisineId(item.id);
+    setLoading(true);
+    dispatch({ type: GET_EMPTY_MENU_LIST, payload: false });
+    setTimeout(() => {
+      if (item.name === 'All') {
+        getMenuList(1);
+      } else {
+        getAllCuisinesMenuList(item.id, 1);
+      }
+    }, 100);
+  };
   return (
     <View style={styles.container}>
       <StatusBar
@@ -164,30 +165,16 @@ const MyMenuList = (props: Props) => {
         <View style={styles.tabMainView}>
           <FlatList
             data={[
-              {name: 'All', label: strings('myMenuList.all'), page: 0, id: 0},
+              { name: 'All', label: strings('myMenuList.all'), page: 0, id: 0 },
               ...getCuisines,
             ]}
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item, index) => `${item.id}-${index}`}
             onEndReachedThreshold={0.5}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => {
-                  setPage(1);
-                  setTabSelection(item.name);
-                  setCuisineId(item.id);
-                  dispatch({type: GET_EMPTY_MENU_LIST, payload: false});
-                  setTimeout(() => {
-                    if (item.name === 'All') {
-                      setLoading(true)
-                      getMenuList(1);
-                    } else {
-                      setLoading(true)
-                      getAllCuisinesMenuList(item.id, 1);
-                    }
-                  }, 100);
-                }}
+                onPress={() =>  onTabChange(item)}
                 style={[
                   styles.tabItemView,
                   {
@@ -217,7 +204,6 @@ const MyMenuList = (props: Props) => {
 
       <View style={styles.boxContainer} key={'1'}>
         <MenuCardList
-          refFlatList={refFlatList}
           onRefresh={() => {
             onRefresh();
           }}
@@ -226,7 +212,7 @@ const MyMenuList = (props: Props) => {
           setRefreshing={setRefreshing}
           loadMoreData={() => loadMoreData()}
           loadingMore={loadingMore}
-          onMomentumScrollBegin={()=>{
+          onMomentumScrollBegin={() => {
             setOnEndReached(false)
           }}
         />
@@ -259,7 +245,7 @@ const MyMenuList = (props: Props) => {
 export default MyMenuList;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,

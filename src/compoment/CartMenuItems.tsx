@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {commonFontStyle, hp, wp} from '../theme/fonts';
 import {Icons} from '../utils/images';
-import {Menu, MenuDivider, MenuItem} from 'react-native-material-menu';
 import {strings} from '../i18n/i18n';
 import {screenName} from '../navigation/screenNames';
 import PrimaryButton from './PrimaryButton';
@@ -14,7 +13,6 @@ import {
   increment,
   incrementItem,
 } from '../actions/commonAction';
-import {useSelector} from 'react-redux';
 
 export interface ListObj {
   title: string;
@@ -26,35 +24,15 @@ export interface ListObj {
 }
 type ItemProps = {
   item: ListObj;
-  setDelete?: any;
 };
 
-const CartMenuItems = ({item, setDelete}: ItemProps) => {
+const CartMenuItems = ({item}: ItemProps) => {
   const {colors} = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const {count} = useAppSelector(state => state.common);
-  const [visible, setVisible] = useState(false);
   const [addItem, setAddItem] = useState(false);
-  const {getMenuData} = useAppSelector(state => state.data);
-  const [addItemData, setAddItemData] = useState([]);
-
-  const onPressedit = () => {
-    const clear = setTimeout(() => {
-      navigation.navigate(screenName.FoodDetails, {itemData: item});
-    }, 500);
-    return () => {
-      clearTimeout(clear);
-    };
-  };
-
-
-  const onPressDelete = () => {
-    setDelete(true);
-  };
-
-
 
   return (
     <View style={styles.boxView}>

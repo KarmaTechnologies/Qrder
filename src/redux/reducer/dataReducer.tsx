@@ -1,4 +1,4 @@
-import { DELETE_CHEF_DATA, DELETE_CUISINES_DATA, DELETE_MENU_DATA, GET_CANTEEN_CUISINE_LIST, GET_CANTEEN_MENU_LIST, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_EMPTY_MENU_LIST, GET_MENU_DATA, GET_UNIVERSITIES_CANTEEN_LIST, GET_UNIVERSITIES_LIST, IS_LOADING, SET_APP_THEME } from '../actionTypes';
+import { DELETE_CHEF_DATA, DELETE_CUISINES_DATA, DELETE_MENU_DATA, GET_CANTEEN_CUISINE_LIST, GET_CANTEEN_MENU_LIST, GET_CHEFS_DATA, GET_CITY_DATA, GET_CUISINES_DATA, GET_EMPTY_CANTEEN_LIST, GET_EMPTY_MENU_LIST, GET_MENU_DATA, GET_UNIVERSITIES_CANTEEN_LIST, GET_UNIVERSITIES_LIST, IS_LOADING, SET_APP_THEME } from '../actionTypes';
 
 const initialState = {
   getCuisines: [],
@@ -9,7 +9,8 @@ const initialState = {
   getCanteenMenuData: [],
   getCanteenCuisines: [],
   allMenuCount: 0,
-  cuisinesCount: 0
+  cuisinesCount: 0,
+  canteenMenuCount: 0
 };
 
 export default function (state = initialState, action: any) {
@@ -31,26 +32,41 @@ export default function (state = initialState, action: any) {
       return { ...state, getUniversityCanteenData: action.payload };
     }
     case GET_CANTEEN_MENU_LIST: {
-      return { ...state, getCanteenMenuData: action.payload };
+      if (action.payload.current_page == 1) {
+        return {
+          ...state,
+          getCanteenMenuData: action.payload.data,
+          canteenMenuCount: action.payload.total_count,
+        };
+      } else {
+        return {
+          ...state,
+          getCanteenMenuData: [...state.getCanteenMenuData, ...action.payload.data],
+          canteenMenuCount: action.payload.total_count,
+        };
+      }
     }
-    case GET_EMPTY_MENU_LIST: {      
-      return { ...state, getMenuData: [],allMenuCount:0 };
+    case GET_EMPTY_CANTEEN_LIST: {
+      return { ...state, getCanteenMenuData: [], canteenMenuCount: 0 };
+    }
+    case GET_EMPTY_MENU_LIST: {
+      return { ...state, getMenuData: [], allMenuCount: 0 };
     }
     case GET_MENU_DATA: {
-     console.log('action.payload.data',action.payload.data);
-     if(action.payload.current_page == 1){
-      return {
-        ...state,
-        getMenuData:action.payload.data,
-        allMenuCount: action.payload.total_count,
-      };
-     }else{
-       return {
-         ...state,
-         getMenuData: [...state.getMenuData, ...action.payload.data],
-         allMenuCount: action.payload.total_count,
-       };
-     }
+      console.log('action.payload.data', action.payload.data);
+      if (action.payload.current_page == 1) {
+        return {
+          ...state,
+          getMenuData: action.payload.data,
+          allMenuCount: action.payload.total_count,
+        };
+      } else {
+        return {
+          ...state,
+          getMenuData: [...state.getMenuData, ...action.payload.data],
+          allMenuCount: action.payload.total_count,
+        };
+      }
     }
     case GET_CHEFS_DATA: {
       return { ...state, getChefsData: action.payload };

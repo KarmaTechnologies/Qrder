@@ -24,6 +24,7 @@ import CuisinesNameCardList from '../../compoment/CuisinesNameCardList';
 import { deleteCuisinesAction, getCuisinesAction } from '../../actions/cuisinesAction';
 import AddFolderModal from '../../compoment/AddFolderModal';
 import EditFolderModal from '../../compoment/EditFolderModal';
+import Loader from '../../compoment/Loader';
 
 type Props = {};
 
@@ -39,8 +40,7 @@ const CuisinesNameList = (props: Props) => {
   const [newFolder, setNewFolder] = useState(false);
   const [editFolder, setEditFolder] = useState(false);
   const [selectItem, setSelectItem] = useState({});
-  const [page, setPage] = useState(1);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const isFocused = useIsFocused()
 
@@ -77,36 +77,25 @@ const CuisinesNameList = (props: Props) => {
       data: {
         page: pages,
         limit: 15,
-        pagination:false
+        pagination: false
       },
       onSuccess: (res: any) => {
-        setPage(page + 1)
         setGetAllData(res?.data)
-        setLoadingMore(false)
+        setLoading(false);
       },
       onFailure: (Err: any) => {
-        setLoadingMore(false)
+        setLoading(false);
       },
     };
     dispatch(getCuisinesAction(obj));
   };
 
-  const onSearchBar = (text) => {
+  const onSearchBar = (text:string) => {
     setSearchQuery(text)
     const filteredItems = getCuisines?.filter((f: any) =>
       f?.name?.toLowerCase()?.match(text?.toLowerCase()),
     )
     setGetAllData(filteredItems)
-  }
-
-  const loadMoreCuisineData = () => {
-    if (cuisinesCount && getCuisines) {
-      if (getCuisines.length < cuisinesCount) {
-        setLoadingMore(true)
-        console.log("____1122323+======")
-        getCuisinesList(1);
-      }
-    }
   }
 
   return (
@@ -142,8 +131,11 @@ const CuisinesNameList = (props: Props) => {
           <Image source={Icons.search} style={styles.searchIcon} />
         </View>
 
+        {loading ? (
+          <Loader size={'small'} />
+        ) : (
         <FlatList
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.3}
           data={getAllData}
           ListEmptyComponent={<NoDataFound />}
           renderItem={({ item, index }) => {
@@ -162,21 +154,12 @@ const CuisinesNameList = (props: Props) => {
             );
           }}
           showsVerticalScrollIndicator={false}
-          onEndReached={loadMoreCuisineData}
           ListFooterComponent={() => {
             return (
-              <View>
-                {loadingMore && (
-                  <View>
-                    <ActivityIndicator size={'small'} color={colors.black} />
-                  </View>
-
-                )}
                 <View style={{ height: 150 }} />
-              </View>
             );
           }}
-        />
+        />)}
       </View>
       <AddFolderModal
         isVisible={newFolder}

@@ -1,97 +1,71 @@
 import {
+  ActivityIndicator,
   FlatList,
   RefreshControl,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { useTheme } from '@react-navigation/native';
-import { commonFontStyle, hp, wp } from '../theme/fonts';
+import { commonFontStyle } from '../theme/fonts';
 import NoDataFound from './NoDataFound';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import MenuItems from './MenuItems';
-import Spacer from './Spacer';
-import { strings } from '../i18n/i18n';
-import { deleteMenuAction } from '../actions/menuAction';
-import DleleteModal from './DeleteModal';
+import { useAppSelector } from '../redux/hooks';
 import Loader from './Loader';
 import CartMenuItems from './CartMenuItems';
+import { strings } from '../i18n/i18n';
 
 type Props = {
   onRefresh?: () => void;
-  refreshing: boolean
+  refreshing: boolean;
+  loadMoreData: () => void;
+  loadingMore: boolean;
+  onMomentumScrollBegin: () => void;
+  loading: boolean
 };
 
-const CartMenuCardList = ({ onRefresh, refreshing }: Props) => {
-  const { colors, isDark } = useTheme();
+const CartMenuCardList = ({ onRefresh, refreshing, loadMoreData, loadingMore, onMomentumScrollBegin, loading }: Props) => {
+  const { colors } = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
-  const [visible, setVisible] = useState(false);
-  const [selectItem, setSelectItem] = useState([]);
   const { getCanteenMenuData } = useAppSelector(state => state.data);
-  const dispatch = useAppDispatch();
+  const currentData = useRef();
+  currentData.current = getCanteenMenuData;
 
-  const removeMenuCardList = () => {
-    let UserInfo = {
-      data: selectItem?.id,
-      onSuccess: (res: any) => {
-        setRefresh(false);
-      },
-      onFailure: (Err: any) => { },
-    };
-    dispatch(deleteMenuAction(UserInfo));
-  };
-
-
-  const closeModal = () => {
-    setVisible(false)
-  }
-  const onPressDelete = () => {
-    setVisible(false)
-    removeMenuCardList();
-  }
 
   return (
     <View>
-      <Text style={styles.itemsText}>
-        {getCanteenMenuData?.length ? `Total ${getCanteenMenuData?.length} items` : null}
-      </Text>
-      <FlatList
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        onEndReachedThreshold={0.3}
-        data={getCanteenMenuData}
-        // ListEmptyComponent={getCanteenMenuData?.length === 0 ? <NoDataFound/> : <NoDataFound />}
-        renderItem={({ item, index }) => {
-          return (
-            <CartMenuItems
-              item={item}
-              setDelete={() => {
-                setVisible(true);
-                setSelectItem(item);
-              }}
-            />
-          );
-        }}
-        showsVerticalScrollIndicator={false}
-        ListFooterComponent={() => {
-          return (
-            <View>
-              {/* {true && <Loader size={'small'} />} */}
-              <Spacer height={90} />
-            </View>
-          );
-        }}
-      />
-
-      <DleleteModal
-        title={strings('myMenuList.are_you_sure')}
-        rightText={strings('myMenuList.yes')}
-        leftText={strings('myMenuList.no')}
-        visible={visible} closeModal={() => closeModal()}
-        onPressDelete={() => onPressDelete()}
-      />
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Text style={styles.itemsText}>
+            {currentData.current?.length ? `${strings('CardMenuList.total')} ${currentData.current?.length} ${strings('CardMenuList.items')}` : null}
+          </Text>
+          <FlatList
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            onEndReachedThreshold={0.3}
+            data={currentData.current}
+            renderItem={({ item }) => (
+              <CartMenuItems
+                item={item}
+              />
+            )}
+            showsVerticalScrollIndicator={false}
+            ListFooterComponent={() => (
+              loadingMore && (
+                <ActivityIndicator size={'small'} color={colors.black} />
+              )
+            )}
+            ListEmptyComponent={!loading && (
+              <NoDataFound />
+            )}
+            onEndReached={loadMoreData}
+            onMomentumScrollBegin={onMomentumScrollBegin}
+          />
+        </>
+      )}
     </View>
   );
 };

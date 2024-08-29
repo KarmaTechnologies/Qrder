@@ -111,7 +111,7 @@ export default {
     enter_otp_code: 'ओटीपी कोड दर्ज करें',
     otp_code_text:
       'हम आपके फोन नंबर को सत्यापित करने के लिए आपको ओटीपी भेज रहे हैं',
-      error_otp:'कृपया मान्य OTP दर्ज करें',
+    error_otp: 'कृपया मान्य OTP दर्ज करें',
   },
   home: {
     location: 'स्थान',
@@ -271,7 +271,9 @@ export default {
     Search: 'खोजें...'
   },
   CardMenuList: {
-    add: 'जोड़ें'
+    add: 'जोड़ें',
+    total: 'कुल',
+    items: 'वस्तुएँ'
   },
   Cart: {
     CheckOut: "चेकआउट",
