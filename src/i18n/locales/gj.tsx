@@ -15,6 +15,8 @@ export default {
     continue: 'ચાલુ રાખો',
     admin: 'એડમિન',
     chef: 'શેફ',
+    owner: 'માલિક',
+    staff: 'સ્ટાફ',
     student: 'વિદ્યાર્થી',
     error_role: "કૃપા કરીને ભૂમિકા પસંદ કરો"
   },
@@ -159,7 +161,7 @@ export default {
     add_new_items: 'નવા આઇટમ્સ ઉમેરો',
     reset: 'રીસેટ',
     item_name: 'આઇટમ નામ',
-    p_itemName: 'મજલિચિકન હલીમ',
+    p_itemName: 'આઇટમનું નામ દાખલ કરો',
     upload_photo_video: 'ફોટો/વિડિયો અપલોડ કરો',
     add: 'ઉમેરો',
     price: 'કિંમત',
@@ -179,6 +181,8 @@ export default {
     edit_cuisines: 'ભોજન સંપાદિત કરો',
     add_menu: 'મેનૂ ઉમેરો',
     add_basic: 'તમારી મૂળભૂત વિગતો અહીં લખો...',
+    add_to_card: 'કાર્ડમાં ઉમેરો',
+    miscellaneous: 'વિવિધ'
   },
   foodDetails: {
     food_Details: 'ખોરાકની વિગતો',
@@ -285,5 +289,11 @@ export default {
     error_text: "સંચાલન (જેમ કે સાઇન ઇન) પહેલેથી જ પ્રગતિમાં છે",
     play_services: 'પ્લે સેવાઓ ઉપલબ્ધ નથી અથવા જૂની છે',
     something_went: 'કઈક ખોટું થયું, કૃપા કરીને ફરીથી પ્રયાસ કરો'
+  },
+  studentCheckOut: {
+    your_order: 'તમારો ઓર્ડર',
+    no_product_found: 'કોઈ ઉત્પાદન મળ્યું નહીં',
+    remove: 'દૂર કરો',
+    sub_total: 'કુલ'
   }
 };

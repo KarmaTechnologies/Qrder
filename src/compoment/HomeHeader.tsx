@@ -47,7 +47,7 @@ const HomeHeader = ({
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const { getCardData } = useAppSelector(state => state.data);
 
-  
+
   const onPressBell = () => {
     // @ts-ignore
     navigate(screenName.Notifications);
@@ -96,16 +96,16 @@ const HomeHeader = ({
           <Text style={styles.home_title}>{strings("home.location")}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text numberOfLines={1} style={styles.addrs}>
-              {location}
+              {'location'}
             </Text>
             <Image source={Icons?.arrow_down} style={styles?.arrow_down} />
           </View>
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.location_icon} onPress={onPressCart}>
+      {/* <TouchableOpacity style={styles.location_icon} onPress={onPressCart}>
         <Image source={Icons?.cart} style={styles?.header_logo} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </SafeAreaView>
   );
 };
@@ -147,7 +147,7 @@ const getGlobalStyles = (props: any) => {
     },
     addrs: {
       ...commonFontStyle(400, 14, colors.headerText2),
-      width: '55%',
+      marginRight: wp(10)
     },
     address_container: {
       flexDirection: 'row',

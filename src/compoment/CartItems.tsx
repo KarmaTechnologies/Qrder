@@ -19,7 +19,8 @@ export interface ListObj {
   price?: number;
   quantity: number;
   id: number;
-  menu_id?: number
+  menu_id?: number;
+  product_total: string
 }
 type ItemProps = {
   item: ListObj;
@@ -37,22 +38,22 @@ const CartItems = ({ item, setDelete }: ItemProps) => {
 
   const cardData = () => {
     let obj = {
-      onSuccess: (res: any) => {
+      onSuccess: () => {
       },
-      onFailure: (Err: any) => {
+      onFailure: () => {
       },
     };
     dispatch(getCardAction(obj));
   }
 
-  const deleteCardItem = (id: any) => {
+  const deleteCardItem = (id: number) => {
     let cardInfo = {
       data: id,
-      onSuccess: (res: any) => {
+      onSuccess: () => {
         let obj = {
-          onSuccess: (res: any) => {
+          onSuccess: () => {
           },
-          onFailure: (Err: any) => {
+          onFailure: () => {
           },
         };
         dispatch(getCardAction(obj));
@@ -119,12 +120,18 @@ const CartItems = ({ item, setDelete }: ItemProps) => {
         <View style={styles.container}>
           <View style={styles.leftView}>
             <Text style={styles.titleText}> {item?.name}</Text>
-            <Text style={styles.priceText}> {`$${item?.price}`}</Text>
+            <TouchableOpacity onPress={() => deleteCardItem(item?.id)}>
+              <Image style={styles.closeIcon} source={Icons.close} />
+            </TouchableOpacity>
           </View>
-          <View style={styles.rateView}>
+          <View style={[styles.leftView, { paddingTop: hp(8) }]}>
             <View style={styles.breakfastView}>
               <Text style={styles.breakfastText}> {item.cuisine_name}</Text>
             </View>
+            <Text style={styles.priceText}> {`₹${Number(item?.price * item.quantity).toFixed(2)}`}</Text>
+          </View>
+          <View style={styles.rateView}>
+            <Text style={styles.priceText1}> {`₹${item?.price}`}</Text>
             <View style={styles.rightContainers}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TouchableOpacity
@@ -149,7 +156,6 @@ const CartItems = ({ item, setDelete }: ItemProps) => {
               </View>
             </View>
           </View>
-          <Text style={styles.priceText1}> {`$${item?.price}`}</Text>
         </View>
       </View>
     </View>
@@ -162,7 +168,7 @@ const getGlobalStyles = (props: any) => {
   return StyleSheet.create({
     boxView: {
       marginTop: hp(20),
-      marginHorizontal: wp(20),
+      marginHorizontal: wp(20)
     },
     subBoxView: {
       flexDirection: 'row',
@@ -200,7 +206,7 @@ const getGlobalStyles = (props: any) => {
     },
     priceText1: {
       ...commonFontStyle(600, 16, colors.Title_Text),
-      marginTop: 2,
+      // marginTop: 2,
     },
     breakfastText: {
       ...commonFontStyle(400, 12, colors.Primary_Orange),
@@ -212,19 +218,7 @@ const getGlobalStyles = (props: any) => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      marginTop: hp(7),
-    },
-    starStyle: {
-      width: 17,
-      height: 17,
-    },
-    rateText: {
-      marginLeft: 4,
-      ...commonFontStyle(700, 14, colors.Primary_Orange),
-    },
-    rateText1: {
-      ...commonFontStyle(400, 14, colors.tabBar),
-      marginLeft: 9,
+      paddingTop: hp(5)
     },
     rightContainers: {
       alignItems: 'flex-end',
@@ -257,8 +251,15 @@ const getGlobalStyles = (props: any) => {
       resizeMode: 'contain',
       tintColor: colors.white,
     },
+    closeIcon: {
+      width: wp(18),
+      height: hp(18),
+      resizeMode: 'contain',
+      tintColor: colors.black,
+      marginRight: 5
+    },
     countText: {
-      paddingHorizontal: wp(4),
+      paddingHorizontal: wp(6),
       ...commonFontStyle(500, 16, colors.black),
     },
   });

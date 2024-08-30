@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import { Icons } from '../../utils/images';
 import { commonFontStyle, h, hp, wp } from '../../theme/fonts';
@@ -16,7 +16,6 @@ import {
   UpperCaseCheck,
   emailCheck,
   errorToast,
-  infoToast,
   numberCheck,
   specialCarCheck,
 } from '../../utils/commonFunction';
@@ -28,16 +27,14 @@ import { googleEmailAction, userLogin } from '../../actions/authAction';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
 import { strings } from '../../i18n/i18n';
-import CCDropDown from '../../compoment/CCDropDown';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLINET_ID } from '../../utils/apiConstants';
-import { red } from 'react-native-reanimated/lib/typescript/Colors';
 
 
 type Props = {};
 
 const SignInScreen = (props: Props) => {
-  const { colors, isDark } = useTheme();
+  const { colors } = useTheme();
   const { params } = useRoute();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   // const [email, setEmail] = useState(__DEV__ ? 'adminstudent@gmail.com' : '');
@@ -45,7 +42,6 @@ const SignInScreen = (props: Props) => {
   const [email, setEmail] = useState(__DEV__ ? 'admin@gmail.com' : '');
   const [password, setPassword] = useState(__DEV__ ? 'Test!@123' : '');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
-  const [selectRole, setSelectRole] = useState('');
   const [isSelect, setIsSelect] = useState<boolean>(false);
   const { selectedRole } = useAppSelector(state => state.common);
 
@@ -74,10 +70,10 @@ const SignInScreen = (props: Props) => {
       data.append('role', params?.role.toLowerCase());
       let obj = {
         data,
-        onSuccess: (response: any) => {
+        onSuccess: () => {
           if (params?.role == 'Admin') {
             dispatchNavigation(screenName.BottomTabBar);
-          } else if (params?.role == 'Chef') {
+          } else if (params?.role == 'Staff') {
             dispatchNavigation(screenName.ChefSelfBottomBar);
           } else {
             dispatchNavigation(screenName.StudentSelect);
@@ -111,28 +107,31 @@ const SignInScreen = (props: Props) => {
       offlineAccess: false,
     });
     try {
+      let user = await GoogleSignin.getCurrentUser();
+      console.log(user);
+      if (user !== null && Object.keys(user).length !== 0) {
+        await GoogleSignin.revokeAccess();
+        await GoogleSignin.signOut();
+      }
       await GoogleSignin.hasPlayServices();
-      await GoogleSignin.signOut();
       const userInfo = await GoogleSignin.signIn();
       console.log("GoogleSignin userInfo", userInfo);
 
       let googleUser = {
         ...userInfo,
-        user:{
+        user: {
           ...userInfo.user,
           role: params?.role.toLowerCase(),
         }
       };
-      let userObj  = {
+      let userObj = {
         data: googleUser,
-        onSuccess: (res: any) => {
-      if (params?.role == 'Admin') {
-        dispatchNavigation(screenName.BottomTabBar);
-      } else if (params?.role == 'Chef') {
-        dispatchNavigation(screenName.ChefSelfBottomBar);
-      } else {
-        dispatchNavigation(screenName.StudentSelect);
-      }
+        onSuccess: () => {
+          if (params?.role == 'Admin') {
+            dispatchNavigation(screenName.BottomTabBar);
+          } else {
+            dispatchNavigation(screenName.StudentSelect);
+          }
         },
         onFailure: (Err: any) => {
           if (Err != undefined) {
@@ -153,6 +152,7 @@ const SignInScreen = (props: Props) => {
       }
     }
   };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -227,11 +227,11 @@ const SignInScreen = (props: Props) => {
             <View style={styles.bottomText} />
           )}
 
-          <View style={styles.orContainer}>
+          {params?.role == 'Admin' || params?.role == 'Student' ? <View style={styles.orContainer}>
             <Text style={styles.orText}>{strings('login.or')}</Text>
-          </View>
+          </View> : null}
 
-          <View style={styles.roundContainer}>
+          {params?.role == 'Admin' || params?.role == 'Student' ? <View style={styles.roundContainer}>
             <TouchableOpacity
               style={[
                 styles.roundView,
@@ -262,7 +262,7 @@ const SignInScreen = (props: Props) => {
               ]}>
               <Image style={styles.appleIcon} source={Icons.apple} />
             </TouchableOpacity>
-          </View>
+          </View> : null}
         </KeyboardAwareScrollView>
       </View>
     </View>

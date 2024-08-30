@@ -74,13 +74,13 @@ export const infoToast = (message: string) => {
 
 export const DropDownData = [
   {
-    name: strings('roleSelection.admin'),
+    name: strings('roleSelection.owner'),
     value:'Admin',
     id: 1,
   },
   {
-    name: strings('roleSelection.chef'),
-    value:'Chef',
+    name: strings('roleSelection.staff'),
+    value:'Staff',
     id: 2,
   },
   {

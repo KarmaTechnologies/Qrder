@@ -7,7 +7,7 @@ import {Image, Platform, Pressable, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {commonFontStyle, hp, isIos, SCREEN_WIDTH, wp} from '../theme/fonts';
 import {screenName} from './screenNames';
-import {useTheme} from '@react-navigation/native';
+import {CommonActions, StackActions, useTheme} from '@react-navigation/native';
 import {Icons} from '../utils/images';
 import ChefHome from '../screens/ChefSelf/ChefHome';
 import ChefProfile from '../screens/ChefSelf/ChefProfile';
@@ -19,6 +19,7 @@ import StudentProfile from '../screens/StudentAuth/StudentProfile';
 import StudentNotification from '../screens/StudentAuth/StudentNotification';
 import StudentOrderHistory from '../screens/StudentAuth/StudentOrderHistory';
 import { useAppSelector } from '../redux/hooks';
+import { StudentHomeStack } from './StackNavigator';
 
 
 const Tab = createBottomTabNavigator();
@@ -52,7 +53,7 @@ const TabBarItem = ({state, navigation}: BottomTabBarProps) => {
                 tintColor: isFocused ? colors.Primary_Orange : colors.tabBar,
               }}
             />
-            <View
+          {getCardData?.length!==0 &&  <View
               style={{
                 position: 'absolute',
                 backgroundColor: colors.Primary_Orange,
@@ -70,7 +71,7 @@ const TabBarItem = ({state, navigation}: BottomTabBarProps) => {
                 }}>
                 {getCardData?.length}
               </Text>
-            </View>
+            </View>}
           </View>
         );
 
@@ -144,7 +145,7 @@ const TabBarItem = ({state, navigation}: BottomTabBarProps) => {
 };
 
 function StudentBottomBar() {
-  const {colors, isDark} = useTheme();
+  const {colors } = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
 
   return (
@@ -153,10 +154,11 @@ function StudentBottomBar() {
       initialRouteName={screenName.student_tab_bar.StudentHome}
       screenOptions={{
         headerShown: false,
+        unmountOnBlur:true
       }}>
       <Tab.Screen
         name={screenName.student_tab_bar.StudentHome}
-        component={StudentHome}
+        component={StudentHomeStack}
       />
       <Tab.Screen
         name={screenName.student_tab_bar.StudentOrderHistory}
@@ -180,7 +182,7 @@ const getGlobalStyles = (props: any) => {
     itemContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: colors.white,
+      backgroundColor: colors.modalBg,
       justifyContent: 'space-between',
       shadowColor: '#000',
       shadowOffset: {

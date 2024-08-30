@@ -7,28 +7,24 @@ import { strings } from '../../i18n/i18n';
 import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../../theme/fonts';
 import Spacer from '../../compoment/Spacer';
 import NoDataFound from '../../compoment/NoDataFound';
-import Loader from '../../compoment/Loader';
 import { screenName } from '../../navigation/screenNames';
-import { getCanteenMenuAction } from '../../actions/commonAction';
 import { getCardAction } from '../../actions/cardAction';
 
-type Props = {};
 
-const StudentHome = (props: Props) => {
-  const { colors, isDark } = useTheme();
+const StudentHome = () => {
+  const { colors } = useTheme();
   const navigation = useNavigation();
   const isFocuse = useIsFocused();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const { isDarkTheme } = useAppSelector(state => state.common);
-  const {getUniversityCanteenData} = useAppSelector(state => state.data);
+  const { getUniversityCanteenData } = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
 
-  const onPressCanteen=(item)=>{
-    console.log('item?.id',item?.id);
-    navigation.navigate(screenName.StudentMenuList,{selectID:item?.id})
+  const onPressCanteen = (item: any) => {
+    navigation.navigate(screenName.StudentMenuList, { selectID: item?.id, canteenName: item?.restaurant_name })
   }
 
-  
+
 
   useEffect(() => {
     getCardDatas()
@@ -36,9 +32,9 @@ const StudentHome = (props: Props) => {
 
   const getCardDatas = () => {
     let obj = {
-      onSuccess: (res: any) => {
+      onSuccess: () => {
       },
-      onFailure: (Err: any) => {
+      onFailure: () => {
       },
     };
     dispatch(getCardAction(obj));
@@ -54,13 +50,13 @@ const StudentHome = (props: Props) => {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
-        onPress={()=>{
+        onPress={() => {
           onPressCanteen(item)
         }}
         style={{
           width: containerWidth,
           marginLeft: xPosition,
-          marginTop:10,
+          marginTop: 10,
         }}
       >
         <Image
@@ -72,7 +68,7 @@ const StudentHome = (props: Props) => {
             },
           ]}>
         </Image>
-          <Text style={styles.textStyle}>{item?.restaurant_name}</Text>
+        <Text style={styles.textStyle}>{item?.restaurant_name}</Text>
       </TouchableOpacity>
     );
   };
@@ -91,7 +87,7 @@ const StudentHome = (props: Props) => {
         isHideIcon={true}
         isShowIcon={false}
       />
-      <View style={{marginHorizontal:wp(16)}}>
+      <View style={{ marginHorizontal: wp(16) }}>
         <FlatList
           numColumns={2}
           windowSize={10}
@@ -103,7 +99,7 @@ const StudentHome = (props: Props) => {
           onEndReachedThreshold={0.1}
           nestedScrollEnabled={true}
           renderItem={renderItem}
-          ListEmptyComponent={ <NoDataFound />}
+          ListEmptyComponent={<NoDataFound />}
           ListFooterComponent={() => {
             return (
               <View>
@@ -137,9 +133,9 @@ const getGlobalStyles = (props: any) => {
       borderRadius: 16,
       backgroundColor: colors.image_Bg_gray
     },
-    textStyle:{
-      paddingTop:hp(8),
-      paddingLeft:7,
+    textStyle: {
+      paddingTop: hp(8),
+      paddingLeft: 7,
       ...commonFontStyle(700, 12, colors.Title_Text),
     }
   });

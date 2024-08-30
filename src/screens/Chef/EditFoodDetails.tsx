@@ -53,7 +53,6 @@ const EditFoodDetails = (props: Props) => {
 
     }, [getCuisines, itemData.cuisine_name]);
 
-    console.log("+===", itemData.id)
     const selectAndCropImage = () => {
         ImagePicker.openPicker({
             multiple: true,

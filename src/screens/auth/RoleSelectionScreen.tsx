@@ -1,4 +1,4 @@
-import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { commonFontStyle, hp, wp } from '../../theme/fonts';
@@ -11,20 +11,17 @@ import CCDropDown from '../../compoment/CCDropDown';
 import { DropDownData, errorToast } from '../../utils/commonFunction';
 import { useAppDispatch } from '../../redux/hooks';
 import { selectRoleAction } from '../../actions/commonAction';
-import { Icons } from '../../utils/images';
-import { setAsyncRole, setAsyncToken } from '../../utils/asyncStorageManager';
+import { setAsyncRole } from '../../utils/asyncStorageManager';
 
-type Props = {};
-
-const RoleSelectionScreen = (props: Props) => {
-  const { colors, isDark } = useTheme();
+const RoleSelectionScreen = () => {
+  const { colors } = useTheme();
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [selectRole, setSelectRole] = useState('');
 
 
-  const onPressRole = async() => {
+  const onPressRole = async () => {
     if (selectRole.trim().length === 0) {
       errorToast(strings('roleSelection.error_role'));
     } else {
@@ -124,7 +121,7 @@ const getGlobalStyles = (props: any) => {
       resizeMode: 'contain',
       tintColor: colors.white
     },
-    countText:{
+    countText: {
       paddingHorizontal: wp(10),
       ...commonFontStyle(400, 16, colors.black),
     }

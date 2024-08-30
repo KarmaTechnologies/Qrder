@@ -41,7 +41,7 @@ const SplashScreen = (props: Props) => {
     if (isUser) {
       if (isRole == 'Admin') {
         dispatchNavigation(screenName.BottomTabBar);
-      } else if (isRole == 'Chef') {
+      } else if (isRole == 'Staff') {
         dispatchNavigation(screenName.ChefSelfBottomBar);
       } else {
         dispatchNavigation(screenName.StudentSelect);

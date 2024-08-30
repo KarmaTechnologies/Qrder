@@ -50,6 +50,7 @@ import CuisinesNameList from '../screens/ChefSelf/CuisinesNameList';
 import StudentCheckOut from '../screens/StudentAuth/StudentCheckOut';
 import NewPassword from '../screens/auth/NewPassword';
 import EditFoodDetails from '../screens/Chef/EditFoodDetails';
+import Home from '../screens/Chef/Home';
 
 const Drawer = createDrawerNavigator();
 const { StatusBarManager } = NativeModules;
@@ -293,13 +294,41 @@ const StackNavigator: FC = () => {
         ...headerStyleTransparent,
         headerShown: false,
         headerTitle: '',
-      })} name={screenName.StudentMenuList} component={StudentMenuList} />
-      <Stack.Screen options={({ navigation }) => ({
-        ...headerStyleTransparent,
-        headerShown: false,
-        headerTitle: '',
       })} name={screenName.StudentCheckOut} component={StudentCheckOut} />
     </Stack.Navigator>
+  );
+};
+
+export const AdminHomeStack = () => {
+  return (
+    <>
+      <Stack.Navigator initialRouteName={screenName.tab_bar_name.Home}>
+        <Stack.Screen options={({ navigation }) => ({
+          ...headerStyleTransparent,
+          headerShown: false,
+          headerTitle: '',
+        })} name={screenName.tab_bar_name.Home} component={Home} />
+      </Stack.Navigator>
+    </>
+  );
+}
+
+export const StudentHomeStack = () => {
+  return (
+    <>
+      <Stack.Navigator initialRouteName={screenName.student_tab_bar.StudentHome}>
+        <Stack.Screen options={({ navigation }) => ({
+          ...headerStyleTransparent,
+          headerShown: false,
+          headerTitle: '',
+        })} name={screenName.student_tab_bar.StudentHome} component={StudentHome} />
+        <Stack.Screen options={({ navigation }) => ({
+          ...headerStyleTransparent,
+          headerShown: false,
+          headerTitle: '',
+        })} name={screenName.StudentMenuList} component={StudentMenuList} />
+      </Stack.Navigator>
+    </>
   );
 };
 export default StackNavigator;

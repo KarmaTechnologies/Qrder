@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   StatusBar,
   StyleSheet,
@@ -20,19 +21,44 @@ import { strings } from '../../i18n/i18n';
 import HomeHeader from '../../compoment/HomeHeader';
 import Swiper from 'react-native-swiper';
 import { Icons } from '../../utils/images';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { screenName } from '../../navigation/screenNames';
-
-type Props = {};
+import PrimaryButton from '../../compoment/PrimaryButton';
+import { addCardAction, getCardAction } from '../../actions/cardAction';
 
 const FoodDetails = ({ route }) => {
-  const { itemData,showChef } = route?.params;
-  const { colors, isDark } = useTheme();
+  const { itemData, showChef, showAddToCard } = route?.params;
+  const { colors } = useTheme();
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const { isDarkTheme } = useAppSelector(state => state.common);
   const [basicDetails, setBasicDetails] = useState('');
-  const { name, price, cuisine_name, description } = itemData
+  const { name, price, cuisine_name, description, id } = itemData
+
+  const onPressAddCard = () => {
+    let obj = {
+      data: {
+        menu_id: id,
+        quantity: 1
+      },
+      onSuccess: () => {
+        let obj = {
+          onSuccess: () => {
+          },
+          onFailure: () => {
+          },
+        };
+        dispatch(getCardAction(obj));
+      },
+      onFailure: (Err: any) => {
+        if (Err != undefined) {
+          Alert.alert('Warning', Err?.message);
+        }
+      },
+    };
+    dispatch(addCardAction(obj));
+  }
 
   return (
     <View style={styles.container}>
@@ -48,7 +74,7 @@ const FoodDetails = ({ route }) => {
         title={strings('foodDetails.food_Details')}
         extraStyle={styles.headerContainer}
         isHideIcon={true}
-        rightText={!showChef ? strings('foodDetails.edit') :""}
+        rightText={!showChef ? strings('foodDetails.edit') : ""}
       />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={'handled'}
@@ -71,9 +97,6 @@ const FoodDetails = ({ route }) => {
             activeDot={
               <>
                 <View style={styles.activateDot} />
-                <View style={[styles.rightView]}>
-                  <Text style={styles.leftText}>Delivery</Text>
-                </View>
               </>
             }>
             {[1, 1, 2, 3].map(() => {
@@ -91,17 +114,16 @@ const FoodDetails = ({ route }) => {
         <View style={styles.foodTitle}>
           <View>
             <Text style={styles.foodText}>{name}</Text>
-            <View style={styles.locationView}>
+            {/* <View style={styles.locationView}>
               <Image source={Icons.locationPin} style={styles.locationIcon} />
               <Text style={styles.locationText}>Kentucky 39495</Text>
-            </View>
+            </View> */}
           </View>
           <View>
-            <Text style={styles.priceText}>{`$${price}`}</Text>
+            <Text style={styles.priceText}>{`₹${price}`}</Text>
             <View style={styles.rateView}>
               <Image source={Icons.star} style={styles.starStyle} />
               <Text style={styles.rateText}>4.9</Text>
-              <Text style={styles.rateText1}>{`${'(10 Reviews)'}`}</Text>
             </View>
           </View>
         </View>
@@ -120,11 +142,12 @@ const FoodDetails = ({ route }) => {
           placeholderTextColor={colors.white}
         />
 
-        {/* <View style={[styles.underlineAll, { marginTop: hp(36) }]} />
-        <Text style={styles.descriptionText}>
-          {strings('foodDetails.description')}
-        </Text>
-        <Text style={styles.descriptionText1}>{description}</Text> */}
+        {showAddToCard ?
+          <PrimaryButton
+            extraStyle={styles.addButton}
+            onPress={onPressAddCard}
+            title={strings('addFoodList.add_to_card')}
+          /> : null}
       </KeyboardAwareScrollView>
     </View>
   );
@@ -205,8 +228,8 @@ const getGlobalStyles = (props: any) => {
       padding: 15,
       textAlignVertical: 'top',
       marginTop: hp(20),
-      color:colors.black,
-      backgroundColor:colors.card_bg
+      color: colors.black,
+      backgroundColor: colors.card_bg
     },
     descriptionText: {
       marginTop: 15,
@@ -268,6 +291,12 @@ const getGlobalStyles = (props: any) => {
     },
     leftText: {
       ...commonFontStyle(400, 14, colors.Title_Text),
-    }
+    },
+    addButton: {
+      height: hp(50),
+      marginTop: hp(30),
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
   });
 };

@@ -16,12 +16,11 @@ import CartMenuCardList from '../../compoment/CartMenuCardList';
 import { getCanteenCuisineAction, getCanteenMenuAction, getStudentMenuListAction } from '../../actions/commonAction';
 import { GET_CANTEEN_CUISINE_LIST, GET_EMPTY_CANTEEN_LIST } from '../../redux/actionTypes';
 
-type Props = {};
 
-const StudentMenuList = (props: Props) => {
-  const { colors, isDark } = useTheme();
+const StudentMenuList = () => {
+  const { colors } = useTheme();
   const navigation = useNavigation();
-  const { params } = useRoute();
+  const { params } = useRoute<any>();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [tabSelection, setTabSelection] = useState(strings('myMenuList.all'));
   const [refreshing, setRefreshing] = React.useState(false);
@@ -52,8 +51,8 @@ const StudentMenuList = (props: Props) => {
   const getCanteenCuisineList = () => {
     let obj = {
       params: params?.selectID,
-      onSuccess: (res: any) => { },
-      onFailure: (Err: any) => { },
+      onSuccess: () => { },
+      onFailure: () => { },
     };
     dispatch(getCanteenCuisineAction(obj));
   };
@@ -145,10 +144,10 @@ const StudentMenuList = (props: Props) => {
           console.log('dee');
         }}
         mainShow={true}
-        title={strings('myMenuList.my_menu')}
+        title={params?.canteenName ? params?.canteenName : strings('myMenuList.my_menu')}
         extraStyle={styles.headerContainer}
         isShowIcon={false}
-        isCardIcon = {true}
+        isCardIcon={false}
       />
       {getCanteenCuisines?.length === 0 ? null :
         <View style={styles.tabMainView}>

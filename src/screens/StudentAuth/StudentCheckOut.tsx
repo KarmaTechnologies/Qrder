@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   Image,
   ScrollView,
@@ -8,26 +9,54 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
-import {useAppSelector} from '../../redux/hooks';
+import React, { useState } from 'react';
+import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import HomeHeader from '../../compoment/HomeHeader';
-import {strings} from '../../i18n/i18n';
+import { strings } from '../../i18n/i18n';
 import Input from '../../compoment/Input';
-import {commonFontStyle, hp, wp} from '../../theme/fonts';
+import { commonFontStyle, hp, wp } from '../../theme/fonts';
 import PrimaryButton from '../../compoment/PrimaryButton';
-import {Icons} from '../../utils/images';
+import { Icons } from '../../utils/images';
+import { deleteCardAction, getCardAction } from '../../actions/cardAction';
 
-type Props = {};
-
-const StudentCheckOut = (props: Props) => {
-  const {colors, isDark} = useTheme();
+const StudentCheckOut = () => {
+  const { colors } = useTheme();
   const navigation = useNavigation();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
-  const {isDarkTheme} = useAppSelector(state => state.common);
-  const [names, setName] = useState<string>('');
-  const [emails, setEmail] = useState<string>('');
-  const [numbers, setNumber] = useState<string>('');
+  const dispatch = useAppDispatch();
+  const route = useRoute<any>();
+  const { userData } = route.params;
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
+  const { isDarkTheme } = useAppSelector(state => state.common);
+  const { getCardData } = useAppSelector(state => state.data);
+  const [names, setName] = useState<string>(userData?.name);
+  const [numbers, setNumber] = useState<string>(userData?.number);
+  const [hostelName, setHostelName] = useState<string>(userData?.hostel_name);
+
+  const totalPrice = getCardData.reduce((acc, item) => {
+    return acc + (Number(item.price) * item.quantity);
+  }, 0);
+
+  const deleteCardItem = (id: number) => {
+    let cardInfo = {
+      data: id,
+      onSuccess: () => {
+        let obj = {
+          onSuccess: () => {
+          },
+          onFailure: () => {
+          },
+        };
+        dispatch(getCardAction(obj));
+      },
+      onFailure: (Err: any) => {
+        if (Err != undefined) {
+          Alert.alert('Warning', Err?.message);
+        }
+      },
+    };
+    dispatch(deleteCardAction(cardInfo));
+  }
 
   return (
     <View style={styles.container}>
@@ -45,36 +74,31 @@ const StudentCheckOut = (props: Props) => {
         isHideIcon={true}
         isShowIcon={false}
       />
-      <ScrollView style={{marginHorizontal: wp(24)}} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ marginHorizontal: wp(24) }} showsVerticalScrollIndicator={false}>
         <View style={[styles.addressContainer]}>
-          <Text style={styles.youOrderText}>Your Order</Text>
+          <Text style={styles.youOrderText}>{strings('studentCheckOut.your_order')}</Text>
           <View style={styles.lineStyle} />
           <FlatList
-            data={[1, 2]}
+            data={getCardData}
             ListEmptyComponent={() => {
               return (
-                <View style={{marginVertical: 20, alignSelf: 'center'}}>
-                  <Text style={styles.noProductText}>No product found</Text>
+                <View style={styles.noProductView}>
+                  <Text style={styles.noProductText}>{strings('studentCheckOut.no_product_found')}</Text>
                 </View>
               );
             }}
-            renderItem={({item}) => {
+            renderItem={({ item }) => {
               return (
                 <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginHorizontal: wp(16),
-                    paddingVertical: hp(16),
-                  }}>
-                  <View style={{flex: 1}}>
-                    <Text style={styles.text1}>{'name item'}</Text>
-                    <Text style={styles.text2}>{'item?.unit'}</Text>
+                  style={styles.mainContainer}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.text1}>{item.name}</Text>
+                    <Text style={styles.text2}>{item.cuisine_name}</Text>
                     <TouchableOpacity
-                      onPress={() => {}}
+                      onPress={() => deleteCardItem(item?.id)}
                       style={styles.rowStyle}>
                       <Image source={Icons.delete} style={styles.iconStyle} />
-                      <Text style={styles.removeText}>Remove</Text>
+                      <Text style={styles.removeText}>{strings('studentCheckOut.remove')}</Text>
                     </TouchableOpacity>
                     {/* <View style={[styles.rowStyle, { marginTop: 7 }]}>
                 <Image source={icons.like} style={styles.iconStyle} />
@@ -85,7 +109,7 @@ const StudentCheckOut = (props: Props) => {
                     <View style={styles.imageContainer}>
                       <View style={styles.imageStyle} />
                     </View>
-                    <Text style={styles.footerRightText}>{`$${10}`}</Text>
+                    <Text style={styles.footerRightText}>{`₹${Number(item?.price * item.quantity).toFixed(2)}`}</Text>
                   </View>
                 </View>
               );
@@ -94,8 +118,8 @@ const StudentCheckOut = (props: Props) => {
 
           <View style={styles.lineStyle} />
           <View style={[styles.rowStyle, styles.rowSubStyle]}>
-            <Text style={styles.listLeftText}>Sub Total</Text>
-            <Text style={styles.listRightText}>{`$${20}`}</Text>
+            <Text style={styles.listLeftText}>{strings('studentCheckOut.sub_total')}</Text>
+            <Text style={styles.listRightText}>{`₹${totalPrice.toFixed(2)}`}</Text>
           </View>
         </View>
         <Input
@@ -105,12 +129,11 @@ const StudentCheckOut = (props: Props) => {
           onChangeText={(t: string) => setName(t)}
         />
         <Input
-          value={emails}
-          placeholder={strings('sign_up.p_email')}
-          label={strings('sign_up.email')}
-          onChangeText={(t: string) => setEmail(t)}
+          value={hostelName}
+          placeholder={strings('StudentSignUp.enter_name')}
+          label={strings('StudentSignUp.hostel_name')}
+          onChangeText={(t: string) => setHostelName(t)}
         />
-
         <Input
           value={numbers}
           placeholder={strings('sign_up.p_enter_number')}
@@ -121,7 +144,7 @@ const StudentCheckOut = (props: Props) => {
         />
         <PrimaryButton
           extraStyle={styles.signupButton}
-          onPress={() => {}}
+          onPress={() => { }}
           title={strings('Cart.CheckOut')}
         />
       </ScrollView>
@@ -132,7 +155,7 @@ const StudentCheckOut = (props: Props) => {
 export default StudentCheckOut;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -163,16 +186,26 @@ const getGlobalStyles = (props: any) => {
       borderWidth: 0.4,
       borderColor: colors.border_line4,
     },
+    noProductView: {
+      marginVertical: 20,
+      alignSelf: 'center'
+    },
     noProductText: {
       ...commonFontStyle(600, 16, colors.black),
     },
+    mainContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginHorizontal: wp(16),
+      paddingVertical: hp(16),
+    },
     text1: {
-      ...commonFontStyle(600, 12, colors.headerText),
+      ...commonFontStyle(700, 14, colors.headerText),
     },
     text2: {
       marginTop: 8,
       marginBottom: 15,
-      ...commonFontStyle(600, 12, colors.gray_400),
+      ...commonFontStyle(400, 12, colors.Primary_Orange),
     },
     rowStyle: {
       flexDirection: 'row',
@@ -193,11 +226,11 @@ const getGlobalStyles = (props: any) => {
       ...commonFontStyle(600, 14, colors.headerText),
     },
     listLeftText: {
-      ...commonFontStyle(600, 10, colors.gray_400),
+      ...commonFontStyle(600, 16, colors.black),
     },
     listRightText: {
       right: 4,
-      ...commonFontStyle(600, 14, colors.headerText),
+      ...commonFontStyle(600, 16, colors.black),
     },
     listRightText1: {
       right: 4,
@@ -228,7 +261,7 @@ const getGlobalStyles = (props: any) => {
     },
     signupButton: {
       marginTop: 20,
-      marginBottom:30,
+      marginBottom: 30,
       marginHorizontal: wp(24),
       height: hp(50),
     },

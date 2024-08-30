@@ -3,16 +3,17 @@ import {
   StatusBar,
   StyleSheet,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
-import {  hp, wp } from '../../theme/fonts';
+import { hp, wp } from '../../theme/fonts';
 import PrimaryButton from '../../compoment/PrimaryButton';;
 import { screenName } from '../../navigation/screenNames';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CartItems from '../../compoment/CartItems';
+import { getAsyncUserInfo } from '../../utils/asyncStorageManager';
 
 type Props = {};
 
@@ -23,7 +24,20 @@ const StudentOrderHistory = (props: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const { isDarkTheme } = useAppSelector(state => state.common);
   const { getCardData } = useAppSelector(state => state.data);
- 
+  const [userData, setUserData] = useState<any>({});
+
+  useEffect(() => {
+    fetchUserInfo()
+  }, [])
+  const fetchUserInfo = async () => {
+    try {
+      const userList = await getAsyncUserInfo();
+      setUserData(userList)
+    } catch (error) {
+
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -47,7 +61,7 @@ const StudentOrderHistory = (props: Props) => {
         <PrimaryButton
           extraStyle={styles.signupButton}
           onPress={() => {
-            navigation.navigate(screenName.StudentCheckOut);
+            navigation.navigate(screenName.StudentCheckOut, { userData: userData });
           }}
           title={strings('Cart.CheckOut')}
         />}

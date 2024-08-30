@@ -103,7 +103,6 @@ const ChefProfile = (props: Props) => {
           </View>
           <View style={styles.userNameView}>
             <Text style={styles.nameText}>{name}</Text>
-            <Text style={styles.desText}>I love fast food</Text>
           </View>
         </View>
 

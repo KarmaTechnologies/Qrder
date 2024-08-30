@@ -109,7 +109,6 @@ console.log(name)
           </TouchableOpacity>
           <View style={styles.userNameView}>
             <Text style={styles.nameText}>{name}</Text>
-            <Text style={styles.desText}>{strings('PersonalInfo.i_love_fast_food')}</Text>
           </View>
         </View>
 

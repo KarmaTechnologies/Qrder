@@ -14,6 +14,7 @@ import AddFoodDetails from "../screens/Chef/AddFoodDetails";
 import Notification from "../screens/Chef/Notification";
 import Profile from "../screens/Chef/Profile";
 import { Icons } from "../utils/images";
+import { AdminHomeStack } from "./StackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -97,7 +98,7 @@ function BottomTabBar() {
         headerShown: false,
       }}
     >
-      <Tab.Screen name={screenName.tab_bar_name.Home} component={Home} />
+      <Tab.Screen name={screenName.tab_bar_name.Home} component={AdminHomeStack} />
       <Tab.Screen name={screenName.tab_bar_name.FoodList} component={FoodList} />
       <Tab.Screen
         name={screenName.tab_bar_name.AddFoodDetails}
@@ -115,7 +116,7 @@ const getGlobalStyles = (props: any) => {
     itemContainer: {
       flexDirection: "row",
       alignItems: "center",
-      backgroundColor: colors.white,
+      backgroundColor: colors.modalBg,
       justifyContent: "space-between",
       shadowColor: "#000",
       shadowOffset: {

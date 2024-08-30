@@ -15,6 +15,8 @@ export default {
     continue: 'जारी रखना',
     admin: 'व्यवस्थापक',
     chef: 'शेफ',
+    owner: 'मालिक',
+    staff: 'स्टाफ',
     student: 'विद्यार्थी',
     error_role: "कृपया भूमिका चुनें"
   },
@@ -158,7 +160,7 @@ export default {
     add_new_items: 'नए आइटम जोड़ें',
     reset: 'रीसेट',
     item_name: 'आइटम का नाम',
-    p_itemName: 'मज़ली चिकन हलीम',
+    p_itemName: 'आइटम का नाम दर्ज करें',
     upload_photo_video: 'फोटो/वीडियो अपलोड करें',
     add: 'जोड़ें',
     price: 'मूल्य',
@@ -178,6 +180,8 @@ export default {
     edit_cuisines: 'व्यंजन संपादित करें',
     add_menu: 'मेनू जोड़ें',
     add_basic: 'अपना मूल विवरण यहां लिखें...',
+    add_to_card: 'कार्ड में जोड़ें',
+    miscellaneous: 'मिश्रित'
   },
   foodDetails: {
     food_Details: 'भोजन का विवरण',
@@ -284,5 +288,11 @@ export default {
     error_text: "ऑपरेशन (जैसे साइन इन) पहले से ही प्रगति पर है",
     play_services: 'प्ले सेवाएँ उपलब्ध नहीं हैं या पुरानी हैं',
     something_went: 'कुछ गलत हो गया, कृपया पुनः प्रयास करें'
+  },
+  studentCheckOut: {
+    your_order: 'आपका ऑर्डर',
+    no_product_found: 'कोई उत्पाद नहीं मिला',
+    remove: 'हटाएं',
+    sub_total: 'उप-योग'
   }
 };

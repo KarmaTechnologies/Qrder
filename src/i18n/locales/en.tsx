@@ -15,6 +15,8 @@ export default {
     continue: 'continue',
     admin: 'Admin',
     chef: 'Chef',
+    owner:'Owner',
+    staff:'Staff',
     student: 'Student',
     error_role: "Please Select Role"
   },
@@ -158,7 +160,7 @@ export default {
     add_new_items: 'Add New Items',
     reset: 'RESET',
     item_name: 'ITEM NAME',
-    p_itemName: 'Mazalichiken Halim',
+    p_itemName: 'Enter Item Name',
     upload_photo_video: 'Upload photo/video',
     add: 'Add',
     price: 'PRICE',
@@ -178,6 +180,8 @@ export default {
     edit_cuisines: 'Edit Cuisine',
     add_menu: 'Add Menu',
     add_basic: 'Write your basic details here...',
+    add_to_card:'ADD TO CARD',
+    miscellaneous:'Miscellaneous'
   },
   foodDetails: {
     food_Details: 'Food Details',
@@ -287,5 +291,11 @@ export default {
   },
   editFoodDetails: {
     editItems: 'Edit Items'
+  },
+  studentCheckOut:{
+    your_order:'Your Order',
+    no_product_found:'No product found',
+    remove:'Remove',
+    sub_total:'Sub Total'
   }
 };

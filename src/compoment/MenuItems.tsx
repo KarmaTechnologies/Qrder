@@ -18,11 +18,11 @@ export interface ListObj {
 type ItemProps = {
     item: ListObj;
     setDelete?: any
-    showChef:any
+    showChef: any
 };
 
 
-const MenuItems = ({ item, setDelete ,showChef}: ItemProps) => {
+const MenuItems = ({ item, setDelete, showChef }: ItemProps) => {
     const { colors } = useTheme();
     const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
     const navigation = useNavigation();
@@ -31,7 +31,7 @@ const MenuItems = ({ item, setDelete ,showChef}: ItemProps) => {
     const onPressedit = () => {
         hideMenu();
         const clear = setTimeout(() => {
-            navigation.navigate(screenName.FoodDetails, { itemData: item })
+            navigation.navigate(screenName.EditFoodDetails, { itemData: item })
         }, 500);
         return () => {
             clearTimeout(clear);
@@ -48,8 +48,8 @@ const MenuItems = ({ item, setDelete ,showChef}: ItemProps) => {
 
     return (
         <View style={styles.boxView}>
-            <TouchableOpacity activeOpacity={0.5} onPress={()=>{
-                   navigation.navigate(screenName.FoodDetails, { itemData: item,showChef:showChef })
+            <TouchableOpacity activeOpacity={0.5} onPress={() => {
+                navigation.navigate(screenName.FoodDetails, { itemData: item, showChef: showChef, showAddToCard: false })
             }} style={styles.subBoxView}>
                 {item.images[0] ? (
                     <Image source={{ uri: item.images[0] }} style={[styles.imageView, { backgroundColor: colors.image_Bg_gray }]} />
@@ -64,7 +64,7 @@ const MenuItems = ({ item, setDelete ,showChef}: ItemProps) => {
                 <View style={styles.container}>
                     <View style={styles.leftView}>
                         <Text style={styles.titleText}> {item?.name}</Text>
-                       {!showChef && <View style={styles.rightContainers}>
+                        {!showChef && <View style={styles.rightContainers}>
                             <Menu
                                 visible={visible}
                                 style={styles.boxMenu}
@@ -95,16 +95,14 @@ const MenuItems = ({ item, setDelete ,showChef}: ItemProps) => {
                         <View style={styles.breakfastView}>
                             <Text style={styles.breakfastText}> {item.cuisine_name}</Text>
                         </View>
-                        <Text style={styles.priceText}> {`$${item.price}`}</Text>
+                        <Text style={styles.priceText}> {`₹${item.price}`}</Text>
                     </View>
 
                     <View style={styles.rateView}>
                         <View style={{ flexDirection: 'row' }}>
                             <Image source={Icons.star} style={styles.starStyle} />
                             <Text style={styles.rateText}>4.9</Text>
-                            <Text style={styles.rateText1}>{`${'(10 Reviews)'}`}</Text>
                         </View>
-                        <Text style={styles.pickUpText}> {'Pick UP'}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -189,8 +187,8 @@ const getGlobalStyles = (props: any) => {
         menuTextStyle: {
             ...commonFontStyle(400, 16, colors.black),
         },
-        boxMenu:{
-            backgroundColor:colors.card_bg
+        boxMenu: {
+            backgroundColor: colors.card_bg
         }
     });
 };

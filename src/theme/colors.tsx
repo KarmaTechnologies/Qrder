@@ -53,7 +53,8 @@ export const light_theme = {
   neutral_200: '#5C6067',
   neutral_300: '#E5E6E8',
   green_100: 'rgba(77, 184, 39, 0.3)',
-  red:"red"
+  red: "red",
+  modalBg: '#fff',
 };
 
 export const dark_theme = {
@@ -107,5 +108,6 @@ export const dark_theme = {
   btn_red: '#FF3326',
   border_line3: '#4A4E5A',
   orange_bg: 'rgba(255, 118, 34, 0.2)',
-  red:"red"
+  red: "red",
+  modalBg: '#1D1E20',
 };

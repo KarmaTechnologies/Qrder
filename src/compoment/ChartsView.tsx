@@ -96,7 +96,7 @@ const ChartsView = ({
               {strings("home.total_revenue")}
             </Text>
             <Text numberOfLines={1} style={styles.labelTextStyle1}>
-              {'$2,241'}
+              {'₹2,241'}
             </Text>
           </View>
           <HomeDropDown

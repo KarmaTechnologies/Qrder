@@ -1,33 +1,29 @@
 import {
-  ActivityIndicator,
   Image,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {useFocusEffect, useNavigation, useTheme} from '@react-navigation/native';
+import React, { useCallback ,useState } from 'react';
+import { useFocusEffect, useNavigation, useTheme } from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
-import {strings} from '../../i18n/i18n';
-import {commonFontStyle, hp, wp} from '../../theme/fonts';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Icons} from '../../utils/images';
+import { strings } from '../../i18n/i18n';
+import { commonFontStyle, hp, wp } from '../../theme/fonts';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Icons } from '../../utils/images';
 import TitleList from '../../compoment/TitleListComponent';
 import Spacer from '../../compoment/Spacer';
 import ImagePicker from 'react-native-image-crop-picker';
 import Loader from '../../compoment/Loader';
-import {screenName} from '../../navigation/screenNames';
-import {clearAsync, getAsyncUserInfo} from '../../utils/asyncStorageManager';
-import {dispatchNavigation} from '../../utils/globalFunctions';
+import { screenName } from '../../navigation/screenNames';
+import { clearAsync, getAsyncUserInfo } from '../../utils/asyncStorageManager';
+import { dispatchNavigation } from '../../utils/globalFunctions';
 
-type Props = {};
-
-const StudentProfile = (props: Props) => {
-  const {colors, isDark} = useTheme();
+const StudentProfile = () => {
+  const { colors} = useTheme();
   const navigation = useNavigation();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [photoUri, setPhotoUri] = useState(null);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
@@ -65,10 +61,10 @@ const StudentProfile = (props: Props) => {
   );
 
   const onPressNavigation = (list: string) => {
-    if(list == screenName.PersonalInfo){
-      navigation.navigate(list,{hideEdit:false});
-    }else{
-     list !== '' && navigation.navigate(list);
+    if (list == screenName.PersonalInfo) {
+      navigation.navigate(list, { hideEdit: false });
+    } else {
+      list !== '' && navigation.navigate(list);
     }
   };
 
@@ -97,14 +93,13 @@ const StudentProfile = (props: Props) => {
               </View>
             ) : (
               <Image
-                source={photoUri ? {uri: photoUri} : Icons.profileImage}
+                source={photoUri ? { uri: photoUri } : Icons.profileImage}
                 style={styles.profilImage}
               />
             )}
           </TouchableOpacity>
           <View style={styles.userNameView}>
             <Text style={styles.nameText}>{name}</Text>
-            <Text style={styles.desText}>I love fast food</Text>
           </View>
         </View>
 
@@ -113,7 +108,7 @@ const StudentProfile = (props: Props) => {
             {
               title: strings('profileScreen.personal_info'),
               iconName: Icons.profileIcon,
-              screens:screenName.PersonalInfo
+              screens: screenName.PersonalInfo
             },
           ]}
           onPressCell={onPressNavigation}
@@ -123,16 +118,12 @@ const StudentProfile = (props: Props) => {
             {
               title: strings('StudentSignUp.orders_history'),
               iconName: Icons.menuIcon,
-              screens:screenName.MyOrdersList
+              screens: screenName.MyOrdersList
             },
-            // {
-            //   title: strings('profileScreen.salary'),
-            //   iconName: Icons.inventory,
-            // },
             {
               title: strings('profileScreen.settings'),
               iconName: Icons.crmIcon,
-              screens:screenName.Settings
+              screens: screenName.Settings
             },
           ]}
           onPressCell={onPressNavigation}
@@ -159,7 +150,7 @@ const StudentProfile = (props: Props) => {
 export default StudentProfile;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,

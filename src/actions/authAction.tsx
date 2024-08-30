@@ -3,7 +3,6 @@ import { RootState } from '../redux/hooks';
 import { AnyAction } from 'redux';
 import { makeAPIRequest } from '../utils/apiGlobal';
 import { POST, api } from '../utils/apiConstants';
-import { IS_LOADING, USER_INFO } from '../redux/actionTypes';
 import { getAsyncToken, setAsyncToken, setAsyncUserInfo } from '../utils/asyncStorageManager';
 import { errorToast, successToast } from '../utils/commonFunction';
 
@@ -13,7 +12,6 @@ export const userLogin =
       let headers = {
         'Content-Type': 'multipart/form-data',
       };
-      dispatch({ type: IS_LOADING, payload: true });
       return makeAPIRequest({
         method: POST,
         url: api.login,
@@ -22,7 +20,6 @@ export const userLogin =
       })
         .then(async (response: any) => {
           if (response?.data?.data) {
-            dispatch({ type: IS_LOADING, payload: false });
             await setAsyncToken(response?.data?.data?.token);
             await setAsyncUserInfo(response?.data?.data?.user);
             if (request.onSuccess) request.onSuccess(response.data);
@@ -31,7 +28,6 @@ export const userLogin =
           }
         })
         .catch(error => {
-          dispatch({ type: IS_LOADING, payload: false });
           console.log('error?.response?.data', error?.response?.data);
 
           if (request.onFailure) request.onFailure(error?.response?.data);
@@ -44,7 +40,6 @@ export const userSignUp =
       let headers = {
         'Content-Type': 'multipart/form-data',
       };
-      dispatch({ type: IS_LOADING, payload: true });
       return makeAPIRequest({
         method: POST,
         url: api.register,
@@ -53,14 +48,12 @@ export const userSignUp =
       })
         .then(async (response: any) => {
           if (response.status === 200 || response.status === 201) {
-            dispatch({ type: IS_LOADING, payload: false });
             await setAsyncToken(response?.data?.data?.token);
             await setAsyncUserInfo(response?.data?.data?.user);
             if (request.onSuccess) request.onSuccess(response.data);
           }
         })
         .catch(error => {
-          dispatch({ type: IS_LOADING, payload: false });
           if (request.onFailure) request.onFailure(error.response);
         });
     };
@@ -71,7 +64,6 @@ export const studentUserSignUp =
       let headers = {
         'Content-Type': 'multipart/form-data',
       };
-      dispatch({ type: IS_LOADING, payload: true });
       return makeAPIRequest({
         method: POST,
         url: api.studentRegister,
@@ -80,7 +72,6 @@ export const studentUserSignUp =
       })
         .then(async (response: any) => {
           if (response?.data?.success) {
-            dispatch({ type: IS_LOADING, payload: false });
             await setAsyncToken(response?.data?.data?.token);
             await setAsyncUserInfo(response?.data?.data?.user);
             if (request.onSuccess) request.onSuccess(response.data);
@@ -89,7 +80,6 @@ export const studentUserSignUp =
           }
         })
         .catch(error => {
-          dispatch({ type: IS_LOADING, payload: false });
           if (request.onFailure) request.onFailure(error?.response?.data);
         });
     };
@@ -100,7 +90,6 @@ export const canteenRegisterSignUp =
       let headers = {
         'Content-Type': 'multipart/form-data',
       };
-      dispatch({ type: IS_LOADING, payload: true });
       return makeAPIRequest({
         method: POST,
         url: api.canteenRegister,
@@ -109,7 +98,6 @@ export const canteenRegisterSignUp =
       })
         .then(async (response: any) => {
           if (response?.data?.success) {
-            dispatch({ type: IS_LOADING, payload: false });
             await setAsyncToken(response?.data?.data?.token);
             await setAsyncUserInfo(response?.data?.data?.user);
             if (request.onSuccess) request.onSuccess(response.data);
@@ -118,7 +106,6 @@ export const canteenRegisterSignUp =
           }
         })
         .catch(error => {
-          dispatch({ type: IS_LOADING, payload: false });
           if (request.onFailure) request.onFailure(error?.response?.data);
         });
     };
@@ -207,8 +194,7 @@ export const googleEmailAction =
         data: request.data,
       })
         .then(async (response: any) => {
-          if (response?.data?.data) {
-            dispatch({ type: IS_LOADING, payload: false });
+          if (response?.data?.success === true) {
             await setAsyncToken(response?.data?.data?.token);
             await setAsyncUserInfo(response?.data?.data?.user);
             if (request.onSuccess) request.onSuccess(response.data);

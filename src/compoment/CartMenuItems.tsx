@@ -1,14 +1,14 @@
-import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React  from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
-import {commonFontStyle, hp, wp} from '../theme/fonts';
-import {Icons} from '../utils/images';
-import {strings} from '../i18n/i18n';
-import {screenName} from '../navigation/screenNames';
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { commonFontStyle, hp, wp } from '../theme/fonts';
+import { Icons } from '../utils/images';
+import { strings } from '../i18n/i18n';
+import { screenName } from '../navigation/screenNames';
 import PrimaryButton from './PrimaryButton';
-import {useAppDispatch} from '../redux/hooks';
+import { useAppDispatch } from '../redux/hooks';
 
-import { addCardAction } from '../actions/cardAction';
+import { addCardAction, getCardAction } from '../actions/cardAction';
 
 export interface ListObj {
   title: string;
@@ -22,19 +22,26 @@ type ItemProps = {
   item: ListObj;
 };
 
-const CartMenuItems = ({item}: ItemProps) => {
-  const {colors} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+const CartMenuItems = ({ item }: ItemProps) => {
+  const { colors } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
-  const addToCard = (card:any) =>{
+  const addToCard = (card: any) => {
     let obj = {
       data: {
         menu_id: card?.id,
         quantity: 1
       },
       onSuccess: (res: any) => {
+        let obj = {
+          onSuccess: () => {
+          },
+          onFailure: () => {
+          },
+        };
+        dispatch(getCardAction(obj));
       },
       onFailure: (Err: any) => {
         if (Err != undefined) {
@@ -51,43 +58,41 @@ const CartMenuItems = ({item}: ItemProps) => {
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => {
-          navigation.navigate(screenName.FoodDetails, {itemData: item,showChef:true});
+          navigation.navigate(screenName.FoodDetails, { itemData: item, showChef: true, showAddToCard: true });
         }}
         style={styles.subBoxView}>
         {item.images[0] ? (
           <Image
-            source={{uri: item.images[0]}}
-            style={[styles.imageView, {backgroundColor: colors.image_Bg_gray}]}
+            source={{ uri: item.images[0] }}
+            style={[styles.imageView, { backgroundColor: colors.image_Bg_gray }]}
           />
         ) : (
           <View
-            style={[styles.imageView, {backgroundColor: colors.image_Bg_gray}]}
+            style={[styles.imageView, { backgroundColor: colors.image_Bg_gray }]}
           />
         )}
         <View style={styles.container}>
           <View style={styles.leftView}>
             <Text style={styles.titleText}> {item?.name}</Text>
-            <Text style={styles.priceText}> {`$${item.price}`}</Text>
+            <Text style={styles.priceText}> {`₹${item.price}`}</Text>
           </View>
           <View style={styles.rateView}>
             <View style={styles.breakfastView}>
               <Text style={styles.breakfastText}> {item.cuisine_name}</Text>
             </View>
-            <Text style={styles.pickUpText}> {'Pick UP'}</Text>
+            <PrimaryButton
+              extraStyle={styles.doneBtn}
+              title={strings('CardMenuList.add')}
+              titleStyle={styles.doneText}
+              onPress={() => addToCard(item)}
+            />
           </View>
           <View style={styles.rateView}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Image source={Icons.star} style={styles.starStyle} />
               <Text style={styles.rateText}>4.9</Text>
-              <Text style={styles.rateText1}>{`${'(10 Reviews)'}`}</Text>
+              {/* <Text style={styles.rateText1}>{`${'(10 Reviews)'}`}</Text> */}
             </View>
-            {/* {!addItem ? ( */}
-              <PrimaryButton
-                extraStyle={styles.doneBtn}
-                title={strings('CardMenuList.add')}
-                titleStyle={styles.doneText}
-                onPress={()=>addToCard(item)}
-              />
           </View>
         </View>
       </TouchableOpacity>
@@ -97,7 +102,7 @@ const CartMenuItems = ({item}: ItemProps) => {
 export default CartMenuItems;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     boxView: {
       marginTop: hp(20),
@@ -185,11 +190,11 @@ const getGlobalStyles = (props: any) => {
     },
     doneBtn: {
       height: hp(26),
-      paddingHorizontal: wp(13),
+      paddingHorizontal: wp(20),
       borderRadius: 8,
     },
     doneText: {
-      ...commonFontStyle(400, 14, colors?.white),
+      ...commonFontStyle(400, 14, colors?.black),
       textTransform: 'none',
     },
   });

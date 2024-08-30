@@ -108,7 +108,7 @@ const getGlobalStyles = (props: any) => {
     itemContainer: {
       flexDirection: "row",
       alignItems: "center",
-      backgroundColor: colors.white,
+      backgroundColor: colors.modalBg,
       justifyContent: "space-between",
       shadowColor: "#000",
       shadowOffset: {

@@ -41,7 +41,6 @@ const MyMenuList = (props: Props) => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [loading, setLoading] = useState(true);
   const [onEndReached, setOnEndReached] = useState(true);
-  console.log('page', page);
   const refFlatList = useRef();
 
   const onRefresh = React.useCallback(() => {

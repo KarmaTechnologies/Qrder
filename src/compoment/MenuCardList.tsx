@@ -72,7 +72,7 @@ const MenuCardList = ({
     <>
       <Text style={styles.itemsText}>
         {currentData.current?.length
-          ? `Total ${currentData.current?.length} items`
+          ? `${strings('CardMenuList.total')} ${currentData.current?.length} ${strings('CardMenuList.items')}`
           : null}
       </Text>
       {currentData.current && (

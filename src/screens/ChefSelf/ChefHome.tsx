@@ -20,19 +20,17 @@ import CardView from '../../compoment/CardView';
 import { commonFontStyle, hp, wp } from '../../theme/fonts';
 import OrderModal from '../../compoment/OrderModal';
 import { strings } from '../../i18n/i18n';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getCuisinesAction } from '../../actions/cuisinesAction';
 import { getChefsAction } from '../../actions/chefsAction';
 
-type Props = {};
-
-const ChefHome = (props: Props) => {
-  const { colors, isDark } = useTheme();
-  const navigation = useNavigation();
+const ChefHome = () => {
+  const { colors } = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [value, setValue] = useState('');
   const [runningOrderModal, setRunninOrderModal] = useState(false);
   const [orderRequestModal, setOrderRequestModal] = useState(false);
+  const { isDarkTheme } = useAppSelector(state => state.common);
   const dispatch = useAppDispatch();
 
   const GetStatus = async () => {
@@ -77,20 +75,20 @@ const ChefHome = (props: Props) => {
   const getCuisinesList = () => {
     let obj = {
       data: {
-        page: pages,
+        page: 1,
         limit: 15,
-        pagination:false
+        pagination: false
       },
-      onSuccess: (res: any) => {},
-      onFailure: (Err: any) => {},
+      onSuccess: (res: any) => { },
+      onFailure: (Err: any) => { },
     };
     dispatch(getCuisinesAction(obj));
   };
 
   const getChefsList = () => {
     let obj = {
-      onSuccess: (res: any) => {},
-      onFailure: (Err: any) => {},
+      onSuccess: (res: any) => { },
+      onFailure: (Err: any) => { },
     };
     dispatch(getChefsAction(obj));
   };
@@ -103,10 +101,7 @@ const ChefHome = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar
-        barStyle={'dark-content'}
-        backgroundColor={colors.Primary_BG}
-      />
+      <StatusBar barStyle={isDarkTheme ? 'light-content' : 'dark-content'} backgroundColor={colors.white} />
       <HomeHeader
         onPressProfile={() => { }}
         onPressCart={() => { }}
@@ -124,14 +119,14 @@ const ChefHome = (props: Props) => {
             <Text style={styles.headerSubText}>{strings("home.order_request")}</Text>
           </CardView>
         </View>
-      
+
         <View style={{ height: 100 }} />
 
         {runningOrderModal &&
-          <OrderModal 
-          isVisible={runningOrderModal} 
-          onPressCancel={() => setRunninOrderModal(false)}
-          isRunning={true}
+          <OrderModal
+            isVisible={runningOrderModal}
+            onPressCancel={() => setRunninOrderModal(false)}
+            isRunning={true}
           />
         }
 
@@ -152,7 +147,7 @@ const getGlobalStyles = (props: any) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.Primary_BG,
+      backgroundColor: colors.white,
     },
     headerCard: {
       flexDirection: 'row',

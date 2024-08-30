@@ -105,7 +105,7 @@ export default function (state = initialState, action: any) {
       const updatedCardData = state.getCardData.map((item: any) => {
         return (
           item.menu_id === action.payload
-            ? { ...item, quantity: item.quantity + 1, price: item.price * (item.quantity + 1) }
+            ? { ...item, quantity: item.quantity + 1,  product_total: (item.price * (item.quantity + 1))}
             : item
         )
       });
@@ -117,7 +117,7 @@ export default function (state = initialState, action: any) {
     case DECREMENT: {
       const updatedCardData = state.getCardData.map((item: any) =>
         item.menu_id === action.payload && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1, price: item.price * (item.quantity - 1) }
+          ? { ...item, quantity: item.quantity - 1,  product_total: (item.price * (item.quantity - 1))}
           : item
       );
       return {
