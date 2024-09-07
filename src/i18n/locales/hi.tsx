@@ -277,7 +277,8 @@ export default {
   CardMenuList: {
     add: 'जोड़ें',
     total: 'कुल',
-    items: 'वस्तुएँ'
+    items: 'वस्तुएँ',
+    see_more: 'और देखें'
   },
   Cart: {
     CheckOut: "चेकआउट",

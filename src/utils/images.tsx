@@ -60,4 +60,6 @@ export const Icons = {
   cuisine: require('../assets/Icons/cuisine.png'),
   chef: require('../assets/Icons/chef.png'),
   addMenu1: require('../assets/Icons/addMenu1.png'),
+  leftback: require('../assets/Icons/leftback.png'),
+  left_menu: require('../assets/Icons/left_menu.png'),
 };

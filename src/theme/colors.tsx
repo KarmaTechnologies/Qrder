@@ -55,6 +55,7 @@ export const light_theme = {
   green_100: 'rgba(77, 184, 39, 0.3)',
   red: "red",
   modalBg: '#fff',
+  back_bg:'#ECF0F4'
 };
 
 export const dark_theme = {
@@ -110,4 +111,5 @@ export const dark_theme = {
   orange_bg: 'rgba(255, 118, 34, 0.2)',
   red: "red",
   modalBg: '#1D1E20',
+  back_bg:'#1D1E20'
 };

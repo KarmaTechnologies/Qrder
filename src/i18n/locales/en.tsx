@@ -277,7 +277,8 @@ export default {
   CardMenuList: {
     add: 'Add',
     total: 'Total',
-    items: 'items'
+    items: 'items',
+    see_more:'See More'
   },
   Cart: {
     CheckOut: "Checkout",

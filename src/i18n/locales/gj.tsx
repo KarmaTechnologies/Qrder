@@ -278,7 +278,8 @@ export default {
   CardMenuList: {
     add: 'ઉમેરો',
     total: 'કુલ',
-    items: 'વસ્તુઓ'
+    items: 'વસ્તુઓ',
+    see_more: 'વધુ જુઓ'
   },
   Cart: {
     CheckOut: "ચેકઆઉટ",

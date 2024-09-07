@@ -46,6 +46,7 @@ const HomeHeader = ({
   const { colors } = useTheme();
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const { getCardData } = useAppSelector(state => state.data);
+  const { isDarkTheme } = useAppSelector(state => state.common);
 
 
   const onPressBell = () => {
@@ -58,7 +59,7 @@ const HomeHeader = ({
       <SafeAreaView edges={['top']} style={[styles?.container, extraStyle]}>
         <View style={styles.address_container}>
           <TouchableOpacity style={styles.location_icon} onPress={onBackPress}>
-            <Image source={Icons?.ic_back} style={styles?.header_logo} />
+            <Image source={Icons?.leftback} style={styles?.backIcon} />
           </TouchableOpacity>
           <View style={[styles.headerTitle]}>
             <Text style={styles.title}>{title}</Text>
@@ -89,8 +90,8 @@ const HomeHeader = ({
   return (
     <SafeAreaView edges={['top']} style={styles?.container}>
       <View style={styles.address_container}>
-        <TouchableOpacity style={styles.location_icon}>
-          <Image source={Icons?.leftMenu} style={styles?.header_logo} />
+        <TouchableOpacity style={styles.location_icon} >
+          <Image source={Icons?.left_menu} style={styles?.menuIcon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={onPressLocation} style={styles.location}>
           <Text style={styles.home_title}>{strings("home.location")}</Text>
@@ -141,7 +142,25 @@ const getGlobalStyles = (props: any) => {
     headerTitle: {
       marginLeft: wp(16),
     },
-    location_icon: {},
+    location_icon: {
+      width: wp(45),
+      height: wp(45),
+      borderRadius: wp(45) / 2,
+      backgroundColor:colors.back_bg,
+      alignItems:'center',
+      justifyContent:'center',
+      alignSelf:'center'
+    },
+    backIcon: {
+      width: wp(8),
+      height: hp(16),
+      tintColor:colors.black
+    },
+    menuIcon:{
+      width: wp(16),
+      height: hp(16),
+      tintColor:colors.black
+    },
     home_title: {
       ...commonFontStyle(700, 12, colors.headerText1),
     },

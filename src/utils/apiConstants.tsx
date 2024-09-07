@@ -1,6 +1,6 @@
 
 export const api = {
-  BASE_URL: "https://06ca-2405-201-201f-9802-18d7-351f-e88e-78b8.ngrok-free.app/api/",
+  BASE_URL: "https://2738-2405-201-201f-9802-928-448f-d7d2-349e.ngrok-free.app/api/",
 
   // Auth
   login: 'login',

@@ -4,6 +4,7 @@ import {
   RefreshControl,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, { useRef, useState } from 'react';
@@ -41,7 +42,7 @@ const MenuCardList = ({
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [visible, setVisible] = useState(false);
   const [selectItem, setSelectItem] = useState([]);
-  const { getMenuData } = useAppSelector(state => state.data);
+  const { getMenuData, allMenuCount } = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
 
   const currentData = useRef();
@@ -68,6 +69,8 @@ const MenuCardList = ({
     removeMenuCardList();
   };
 
+  const hasMoreItems = currentData.current?.length < allMenuCount;
+
   return (
     <>
       <Text style={styles.itemsText}>
@@ -82,16 +85,27 @@ const MenuCardList = ({
           }
           data={currentData.current}
           onMomentumScrollBegin={onMomentumScrollBegin}
-          ListFooterComponent={() => {
-            return (
-              <View>
-                {loadingMore && (
+          ListFooterComponent={() => (
+            <View>
+              {hasMoreItems && !loadingMore && (
+                <TouchableOpacity
+                  onPress={loadMoreData}
+                  style={styles.seeMoreButton}
+                >
+                  <Text style={styles.seeMoreText}>
+                    {strings('CardMenuList.see_more')}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              {loadingMore && (
+                <View style={styles.seeMoreButton}>
                   <ActivityIndicator size={'small'} color={colors.black} />
-                )}
-                <View style={{ height: 110 }} />
-              </View>
-            );
-          }}
+                </View>
+
+              )}
+              <View style={{ height: 70 }} />
+            </View>
+          )}
           ListEmptyComponent={
             loading ? (
               <ActivityIndicator size={'small'} color={colors.black} />
@@ -112,7 +126,7 @@ const MenuCardList = ({
             );
           }}
           showsVerticalScrollIndicator={false}
-          onEndReached={loadMoreData}
+        // onEndReached={loadMoreData}
         />
       )}
 
@@ -144,6 +158,13 @@ const getGlobalStyles = (props: any) => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
+    },
+    seeMoreButton: {
+      alignItems: 'center',
+      paddingVertical: 10,
+    },
+    seeMoreText: {
+      color: colors.black,
     },
   });
 };
