@@ -56,7 +56,11 @@ const MyMenuList = (props: Props) => {
 
   useEffect(() => {
     getCuisinesList(1);
-    getMenuList(1);
+    if (tabSelection === 'All') {
+      getMenuList(1);
+    } else {
+      getAllCuisinesMenuList(cuisineId, 1);
+    }
   }, [isFocuse]);
 
   const getCuisinesList = (pages: number) => {

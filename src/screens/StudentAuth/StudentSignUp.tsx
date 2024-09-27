@@ -43,7 +43,7 @@ const StudentSignUp = (props: Props) => {
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     getUniversitiesDataPress()
   }, []);
@@ -189,7 +189,6 @@ const StudentSignUp = (props: Props) => {
           <Input
             value={hostelAddress}
             placeholder={strings('StudentSignUp.enter_hostel_address')}
-            keyboardType="number-pad"
             label={strings('StudentSignUp.hostel_address')}
             onChangeText={(t: string) => setHostelAddress(t)}
             extraStyle={{zIndex: -1}}

@@ -30,6 +30,7 @@ import { strings } from '../../i18n/i18n';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getCuisinesAction } from '../../actions/cuisinesAction';
 import { getChefsAction } from '../../actions/chefsAction';
+import { getMiscellaneousAction } from '../../actions/menuAction';
 
 type Props = {};
 
@@ -82,6 +83,7 @@ const Home = (props: Props) => {
     getCurrentLocation();
     getCuisinesList()
     getChefsList()
+    getMiscellaneousList()
   }, []);
 
   const getCuisinesList = () => {
@@ -95,6 +97,19 @@ const Home = (props: Props) => {
       onFailure: (Err: any) => { },
     };
     dispatch(getCuisinesAction(obj));
+  };
+
+  const getMiscellaneousList = () => {
+    let obj = {
+      data: {
+        page: 1,
+        limit: 10,
+        pagination:false
+      },
+      onSuccess: (res: any) => { },
+      onFailure: (Err: any) => { },
+    };
+    dispatch(getMiscellaneousAction(obj));
   };
 
   const getChefsList = () => {

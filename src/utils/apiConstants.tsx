@@ -1,6 +1,6 @@
 
 export const api = {
-  BASE_URL: "https://2738-2405-201-201f-9802-928-448f-d7d2-349e.ngrok-free.app/api/",
+  BASE_URL: "https://11c8-2405-201-201f-9802-d833-4485-6027-d5c2.ngrok-free.app/api/",
 
   // Auth
   login: 'login',
@@ -23,6 +23,7 @@ export const api = {
   getCuisinesMenuList:'cuisine-menu',
   addCard:'add-to-cart',
   getCard:'cart',
+  getmiscellaneous :"miscellaneous-items",
 
   //student
   studentRegister:"student-register",

@@ -180,7 +180,7 @@ const getGlobalStyles = (props: any) => {
       backgroundColor: colors.green_4,
       justifyContent: 'center',
       alignItems: 'center',
-    },
+    }, 
     profile_text: {
       ...commonFontStyle(700, 16, colors.black),
     },

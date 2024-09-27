@@ -70,7 +70,6 @@ const MenuCardList = ({
   };
 
   const hasMoreItems = currentData.current?.length < allMenuCount;
-
   return (
     <>
       <Text style={styles.itemsText}>
@@ -85,12 +84,13 @@ const MenuCardList = ({
           }
           data={currentData.current}
           onMomentumScrollBegin={onMomentumScrollBegin}
+          keyExtractor={(item, index) => `${item.id}-${index}`}
           ListFooterComponent={() => (
             <View>
               {hasMoreItems && !loadingMore && (
                 <TouchableOpacity
                   onPress={loadMoreData}
-                  style={styles.seeMoreButton}
+                  style={[styles.seeMoreButton]}
                 >
                   <Text style={styles.seeMoreText}>
                     {strings('CardMenuList.see_more')}
@@ -103,7 +103,7 @@ const MenuCardList = ({
                 </View>
 
               )}
-              <View style={{ height: 70 }} />
+              <View style={{ height: 70}} />
             </View>
           )}
           ListEmptyComponent={

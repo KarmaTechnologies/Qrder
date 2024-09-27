@@ -162,28 +162,39 @@ const StudentMenuList = () => {
             onEndReachedThreshold={0.5}
             renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => onTabChange(item)}
-                style={[
-                  styles.tabItemView,
-                  {
-                    borderBottomWidth: 1,
-                    paddingBottom: hp(16),
-                    borderColor:
-                      tabSelection === item.name
-                        ? colors.headerText3
-                        : colors.card_bg,
-                  },
-                ]}>
-                <Text
-                  style={{
-                    color:
-                      tabSelection === item.name
-                        ? colors.headerText3
-                        : colors.Title_Text,
-                  }}>
-                  {item.name}
-                </Text>
-              </TouchableOpacity>
+              onPress={() =>  onTabChange(item)}
+              style={[
+                styles.tabItemView,
+                {
+                  // borderBottomWidth: 1,
+                  backgroundColor:  tabSelection === item.name
+                  ? colors.orange_bg
+                  : colors.card_bg,
+                  marginBottom: hp(16),
+                  // borderColor:
+                  //   tabSelection === item.name
+                  //     ? colors.headerText3
+                  //     : colors.card_bg,
+                },
+              ]}>
+                 <View
+                  style={[
+                      styles.imageView,
+                      { backgroundColor: tabSelection === item.name
+                        ? colors.image_Bg_gray
+                        : colors.image_Bg_gray },
+                  ]}
+              />
+              <Text
+                style={{
+                  color:
+                    tabSelection === item.name
+                      ? colors.black
+                      : colors.Title_Text,
+                }}>
+                {item.name}
+              </Text>
+            </TouchableOpacity>
             )}
           />
           <View style={styles.underlineAll} />
@@ -228,7 +239,10 @@ const getGlobalStyles = (props: any) => {
       marginTop: hp(14),
       alignItems: 'center',
       marginRight: 20,
-      borderBottomWidth: 1,
+      flexDirection:'row',
+      paddingVertical:hp(5),
+      paddingHorizontal:wp(10),
+      borderRadius:50
     },
     ongoingText: {
       ...commonFontStyle(700, 14, colors.gray_200),
@@ -254,5 +268,11 @@ const getGlobalStyles = (props: any) => {
       flex: 1,
       marginHorizontal: wp(16),
     },
+    imageView: {
+      width: wp(30),
+      height: wp(30),
+      borderRadius: wp(30),
+      marginRight:wp(8)
+  },
   });
 };

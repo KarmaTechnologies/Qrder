@@ -3,7 +3,7 @@ import {RootState} from '../redux/hooks';
 import {AnyAction} from 'redux';
 import {makeAPIRequest} from '../utils/apiGlobal';
 import {DELETE, GET, POST, api} from '../utils/apiConstants';
-import {DELETE_MENU_DATA, GET_EMPTY_MENU_LIST, GET_MENU_DATA, IS_LOADING, USER_INFO} from '../redux/actionTypes';
+import {DELETE_MENU_DATA, GET_EMPTY_MENU_LIST, GET_MENU_DATA, GET_MISCELLANEOUS, IS_LOADING, USER_INFO} from '../redux/actionTypes';
 import {
   getAsyncToken,
   setAsyncToken,
@@ -148,5 +148,27 @@ export const deleteMenuAction =
       })
       .catch(error => {
         if (request.onFailure) request.onFailure(error?.response?.data);
+      });
+  };
+  export const getMiscellaneousAction =
+  (request: any): ThunkAction<void, RootState, unknown, AnyAction> =>
+  async dispatch => {
+    let headers = {
+      Authorization: await getAsyncToken(),
+    };
+    return makeAPIRequest({
+      method: GET,
+      url: `${api.getmiscellaneous}`,
+      headers: headers,
+      params:request?.data
+    })
+      .then(async (response: any) => {
+        if (response.status === 200 || response.status === 201) {
+          dispatch({type: GET_MISCELLANEOUS, payload:{...response?.data?.data, current_page: request?.data?.page}});
+          if (request.onSuccess) request.onSuccess(response.data);
+        }
+      })
+      .catch(error => {
+        if (request.onFailure) request.onFailure(error.response);
       });
   };

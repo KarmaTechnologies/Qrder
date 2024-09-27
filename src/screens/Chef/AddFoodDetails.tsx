@@ -3,14 +3,15 @@ import {
   FlatList,
   Image,
   Keyboard,
+  ListRenderItem,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { useIsFocused, useNavigation, useTheme } from '@react-navigation/native';
 import HomeHeader from '../../compoment/HomeHeader';
 import { strings } from '../../i18n/i18n';
 import Input from '../../compoment/Input';
@@ -26,6 +27,16 @@ import { errorToast } from '../../utils/commonFunction';
 import moment = require('moment');
 import AddFolderModal from '../../compoment/AddFolderModal';
 import Spacer from '../../compoment/Spacer';
+import { getCuisinesAction } from '../../actions/cuisinesAction';
+import { screenName } from '../../navigation/screenNames';
+
+
+type DataItem = {
+  id: number;
+  name: string;
+  price: string;
+  tenant_id: string;
+};
 
 const AddFoodDetails = () => {
   const { colors } = useTheme();
@@ -36,21 +47,32 @@ const AddFoodDetails = () => {
   const [basicDetails, setBasicDetails] = useState('');
   const [images, setImages] = useState([]);
   const [quantityValue, setQuantityValue] = useState(0);
-  const { getCuisines } = useAppSelector(state => state.data);
+  const { getCuisines, getMiscellaneous } = useAppSelector(state => state.data);
   const dispatch = useAppDispatch();
   const [newFolder, setNewFolder] = useState(false);
   const [showAddField, setShowAddField] = useState(true);
-  const [selectedOptions, setSelectedOptions] = useState<any>([]);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const options = [
-    { label: 'Option 1', value: 'option1' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' },
-    { label: 'Option 4', value: 'option4' },
-  ];
+  useEffect(() => {
+    getCuisinesList()
+  }, [showAddField]);
 
 
+  const getCuisinesList = () => {
+    let obj = {
+      data: {
+        page: 1,
+        limit: 15,
+        pagination:false
+      },
+      onSuccess: (res: any) => { },
+      onFailure: (Err: any) => { },
+    };
+    dispatch(getCuisinesAction(obj));
+  };
+
+  
   const selectAndCropImage = () => {
     ImagePicker.openPicker({
       multiple: true,
@@ -107,11 +129,11 @@ const AddFoodDetails = () => {
       data.append('cuisine_id', quantityValue);
       data.append('price', price);
       data.append('description', basicDetails);
-      data.append('files', {
-        uri: images[0]?.uri,
-        type: images[0]?.mime,
-        name: images[0]?.name,
-      });
+      // data.append('files', {
+      //   uri: images[0]?.uri,
+      //   type: images[0]?.mime,
+      //   name: images[0]?.name,
+      // });
       let obj = {
         data,
         onSuccess: (response: any) => {
@@ -144,26 +166,23 @@ const AddFoodDetails = () => {
   }
 
 
-  const handlePress = (value: any) => {
-    if (selectedOptions.includes(value)) {
-      setSelectedOptions(selectedOptions.filter(option => option !== value));
-    } else {
-      setSelectedOptions([...selectedOptions, value]);
-    }
+  const handlePress = (value: number) => {
+    setSelectedOption(value);
   };
 
-  const renderItem = ({ item }) => (
+
+  const renderItem:ListRenderItem<DataItem> = ({ item }: any) => (
     <View style={styles.radioView}>
       <TouchableOpacity
-        key={item.value}
+        key={item.id}
         style={styles.radioContainer}
-        onPress={() => handlePress(item.value)}>
+        onPress={() => handlePress(item.id)}>
         <View
           style={[
             styles.checkbox,
-            selectedOptions.includes(item.value) && styles.selectedCheckbox,
+            selectedOption === item.id && styles.selectedCheckbox,
           ]}>
-          {selectedOptions.includes(item.value) && (
+          {selectedOption === item.id && (
             <Image style={styles.checkIcon} source={Icons.checkIcon} />
           )}
         </View>
@@ -171,18 +190,17 @@ const AddFoodDetails = () => {
           style={[
             styles.radioText,
             {
-              color: selectedOptions.includes(item.value)
+              color: selectedOption === item.id
                 ? colors.Primary_Orange
                 : colors.Title_Text,
             },
           ]}>
-          {item.label}
+          {item.name}
         </Text>
       </TouchableOpacity>
       <Spacer width={12} />
     </View>
   );
-
   if (showAddField) {
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.white }}>
       <TouchableOpacity onPress={() => { setNewFolder(true) }} style={styles.boxStyle}>
@@ -284,7 +302,7 @@ const AddFoodDetails = () => {
           <View>
             <Text style={styles.miscellaneousText}>{strings('addFoodList.miscellaneous')}</Text>
             <FlatList
-              data={options}
+              data={getMiscellaneous}
               renderItem={renderItem}
               horizontal
               keyExtractor={(item) => item.value}
