@@ -34,12 +34,14 @@ const Profile = (props: Props) => {
   const [photoUri, setPhotoUri] = useState(null);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
 
   const fetchUserInfo = async () => {
     try {
       const userList = await getAsyncUserInfo();
       setName(userList.name || '');
+      setNumber(userList.number || '')
     } catch (error) {
     }
   };
@@ -50,7 +52,7 @@ const Profile = (props: Props) => {
     }, [])
   );
 
-console.log(name)
+  console.log(name)
   const selectImage = () => {
     setLoading(true);
     ImagePicker.openPicker({
@@ -71,6 +73,8 @@ console.log(name)
   const onPressNavigation = (list: string) => {
     if (list == screenName.PersonalInfo) {
       navigation.navigate(list, { hideEdit: false });
+    } if (list === 'log Out') {
+      console.log("222333")
     } else {
       list !== '' && navigation.navigate(list);
     }
@@ -94,24 +98,22 @@ console.log(name)
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={'handled'}
         contentContainerStyle={styles.contentContainerStyle}>
-        <View style={styles.profileContainer}>
-          <TouchableOpacity onPress={selectImage}>
-            {loading ? (
-              <View style={[styles.loader, styles.profilImage]}>
-                <Loader />
+        <TouchableOpacity activeOpacity={0.8} style={styles.profileContainer}>
+          <View style={styles.profileView}>
+            <View style={styles.profileBox}>
+              <View style={styles.profilImage} />
+              <View style={styles.userNameView}>
+                <Text style={styles.nameText}>{name}</Text>
+                <Text style={styles.numberText}>{number}</Text>
               </View>
-            ) : (
-              <Image
-                source={photoUri ? { uri: photoUri } : Icons.profileImage}
-                style={styles.profilImage}
-              />
-            )}
-          </TouchableOpacity>
-          <View style={styles.userNameView}>
-            <Text style={styles.nameText}>{name}</Text>
+            </View>
           </View>
-        </View>
+          <TouchableOpacity>
+            <Image style={styles.rightIcon} source={Icons.rightBack} />
+          </TouchableOpacity>
+        </TouchableOpacity>
 
+        <Text style={styles.accountText}>{strings('profileScreen.accounts')}</Text>
         <TitleList
           arr_list={[
             {
@@ -119,30 +121,20 @@ console.log(name)
               iconName: Icons.profileIcon,
               screens: screenName.PersonalInfo
             },
-          ]}
-          onPressCell={onPressNavigation}
-        />
-        <TitleList
-          arr_list={[
-            {
-              title: strings('profileScreen.menu'),
-              iconName: Icons.menuIcon,
-              screens: ""
-            },
+            // {
+            //   title: strings('profileScreen.menu'),
+            //   iconName: Icons.menuIcon,
+            //   screens: ""
+            // },
             {
               title: strings('profileScreen.inventory'),
               iconName: Icons.inventory,
               screens: ""
             },
             {
-              title: strings('profileScreen.crm'),
-              iconName: Icons.crmIcon,
-              screens: screenName.ProfileMessages
-            },
-            {
-              title: strings('profileScreen.notifications'),
-              iconName: Icons.bellIcon,
-              screens: screenName.ProfileNotification
+              title: strings('profileScreen.recipes_master'),
+              iconName: Icons.inventory,
+              screens: ''
             },
             {
               title: strings('profileScreen.chef'),
@@ -150,19 +142,50 @@ console.log(name)
               screens: screenName.ChefNameList
             },
             {
-              title: strings('profileScreen.cuisines'),
-              iconName: Icons.cuisine,
-              screens: screenName.CuisinesNameList
+              title: strings('profileScreen.order_history'),
+              iconName: Icons.inventory,
+              // screens: screenName.ChefNameList
             },
+            {
+              title: strings('profileScreen.notifications'),
+              iconName: Icons.notificationIcon,
+              screens: screenName.ProfileNotification
+            },
+            // {
+            //   title: strings('profileScreen.cuisines'),
+            //   iconName: Icons.cuisine,
+            //   screens: screenName.CuisinesNameList
+            // },
           ]}
           onPressCell={onPressNavigation}
           styleProp={styles.boxCotainer}
         />
+        <Text style={styles.accountText}>{strings('profileScreen.more')}</Text>
         <TitleList
           arr_list={[
             {
-              title: strings('profileScreen.fAQs'),
-              iconName: Icons.faqsIcon,
+              title: strings('profileScreen.review'),
+              iconName: Icons.stareIcon,
+              screens: ""
+            },
+            {
+              title: strings('profileScreen.discount'),
+              iconName: Icons.discountIcon,
+              screens: ""
+            },
+            {
+              title: strings('profileScreen.support'),
+              iconName: Icons.supportIcon,
+              screens: ""
+            },
+            {
+              title: strings('profileScreen.privacy_policy'),
+              iconName: Icons.privacyIcon,
+              screens: ""
+            },
+            {
+              title: strings('profileScreen.term_condition'),
+              iconName: Icons.termIcon,
               screens: ""
             },
             {
@@ -170,11 +193,16 @@ console.log(name)
               iconName: Icons.settingsIcon,
               screens: screenName.Settings
             },
+            {
+              title: strings('profileScreen.log_out'),
+              iconName: Icons.logout,
+              screens: "log Out"
+            },
           ]}
           onPressCell={onPressNavigation}
           styleProp={styles.boxCotainer}
         />
-        <TitleList
+        {/* <TitleList
           arr_list={[
             {
               title: strings('profileScreen.log_out'),
@@ -186,7 +214,7 @@ console.log(name)
             await GoogleSignin.signOut();
           }}
           styleProp={styles.boxCotainer}
-        />
+        /> */}
         <Spacer height={hp(90)} />
       </KeyboardAwareScrollView>
     </View>
@@ -200,44 +228,58 @@ const getGlobalStyles = (props: any) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.white,
+      backgroundColor: colors.bg_white,
     },
     headerContainer: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.bg_white,
     },
     contentContainerStyle: {
-      marginHorizontal: wp(16),
+      marginHorizontal: wp(20),
+    },
+    profileView: {
+      flex: 1
+    },
+    profileBox: {
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     profileContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      paddingTop: hp(6),
-      paddingBottom: hp(32),
+      backgroundColor: colors.cards_bg,
+      paddingVertical: hp(12),
+      paddingHorizontal: wp(16),
+      borderRadius: 16
     },
     profilImage: {
-      width: wp(100),
-      height: wp(100),
-      borderRadius: wp(50),
-      // backgroundColor: '#F88222',
-      // opacity: 0.5
-    },
-    loader: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 1,
+      width: wp(64),
+      height: wp(64),
+      borderRadius: wp(64),
+      borderColor: colors.text_orange,
+      borderWidth: 1,
+      backgroundColor: colors.bg_orange200,
     },
     userNameView: {
-      marginLeft: wp(32),
+      marginLeft: wp(12),
     },
     nameText: {
-      ...commonFontStyle(700, 20, colors.Title_Text),
+      ...commonFontStyle(700, 16, colors.black),
     },
-    desText: {
-      marginTop: hp(8),
-      ...commonFontStyle(400, 14, colors.gray_300),
+    numberText: {
+      marginTop: hp(4),
+      ...commonFontStyle(400, 12, colors.title_dec100),
     },
     boxCotainer: {
-      marginTop: hp(20),
+      marginTop: hp(8),
     },
+    rightIcon: {
+      width: wp(24),
+      height: hp(24),
+      resizeMode: 'contain',
+    },
+    accountText: {
+      marginTop: hp(20),
+      ...commonFontStyle(500, 16, colors.black),
+    }
   });
 };

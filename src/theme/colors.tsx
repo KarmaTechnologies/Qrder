@@ -71,7 +71,9 @@ export const light_theme = {
   text_gray1: '#979797',
   text_orange: '#FA6200',
   cards_bg: '#F1F1F1',
-  image_bg: '#C8C8C8'
+  image_bg: '#C8C8C8',
+  title_dec100: '#898A8D',
+  bg_orange200: 'rgba(250, 98, 0, 0.2)'
 };
 
 export const dark_theme = {
@@ -143,5 +145,7 @@ export const dark_theme = {
   text_gray1: '#979797',
   text_orange: '#FA6200',
   cards_bg: '#181A1E',
-  image_bg: '#2B2E34'
+  image_bg: '#2B2E34',
+  title_dec100: '#898A8D',
+  bg_orange200: 'rgba(250, 98, 0, 0.2)'
 };

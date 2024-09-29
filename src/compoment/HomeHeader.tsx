@@ -59,7 +59,7 @@ const HomeHeader = ({
       <SafeAreaView edges={['top']} style={[styles?.container, extraStyle]}>
         <View style={styles.address_container}>
           <TouchableOpacity style={styles.location_icon} onPress={onBackPress}>
-            <Image source={Icons?.leftback} style={styles?.backIcon} />
+            <Image source={Icons?.back} style={styles?.backIcon} />
           </TouchableOpacity>
           <View style={[styles.headerTitle]}>
             <Text style={styles.title}>{title}</Text>
@@ -117,9 +117,9 @@ const getGlobalStyles = (props: any) => {
   const { colors } = props;
   return StyleSheet.create({
     container: {
-      backgroundColor: colors?.white,
-      paddingVertical: hp(8),
-      paddingBottom: hp(10),
+      backgroundColor: colors?.bg_white,
+      paddingTop: hp(8),
+      paddingBottom: hp(20),
       paddingHorizontal: wp(16),
       flexDirection: 'row',
       alignItems: 'center',
@@ -140,21 +140,17 @@ const getGlobalStyles = (props: any) => {
       marginLeft: 8,
     },
     headerTitle: {
-      marginLeft: wp(16),
+      marginLeft: wp(12),
     },
     location_icon: {
-      width: wp(45),
-      height: wp(45),
-      borderRadius: wp(45) / 2,
-      backgroundColor:colors.back_bg,
       alignItems:'center',
       justifyContent:'center',
       alignSelf:'center'
     },
     backIcon: {
-      width: wp(8),
-      height: hp(16),
-      tintColor:colors.black
+      width: wp(24),
+      height: hp(24),
+      tintColor:colors.black,
     },
     menuIcon:{
       width: wp(16),
@@ -185,7 +181,7 @@ const getGlobalStyles = (props: any) => {
       ...commonFontStyle(700, 16, colors.black),
     },
     title: {
-      ...commonFontStyle(400, 17, colors.headerText),
+      ...commonFontStyle(800, 22, colors.black),
     },
     resetText: {
       ...commonFontStyle(400, 14, colors.headerText3),

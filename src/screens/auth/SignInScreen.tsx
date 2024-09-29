@@ -41,10 +41,10 @@ const SignInScreen = (props: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   // const [email, setEmail] = useState(__DEV__ ? 'adminstudent@gmail.com' : '');
   // const [email, setEmail] = useState(__DEV__ ? 'ssss@gmail.com' : '');
-  // const [email, setEmail] = useState(__DEV__ ? 'admin@gmail.com' : '');
-  // const [password, setPassword] = useState(__DEV__ ? 'Test!@123' : '');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(__DEV__ ? 'admin@gmail.com' : '');
+  const [password, setPassword] = useState(__DEV__ ? 'Test!@123' : '');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
   const [selectRole, setSelectRole] = useState('');
   const [isSelect, setIsSelect] = useState<boolean>(false);
@@ -53,8 +53,8 @@ const SignInScreen = (props: Props) => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const onPressLogin = () => {
-    dispatchNavigation(screenName.BottomTabBar);
-    return
+    // dispatchNavigation(screenName.BottomTabBar);
+    // return
     if (email.trim().length === 0) {
       errorToast(strings('login.error_email'));
     } else if (!emailCheck(email)) {

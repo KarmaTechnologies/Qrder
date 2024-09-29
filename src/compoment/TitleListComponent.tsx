@@ -54,7 +54,7 @@ const TitleListComponent = ({
               style={[
                 index === 0 ? styles.topSpaceInBoxSmall : styles.topSpaceInBox,
               ]}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                 {leftIcon(value)}
                 <View>
                   <Text style={styles.titleText}>{value.title}</Text>
@@ -66,6 +66,19 @@ const TitleListComponent = ({
               {isSecondText ?
                 null : <Image style={styles.rightIcon} source={Icons.rightBack} />}
             </TouchableOpacity>
+            {(arr_list.length - 1 !== index && (
+                <View
+                  style={[
+                    styles.bottomLine,
+                    {
+                      backgroundColor: colors.image_bg,
+                      left: 60,
+                      right:16
+                    },
+                  ]}
+                />
+              )) ||
+                null}
           </View>
         );
       })}
@@ -80,12 +93,13 @@ const getGlobalStyles = (props: any) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.card_bg,
+      backgroundColor: colors.cards_bg,
       borderRadius: 16,
+      paddingVertical:hp(16)
     },
     profileIcon: {
-      width: 14,
-      height: 14,
+      width: wp(18),
+      height: wp(18),
       resizeMode: 'contain',
     },
     rightIcon: {
@@ -94,33 +108,39 @@ const getGlobalStyles = (props: any) => {
       resizeMode: 'contain',
     },
     titleText: {
-      ...commonFontStyle(400, 15, colors.Title_Text),
+      ...commonFontStyle(400, 14, colors.black),
     },
     titleText1: {
       ...commonFontStyle(400, 14, colors.gray_300),
     },
     topSpaceInBoxSmall: {
-      height: hp(80),
+      height: hp(48),
       flexDirection: 'row',
       alignItems: 'center',
-      paddingHorizontal: wp(20),
+      paddingHorizontal: wp(16),
       justifyContent: 'space-between',
     },
     topSpaceInBox: {
-      height: hp(80),
+      height: hp(48),
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: wp(20),
       justifyContent: 'space-between',
     },
     leftIcon: {
-      height: wp(40),
-      width: wp(40),
-      backgroundColor: colors.white,
-      borderRadius: 20,
+      height: wp(32),
+      width: wp(32),
+      backgroundColor: colors.orange_bg,
+      borderRadius: 16,
       alignItems: 'center',
       justifyContent: 'center',
-      marginRight: wp(14),
+      marginRight: wp(16),
+    },
+    bottomLine: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      height: 1,
     },
   });
 };
