@@ -78,14 +78,14 @@ const ForgotScreen = (props: Props) => {
           contentContainerStyle={styles.contentContainerStyle}>
           <Input
             value={email}
-            placeholder={strings('login.p_email')}
+            placeholder={strings('login.enter_email_Id')}
             label={strings('login.email')}
             onChangeText={(t: string) => setEmail(t)}
           />
           <PrimaryButton
             extraStyle={styles.signupButton}
             onPress={onPresSendCode}
-            title={strings('login.send_code')}
+            title={strings('login.login_in')}
             isLoading={loading}
           />
         </KeyboardAwareScrollView>
@@ -101,21 +101,18 @@ const getGlobalStyles = (props: any) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.Primary_Bg,
-      paddingHorizontal: hp(2),
+      backgroundColor: colors.bg_white,
     },
     bottomContainer: {
-      flex: 2.5,
-      backgroundColor: colors.white,
-      borderTopLeftRadius: 24,
-      borderTopRightRadius: 24,
+      flex: 2,
+      backgroundColor: colors.bg_white,
     },
     contentContainerStyle: {
-      paddingHorizontal: wp(24),
+      paddingHorizontal: wp(20),
     },
     signupButton: {
-      marginTop: hp(30),
-      borderRadius: 12,
+      marginTop: hp(12),
+      borderRadius: 20,
       alignItems: 'center',
       justifyContent: 'center',
     },

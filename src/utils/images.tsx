@@ -13,7 +13,7 @@ export const Icons = {
   //ICON
   apple: require('../assets/Icons/apple.png'),
   twitter: require('../assets/Icons/twitter.png'),
-  google: require('../assets/Icons/google.png'),
+  google: require('../assets/Icons/googleIcon.png'),
   back: require('../assets/Icons/back.png'),
   eyeIn: require('../assets/Icons/eyeOn.png'),
   eyeOff: require('../assets/Icons/eyeOff.png'),
@@ -62,4 +62,7 @@ export const Icons = {
   addMenu1: require('../assets/Icons/addMenu1.png'),
   leftback: require('../assets/Icons/leftback.png'),
   left_menu: require('../assets/Icons/left_menu.png'),
+  drop_down: require('../assets/Icons/drop_down.png'),
+  runnigIcon: require('../assets/Icons/runnigIcon.png'),
+  orderIcon: require('../assets/Icons/orderIcon.png'),
 };

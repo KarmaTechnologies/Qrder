@@ -138,11 +138,12 @@ const Home = (props: Props) => {
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.headerCard}>
           <CardView containerStyle={styles.headerView} onPress={() => setRunninOrderModal(true)} isDisabled={true}>
-            <Text style={styles.headerText}>20</Text>
+          <Image source={Icons.runnigIcon} style={styles.runnigStyle} />
+            {/* <Text style={styles.headerText}>20</Text> */}
             <Text style={styles.headerSubText}>{strings("home.running_orders")}</Text>
           </CardView>
           <CardView isDisabled={true} onPress={() => setOrderRequestModal(true)} containerStyle={styles.headerView}>
-            <Text style={styles.headerText}>05</Text>
+          <Image source={Icons.runnigIcon} style={styles.runnigStyle} />
             <Text style={styles.headerSubText}>{strings("home.order_request")}</Text>
           </CardView>
         </View>
@@ -213,15 +214,23 @@ const getGlobalStyles = (props: any) => {
       alignItems: 'center',
       alignSelf: 'center',
       justifyContent: 'space-between',
-      gap: 18,
+      gap: 16,
       marginVertical: 10,
+      marginHorizontal:hp(20),
+   
     },
     headerView: {
-      width: '43%',
-      height: hp(110),
-      marginHorizontal: 0,
+      flex:1,
       justifyContent: 'center',
       backgroundColor: colors.Primary_BG,
+      flexDirection:'row',
+      paddingHorizontal:14
+    },
+    runnigStyle:{
+      width:20,
+      height:20,
+      resizeMode:'contain',
+      tintColor:colors.text_orange
     },
     headerText: {
       alignSelf: 'center',

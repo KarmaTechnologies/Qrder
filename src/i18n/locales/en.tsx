@@ -21,16 +21,16 @@ export default {
     error_role: "Please Select Role"
   },
   login: {
-    login_in: 'Log In',
+    login_in: 'Login',
     login_dec: 'Please sign in to your existing account',
     email: 'Email',
     p_email: 'williams@david.com',
     password: 'Password',
     remember_me: 'Remember me',
-    forgot_password: 'Forgot Password',
-    dont_have_account: 'Don’t have an account? ',
+    forgot_password: 'Forgot Password?',
+    dont_have_account: 'Don’t have any account? ',
     sign_in: 'SIGN IN',
-    or: 'Or',
+    or: 'Or continue with',
     sign_in_button: 'Sign In',
     sign_up: 'Sign Up',
     send_code: 'Send Code',
@@ -61,14 +61,21 @@ export default {
     select_role: 'SELECT ROLE',
     error_v_confirm: 'Please enter your confirm password',
     error_new_password: 'Please enter your new password',
-    ressetPassword: 'Reset Password'
+    ressetPassword: 'Reset Password',
+
+    welcome_back:'Welcome Back!',
+    enter_email_Id:'Enter Email Id',
+    google:'Google',
+    apple:'Apple'
   },
   sign_up: {
     sign_up: 'Sign Up',
     sign_dec: 'Please sign up to get started',
     name: 'Name',
-    p_name: 'Name',
-    p_email: 'williams@david.com',
+    p_name: 'Your First name',
+    last_name: 'Last Name',
+    lats_p_name: 'Your Last name',
+    p_email: 'Email Id',
     email: 'Email',
     full_name: 'Full Name',
     password: 'Password',
@@ -89,8 +96,8 @@ export default {
     p_enter_area: 'Enter Address',
     area: 'Area',
     p_enter_pincode: 'Enter Pincode',
-    p_enter_number: 'Number',
-    restaurantName: 'Restaurant Name',
+    p_enter_number: 'Mobile number',
+    restaurantName: 'Name of restaurant',
     pincode: 'Pincode',
     restaurant: 'Restaurant',
     canteen: 'Canteen',
@@ -98,17 +105,21 @@ export default {
     p_enter_canteen: 'Enter Canteen Name',
     error_canteen: 'Please enter canteen name',
     university_name: 'Enter University Name',
-    error_university_name: 'Please enter university name'
+    error_university_name: 'Please enter university name',
+    select_university:'Select University/college'
   },
   Phone_number_verification: {
-    verification: 'Verification',
+    verification: 'Check your email',
     verification_dec: 'We have sent a code to your email',
     next: 'Next',
     code: 'Code',
-    resend: 'Resend',
+    resend: 'Code expires in :',
     in: 'in ',
     sec: ' sec',
     verify: ' Verify',
+    send_again:'Send again',
+    new_password:'New Password',
+    confirm_password:'Confirm Password'
   },
   otp_verification: {
     enter_otp_code: 'Enter OTP Code',
@@ -148,6 +159,8 @@ export default {
     select_chef: 'Select Chef',
     running_orders: 'Running Orders',
     order_request: 'Order Request',
+    accpet:'Accpet',
+    declined:'declined'
   },
   ordersList: {
     myOrders: 'My Orders',

@@ -22,9 +22,7 @@ const LoginHeader = ({ title, description = '', isBack = false, onPress = undefi
                 <Image style={styles.backStyle} source={Icons.back} />
             </TouchableOpacity> : null}
 
-            <Image style={styles.imageStyle} source={Icons.ellipse} />
-            <Image style={styles.imageVector} source={Icons.vector} />
-            <View style={[styles.topContainer,{ marginBottom: email ? 25 : 50}]}>
+            <View style={[styles.topContainer,{ marginBottom: email ? 25 : 20}]}>
                 <Text style={styles.loginText}>{title}</Text>
                 <Text style={styles.desText}>{description}</Text>
                 {email && <Text style={styles.emailText}>{email}</Text>}
@@ -37,8 +35,6 @@ export default LoginHeader;
 
 const getGlobalStyles = (props: any) => {
     const { colors } = props;
-    console.log('colors',colors.white);
-    
     return StyleSheet.create({
         topMainView: {
             flex: 1
@@ -50,24 +46,10 @@ const getGlobalStyles = (props: any) => {
             zIndex: 1
         },
         backStyle: {
-            height: hp(45),
-            width: wp(45),
+            height: hp(24),
+            width: wp(24),
             resizeMode: 'contain',
-        },
-        imageStyle: {
-            position: 'absolute',
-            height: hp(120),
-            width: wp(120),
-            top: -5,
-            resizeMode: 'contain',
-        },
-        imageVector: {
-            position: 'absolute',
-            height: SCREEN_HEIGHT * 0.43,
-            width: SCREEN_WIDTH * 0.45,
-            right: -50,
-            top: -5,
-            resizeMode: 'contain',
+            tintColor:colors.black
         },
         topContainer: {
             flex: 1,
@@ -75,15 +57,14 @@ const getGlobalStyles = (props: any) => {
             alignItems: 'center',
         },
         loginText: {
-            ...commonFontStyle(700, 30, light_theme.white),
+            ...commonFontStyle(800, 20, colors.black),
         },
         desText: {
-            ...commonFontStyle(400, 16, light_theme.white),
-            opacity: 0.8,
-            marginTop: 3
+            ...commonFontStyle(400, 14, colors.title_dec),
+            marginTop: hp(5),
         },
         emailText:{
-            ...commonFontStyle(700, 16, light_theme.white),
+            ...commonFontStyle(700, 14, colors.white),
         }
     });
 };

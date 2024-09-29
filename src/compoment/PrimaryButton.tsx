@@ -71,10 +71,10 @@ const getGlobalStyles = (props: any) => {
     return StyleSheet.create({
         buttonView: {
             backgroundColor: colors.Primary_Orange,
-            height: hp(62),
+            height: hp(56),
             justifyContent: 'center',
             alignItems: 'center',
-            borderRadius: 12,
+            borderRadius: 20,
             flexDirection: 'row',
         },
         contentContainer: {
@@ -83,9 +83,8 @@ const getGlobalStyles = (props: any) => {
             justifyContent: 'center',
         },
         titleText: {
-            ...commonFontStyle(700, 14, light_theme.white),
+            ...commonFontStyle(600, 18, light_theme.defult_white),
             textAlign: 'center',
-            textTransform: 'uppercase',
         },
         locationIcon: {
             width: wp(32),

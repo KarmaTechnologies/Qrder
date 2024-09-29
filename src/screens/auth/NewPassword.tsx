@@ -102,9 +102,9 @@ const NewPassword = () => {
                         value={password}
                         returnKeyType="done"
                         isShowEyeIcon={true}
-                        placeholder="New Password"
+                        placeholder={strings('Phone_number_verification.new_password')}
                         secureTextEntry={isShowPassword}
-                        label={'New Password'}
+                        label={strings('Phone_number_verification.new_password')}
                         onSubmitEditing={() => Keyboard.dismiss()}
                         onChangeText={(t: string) => setPassword(t.trim())}
                         onPressEye={() => setIsShowPassword(!isShowPassword)}
@@ -114,9 +114,9 @@ const NewPassword = () => {
                         returnKeyType="done"
                         isShowEyeIcon={true}
                         inputRef={passwordRef}
-                        placeholder="Confirm Password"
+                        placeholder={strings('Phone_number_verification.confirm_password')}
                         secureTextEntry={isShowConfirmPassword}
-                        label={'Confirm Password'}
+                        label={strings('Phone_number_verification.confirm_password')}
                         onSubmitEditing={() => Keyboard.dismiss()}
                         onChangeText={(t: string) => setConfirmPassword(t.trim())}
                         onPressEye={() => setIsShowConfirmPassword(!isShowConfirmPassword)}
@@ -140,21 +140,18 @@ const getGlobalStyles = (props: any) => {
     return StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: colors.Primary_Bg,
-            paddingHorizontal: hp(2),
+            backgroundColor: colors.bg_white,
         },
         bottomContainer: {
-            flex: 2.5,
-            backgroundColor: colors.white,
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24
+            flex: 2,
+            backgroundColor: colors.bg_white,
         },
         contentContainerStyle: {
-            paddingHorizontal: wp(24),
+            paddingHorizontal: wp(20),
         },
         signupButton: {
-            marginTop: hp(30),
-            borderRadius: 12,
+            marginTop: hp(20),
+            borderRadius: 20,
             alignItems: 'center',
             justifyContent: 'center'
         }

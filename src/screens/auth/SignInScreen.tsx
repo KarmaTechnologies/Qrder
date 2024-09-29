@@ -13,6 +13,7 @@ import { Icons } from '../../utils/images';
 import { commonFontStyle, h, hp, wp } from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import {
+  DropDownData,
   UpperCaseCheck,
   emailCheck,
   errorToast,
@@ -29,6 +30,7 @@ import LoginHeader from '../../compoment/LoginHeader';
 import { strings } from '../../i18n/i18n';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLINET_ID } from '../../utils/apiConstants';
+import CCDropDown from '../../compoment/CCDropDown';
 
 
 type Props = {};
@@ -39,16 +41,20 @@ const SignInScreen = (props: Props) => {
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   // const [email, setEmail] = useState(__DEV__ ? 'adminstudent@gmail.com' : '');
   // const [email, setEmail] = useState(__DEV__ ? 'ssss@gmail.com' : '');
-  const [email, setEmail] = useState(__DEV__ ? 'admin@gmail.com' : '');
-  const [password, setPassword] = useState(__DEV__ ? 'Test!@123' : '');
+  // const [email, setEmail] = useState(__DEV__ ? 'admin@gmail.com' : '');
+  // const [password, setPassword] = useState(__DEV__ ? 'Test!@123' : '');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
+  const [selectRole, setSelectRole] = useState('');
   const [isSelect, setIsSelect] = useState<boolean>(false);
   const { selectedRole } = useAppSelector(state => state.common);
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const onPressLogin = () => {
-    // return
+    dispatchNavigation(screenName.BottomTabBar);
+    return
     if (email.trim().length === 0) {
       errorToast(strings('login.error_email'));
     } else if (!emailCheck(email)) {
@@ -161,17 +167,30 @@ const SignInScreen = (props: Props) => {
       />
 
       <LoginHeader
-        title={strings('login.login_in')}
+        title={strings('login.welcome_back')}
         description={strings('login.login_dec')}
       />
 
       <View style={styles.bottomContainer}>
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps={'handled'}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.contentContainerStyle}>
+          <CCDropDown
+            data={DropDownData}
+            label={strings('login.select_role')}
+            labelField={'name'}
+            valueField={'value'}
+            placeholder={strings('roleSelection.select_role')}
+            DropDownStyle={styles.dropDownStyle}
+            value={selectRole}
+            setValue={setSelectRole}
+            extraStyle={styles.extraStyle}
+          />
+
           <Input
             value={email}
-            placeholder={strings('login.p_email')}
+            placeholder={strings('login.enter_email_Id')}
             label={strings('login.email')}
             onChangeText={(t: string) => setEmail(t)}
           />
@@ -180,13 +199,13 @@ const SignInScreen = (props: Props) => {
             autoCorrect={false}
             isShowEyeIcon={true}
             secureTextEntry={isShowPassword}
-            placeholder="* * * * * * *"
+            placeholder={strings('login.password')}
             label={strings('login.password')}
             onChangeText={(t: string) => setPassword(t)}
             onPressEye={() => setIsShowPassword(!isShowPassword)}
           />
           <View style={styles.subContainer}>
-            <View style={styles.rememberView}>
+            {/* <View style={styles.rememberView}>
               <TouchableOpacity
                 style={styles.checkBox}
                 onPress={() => setIsSelect(!isSelect)}>
@@ -197,7 +216,7 @@ const SignInScreen = (props: Props) => {
               <Text style={styles.rememberText}>
                 {strings('login.remember_me')}
               </Text>
-            </View>
+            </View> */}
             {(params?.role == 'Admin' || params?.role == 'Student') && (
               <TouchableOpacity
                 onPress={() => navigation.navigate(screenName.ForgotScreen)}>
@@ -213,26 +232,14 @@ const SignInScreen = (props: Props) => {
             onPress={onPressLogin}
             title={strings('login.login_in')}
           />
-          {params?.role == 'Admin' || params?.role == 'Student' ? (
-            <TouchableOpacity onPress={onPressSignUp}>
-              <Text style={styles.bottomText}>
-                {strings('login.dont_have_account')}
-                <Text style={styles.signUpText}>
-                  {' '}
-                  {strings('login.sign_up')}
-                </Text>
-              </Text>
-            </TouchableOpacity>
-          ) : (
-            <View style={styles.bottomText} />
-          )}
+          {params?.role == 'Admin' || params?.role == 'Student' ?
+            <Text style={styles.orContinueText}>
+              {strings('login.or')}
+            </Text>
+            : null}
 
-          {params?.role == 'Admin' || params?.role == 'Student' ? <View style={styles.orContainer}>
-            <Text style={styles.orText}>{strings('login.or')}</Text>
-          </View> : null}
-
-          {params?.role == 'Admin' || params?.role == 'Student' ? <View style={styles.roundContainer}>
-            <TouchableOpacity
+          {params?.role == 'Admin' || params?.role == 'Student' ? <View>
+            {/* <TouchableOpacity
               style={[
                 styles.roundView,
                 {
@@ -240,31 +247,40 @@ const SignInScreen = (props: Props) => {
                 },
               ]}>
               <Image style={styles.facebookIcon} source={Icons.facebook} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={googlesignIn}
-              style={[
-                styles.roundView,
-                {
-                  backgroundColor: colors.white12,
-                  borderWidth: 1,
-                  // borderColor: colors.Surface_Tertiary,
-                },
-              ]}>
+              style={styles.roundView}>
               <Image style={styles.twitterIcon} source={Icons.google} />
+              <Text style={styles.googleText}>{strings("login.google")}</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[
-                styles.roundView,
-                {
-                  backgroundColor: colors.blue_200,
-                },
-              ]}>
+              style={[styles.roundView]}>
               <Image style={styles.appleIcon} source={Icons.apple} />
+              <Text style={styles.googleText}>{strings('login.apple')}</Text>
             </TouchableOpacity>
           </View> : null}
+
+         
         </KeyboardAwareScrollView>
       </View>
+      {params?.role == 'Admin' || params?.role == 'Student' ? (
+            <>
+
+              <TouchableOpacity onPress={onPressSignUp} style={{bottom:10}}>
+                <Text style={styles.bottomText}>
+                  {strings('login.dont_have_account')}
+                  <Text style={styles.signUpText}>
+                    {' '}
+                    {strings('login.sign_up')}
+                  </Text>
+                </Text>
+              </TouchableOpacity>
+            </>
+
+          ) : (
+            null
+          )}
     </View>
   );
 };
@@ -276,20 +292,17 @@ const getGlobalStyles = (props: any) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.Primary_Bg,
-      paddingHorizontal: hp(2),
+      backgroundColor: colors.bg_white,
     },
     bottomContainer: {
       flex: 2.5,
-      backgroundColor: colors.white,
-      borderTopLeftRadius: 24,
-      borderTopRightRadius: 24,
+      backgroundColor: colors.bg_white
     },
     contentContainerStyle: {
-      paddingHorizontal: wp(24),
+      paddingHorizontal: wp(20),
     },
     loginIcon: {
-      height: h(150),
+      height: hp(150),
       resizeMode: 'contain',
       alignSelf: 'center',
     },
@@ -298,10 +311,8 @@ const getGlobalStyles = (props: any) => {
       marginTop: hp(3),
     },
     subContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginTop: hp(24),
-      alignItems: 'center',
+      marginTop: hp(8),
+      alignSelf: 'flex-end'
     },
     rememberView: {
       flexDirection: 'row',
@@ -327,43 +338,39 @@ const getGlobalStyles = (props: any) => {
       alignSelf: 'center',
     },
     forgotText: {
-      ...commonFontStyle(400, 14, colors.Primary_Orange),
+      ...commonFontStyle(400, 14, colors.black),
     },
     signupButton: {
-      marginTop: hp(30),
-      borderRadius: 12,
+      marginTop: hp(12),
+      borderRadius: 20,
       alignItems: 'center',
       justifyContent: 'center',
     },
+    orContinueText: {
+      ...commonFontStyle(400, 14, colors.title_dec),
+      marginTop: hp(12),
+      textAlign: 'center',
+    },
     bottomText: {
-      ...commonFontStyle(400, 16, colors.Text_Tertiary),
-      marginTop: hp(38),
-      marginBottom: hp(27),
+      ...commonFontStyle(400, 14, colors.text_gray1),
       textAlign: 'center',
     },
     signUpText: {
-      ...commonFontStyle(700, 14, colors.Primary_Orange),
-      textTransform: 'uppercase',
-    },
-    orContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginBottom: hp(15),
+      ...commonFontStyle(600, 14, colors.Primary_Orange),
     },
     orText: {
       ...commonFontStyle(400, 16, colors.Text_Tertiary),
     },
-    roundContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-    },
     roundView: {
-      height: wp(60),
-      width: wp(60),
+      height: wp(48),
       borderRadius: wp(60) / 2,
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: hp(10),
+      marginTop: hp(12),
+      backgroundColor: colors.defult_white,
+      borderWidth: 1,
+      flexDirection: 'row',
+      borderColor: colors.input_border1,
     },
     facebookIcon: {
       height: hp(18),
@@ -371,23 +378,28 @@ const getGlobalStyles = (props: any) => {
       resizeMode: 'contain',
     },
     twitterIcon: {
-      height: wp(36),
-      width: wp(36),
+      height: wp(18),
+      width: wp(17),
       resizeMode: 'contain',
     },
+    googleText: {
+      ...commonFontStyle(700, 15, colors.text_gray),
+      paddingLeft: wp(10)
+    },
     appleIcon: {
-      height: hp(20),
-      width: wp(18),
+      height: hp(18),
+      width: wp(14),
       resizeMode: 'contain',
     },
     dropDownStyle: {
-      borderColor: colors.inputColor,
-      backgroundColor: colors.inputColor,
-      height: hp(60),
-      borderRadius: 10,
+      borderColor: colors.input_border,
+      backgroundColor: colors.input_bg,
+      height: hp(56),
+      borderRadius: 32,
+      paddingHorizontal: wp(25),
     },
     extraStyle: {
-      marginTop: hp(24),
+      marginTop: hp(0),
     },
   });
 };

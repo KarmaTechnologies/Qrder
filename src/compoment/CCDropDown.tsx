@@ -59,9 +59,9 @@ const CCDropDown = ({
   const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   return (
     <View style={[styles.container,extraStyle]}>
-      <Text numberOfLines={1} style={[styles.labelTextStyle, labelTextStyle]}>
+      {/* <Text numberOfLines={1} style={[styles.labelTextStyle, labelTextStyle]}>
         {label}
-      </Text>
+      </Text> */}
       <Dropdown
         style={[styles.dropdown, DropDownStyle]}
         placeholderStyle={styles.placeholderStyle}
@@ -80,12 +80,12 @@ const CCDropDown = ({
         renderRightIcon={() => (
           <Image
             resizeMode="contain"
-            source={Icons.down}
+            source={Icons.drop_down}
             style={styles.downIcon}
           />
         )}
-        containerStyle={{ backgroundColor: colors.card_bg, }}
-        activeColor={colors.card_bg}
+        containerStyle={{ backgroundColor: colors.input_bg, }}
+        activeColor={colors.input_bg}
       />
     </View>
   );
@@ -107,15 +107,14 @@ const getGlobalStyles = (props: any) => {
       ...commonFontStyle(400, 18, colors.black11),
     },
     dropdown: {
-      height: hp(42),
+      height: hp(56),
       borderWidth: wp(1),
-      paddingHorizontal: wp(12),
-      borderColor: colors.border_line4,
-      borderRadius: 10,
-      marginTop: hp(4),
+      paddingHorizontal: wp(25),
+      borderColor: colors.input_border,
+      borderRadius: 32,
     },
     placeholderStyle: {
-      ...commonFontStyle(400, 14, colors.dropDownText),
+      ...commonFontStyle(400, 14, colors.title_dec),
     },
     selectedTextStyle: {
       ...commonFontStyle(400, 14, colors.black),
@@ -128,10 +127,10 @@ const getGlobalStyles = (props: any) => {
       ...commonFontStyle(400, 14, colors.black),
     },
     downIcon: {
-      width: 22,
-      height: 22,
+      width: 13,
+      height: 13,
       resizeMode: 'contain',
-      tintColor:colors.black
+      tintColor:colors.icon_tin
     }
   });
 };

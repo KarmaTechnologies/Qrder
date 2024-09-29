@@ -1,6 +1,6 @@
 //import liraries
 import React, { useState } from 'react';
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import ReactNativeModal from 'react-native-modal';
 import { SCREEN_HEIGHT, commonFontStyle, hp, wp } from '../theme/fonts';
@@ -9,6 +9,7 @@ import PrimaryButton from './PrimaryButton';
 import { strings } from '../i18n/i18n';
 import CCDropDown from './CCDropDown';
 import { useAppSelector } from '../redux/hooks';
+import Spacer from './Spacer';
 
 export type OrderModal = {
   isVisible: boolean;
@@ -61,37 +62,45 @@ const OrderModal = ({
           </Text>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((value, index) => {
+            {[1, 2, 3, 4, 5, 6].map((value, index) => {
               return (
                 <View style={styles.listContainer}>
-                  <View style={styles.imageView} />
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={styles.imageView} />
 
-                  <View style={styles.rightContainer}>
-                    <Text style={styles.breakText}>#Breakfast</Text>
-                    <Text style={styles.titleStyle}>Chicken Thai Biriyani</Text>
-                    {isRunning && <Text style={styles.idText}>Table Number: 123654</Text>}
-                    <Text style={styles.idText}>ID: 32053</Text>
-                    <Text
-                      style={[
-                        styles.priceText,
-                        { marginTop: isRunning ? hp(0) : hp(14) },
-                      ]}>
-                      ₹60
-                    </Text>
+                    <View style={styles.rightContainer}>
+                      <Text style={styles.breakText}>Invoice ID: #32053</Text>
+                      <Text style={styles.titleStyle}>Kartik Patel</Text>
+                      <Text style={styles.idText}>Table No: 32</Text>
+                      <View style={styles.priceView}>
+                        <Text
+                          style={[
+                            styles.priceText,
+                            // { marginTop: isRunning ? hp(0) : hp(14) },
+                          ]}>
+                          ₹60
+                        </Text>
+                        <Text
+                          style={[
+                            styles.dateText,
+                            // { marginTop: isRunning ? hp(0) : hp(14) },
+                          ]}>
+                          18 January 2024
+                        </Text>
+                      </View>
+                    </View>
+                    <TouchableOpacity style={styles.diningView}>
+                      <Text style={styles.diningText}>Dining</Text>
+                    </TouchableOpacity>
                   </View>
+
                   <View
                     style={[
                       styles.btnContainer,
-                      { bottom: isRunning ? -12 : 2 },
+                      // { bottom: isRunning ? 0 : 2 },
                     ]}>
                     {isRunning ? (
                       <View style={{ flexDirection: 'row' }}>
-                        <PrimaryButton
-                          extraStyle={styles.doneBtn}
-                          title={strings('orderModal.done')}
-                          titleStyle={styles.doneText}
-                          onPress={() => onPressDone()}
-                        />
                         <PrimaryButton
                           extraStyle={styles.cancelBtn}
                           title={strings('orderModal.cancel')}
@@ -100,16 +109,31 @@ const OrderModal = ({
                         />
                       </View>
                     ) : (
-                      <CCDropDown
-                        data={getChefsData}
-                        label={''}
-                        labelField={'name'}
-                        valueField={'id'}
-                        placeholder={strings('orderModal.select_chef')}
-                        DropDownStyle={styles.dropDownStyle}
-                        value={selectedChefs[index]}
-                        setValue={value => handleChefSelection(value, index)}
-                      />
+                      <View style={{ flexDirection: 'row' }}>
+                        <PrimaryButton
+                          extraStyle={styles.accpetBtn}
+                          title={strings('orderModal.accpet')}
+                          titleStyle={styles.accpetText}
+                          onPress={() => onCancelBtn()}
+                        />
+                        <Spacer width={16}/>
+                        <PrimaryButton
+                          extraStyle={styles.cancelBtn}
+                          title={strings('orderModal.declined')}
+                          titleStyle={styles.cancelText}
+                          onPress={() => onCancelBtn()}
+                        />
+                      </View>
+                      // <CCDropDown
+                      //   data={getChefsData}
+                      //   label={''}
+                      //   labelField={'name'}
+                      //   valueField={'id'}
+                      //   placeholder={strings('orderModal.select_chef')}
+                      //   DropDownStyle={styles.dropDownStyle}
+                      //   value={selectedChefs[index]}
+                      //   setValue={value => handleChefSelection(value, index)}
+                      // />
                     )}
                   </View>
                 </View>
@@ -128,58 +152,68 @@ const getGlobalStyles = (props: any) => {
 
   return StyleSheet.create({
     container: {
-      backgroundColor: colors.white,
+      backgroundColor: colors.bg_white,
       height: SCREEN_HEIGHT * 0.8,
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
     },
     lineStyle: {
-      width: wp(60),
-      height: hp(6),
-      backgroundColor: colors.lineColor,
+      width: wp(40),
+      height: hp(4),
+      backgroundColor: colors.text_gray,
       alignSelf: 'center',
       marginTop: hp(16),
       borderRadius: 5,
     },
     headerView: {
-      paddingTop: hp(18),
-      paddingHorizontal: wp(24),
+      paddingTop: hp(16),
+      paddingHorizontal: wp(20),
     },
     titleText: {
-      ...commonFontStyle(400, 17, colors?.headerText),
+      ...commonFontStyle(500, 20, colors?.black),
       marginBottom: hp(4),
+
     },
     listContainer: {
-      marginTop: hp(28),
-      height: hp(104),
-      flexDirection: 'row',
+      marginTop: hp(16),
+      backgroundColor: colors.cards_bg,
+      paddingVertical: hp(16),
+      paddingHorizontal: wp(16),
+      borderRadius: 16,
     },
     imageView: {
-      width: wp(102),
-      height: hp(102),
-      borderRadius: 20,
-      backgroundColor: colors.image_Bg_gray,
+      width: wp(70),
+      height: hp(70),
+      borderRadius: 16,
+      backgroundColor: colors.image_bg,
     },
     rightContainer: {
-      marginLeft: wp(12),
+      marginLeft: wp(10),
+      flex: 1,
     },
     breakText: {
-      ...commonFontStyle(400, 14, colors?.title_orange),
+      ...commonFontStyle(400, 10, colors?.text_orange),
     },
     titleStyle: {
-      ...commonFontStyle(700, 14, colors?.Title_Text),
+      ...commonFontStyle(600, 14, colors?.black),
     },
     idText: {
-      ...commonFontStyle(400, 14, colors?.dropDownText),
+      marginTop: hp(2),
+      ...commonFontStyle(400, 12, colors?.title_dec),
+    },
+    priceView: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center'
     },
     priceText: {
-      // marginTop: hp(14),
-      ...commonFontStyle(400, 18, colors?.Title_Text),
+      ...commonFontStyle(600, 16, colors?.text_orange),
+    },
+    dateText: {
+      ...commonFontStyle(500, 14, colors?.text_gray),
     },
     btnContainer: {
-      flexDirection: 'row',
-      position: 'absolute',
-      right: 0,
+
     },
     doneBtn: {
       height: hp(36),
@@ -191,16 +225,29 @@ const getGlobalStyles = (props: any) => {
       textTransform: 'none',
     },
     cancelBtn: {
-      height: hp(36),
-      paddingHorizontal: wp(13),
-      marginLeft: wp(15),
-      backgroundColor: colors.white,
-      borderColor: colors.btn_red,
+      flex: 1,
+      height: hp(34),
+      marginTop: hp(16),
+      backgroundColor: colors.cards_bg,
+      borderColor: colors.title_dec,
       borderWidth: 1,
-      borderRadius: 9,
+      borderRadius: 8,
     },
     cancelText: {
-      ...commonFontStyle(400, 14, colors?.btn_red),
+      ...commonFontStyle(600, 14, colors?.title_dec),
+      textTransform: 'none',
+    },
+    accpetBtn:{
+      flex: 1,
+      height: hp(34),
+      marginTop: hp(16),
+      backgroundColor: colors.text_orange,
+      borderColor: colors.text_orange,
+      borderWidth: 1,
+      borderRadius: 8,
+    },
+    accpetText: {
+      ...commonFontStyle(600, 14, colors?.defult_white),
       textTransform: 'none',
     },
     dropDownStyle: {
@@ -209,6 +256,18 @@ const getGlobalStyles = (props: any) => {
       height: hp(30),
       borderRadius: 5,
     },
+    diningView: {
+      position: 'absolute',
+      top: -2,
+      right: 0,
+      backgroundColor: colors.text_orange,
+      paddingHorizontal: wp(6),
+      paddingVertical: hp(2),
+      borderRadius: 16,
+    },
+    diningText: {
+      ...commonFontStyle(500, 12, colors?.defult_white),
+    }
   });
 };
 

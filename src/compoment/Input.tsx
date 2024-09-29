@@ -12,10 +12,10 @@ import {
   ViewStyle,
 } from 'react-native';
 import React from 'react';
-import {useIsFocused, useTheme} from '@react-navigation/native';
-import {commonFontStyle, hp, SCREEN_WIDTH, wp} from '../theme/fonts';
-import {Icons} from '../utils/images';
-import {useAppSelector} from '../redux/hooks';
+import { useIsFocused, useTheme } from '@react-navigation/native';
+import { commonFontStyle, hp, SCREEN_WIDTH, wp } from '../theme/fonts';
+import { Icons } from '../utils/images';
+import { useAppSelector } from '../redux/hooks';
 
 type Props = {
   placeholder: string;
@@ -36,9 +36,9 @@ type Props = {
   keyboardType: any;
   multiline?: boolean;
   onFocus?: any;
-  searchData?:any;
-  showListView?:boolean;
-  setShowListView?:any
+  searchData?: any;
+  showListView?: boolean;
+  setShowListView?: any
 };
 
 const Input = ({
@@ -64,14 +64,14 @@ const Input = ({
   searchData,
   ...rest
 }: Props) => {
-  const {colors} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { colors } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
 
   return (
     <View style={[styles.container, extraStyle]}>
-      <Text numberOfLines={1} style={styles.labelTextStyle}>
+      {/* <Text numberOfLines={1} style={styles.labelTextStyle}>
         {label}
-      </Text>
+      </Text> */}
       <View style={[styles.firstThemeContainer, inputStyle]}>
         <TextInput
           {...rest}
@@ -84,7 +84,7 @@ const Input = ({
           returnKeyType={returnKeyType}
           secureTextEntry={secureTextEntry}
           onSubmitEditing={onSubmitEditing}
-          placeholderTextColor={colors.gray_300}
+          placeholderTextColor={colors.title_dec}
           multiline={multiline}
           maxLength={maxLength}
           keyboardType={keyboardType}
@@ -107,8 +107,8 @@ const Input = ({
           style={styles.listView}>
           <FlatList
             data={searchData}
-            contentContainerStyle={{flex: 1}}
-            renderItem={({item, index}) => {
+            contentContainerStyle={{ flex: 1 }}
+            renderItem={({ item, index }) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
@@ -135,10 +135,10 @@ const Input = ({
 export default Input;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
-      marginTop: hp(24),
+      marginTop: hp(8),
     },
     labelTextStyle: {
       ...commonFontStyle(400, 13, colors.Title_Text),
@@ -146,28 +146,29 @@ const getGlobalStyles = (props: any) => {
       textTransform: 'uppercase',
     },
     firstThemeContainer: {
-      height: hp(60),
-      borderRadius: 10,
-      marginTop: hp(4),
-      backgroundColor: colors.inputColor,
+      height: hp(56),
+      borderRadius: 32,
+      backgroundColor: colors.input_bg,
+      borderWidth: 1,
+      borderColor: colors.input_border,
       flexDirection: 'row',
       alignItems: 'center',
-      paddingHorizontal: wp(20),
+      paddingHorizontal: wp(25),
     },
     inputStyle: {
       flex: 1,
       padding: 0,
-      ...commonFontStyle(400, 14, colors.Title_Text),
+      ...commonFontStyle(400, 14, colors.black),
     },
     eyeIconStyle: {
       height: hp(26),
       width: hp(26),
-      tintColor: '#BDBDBD',
+      tintColor: colors.icon_tin,
     },
     listText: {
       ...commonFontStyle(400, 14, colors.Title_Text),
     },
-    listView:{
+    listView: {
       position: 'absolute',
       backgroundColor: colors.white,
       bottom: -255,

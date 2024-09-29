@@ -22,6 +22,7 @@ import { strings } from '../../i18n/i18n';
 import { useAppDispatch } from '../../redux/hooks';
 import { sendEmailOtp, sendForgotEmail } from '../../actions/authAction';
 import { screenName } from '../../navigation/screenNames';
+import { ColorProperties } from 'react-native-reanimated/lib/typescript/Colors';
 
 type Props = {};
 const CELL_COUNT = 6;
@@ -78,7 +79,7 @@ const VerificationCode = ({ route }) => {
                 setTimer(50);
                 setIsResendDisabled(true);
             },
-            onFailure: () => {},
+            onFailure: () => { },
         };
         dispatch(sendForgotEmail(userInfo));
     };
@@ -99,21 +100,6 @@ const VerificationCode = ({ route }) => {
                     keyboardShouldPersistTaps="handled"
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.contentContainerStyle}>
-                    <View style={styles.bottomView}>
-                        <Text style={styles.codeText}>{strings('Phone_number_verification.code')}</Text>
-                        <TouchableOpacity
-                            style={styles.resendContainer}
-                            onPress={onResendPress}
-                            disabled={isResendDisabled}>
-                            <Text style={styles.resendText}>{strings('Phone_number_verification.resend')}</Text>
-                            {isResendDisabled && (
-                                <Text style={styles.secText}>
-                                    {strings('Phone_number_verification.in')} {timer}{' '}
-                                    {strings('Phone_number_verification.sec')}
-                                </Text>
-                            )}
-                        </TouchableOpacity>
-                    </View>
                     <CodeField
                         ref={ref}
                         {...props}
@@ -137,12 +123,26 @@ const VerificationCode = ({ route }) => {
                             </View>
                         )}
                     />
+                    {isResendDisabled &&
+                        <View style={styles.bottomView}>
+                            <Text style={styles.resendText}>{strings('Phone_number_verification.resend')}</Text>
+                            <Text style={styles.secText}>{' ' + timer}
+                                {strings('Phone_number_verification.sec')}
+                            </Text>
+                        </View>}
+
                     <PrimaryButton
                         extraStyle={styles.signupButton}
                         onPress={onSubmitPress}
                         title={strings('Phone_number_verification.verify')}
                         isLoading={loading}
                     />
+                    <TouchableOpacity
+                        style={styles.sendButton}
+                        onPress={onResendPress}
+                        disabled={isResendDisabled}>
+                        <Text style={styles.sendText}>{strings('Phone_number_verification.send_again')}</Text>
+                    </TouchableOpacity>
                 </KeyboardAwareScrollView>
             </View>
         </View>
@@ -156,22 +156,21 @@ const getGlobalStyles = (props: any) => {
     return StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: colors.Primary_Bg,
+            backgroundColor: colors.bg_white,
             paddingHorizontal: hp(2),
         },
         bottomContainer: {
-            flex: 2.5,
-            backgroundColor: colors.white,
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
+            flex: 2,
+            backgroundColor: colors.bg_white,
         },
         contentContainerStyle: {
-            paddingHorizontal: wp(24),
+            paddingHorizontal: wp(20),
         },
         bottomView: {
             flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginTop: hp(24),
+            justifyContent: 'center',
+            alignItems:'center',
+            marginTop: hp(15),
         },
         codeText: {
             textTransform: 'uppercase',
@@ -182,14 +181,13 @@ const getGlobalStyles = (props: any) => {
             alignItems: 'center',
         },
         resendText: {
-            ...commonFontStyle(400, 14, colors.Title_Text),
-            textDecorationLine: 'underline',
+            ...commonFontStyle(500, 15, colors.black),
         },
         secText: {
-            ...commonFontStyle(700, 14, colors.Title_Text),
+            ...commonFontStyle(500, 14, colors.text_orange),
         },
         codeFieldRoot: {
-            marginTop: hp(16),
+            marginTop: hp(10),
             width: '100%',
             justifyContent: 'space-between',
         },
@@ -199,22 +197,38 @@ const getGlobalStyles = (props: any) => {
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 8,
-            backgroundColor: colors.inputColor,
+            backgroundColor: colors.input_bg1,
+            borderWidth: 1,
+            borderColor: colors.input_border1
         },
         focusedCell: {
             borderWidth: 2,
             borderColor: colors.Primary_Orange,
+            backgroundColor: colors.input_bg,
         },
         cellText: {
-            fontSize: 20,
-            color: colors.Title_Text,
+            ...commonFontStyle(500, 20, colors.defult_white),
             textAlign: 'center',
         },
         signupButton: {
-            marginTop: hp(30),
-            borderRadius: 12,
+            marginTop: hp(20),
+            borderRadius: 20,
             alignItems: 'center',
             justifyContent: 'center',
         },
+        sendButton: {
+            marginTop: hp(13),
+            borderRadius: 20,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: colors.defult_white,
+            borderColor: colors.input_border1,
+            borderWidth: 1,
+            height: hp(56),
+        },
+        sendText: {
+            ...commonFontStyle(600, 18, colors.text_gray),
+            textAlign: 'center',
+        }
     });
 };

@@ -2,7 +2,6 @@ export const light_theme = {
   black: '#000000',
   white: '#ffffff',
   white12: 'rgba(255, 255, 255, 0.7)',
-  Primary_Orange: '#FF7622',
   Surface_Tertiary: '#FFE1CE',
   Title_Text: '#32343E',
   headerText: '#181C2E',
@@ -55,7 +54,24 @@ export const light_theme = {
   green_100: 'rgba(77, 184, 39, 0.3)',
   red: "red",
   modalBg: '#fff',
-  back_bg:'#ECF0F4'
+  back_bg: '#ECF0F4',
+
+
+  //new ui color
+  Primary_Orange: '#F76400',
+  defult_white: '#ffffff',
+  bg_white: '#ffffff',
+  title_dec: '#525252',
+  input_border: '#F0CEAB',
+  input_border1: '#E0E0E0',
+  input_bg: '#ffffff',
+  input_bg1: '#F1F1F1',
+  icon_tin: '#5F5F5F',
+  text_gray: '#50555C',
+  text_gray1: '#979797',
+  text_orange: '#FA6200',
+  cards_bg: '#F1F1F1',
+  image_bg: '#C8C8C8'
 };
 
 export const dark_theme = {
@@ -82,7 +98,6 @@ export const dark_theme = {
   Primary_white: '#ffffff',
   Text_gray: '#7E8A97',
   border_line4: '#fff',
-  Primary_Orange: '#FF7622',
   inputColor: '#1D1E20',
 
   blue_100: '#395998',
@@ -111,5 +126,22 @@ export const dark_theme = {
   orange_bg: 'rgba(255, 118, 34, 0.2)',
   red: "red",
   modalBg: '#1D1E20',
-  back_bg:'#1D1E20'
+  back_bg: '#1D1E20',
+
+
+  // new ui color
+  Primary_Orange: '#F76400',
+  defult_white: '#ffffff',
+  bg_white: '#010101',
+  title_dec: '#898A8D',
+  input_border: '#1E1E1E',
+  input_border1: '#E0E0E0',
+  input_bg: '#0C0F14',
+  input_bg1: '#0C0F14',
+  icon_tin: '#5F5F5F',
+  text_gray: '#50555C',
+  text_gray1: '#979797',
+  text_orange: '#FA6200',
+  cards_bg: '#181A1E',
+  image_bg: '#2B2E34'
 };

@@ -1,33 +1,33 @@
-import {Alert, StatusBar, StyleSheet, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useNavigation, useTheme} from '@react-navigation/native';
-import {hp, wp} from '../../theme/fonts';
+import { Alert, StatusBar, StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { hp, wp } from '../../theme/fonts';
 import Input from '../../compoment/Input';
 import PrimaryButton from '../../compoment/PrimaryButton';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginHeader from '../../compoment/LoginHeader';
-import {screenName} from '../../navigation/screenNames';
-import {strings} from '../../i18n/i18n';
+import { screenName } from '../../navigation/screenNames';
+import { strings } from '../../i18n/i18n';
 import Spacer from '../../compoment/Spacer';
 import {
-  DropDownDatas,
+  DropDownData,
   emailCheck,
   errorToast,
   numberCheck,
   specialCarCheck,
   UpperCaseCheck,
 } from '../../utils/commonFunction';
-import {dispatchNavigation} from '../../utils/globalFunctions';
-import {studentUserSignUp, userSignUp} from '../../actions/authAction';
-import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import { dispatchNavigation } from '../../utils/globalFunctions';
+import { studentUserSignUp } from '../../actions/authAction';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import CCDropDown from '../../compoment/CCDropDown';
 import { getUniversitiesDataAction } from '../../actions/commonAction';
 
 type Props = {};
 
 const StudentSignUp = (props: Props) => {
-  const {colors, isDark} = useTheme();
-  const styles = React.useMemo(() => getGlobalStyles({colors}), [colors]);
+  const { colors, isDark } = useTheme();
+  const styles = React.useMemo(() => getGlobalStyles({ colors }), [colors]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [number, setNumber] = useState('');
@@ -39,7 +39,8 @@ const StudentSignUp = (props: Props) => {
   const [rePassword, setRePassword] = useState('');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(true);
   const [isShowRePassword, setisShowRePassword] = useState<boolean>(true);
-  const {getUniversitiesData} = useAppSelector(state => state.data);
+  const { getUniversitiesData } = useAppSelector(state => state.data);
+  const [selectRole, setSelectRole] = useState('');
 
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
@@ -50,8 +51,8 @@ const StudentSignUp = (props: Props) => {
 
   const getUniversitiesDataPress = () => {
     let obj = {
-      onSuccess: (res: any) => {},
-      onFailure: (Err: any) => {},
+      onSuccess: (res: any) => { },
+      onFailure: (Err: any) => { },
     };
     dispatch(getUniversitiesDataAction(obj));
   };
@@ -110,7 +111,7 @@ const StudentSignUp = (props: Props) => {
       let obj = {
         data,
         onSuccess: (response: any) => {
-            dispatchNavigation(screenName.StudentSelect);
+          dispatchNavigation(screenName.StudentSelect);
         },
         onFailure: (Err: any) => {
           if (Err != undefined) {
@@ -142,6 +143,28 @@ const StudentSignUp = (props: Props) => {
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled
           contentContainerStyle={styles.contentContainerStyle}>
+          <CCDropDown
+            data={DropDownData}
+            label={strings('login.select_role')}
+            labelField={'name'}
+            valueField={'value'}
+            placeholder={strings('roleSelection.select_role')}
+            DropDownStyle={styles.dropDownStyle}
+            value={selectRole}
+            setValue={setSelectRole}
+            extraStyle={styles.extraDropStyle}
+          />
+          <CCDropDown
+            data={getUniversitiesData}
+            label={strings('sign_up.university_name')}
+            labelField={'name'}
+            valueField={'id'}
+            placeholder={strings('sign_up.select_university')}
+            DropDownStyle={styles.dropDownStyle}
+            value={selectUniversity}
+            setValue={setSelectUniversity}
+            extraStyle={styles.otherStyle}
+          />
           <Input
             value={name}
             placeholder={strings('sign_up.p_name')}
@@ -169,17 +192,6 @@ const StudentSignUp = (props: Props) => {
             label={strings('StudentSignUp.college_name')}
             onChangeText={(t: string) => setCollegeName(t)}
           />
-          <CCDropDown
-            data={getUniversitiesData}
-            label={strings('StudentSignUp.university_name')}
-            labelField={'name'}
-            valueField={'id'}
-            placeholder={strings('StudentSignUp.select_university_name')}
-            DropDownStyle={styles.dropDownStyle}
-            value={selectUniversity}
-            setValue={setSelectUniversity}
-            extraStyle={styles.extraStyle}
-          />
           <Input
             value={hostelName}
             placeholder={strings('StudentSignUp.enter_name')}
@@ -191,24 +203,24 @@ const StudentSignUp = (props: Props) => {
             placeholder={strings('StudentSignUp.enter_hostel_address')}
             label={strings('StudentSignUp.hostel_address')}
             onChangeText={(t: string) => setHostelAddress(t)}
-            extraStyle={{zIndex: -1}}
+            extraStyle={{ zIndex: -1 }}
           />
           <Input
             value={password}
             autoCorrect={false}
             isShowEyeIcon={true}
             secureTextEntry={isShowPassword}
-            placeholder="* * * * * * *"
+            placeholder={strings('login.password')}
             label={strings('sign_up.password')}
             onChangeText={(t: string) => setPassword(t)}
             onPressEye={() => setIsShowPassword(!isShowPassword)}
-            extraStyle={{zIndex: -1}}
+            extraStyle={{ zIndex: -1 }}
           />
           <Input
             value={rePassword}
             autoCorrect={false}
             isShowEyeIcon={true}
-            placeholder="* * * * * * *"
+            placeholder={strings('Phone_number_verification.confirm_password')}
             secureTextEntry={isShowRePassword}
             label={strings('sign_up.re_type_password')}
             onChangeText={(t: string) => setRePassword(t)}
@@ -229,25 +241,22 @@ const StudentSignUp = (props: Props) => {
 export default StudentSignUp;
 
 const getGlobalStyles = (props: any) => {
-  const {colors} = props;
+  const { colors } = props;
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.Primary_Bg,
-      paddingHorizontal: hp(2),
+      backgroundColor: colors.bg_white
     },
     bottomContainer: {
-      flex: 2.5,
-      backgroundColor: colors.white,
-      borderTopLeftRadius: 24,
-      borderTopRightRadius: 24,
+      flex: 5,
+      backgroundColor: colors.bg_white,
     },
     contentContainerStyle: {
-      paddingHorizontal: wp(24),
+      paddingHorizontal: wp(20),
     },
     signupButton: {
-      marginTop: hp(47),
-      borderRadius: 12,
+      marginTop: hp(12),
+      borderRadius: 20,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -255,10 +264,17 @@ const getGlobalStyles = (props: any) => {
       marginTop: hp(24),
     },
     dropDownStyle: {
-      borderColor: colors.inputColor,
-      backgroundColor: colors.inputColor,
-      height: hp(60),
-      borderRadius: 10,
+      borderColor: colors.input_border,
+      backgroundColor: colors.input_bg,
+      height: hp(56),
+      borderRadius: 32,
+      paddingHorizontal: wp(25),
+    },
+    otherStyle: {
+      marginTop: hp(8),
+    },
+    extraDropStyle: {
+      marginTop: hp(12),
     },
   });
 };
